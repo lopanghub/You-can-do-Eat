@@ -49,7 +49,7 @@ public class MemoViewController {
 		
 	}
 	
-	@GetMapping("/thymeleaf3")
+	@GetMapping("/thymeleaf03")
 	public String memoList(Model model, @RequestParam(value="no") int no) {
 		log.info("thDefault3 - no : "+no);
 		

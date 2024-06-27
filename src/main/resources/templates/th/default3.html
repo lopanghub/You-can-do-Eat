@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!--/* Thymeleaf 주석- Thymeleaf를 사용하기 위한 네임스페이스 적용 */-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/thymeleaf3(no=${ memo.no})}"
+	th:attr="rel='stylesheet'">
+</head>
+<body>
+	<div class="container">
+		<div th:utext="${title}"></div>
+		<!--/*
+https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#conditional-evaluation
+*/-->
+		<th:block th:if="${memo != null}">
+			<ul th:object="${memo}">
+				<!--/* memo를 선택한 객체로 지정 */-->
+				<li th:text="|no : *{no}|"></li>
+				<!--/* 선택한 객체의 변수 출력 */-->
+				<li th:text="|제목 : *{title}|"></li>
+				<li th:text="|작성자 : *{writer}|"></li>
+				<li th:text="|내용 : *{content}|"></li>
+				<li th:text="|작성일 : ${#dates.format(memo.regDate, 'yyyy-MM-dd')}|"></li>
+			</ul>
+		</th:block>
+	</div>
+</body>
+</html>

@@ -5,7 +5,7 @@ Final Project
 
 https://github.com/devAon/Eclipse-GitHub-Coraboration-Tutorial
 
-협업 튜토리얼입니다 시간되실때 읽어주세요
+협업 튜토리얼입니다 시간되실때 읽어주세요(git flow부분부터)  
 
 https://www.youtube.com/watch?v=EV3FZ3cWBp8
 

@@ -21,7 +21,7 @@ public class RecipeController {
 		model.addAttribute("rList",recipeService.RecipeBoardList());
 		return "views/recipeList";
 	}
-	
+	//okay?
 	@GetMapping("/recipeDetail")
 	public String getRecipe(Model model, @RequestParam("boardNo")int boardNo) {
 		model.addAttribute("rList",recipeService.getRecipe(boardNo));

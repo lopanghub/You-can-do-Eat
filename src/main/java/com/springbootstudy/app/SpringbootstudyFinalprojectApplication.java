@@ -12,7 +12,7 @@ public class SpringbootstudyFinalprojectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootstudyFinalprojectApplication.class, args);
-		System.out.println("test4");
+		System.out.println("test5");
 	}
 
 }

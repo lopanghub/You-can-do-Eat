@@ -4,8 +4,8 @@
 
 <mapper namespace="com.springbootstudy.app.mapper.RecipeMapper">
 	
-	<!--요리과정 재료-->
-	<select id="CookMaterList">
+	<!--요리과정 재료--><!-- 문제있는쿼리문 -->
+	<select id="CookMaterList" parameterType="hashmap">
 		SELECT m.*
 		FROM cook_material cm
 		INNER JOIN material m ON cm.material_id = m.material_id WHERE cm.cooking_id = #{cookingId} AND cm.board_No = #{boardNo};
@@ -21,13 +21,15 @@
 		select * from Recipe_Board where board_no = #{boardNo};
 	</select>
 	
-	<!--ajax로 이용해 조리과정 불러옴-->
- 	<select id="addCookList" resultType="Cooking">
-    SELECT c.*
-	FROM recipe_board rb
-	INNER JOIN cooking c ON rb.board_no = c.board_no
-	WHERE rb.board_no = #{boardNo} and c.cooking_id=#{cookingId};
-  </select>
+	
+  <!-- recipeMapper.xml -->
+<select id="addCookList" resultType="Cooking"  parameterType="int">
+SELECT c.*
+FROM recipe_board rb
+INNER JOIN cooking c ON rb.board_no = c.board_no
+WHERE rb.board_no = #{boardNo};
+</select>
+  
   <!--cookid를 가져오기위함 -->
  	<select id="CookidCheck" resultType="int">
     SELECT c.cooking_id

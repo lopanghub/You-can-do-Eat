@@ -20,25 +20,26 @@ public class RecipeAjax {
 	@Autowired
 	private RecipeService recipeService;
 	
-	@GetMapping("/ajax/cookList")
+
+    @GetMapping("/ajax/cookList")
     @ResponseBody
-    public List<Cooking> cookList(@RequestParam(name = "boardNo") int boardNo) {   
-        return recipeService.addCookList(boardNo);
+    public Cooking cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage) {
+        Cooking getCook = recipeService.addCookList(boardNo).get(currentPage);
+         return getCook;
     }
 	
 	@GetMapping("/ajax/cookMList")
     @ResponseBody
-    public List<CookMaterial> cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "cookingId") int cookingId) {
-        return recipeService.cookMaterList(boardNo,cookingId);
+    public List<CookMaterial> cookMList(@RequestParam(name = "cookingId") int cookingId,@RequestParam(name = "boardNo") int boardNo) {
+        return recipeService.cookMaterList(cookingId,boardNo);
     }
 	
 	@GetMapping("/ajax/bookDetail")
 	@ResponseBody
-	public RecipeBoard getBook(@RequestParam(name = "boardNo") int boardNo) {
+	public RecipeBoard getBook(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage) {
 		 RecipeBoard recipe = recipeService.getRecipe(boardNo);
 		    
 		    recipe.setMaterialList(recipeService.addMaterialList(boardNo));
-		    System.out.println("ajax 요청이 들어오긴함"+ recipe.getBoardView()+recipe.getMaterialList().get(0));
 		    return recipe;
 	}
     

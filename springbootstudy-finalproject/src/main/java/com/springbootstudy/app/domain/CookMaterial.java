@@ -16,6 +16,7 @@ public class CookMaterial {
     private int materialId;
     private int cookingId;
     private int boardNo; // ManyToOne 관계가 있던 RecipeBoard 대신 boardNo 필드를 사용합니다.
-
+    private String materialName;
+    private String mensuration;
     // Getter, Setter, toString 등 필요한 메서드 추가
 }

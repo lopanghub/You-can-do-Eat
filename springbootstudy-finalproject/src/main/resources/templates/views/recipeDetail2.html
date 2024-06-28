@@ -5,6 +5,7 @@
 <body>
 	<!-- content -->
 	<div layout:fragment="content">
+
 		<div class="row border " style="height:1000px; ">
 			<div class="col">
 				<!--머리-->
@@ -13,6 +14,11 @@
 						<h1 class="text-center" th:text="${rList.foodName}"></h1>
 					</div>
 				</div>
+					<form>
+			<input type="hidden" id="bookCount" th:value="${bookCount}">
+			<input type="hidden" id="boardNo" th:value="${rList.boardNo}">
+			<input type="hidden" id="cookingId" th:value="${FristId}">
+		</form>
 				<!--이미지 삽입-->
 				<div class="row bg">
 					<div class="col "

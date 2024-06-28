@@ -11,7 +11,9 @@ import jakarta.persistence.EntityListeners;
 public class SpringbootstudyFinalprojectApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SpringbootstudyFinalprojectlication.class, args);
+
 	}
 
 }

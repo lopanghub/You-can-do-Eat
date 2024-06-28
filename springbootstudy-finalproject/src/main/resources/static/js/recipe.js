@@ -5,7 +5,7 @@ $(function() {
 
     // 이전 페이지 버튼 클릭 시
     $(document).on("click", "#prevPageBtn", function() {
-	
+		let cookingId = parseInt($("#cookingId").val());
         if (currentPage == 0) {
             currentPage = endPage;
              loadBookDetail();

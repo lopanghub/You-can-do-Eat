@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springbootstudy.app.mapper.RecipeMapper">
+	
+	<!--요리과정 재료--><!-- 문제있는쿼리문 -->
+	<select id="CookMaterList" parameterType="hashmap">
+		SELECT m.*
+		FROM cook_material cm
+		INNER JOIN material m ON cm.material_id = m.material_id WHERE cm.cooking_id = #{cookingId} AND cm.board_No = #{boardNo};
+	</select>	
+	
+	<!--레시피 리스트-->
+	<select id="RecipeBoardList">
+		select * from Recipe_Board order by board_No desc
+	</select>
+	
+	<!--레시피 boardNo 가져오기 Detail-->
+	<select id="getBoard"  resultType="RecipeBoard">
+		select * from Recipe_Board where board_no = #{boardNo};
+	</select>
+	
+	
+  <!-- boardNO의 요리과정리스트 -->
+<select id="addCookList" resultType="Cooking"  parameterType="int">
+SELECT c.*
+FROM recipe_board rb
+INNER JOIN cooking c ON rb.board_no = c.board_no
+WHERE rb.board_no = #{boardNo};
+</select>
+  
+  <!--cookid를 가져오기위함 -->
+ 	<select id="CookidCheck" resultType="int">
+    SELECT c.cooking_id
+	FROM recipe_board rb
+	INNER JOIN cooking c ON rb.board_no = c.board_no
+	WHERE rb.board_no = #{boardNo} ;
+  </select>
+  
+  <!--bookpage 를 나타냄-->
+  <select id="cookCount" resultType="int">
+    SELECT count(*)
+	FROM recipe_board rb
+	INNER JOIN cooking c ON rb.board_no = c.board_no
+	WHERE rb.board_no = #{boardNo};
+
+  </select>
+  <!--boardNo의 재료들 출력-->
+  <select id="addMaterialList" resultType="Material">
+    SELECT m.*
+	FROM recipe_board rb
+	INNER JOIN material m ON rb.board_no = m.board_no
+	WHERE rb.board_no = #{boardNo};
+
+  </select>
+</mapper>

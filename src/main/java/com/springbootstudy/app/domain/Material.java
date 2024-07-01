@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Material {
 
+	// 확인
     private int materialId;
     private int boardNo; // ManyToOne 관계가 있던 RecipeBoard 대신 boardNo 필드를 사용합니다.
     private String materialName;

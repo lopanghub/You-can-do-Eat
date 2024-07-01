@@ -19,8 +19,27 @@ import com.springbootstudy.app.service.RecipeService;
 public class RecipeAjax {
 	@Autowired
 	private RecipeService recipeService;
+	// 조리과정리스트 - 조리리스트 버튼
+	   @GetMapping("/ajax/recipeList")
+	    @ResponseBody
+	    public List<Cooking> recipeList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "cookingId") int cookingId) {
+	    	 List<Cooking> recipe = recipeService.addCookList(boardNo);
+	         return recipe;
+	    }
+	   
+	   //cookingId 의 재료리스트 -조리리스트 책 버튼
+		@GetMapping("/ajax/recipeMList")
+	    @ResponseBody
+	    public List<CookMaterial> recipeMList(@RequestParam(name = "cookingId") int cookingId,@RequestParam(name = "boardNo") int boardNo) {
+			System.out.println("recipeMList의 cookMaterList :" +recipeService.cookMaterList(cookingId,boardNo).get(0).getMaterialName());
+	    	System.out.println("recipeMList의 cookMaterList :" +recipeService.cookMaterList(cookingId,boardNo).get(0).getMensuration());
+	    	
+	        return recipeService.cookMaterList(cookingId,boardNo);
+	    }
 	
-		// 조리과정리스트
+	
+	
+		// 조리과정리스트 -조리리스트 책 버튼
     @GetMapping("/ajax/cookList")
     @ResponseBody
     public Cooking cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage,@RequestParam(name = "cookingId") int cookingId) {
@@ -28,8 +47,8 @@ public class RecipeAjax {
         Cooking getCook = recipeService.addCookList(boardNo).get(currentPage);
          return getCook;
     }
-	
-    //cookingId 의 재료리스트
+    
+    //cookingId 의 재료리스트 -조리리스트 책 버튼
 	@GetMapping("/ajax/cookMList")
     @ResponseBody
     public List<CookMaterial> cookMList(@RequestParam(name = "cookingId") int cookingId,@RequestParam(name = "boardNo") int boardNo) {
@@ -37,7 +56,7 @@ public class RecipeAjax {
         return recipeService.cookMaterList(cookingId,boardNo);
     }
 	
-	// 책의 첫페이지 
+	// 책의 첫페이지  -조리리스트 책 버튼
 	@GetMapping("/ajax/bookDetail")
 	@ResponseBody
 	public RecipeBoard getBook(@RequestParam(name = "boardNo") int boardNo) {

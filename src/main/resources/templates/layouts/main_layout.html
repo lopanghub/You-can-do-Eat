@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< HEAD
     <title>BoardService</title>
     <link th:href="@{bootstrap/bootstrap.min.css}" rel="stylesheet" >
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -13,11 +14,40 @@
     </style>
   </head>
   <body>
+=======
+    <title>YOU CAN DO EAT👍</title>
+    
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/recipe.js"></script>
+
+    <link th:href="@{bootstrap/bootstrap.min.css}" rel="stylesheet" >
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link href="css/header.css" rel="stylesheet">
+	<link href="css/footer.css" rel="stylesheet">
+  </head>
+  
+  
+  <body>
+  	<!-- 헤더 -->
+   <div th:replace="~{fragments/header::header}"></div>
+   
+>>>>>>> origin/dev2
   	<div class="container">
 		<!--/* content : 요청 마다 변경되는 부분 */-->
 		<div layout:fragment="content"></div>
   		
 	</div>
+<<<<<<< HEAD
     <script src="bootstrap/bootstrap.bundle.min.js"></script>
   </body>
+=======
+	
+	
+	<!-- 푸터 -->
+	<div th:replace="~{fragments/footer::footer}"></div>
+	
+    <script src="bootstrap/bootstrap.bundle.min.js"></script>
+  </body>
+  
+>>>>>>> origin/dev2
 </html>

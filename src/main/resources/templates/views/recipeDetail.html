@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main_layout}">
+
+<body>
+	<!-- content -->
+	<div layout:fragment="content">
+		<form>
+			<input type="hidden" id="boardNo" th:value="${rList.boardNo}"
+				name="boardNo"> <input type="hidden" id="cookingId"
+				th:value="${cookingId}" name="cookingId"> <input
+				type="hidden" id="bookCount" th:value="${bookCount}"
+				name="bookCount"> <input type="hidden" id="id"
+				th:value="${id}" name="id">
+		</form>
+		<div class="row border border-dark">
+			<div class="col ">
+				<!--머리-->
+				<div class="row">
+					<div class="col">
+						<h1 class="text-center" th:text="${rList.foodName}"></h1>
+					</div>
+				</div>
+				<!--이미지 삽입-->
+				<div class="row rList">
+					<div class="col-1"></div>
+					<div class="col ">
+						<div class="row  bg-secondary">
+							<div class="col-3"></div>
+							<div class="col-6 ">
+								<h3 class="text-center text-white my-3 fw-bold">레시피 모아보기</h3>
+							</div>
+							<div
+								class="col-3 text-end text-white d-flex  justify-content-end align-items-center">
+								<button type="button" class="btn btn-success " id="recipeBtn">레시피
+									접기</button>
+							</div>
+						</div>
+						<!-- 여기서 부터 반복문돌리기  -->
+						<div class="row border border-danger my-2">
+							<div class="col">
+								<div class="row my-2 border border-dark" style="height: 300px;">
+									<!-- 조리이미지 들어갈부분  -->
+									<div class="col-5">
+										<div class="row ">
+											<div class="col mx-4">
+												<img src="https://via.placeholder.com/300" alt="샘플이미지">
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="row my-2">
+											<div class="col">
+												<h4 class="fw-bold">1.조리제목</h4>
+											</div>
+										</div>
+										<div class="row my-1">
+											<div class="col">
+												<h4>조리방법</h4>
+											</div>
+										</div>
+										<div class="row my-1">
+											<div class="col my-2">
+												<span>조리방법 블라블라</span>
+											</div>
+										</div>
+										<div class="row my-1">
+											<div class="col my-2">
+												<span>주의할점</span>
+											</div>
+										</div>
+										<div class="row my-1">
+											<div class="col my-2">
+												<span>주의 할점 블라블라</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row border mx-4">
+									<div class="col ">
+										<h4 class="fw-bold">요리재료</h4>
+									</div>
+								</div>
+								<div class="row my-1  mx-4 list border row-cols-2">
+								<!--요리재료 반복문  -->
+									<div class="col">
+										<div class="row">
+											<div class="col">
+												<span>요리재료</span>
+											</div>
+											<div class="col">
+												<span>요리양</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+					<div class="col-1"></div>
+				</div>
+				<div class="row bg" style="height: 900px;"></div>
+				<!--이미지 마지막div-->
+			</div>
+			<!--버튼-->
+			<div class="row text-center my-5">
+				<div class="col ">
+					<input class="btn btn-primary" type="button" id="reviewBtn"
+						value="리뷰보기">
+				</div>
+				<div class="col">
+					<input class="btn btn-primary" type="button" id="meterBtn"
+						value="재료보기">
+				</div>
+				<div class="col">
+					<input class="btn btn-primary" type="button" id="bookBtn"
+						value="레시피보기(책)">
+				</div>
+				<div class="col">
+					<input class="btn btn-primary" type="button" id="listBtn"
+						value="레시피보기(리스트)">
+				</div>
+			</div>
+		</div>
+		<!--시작-->
+	</div>
+
+</body>
+
+</html>

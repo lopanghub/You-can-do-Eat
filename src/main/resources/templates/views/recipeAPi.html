@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>레시피 목록</title>
+    <style>
+        .recipe {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>레시피 목록</h1>
+    <div th:each="recipe : ${recipes}" class="recipe">
+        <h2 th:text="${recipe.recipeName}">Recipe Name</h2>
+        <p><strong>재료:</strong> <span th:text="${recipe.recipePartsDetails}">Ingredients</span></p>
+        <p><strong>조리법:</strong> <span th:text="${recipe.manual}">Manual</span></p>
+    </div>
+</body>
+</html>

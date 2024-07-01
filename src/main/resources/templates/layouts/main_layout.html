@@ -10,13 +10,21 @@
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/recipeBook.js"></script>
 	<script src="js/recipeList.js"></script>
+	<link href="css/header.css" rel="stylesheet">
+	<link href="css/footer.css" rel="stylesheet">
     <style>      	
     </style>
   </head>
   <body>
   	<div class="container">
+  		<!-- 헤더 -->
+  	    <div th:replace="~{fragments/header::header}"></div>
+		
 		<!--/* content : 요청 마다 변경되는 부분 */-->
 		<div layout:fragment="content"></div>
+		
+		<!-- 푸터 -->
+		<div th:replace="~{fragments/footer::footer}"></div>
   		
 	</div>
     <script src="bootstrap/bootstrap.bundle.min.js"></script>

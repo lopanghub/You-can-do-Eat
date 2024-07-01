@@ -1,0 +1,86 @@
+   /* #849280 */
+    body{
+      margin: auto;
+    }
+    /* 맨 윗 줄 */
+    div.headerTop{
+      width: auto;
+      height: 8px;
+      background-color: #FF914D;
+      margin-bottom: 10px;
+    }
+
+    /* 로고 영역 */
+    div.mainLogo{
+      text-align: center;
+    } 
+    img.logo{
+      width: 70px;
+    }
+
+    /* nav바 영역 */
+	 nav {
+            display: flex;
+            justify-content: center;
+            background-color: #7a8577;
+            padding: 0;
+        }
+        .dropdown, .nav-link {
+            position: relative;
+            display: inline-block;
+        }
+        .dropbtn, .nav-link a {
+            background-color: #7a8577;
+            color: #F5E6D3;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        .dropdown-content a:hover {
+            background-color: wheat; 
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn, .nav-link a:hover {
+            background-color: #FF914D;
+        }
+
+
+    div.loginJoin{
+      /* border: 1px solid blue; */
+      text-align: right; 
+      position: relative;
+      bottom: 30px;
+    }
+
+    a.login{
+      text-decoration: none;
+      color: #FF914D;
+      font-weight: bold;
+    }
+
+    a.join{
+      text-decoration: none;
+      color: #FF914D;
+      font-weight: bold;
+    }

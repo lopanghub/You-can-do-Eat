@@ -20,25 +20,29 @@ public class RecipeAjax {
 	@Autowired
 	private RecipeService recipeService;
 	
-	@GetMapping("/ajax/cookList")
+		// 조리과정리스트
+    @GetMapping("/ajax/cookList")
     @ResponseBody
-    public List<Cooking> cookList(@RequestParam(name = "boardNo") int boardNo) {
-        return recipeService.addCookList(boardNo);
+    public Cooking cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage,@RequestParam(name = "cookingId") int cookingId) {
+    	
+        Cooking getCook = recipeService.addCookList(boardNo).get(currentPage);
+         return getCook;
     }
 	
+    //cookingId 의 재료리스트
 	@GetMapping("/ajax/cookMList")
     @ResponseBody
-    public List<CookMaterial> cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "cookingId") int cookingId) {
-        return recipeService.cookMaterList(boardNo,cookingId);
+    public List<CookMaterial> cookMList(@RequestParam(name = "cookingId") int cookingId,@RequestParam(name = "boardNo") int boardNo) {
+    	System.out.println("cookMList의 cookingId :" +cookingId);
+        return recipeService.cookMaterList(cookingId,boardNo);
     }
 	
+	// 책의 첫페이지 
 	@GetMapping("/ajax/bookDetail")
 	@ResponseBody
 	public RecipeBoard getBook(@RequestParam(name = "boardNo") int boardNo) {
 		 RecipeBoard recipe = recipeService.getRecipe(boardNo);
-		    
 		    recipe.setMaterialList(recipeService.addMaterialList(boardNo));
-		    System.out.println("ajax 요청이 들어오긴함"+ recipe.getBoardView()+recipe.getMaterialList().get(0));
 		    return recipe;
 	}
     

@@ -1,6 +1,8 @@
 package com.springbootstudy.app.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +32,9 @@ public class RecipeService {
 		return recipeMapper.getBoard(BoardNo);
 	}
 	
-	 public List<Cooking> addCookList(int boardNo) {
-	        // 추가할 요리 목록을 조회
-	        return recipeMapper.addCookList(boardNo);
-
-	    }
+	public List<Cooking> addCookList(int boardNo) {
+        return recipeMapper.addCookList(boardNo);
+    }
 	 public int cookCount(int boardNo) {
 		 return recipeMapper.cookCount(boardNo);
 	 }
@@ -45,7 +45,14 @@ public class RecipeService {
 
 	    }
 	    public List<CookMaterial> cookMaterList(int cookingId , int boardNo){
-	    	return recipeMapper.CookMaterList(cookingId, boardNo);
+	    	System.out.println("RecipeService-cookingId: "+cookingId);
+	    	System.out.println("RecipeService-boardNo: "+boardNo);
+	    	
+	    	Map<String, Object> params = new HashMap<>();
+	    	params.put("cookingId", cookingId);
+	    	params.put("boardNo", boardNo);
+	    	
+	    	return recipeMapper.CookMaterList(params);
 	    }
 	    
 	    public List<Cooking> cookIdCheck(int boardNo) {

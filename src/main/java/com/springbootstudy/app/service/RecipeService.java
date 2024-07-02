@@ -45,8 +45,6 @@ public class RecipeService {
 
 	    }
 	    public List<CookMaterial> cookMaterList(int cookingId , int boardNo){
-	    	System.out.println("RecipeService-cookingId: "+cookingId);
-	    	System.out.println("RecipeService-boardNo: "+boardNo);
 	    	
 	    	Map<String, Object> params = new HashMap<>();
 	    	params.put("cookingId", cookingId);
@@ -58,5 +56,7 @@ public class RecipeService {
 	    public List<Integer> cookIdCheck(int boardNo) {
 	    	return recipeMapper.CookidCheck(boardNo);
 	    }
+	    
+	    
     }
 

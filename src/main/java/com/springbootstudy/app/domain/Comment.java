@@ -16,7 +16,8 @@ import lombok.Setter;
 public class Comment {
 	int commentId;
 	int boardNo;
-	String CommentContent;
-	int CommentPoint;
+	String commentContent;
+	int commentPoint;
 	Timestamp createdAt;
+	String memberId;
 }

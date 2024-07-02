@@ -31,12 +31,10 @@ public class RecipeAjax {
 		@GetMapping("/ajax/recipeMList")
 	    @ResponseBody
 	    public List<CookMaterial> recipeMList(@RequestParam(name = "cookingId") int cookingId,@RequestParam(name = "boardNo") int boardNo) {
-			System.out.println("recipeMList의 cookMaterList :" +recipeService.cookMaterList(cookingId,boardNo).get(0).getMaterialName());
-	    	System.out.println("recipeMList의 cookMaterList :" +recipeService.cookMaterList(cookingId,boardNo).get(0).getMensuration());
 	    	
 	        return recipeService.cookMaterList(cookingId,boardNo);
 	    }
-	
+		
 	
 	
 		// 조리과정리스트 -조리리스트 책 버튼

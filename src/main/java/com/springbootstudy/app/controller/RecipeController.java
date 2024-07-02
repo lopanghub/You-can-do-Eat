@@ -42,10 +42,15 @@ public class RecipeController {
 	    model.addAttribute("id",id);
 	    
 	    
-	
+	  //평균 점수 계산
+	    double averagePoint = commentService.calculateAveragePoint(boardNo);
 	    //댓글리스트
 	    model.addAttribute("commentList",  commentService.commentList(boardNo));
+	    //댓글리스트 카운트
+	    model.addAttribute("commentCount",  commentService.commentCount(boardNo));
+	    model.addAttribute("averagePoint", averagePoint);
 	    
+	    System.out.println("averagePoint 평균값은 :"+ averagePoint);
 	    
 	    
 	    
@@ -55,7 +60,6 @@ public class RecipeController {
 	    int cCount =recipeService.cookCount(boardNo);	    
 	    for(int i=0; i<cCount;i++) {
 		    int cookingId = recipeService.cookIdCheck(boardNo).get(i);
-		    System.out.println("recipeDetail의 cMList "+ recipeService.cookMaterList(cookingId,boardNo));
 		    model.addAttribute("cMList"+i, recipeService.cookMaterList(cookingId,boardNo));
 	    }
 	    

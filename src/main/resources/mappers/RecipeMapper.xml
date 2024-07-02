@@ -4,7 +4,7 @@
 
 <mapper namespace="com.springbootstudy.app.mapper.RecipeMapper">
 	
-	<!--요리과정 재료--><!-- 문제있는쿼리문 -->
+	<!--요리과정 재료-->
 	<select id="CookMaterList" parameterType="hashmap">
 		SELECT m.*
 		FROM cook_material cm

@@ -3,131 +3,228 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/main_layout}">
 
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
 <body>
-	<!-- content -->
-	<div layout:fragment="content">
-		<form>
-			<input type="hidden" id="boardNo" th:value="${rList.boardNo}"
-				name="boardNo"> <input type="hidden" id="cookingId"
-				th:value="${cookingId}" name="cookingId"> <input
-				type="hidden" id="bookCount" th:value="${bookCount}"
-				name="bookCount"> <input type="hidden" id="id"
-				th:value="${id}" name="id">
-		</form>
-		<div class="row border border-dark">
-			<div class="col ">
-				<!--머리-->
-				<div class="row">
-					<div class="col">
-						<h1 class="text-center" th:text="${rList.foodName}"></h1>
-					</div>
-				</div>
-				<!--이미지 삽입-->
-				<div class="row rList">
-					<div class="col-1"></div>
-					<div class="col ">
-						<div class="row  bg-secondary">
-							<div class="col-3"></div>
-							<div class="col-6 ">
-								<h3 class="text-center text-white my-3 fw-bold">레시피 모아보기</h3>
-							</div>
-							<div
-								class="col-3 text-end text-white d-flex  justify-content-end align-items-center">
-								<button type="button" class="btn btn-success " id="recipeBtn">레시피
-									접기</button>
-							</div>
-						</div>
-						<!-- 여기서 부터 반복문돌리기  -->
-						<div class="row border border-danger my-2">
-							<div class="col">
-								<div class="row my-2 border border-dark" style="height: 300px;">
-									<!-- 조리이미지 들어갈부분  -->
-									<div class="col-5">
-										<div class="row ">
-											<div class="col mx-4">
-												<img src="https://via.placeholder.com/300" alt="샘플이미지">
-											</div>
-										</div>
-									</div>
-									<div class="col">
-										<div class="row my-2">
-											<div class="col">
-												<h4 class="fw-bold">1.조리제목</h4>
-											</div>
-										</div>
-										<div class="row my-1">
-											<div class="col">
-												<h4>조리방법</h4>
-											</div>
-										</div>
-										<div class="row my-1">
-											<div class="col my-2">
-												<span>조리방법 블라블라</span>
-											</div>
-										</div>
-										<div class="row my-1">
-											<div class="col my-2">
-												<span>주의할점</span>
-											</div>
-										</div>
-										<div class="row my-1">
-											<div class="col my-2">
-												<span>주의 할점 블라블라</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row border mx-4">
-									<div class="col ">
-										<h4 class="fw-bold">요리재료</h4>
-									</div>
-								</div>
-								<div class="row my-1  mx-4 list border row-cols-2">
-								<!--요리재료 반복문  -->
-									<div class="col">
-										<div class="row">
-											<div class="col">
-												<span>요리재료</span>
-											</div>
-											<div class="col">
-												<span>요리양</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+    <!-- content -->
+    <div layout:fragment="content" class="container">
+        <form>
+            <input type="hidden" id="boardNo" th:value="${rList.boardNo}" name="boardNo">
+            <input type="hidden" id="cookingId" th:value="${cookingId}" name="cookingId">
+            <input type="hidden" id="bookCount" th:value="${bookCount}" name="bookCount">
+            <input type="hidden" id="id" th:value="${id}" name="id">
+        </form>
+        <div class="row border border-dark rounded">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="text-center" th:text="${rList.foodName}"></h1>
+                    </div>
+                </div>
+                <div class="row rList">
+                    <div class="col-1"></div>
+                    <div class="col">
+                        <div class="row bg-secondary rounded">
+                            <div class="col-3"></div>
+                            <div class="col-6">
+                                <h3 class="text-center text-white my-3 fw-bold">레시피 모아보기</h3>
+                            </div>
+                            <div class="col-3 text-end text-white d-flex justify-content-end align-items-center">
+                                <button type="button" class="btn btn-success" id="recipeBtn">레시피 접기</button>
+                            </div>
+                        </div>
+                        <th:block th:each="cList, cStatus : ${cList}">
+                            <div class="row border border-danger my-2">
+                                <div class="col">
+                                    <div class="row my-2 border border-dark rounded" style="height: 300px;">
+                                        <div class="col-5">
+                                            <div class="row">
+                                                <div class="col mx-4">
+                                                    <img src="https://via.placeholder.com/300" alt="샘플이미지" class="img-fluid">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="row my-2">
+                                                <div class="col">
+                                                    <h4 class="fw-bold"> <span th:text="${cStatus.index + 1}"></span>.[[${cList.cookTitle}]]</h4>
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col">
+                                                    <h4>조리방법</h4>
+                                                </div>
+                                            </div>
+                                            <div class="row my-1">
+                                                <div class="col my-2">
+                                                    <span>[[${cList.cookMethod}]]</span>
+                                                </div>
+                                            </div>
+                                            <th:block th:if="${not #strings.isEmpty(cList.recommended)}">
+                                                <div class="row my-1">
+                                                    <div class="col my-2">
+                                                        <h4>주의할점</h4>
+                                                    </div>
+                                                </div>
+                                                <div class="row my-1">
+                                                    <div class="col my-2">
+                                                        <span th:text="${cList.recommended}"></span>
+                                                    </div>
+                                                </div>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                    <div class="row mx-4">
+                                        <div class="col ">
+                                            <h4 class="fw-bold">요리재료</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row my-1 mx-4 list border row-cols-2 rounded">
+                                        <th:block th:if="${not #lists.isEmpty(__${'cMList' + cStatus.index}__)}">
+                                            <th:block th:each="cMList0 : ${__${'cMList' + cStatus.index}__}">
+                                                <div class="col">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <span th:text="${cMList0.materialName}"></span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <span th:text="${cMList0.mensuration}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:unless="${not #lists.isEmpty(__${'cMList' + cStatus.index}__)}">
+                                            <div class="col">
+                                                <p>현 조리과정에는 재료가 포함되어 있지 않습니다.</p>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+                <!-- 댓글폼 -->
+                  <!-- 댓글 작성 폼 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>댓글 작성</h4>
+            </div>
+            <div class="card-body">
+                <form id="commentForm" action="/submit_comment" method="post">
+                    <div class="mb-3">
+                        <label for="commentContent" class="form-label">댓글 내용</label>
+                        <textarea class="form-control" id="commentContent" name="commentContent" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="commentPoint" class="form-label">점수</label>
+                        <input type="number" class="form-control" id="commentPoint" name="commentPoint" min="0" max="5" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">댓글 작성</button>
+                </form>
+            </div>
+        </div>
 
+        <!-- 댓글 리스트 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>댓글 리스트</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-group" id="commentList">
+                    <!-- 댓글 아이템 -->
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <p class="mb-1"><strong>댓글 작성자</strong></p>
+                                <p class="mb-1">댓글 내용</p>
+                                <small class="text-muted">작성일: 2023-07-01</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-secondary btn-sm" onclick="editComment(this)">수정</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteComment(this)">삭제</button>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 더 많은 댓글 아이템들 -->
+                </ul>
+            </div>
+        </div>
 
-					</div>
-					<div class="col-1"></div>
-				</div>
-				<div class="row bg" style="height: 900px;"></div>
-				<!--이미지 마지막div-->
-			</div>
-			<!--버튼-->
-			<div class="row text-center my-5">
-				<div class="col ">
-					<input class="btn btn-primary" type="button" id="reviewBtn"
-						value="리뷰보기">
-				</div>
-				<div class="col">
-					<input class="btn btn-primary" type="button" id="meterBtn"
-						value="재료보기">
-				</div>
-				<div class="col">
-					<input class="btn btn-primary" type="button" id="bookBtn"
-						value="레시피보기(책)">
-				</div>
-				<div class="col">
-					<input class="btn btn-primary" type="button" id="listBtn"
-						value="레시피보기(리스트)">
-				</div>
-			</div>
-		</div>
-		<!--시작-->
-	</div>
+        <!-- 댓글 수정 모달 -->
+        <div class="modal fade" id="editCommentModal" tabindex="-1" aria-labelledby="editCommentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCommentModalLabel">댓글 수정</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editCommentForm" action="/edit_comment" method="post">
+                            <div class="mb-3">
+                                <label for="editCommentContent" class="form-label">댓글 내용</label>
+                                <textarea class="form-control" id="editCommentContent" name="editCommentContent" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editCommentPoint" class="form-label">점수</label>
+                                <input type="number" class="form-control" id="editCommentPoint" name="editCommentPoint" min="0" max="5" required>
+                            </div>
+                            <input type="hidden" id="editCommentId" name="commentId">
+                            <button type="submit" class="btn btn-primary">댓글 수정</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                <!-- 댓글폼마무리 -->
+            </div>
+            <div class="row text-center my-5">
+                <div class="col">
+                    <input class="btn btn-primary" type="button" id="reviewBtn" value="리뷰보기">
+                </div>
+                <div class="col">
+                    <input class="btn btn-primary" type="button" id="meterBtn" value="재료보기">
+                </div>
+                <div class="col">
+                    <input class="btn btn-primary" type="button" id="bookBtn" value="레시피보기(책)">
+                </div>
+                <div class="col">
+                    <input class="btn btn-primary" type="button" id="listBtn" value="레시피보기(리스트)">
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script>
+        function editComment(button) {
+            // 댓글 수정 버튼 클릭 시 호출되는 함수
+            // 실제 구현에서는 해당 댓글의 데이터를 가져와서 폼에 채워야 합니다.
+            var listItem = button.closest('li');
+            var commentContent = listItem.querySelector('p:nth-child(2)').innerText;
+            var commentPoint = listItem.querySelector('small').innerText.split(': ')[1];
+
+            document.getElementById('editCommentContent').value = commentContent;
+            document.getElementById('editCommentPoint').value = commentPoint;
+            document.getElementById('editCommentId').value = listItem.dataset.commentId; // 댓글 ID 설정
+
+            var editCommentModal = new bootstrap.Modal(document.getElementById('editCommentModal'));
+            editCommentModal.show();
+        }
+
+        function deleteComment(button) {
+            // 댓글 삭제 버튼 클릭 시 호출되는 함수
+            // 실제 구현에서는 서버에 삭제 요청을 보내야 합니다.
+            var listItem = button.closest('li');
+            listItem.remove(); // 임시로 댓글 아이템을 리스트에서 제거
+        }
+    </script>
 </body>
-
 </html>

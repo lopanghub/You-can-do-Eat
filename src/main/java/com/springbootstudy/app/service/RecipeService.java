@@ -55,7 +55,7 @@ public class RecipeService {
 	    	return recipeMapper.CookMaterList(params);
 	    }
 	    
-	    public List<Cooking> cookIdCheck(int boardNo) {
+	    public List<Integer> cookIdCheck(int boardNo) {
 	    	return recipeMapper.CookidCheck(boardNo);
 	    }
     }

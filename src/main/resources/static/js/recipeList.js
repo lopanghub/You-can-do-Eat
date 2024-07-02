@@ -1,6 +1,6 @@
 $(function() {
 	let cookingId = $("#cookingId").val();
-	
+	let isRecipeBtn  = $("#isRecipeBtn").val();
 	//레시피 보기버튼을 클릭했을때 .rList에 뿌려줌
 	$("#listBtn").on("click", function() {
 		$(".rList").empty();
@@ -61,7 +61,7 @@ $(function() {
 			},
 			error: function(error) {
 				console.error("Error fetching book details:", error);
-				const materialsHTML=`현 조리과정에는 재료가 포함되어 있지 않습니다.`
+				const materialsHTML=`	`
 				$(`.listM${cookingId}`).append(materialsHTML);
 			}
 		});
@@ -122,7 +122,7 @@ $(function() {
 								</div>
 								<div class="row my-1">
 									<div class="col my-2">
-										<span>${recipe.recommended}</span>
+										<h4>${recipe.recommended}</h4>
 									</div>
 								</div>
 								`}

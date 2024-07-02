@@ -31,5 +31,5 @@ public interface RecipeMapper {
 		// boardNo의 
 		List<CookMaterial> CookMaterList(Map<String, Object> params);
 		
-		List<Cooking> CookidCheck(int boardNo);
+		List<Integer> CookidCheck(int boardNo);
 }

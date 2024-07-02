@@ -53,7 +53,7 @@ function rightPage() {
     // 책 보기 버튼 클릭 시
     $("#bookBtn").on("click", function() {
         // 기존 내용 초기화
-         $(".bg").empty();
+         $(".rList").empty();
 		if(isBook){
 			isBook=false;
 		}else{
@@ -65,7 +65,7 @@ function rightPage() {
                 <div class="row page" style="margin-top:80px;"></div>
             </div>
         `;
-        $(".bg").append(htmlContent);
+        $(".rList").append(htmlContent);
         
        loadBookDetail();
        	isBook=true;

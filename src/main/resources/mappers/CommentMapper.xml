@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springbootstudy.app.mapper.CommentMapper">
+	
+	    <select id="commentList" parameterType="int" resultType="com.springbootstudy.app.domain.Comment">
+  SELECT 
+            cm.* ,
+            rb.member_id
+        FROM 
+            Comments cm
+        JOIN 
+            recipe_Board rb 
+        ON 
+            cm.board_No = rb.board_No 
+        WHERE 
+            cm.board_No = #{boardNo}
+	</select>
+	    <select id="commentCount" parameterType="int" resultType="int">
+  SELECT 
+            count(*) 
+        FROM 
+            Comments cm
+        JOIN 
+            recipe_Board rb 
+        ON 
+            cm.board_No = rb.board_No 
+        WHERE 
+            cm.board_No = #{boardNo}
+	</select>
+	 <insert id="insertComment" parameterType="Comment" useGeneratedKeys="true"  keyProperty="commentId">
+		INSERT INTO Comments (board_No, comment_content, comment_Point, created_at)
+        VALUES (#{boardNo}, #{commentContent}, #{commentPoint}, NOW())
+	</insert>
+	<update id="updateComment" parameterType="Comment" useGeneratedKeys="true">
+    UPDATE Comments 
+    SET Comment_content = #{commentContent}, Comment_Point = #{commentPoint}, created_at = NOW() 
+    WHERE comment_id = #{commentId}
+</update>
+
+ <select id="selectCommentById" parameterType="int" resultType="Comment">
+        SELECT * FROM Comments WHERE comment_id = #{commentId}
+    </select>
+</mapper>

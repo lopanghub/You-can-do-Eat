@@ -1,0 +1,94 @@
+				<div class="col-1"></div>
+					<div class="col">
+						<div class="row bg-secondary rounded">
+							<div class="col-3"></div>
+							<div class="col-6">
+								<h3 class="text-center text-white my-3 fw-bold">레시피 모아보기</h3>
+							</div>
+							<div
+								class="col-3 text-end text-white d-flex justify-content-end align-items-center">
+								<button type="button" class="btn btn-success" id="recipeBtn">레시피
+									접기</button>
+							</div>
+						</div>
+						<th:block th:each="cList, cStatus : ${cList}">
+							<div class="row border border-danger my-2">
+								<div class="col">
+									<div class="row my-2 border border-dark rounded"
+										style="height: 300px;">
+										<div class="col-5">
+											<div class="row">
+												<div class="col mx-4">
+													<img src="https://via.placeholder.com/300" alt="샘플이미지"
+														class="img-fluid">
+												</div>
+											</div>
+										</div>
+										<div class="col">
+											<div class="row my-2">
+												<div class="col">
+													<h4 class="fw-bold">
+														<span th:text="${cStatus.index + 1}"></span>.[[${cList.cookTitle}]]
+													</h4>
+												</div>
+											</div>
+											<div class="row my-1">
+												<div class="col">
+													<h4>조리방법</h4>
+												</div>
+											</div>
+											<div class="row my-1">
+												<div class="col my-2">
+													<span>[[${cList.cookMethod}]]</span>
+												</div>
+											</div>
+											<th:block th:if="${not #strings.isEmpty(cList.recommended)}">
+												<div class="row my-1">
+													<div class="col my-2">
+														<h4>주의할점</h4>
+													</div>
+												</div>
+												<div class="row my-1">
+													<div class="col my-2">
+														<span th:text="${cList.recommended}"></span>
+													</div>
+												</div>
+											</th:block>
+										</div>
+									</div>
+									<div class="row mx-4">
+										<div class="col ">
+											<h4 class="fw-bold">요리재료</h4>
+										</div>
+									</div>
+									<div class="row my-1 mx-4 list border row-cols-2 rounded">
+										<th:block
+											th:if="${not #lists.isEmpty(__${'cMList' + cStatus.index}__)}">
+											<th:block
+												th:each="cMList0 : ${__${'cMList' + cStatus.index}__}">
+												<div class="col">
+													<div class="row">
+														<div class="col">
+															<span th:text="${cMList0.materialName}"></span>
+														</div>
+														<div class="col">
+															<span th:text="${cMList0.mensuration}"></span>
+														</div>
+													</div>
+												</div>
+											</th:block>
+										</th:block>
+										<th:block
+											th:unless="${not #lists.isEmpty(__${'cMList' + cStatus.index}__)}">
+											<div class="col">
+												<p>현 조리과정에는 재료가 포함되어 있지 않습니다.</p>
+											</div>
+										</th:block>
+									</div>
+								</div>
+							</div>
+						</th:block>
+					
+						</div>
+					</div>
+					<div class="col-1"></div>

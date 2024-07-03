@@ -20,8 +20,10 @@ public interface CommentMapper {
 	//댓글 업데이트
 	void updateComment(Comment comment);
 	
+	//댓글 삭제 
 	void deleteComment(int commentId);
 	
+	//댓글 업데이트후 조회
 	Comment selectCommentById(@Param("commentId")int commentId);
 	
 }

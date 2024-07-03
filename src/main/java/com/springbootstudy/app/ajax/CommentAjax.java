@@ -19,7 +19,6 @@ public class CommentAjax {
 	@ResponseBody
 	public Comment addComment(@RequestParam(name="boardNo")int boardNo,@RequestParam(name="commentContent")String commentContent,
 			@RequestParam(name="commentPoint")int commentPoint/*,@RequestParam(name="memberId")String memberId*/) {
-		System.out.println("addComment ajax입니다 "+ commentContent+commentPoint +"를 받았습니다.");
 		return commentService.addComment(boardNo, commentContent, commentPoint);
 	}
 	@PostMapping("/ajax/updateComment")
@@ -27,8 +26,13 @@ public class CommentAjax {
     public Comment updateComment(@RequestParam(name="commentId") int commentId, 
                                  @RequestParam(name="commentContent") String commentContent,
                                  @RequestParam(name="commentPoint") int commentPoint) {
-        System.out.println("updateComment ajax입니다 "+ commentContent + commentPoint +"를 받았습니다.");
         return commentService.updateComment(commentId, commentContent, commentPoint);
     }
+	@PostMapping("/ajax/deleteComment")
+	@ResponseBody
+	public Comment deleteComment(@RequestParam(name="commentId") int commentId) {
+		System.out.println("deleteComment ajax입니다 "+ commentId +"를 받았습니다.");
+		return commentService.deleteComment(commentId);
+	}
 	
 }

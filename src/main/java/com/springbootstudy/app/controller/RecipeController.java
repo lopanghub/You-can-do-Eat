@@ -48,19 +48,49 @@ public class RecipeController {
 	    model.addAttribute("commentList",  commentService.commentList(boardNo));
 	    //댓글리스트 카운트
 	    model.addAttribute("commentCount",  commentService.commentCount(boardNo));
-	    model.addAttribute("averagePoint", averagePoint);
 	    
+	    
+
 	    System.out.println("averagePoint 평균값은 :"+ averagePoint);
-	    
-	    
+        model.addAttribute("averagePoint", averagePoint);
+
+        StringBuilder symbols = new StringBuilder();
+        
+        int i = 0;
+        int Ipoint = (int) (averagePoint * 10) / 10;
+        System.out.println(Ipoint);
+        // 첫 번째 for 문
+	        for (int j = 0; j < Ipoint; j++) {
+		            symbols.append(" <i class=\"bi bi-star-fill\"></i>");
+		            i++;
+		            System.out.println(i);
+	        }
+        // if 문
+        if ((averagePoint * 10) % 10 > 1) {
+        	if(i<5) {
+            symbols.append(" <i class=\"bi bi-star-half\"></i>");
+            i++;
+            System.out.println(i);
+        	}
+        }
+        // 두 번째 for 문
+        for (int j = 0; j < averagePoint; j++) {
+            if (i < 5) {
+                symbols.append(" <i class=\"bi bi-star\"></i>");
+                i++;
+                System.out.println(i);
+            }
+        }
+
+        model.addAttribute("stars", symbols.toString());
 	    
 	    
 	    
 	    // 조리과정의 재료리스트
 	    int cCount =recipeService.cookCount(boardNo);	    
-	    for(int i=0; i<cCount;i++) {
-		    int cookingId = recipeService.cookIdCheck(boardNo).get(i);
-		    model.addAttribute("cMList"+i, recipeService.cookMaterList(cookingId,boardNo));
+	    for(int z=0; z<cCount;z++) {
+		    int cookingId = recipeService.cookIdCheck(boardNo).get(z);
+		    model.addAttribute("cMList"+z, recipeService.cookMaterList(cookingId,boardNo));
 	    }
 	    
 	    //조리과정리스트

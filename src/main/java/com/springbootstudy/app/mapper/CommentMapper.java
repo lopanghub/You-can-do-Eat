@@ -20,6 +20,7 @@ public interface CommentMapper {
 	//댓글 업데이트
 	void updateComment(Comment comment);
 	
+	void deleteComment(int commentId);
 	
 	Comment selectCommentById(@Param("commentId")int commentId);
 	

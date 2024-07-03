@@ -56,4 +56,8 @@ public class CommentService {
 	        commentMapper.updateComment(comment);
 	        return commentMapper.selectCommentById(commentId);
 	    }
+	  public Comment deleteComment( int  commentId) {
+		  commentMapper.deleteComment(commentId);
+		  return commentMapper.selectCommentById(commentId);
+	  }
 }

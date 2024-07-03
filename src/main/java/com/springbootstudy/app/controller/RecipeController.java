@@ -51,26 +51,22 @@ public class RecipeController {
 	    
 	    
 
-	    System.out.println("averagePoint 평균값은 :"+ averagePoint);
         model.addAttribute("averagePoint", averagePoint);
 
         StringBuilder symbols = new StringBuilder();
         
         int i = 0;
         int Ipoint = (int) (averagePoint * 10) / 10;
-        System.out.println(Ipoint);
         // 첫 번째 for 문
 	        for (int j = 0; j < Ipoint; j++) {
 		            symbols.append(" <i class=\"bi bi-star-fill\"></i>");
 		            i++;
-		            System.out.println(i);
 	        }
         // if 문
         if ((averagePoint * 10) % 10 > 1) {
         	if(i<5) {
             symbols.append(" <i class=\"bi bi-star-half\"></i>");
             i++;
-            System.out.println(i);
         	}
         }
         // 두 번째 for 문
@@ -78,7 +74,6 @@ public class RecipeController {
             if (i < 5) {
                 symbols.append(" <i class=\"bi bi-star\"></i>");
                 i++;
-                System.out.println(i);
             }
         }
 

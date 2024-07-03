@@ -42,4 +42,7 @@
  <select id="selectCommentById" parameterType="int" resultType="Comment">
         SELECT * FROM Comments WHERE comment_id = #{commentId}
     </select>
+    <delete id="deleteComment" parameterType="int" >
+    	delete from Comments where comment_id = ${commentId}
+    </delete>
 </mapper>

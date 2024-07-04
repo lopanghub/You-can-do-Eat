@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 상품매퍼 담당자 - 이현학 -->
+<mapper namespace="com.springbootstudy.app.mapper.ProductMapper">
+	<select id="findAll" resultType="Product">
+		Select * from product;
+	</select>
+	
+	<select id ="findByID" resultType="Product">
+		Select * From product
+		Where product_id = #{product_id}
+	</select>
+	
+	<select id ="findByCategory" resultType="Product">
+		Select * From product
+		Where category_id = #{category_id}
+	</select>
+</mapper>

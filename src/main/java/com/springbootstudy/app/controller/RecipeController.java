@@ -50,9 +50,11 @@ public class RecipeController {
 	    model.addAttribute("commentCount",  commentService.commentCount(boardNo));
 	    
 	    
-
+	    // 평균점수
         model.addAttribute("averagePoint", averagePoint);
-
+        
+        
+        // 평균점수 별점
         StringBuilder symbols = new StringBuilder();
         
         int i = 0;
@@ -70,13 +72,11 @@ public class RecipeController {
         	}
         }
         // 두 번째 for 문
-        for (int j = 0; j < averagePoint; j++) {
-            if (i < 5) {
+        for (int j = i; j < 5; j++) {
                 symbols.append(" <i class=\"bi bi-star\"></i>");
                 i++;
-            }
         }
-
+        //평균점수의 별아이콘
         model.addAttribute("stars", symbols.toString());
 	    
 	    
@@ -89,7 +89,7 @@ public class RecipeController {
 	    }
 	    
 	    //조리과정리스트
-	    model.addAttribute("cList",  recipeService.addCookList(boardNo));
+	    model.addAttribute("cList",  recipeService.getCookList(boardNo));
 	    //  상세보기
 		model.addAttribute("rList",recipeService.getRecipe(boardNo));
 		// 책리스트 카운트
@@ -97,7 +97,8 @@ public class RecipeController {
 		// 조리과정 no의 초기값
 		model.addAttribute("cookingId",recipeService.cookIdCheck(boardNo).get(0));
 		// 재료리스트
-		model.addAttribute("mList",recipeService.addMaterialList(boardNo));
+		model.addAttribute("mList",recipeService.getMaterialList(boardNo));
 		return "views/recipeDetail";
 	}
+	
 }

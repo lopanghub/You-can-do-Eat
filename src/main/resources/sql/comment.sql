@@ -7,11 +7,12 @@ CREATE TABLE Comments (
     Comment_content VARCHAR(2000) NOT NULL,
      Comment_Point INT NOT NULL DEFAULT 0,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    member_id VARCHAR(300) NOT NULL,
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No) ON DELETE CASCADE
 );
-
+drop table Comments;
 -- 댓글 select
-SELECT   cm.*,  rb.member_id FROM  Comments cm JOIN   recipe_Board rb ON    cm.board_No = rb.board_No where cm.board_no = 3;
+SELECT   cm.* FROM  Comments cm JOIN   recipe_Board rb ON    cm.board_No = rb.board_No where cm.board_no = 3;
 
 -- 댓글 임시
 iNSERT INTO Comments (board_No, Comment_content, Comment_Point) 

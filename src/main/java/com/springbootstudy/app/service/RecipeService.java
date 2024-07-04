@@ -25,36 +25,42 @@ public class RecipeService {
 	@Autowired
 	public RecipeMapper recipeMapper;
 	
+	//레시피 리스트
 	public List<RecipeBoard> RecipeBoardList(){
-		return recipeMapper.RecipeBoardList();
+		return recipeMapper.recipeBoardList();
 	}
+	
+	//boardno 레시피
 	public RecipeBoard getRecipe(int BoardNo) {
 		return recipeMapper.getBoard(BoardNo);
 	}
 	
-	public List<Cooking> addCookList(int boardNo) {
-        return recipeMapper.addCookList(boardNo);
+	//boardNo의 cooking 조리방법리스트
+	public List<Cooking> getCookList(int boardNo) {
+        return recipeMapper.getCookList(boardNo);
     }
+	
+	//boardno의 cooking 카운트 (책페이지수)
 	 public int cookCount(int boardNo) {
 		 return recipeMapper.cookCount(boardNo);
 	 }
-
-	    public List<Material> addMaterialList(int boardNo) {
-	        // 추가할 재료 목록을 조회
-	    	return recipeMapper.addMaterialList(boardNo);
-
+	 	//boardNo 의 재료
+	    public List<Material> getMaterialList(int boardNo) {
+	    	return recipeMapper.getMaterialList(boardNo);
 	    }
+	    //boardNo 의 cooking 각 요리과정 재료 리스트
 	    public List<CookMaterial> cookMaterList(int cookingId , int boardNo){
 	    	
 	    	Map<String, Object> params = new HashMap<>();
 	    	params.put("cookingId", cookingId);
 	    	params.put("boardNo", boardNo);
 	    	
-	    	return recipeMapper.CookMaterList(params);
+	    	return recipeMapper.cookMaterList(params);
 	    }
 	    
+	    // cookingId 의시작 을 알기위한 매서드
 	    public List<Integer> cookIdCheck(int boardNo) {
-	    	return recipeMapper.CookidCheck(boardNo);
+	    	return recipeMapper.cookidCheck(boardNo);
 	    }
 	    
 	    

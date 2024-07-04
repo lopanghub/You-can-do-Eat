@@ -1,0 +1,99 @@
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+	
+#global-content {
+  font-family: 'Noto Sans KR', sans-serif;
+  margin: 50px 0;
+}
+
+.recipe-header {
+	margin-bottom: 30px;
+}
+.recipe-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.write-button {
+	display: inline-block;
+	padding: 6px 14px;
+	background-color: transparent;
+	color: #7a8577;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #7a8577;
+	transition: all 0.3s ease;
+	font-size: 0.9em;
+}
+
+.write-button:hover {
+	background-color: #7a8577;
+	color: white;
+	border-color: #7a8577;
+}
+
+.searchButton {
+	display: inline-block;
+	padding: 6px 14px;
+	background-color: transparent;
+	color: #7a8577;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #7a8577;
+	transition: all 0.3s ease;
+	font-size: 0.9em;
+}
+
+.searchButton:hover {
+	background-color: #7a8577;
+	color: white;
+	border-color: #7a8577;
+}
+
+
+
+.recipe-table-wrapper {
+  overflow-x: auto;
+}
+
+.recipe-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recipe-table th{
+	background-color: #f8f9fa;
+	padding: 10px;
+	text-align: center;
+	border-bottom: 2px solid #FF914D;
+}
+.recipe-table td {
+ 	padding: 10px;
+	text-align: center;
+	background-color: white;
+	border-top: 1px solid #dee2e6;
+	border-bottom: 1px solid #dee2e6;
+}
+
+.recipe-table tbody tr:hover td {
+	/* background-color: #E6EBE3; */
+	background-color: #F7F4F1;
+}
+
+.recipe-name {
+  width: 50%;
+}
+
+.recipe-name a {
+  color: #333;
+  text-decoration: none;
+}
+
+.no-recipes {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+}

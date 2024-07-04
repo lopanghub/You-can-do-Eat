@@ -1,72 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main_layout}">
+     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+     layout:decorate="~{layouts/main_layout}">
+<head>
+   <link rel="stylesheet" type="text/css" th:href="@{/css/recipeList.css}"/>
+</head>
 <!-- content -->
 <div layout:fragment="content">
-<div class="row my-5" id="global-content">
-    <div class="col-10 offset-1">
-        <div class="row text-center">
-            <div class="col">
-                <h2 class="fs-3 fw-bold">게시 글 리스트</h2>
-            </div>
-        </div>
-        <form name="searchForm" id="searchForm" action="boardList"
-              class="row justify-content-center my-3">
-            <div class="col-auto">
-                <select name="type" class="form-select">
-                    <option value="title">제목</option>
-                    <option value="writer">작성자</option>
-                    <option value="content">내용</option>
-                </select>
-            </div>
-            <div class="col-4">
-                <input type="text" name="keyword" class="form-control"/>
-            </div>
-            <div class="col-auto">
-                <input type="submit" value="검 색" class="btn btn-primary"/>
-            </div>
-        </form>
-        <div class="row">
-            <div class="col text-end">
-                <a href="@{addRecipe}" class="btn btn-outline-success">글쓰기</a>
-            </div>
-        </div>
-        <!-- 게시 글 리스트 출력 영역 -->
-        <div class="row my-3">
-            <div class="col">
-                <table class="table">
-                    <thead>
-                    <tr class="table-dark">
-                        <th>NO</th>
-                        <th>음식이름</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
-                        <th>조회수</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <th:block th:if="${not #lists.isEmpty(rList)}">
-                        <tr th:each="board, status: ${rList}">
-                            <td th:text="${board.boardNo}"></td>
-							<td>
-							   <a th:text="${board.foodName}" th:href="@{'/recipeDetail?boardNo=' + ${board.boardNo}}"></a>
-							</td>
-                            <td th:text="${board.memberId}"></td>
-                            <td th:text="${#dates.format(board.regDate, 'yyyy-MM-dd')}"></td>
-                            <td th:text="${board.boardCommend}"></td>
-                        </tr>
-                    </th:block>
-                    <th:block th:unless="${not #lists.isEmpty(rList)}">
-                        <tr>
-                            <td colspan="5">게시 글이 존재하지 않음</td>
-                        </tr>
-                    </th:block>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+   <div id="global-content">
+       <div class="recipe-header text-center">
+           <h2>레시피 리스트</h2>
+       </div>
+
+       <form name="searchForm" id="searchForm" action="boardList"
+             class="row justify-content-center my-3">
+           <div class="col-auto">
+               <select name="type" class="form-select">
+                   <option value="title">제목</option>
+                   <option value="writer">작성자</option>
+                   <option value="content">내용</option>
+               </select>
+           </div>
+           <div class="col-4">
+               <input type="text" name="keyword" class="form-control"/>
+           </div>
+           <div class="col-auto">
+               <input type="submit" value="검 색" class="searchButton"/>
+           </div>
+       </form>
+
+       <div class="text-end">
+           <a href="@{addRecipe}" class="write-button">글쓰기</a>
+       </div>
+
+       <div class="recipe-table-wrapper">
+           <table class="recipe-table table">
+               <thead>
+                   <tr class="recipe-table">
+                       <th>NO</th>
+                       <th class="recipe-name text-center">음식이름</th>
+                       <th>작성자</th>
+                       <th>작성일</th>
+                       <th>추천수</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   <th:block th:if="${not #lists.isEmpty(rList)}">
+                       <tr th:each="board, status: ${rList}">
+                           <td th:text="${board.boardNo}"></td>
+                           <td class="recipe-name"><a th:text="${board.foodName}" th:href="@{'/recipeDetail?boardNo=' + ${board.boardNo}}"></a></td>
+                           <td th:text="${board.memberId}"></td>
+                           <td th:text="${#dates.format(board.regDate, 'yyyy-MM-dd')}"></td>
+                           <td th:text="${board.boardCommend}"></td>
+                       </tr>
+                   </th:block>
+                   <th:block th:unless="${not #lists.isEmpty(rList)}">
+                       <tr>
+                           <td colspan="5" class="no-recipes">게시 글이 존재하지 않음</td>
+                       </tr>
+                   </th:block>
+               </tbody>
+           </table>
+       </div>
+   </div>
 </div>
 </html>

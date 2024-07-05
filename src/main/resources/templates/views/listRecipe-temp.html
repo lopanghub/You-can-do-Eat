@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>레시피 리스트</title>
+   <link rel="stylesheet" th:href="@{/css/listRecipe.css}">
+</head>
+<body>
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-9">
+                            <h3 class="recipe-collection-title">레시피 모아보기</h3>
+                        </div>
+                        <div class="col-3 text-end">
+                            <button type="button" class="recipe-toggle-btn" id="recipeBtn">레시피 접깅</button>
+                        </div>
+                    </div>
+                    <th:block th:each="cList, cStatus : ${cList}">
+                        <div class="recipe-card">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <img src="https://via.placeholder.com/300" alt="샘플이미지" class="recipe-image">
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="recipe-details">
+                                        <h4 class="recipe-title">
+                                            <span th:text="${cStatus.index + 1}"></span>. [[${cList.cookTitle}]]
+                                        </h4>
+                                        <div class="recipe-method">
+                                            <h5>조리방법</h5>
+                                            <p>[[${cList.cookMethod}]]</p>
+                                        </div>
+                                        <th:block th:if="${not #strings.isEmpty(cList.recommended)}">
+                                            <div class="recipe-caution">
+                                                <h5>주의할 점</h5>
+                                                <p th:text="${cList.recommended}"></p>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="recipe-ingredients">
+                                <h5>요리재료</h5>
+                                <div class="row">
+                                    <th:block th:if="${not #lists.isEmpty(__${'cMList' + cStatus.index}__)}">
+                                        <th:block th:each="cMList0 : ${__${'cMList' + cStatus.index}__}">
+                                            <div class="col-6">
+                                                <div class="ingredient-item">
+                                                    <span th:text="${cMList0.materialName}"></span>
+                                                    <span th:text="${cMList0.mensuration}"></span>
+                                                </div>
+                                            </div>
+                                        </th:block>
+                                    </th:block>
+                                    <th:block th:unless="${not #lists.isEmpty(__${'cMList' + cStatus.index}__)}">
+                                        <div class="col">
+                                            <p>현 조리과정에는 재료가 포함되어 있지 않습니다.</p>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

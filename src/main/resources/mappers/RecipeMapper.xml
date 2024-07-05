@@ -15,6 +15,8 @@
     INSERT INTO material (board_No, material_name, mensuration, type_Material)
     VALUES (#{boardNo}, #{materialName}, #{mensuration}, #{typeMaterial});
 </insert>
+<!-- 레시피 재료리스트로 바로 불러오기 -->
+
 <!-- 레시피에 요리과정추가하기 -->
 <insert id="insertCooking" parameterType="Cooking" useGeneratedKeys="true" keyProperty="boardNo">
     INSERT INTO cooking (board_No, cook_title, cook_Method, recommended)

@@ -8,7 +8,6 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     board_title VARCHAR(200) NOT NULL,
     board_content VARCHAR(2000) NOT NULL,
     food_genre VARCHAR(100) NOT NULL,
-    board_commend INT DEFAULT 0,
     board_view INT DEFAULT 0,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     thumbnail VARCHAR(200),
@@ -17,7 +16,7 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     Apoint INT DEFAULT 0,
     member_id VARCHAR(200) NOT NULL
 );
-
+select * from recipe_Board;
 CREATE TABLE material (  -- 재료 리스트 테이블
     material_id INT AUTO_INCREMENT PRIMARY KEY,
     board_No INT,
@@ -26,7 +25,7 @@ CREATE TABLE material (  -- 재료 리스트 테이블
    type_Material VARCHAR(200) DEFAULT '소스',-- 요리재료의　종류
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );
-
+select * from material;
 CREATE TABLE cooking (  -- 레이피 리스트 테이블 
     cooking_id INT AUTO_INCREMENT PRIMARY KEY,
     board_No INT,
@@ -36,7 +35,7 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     cook_file VARCHAR(500) ,
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );
-
+select * from cooking;
 CREATE TABLE cook_material ( -- 요리에 재료테이블
 	cooking_id INT,
 	material_id INT,
@@ -45,13 +44,11 @@ CREATE TABLE cook_material ( -- 요리에 재료테이블
     FOREIGN KEY (board_No) REFERENCES material(material_id),
     FOREIGN KEY (board_No) REFERENCES cooking(cooking_id)
 );
-
+select * from cook_material;
+drop table recipe_Board;
 drop table material;
 drop table cooking;
-drop table recipe_Board;
 drop table cook_material;
-
-
 
 insert into cook_material VALUES (2,2,1);
 
@@ -61,9 +58,15 @@ VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카
 
 INSERT INTO material (board_No, material_name, mensuration, type_Material)
 VALUES 
-(1, '스파게티', '200g', '면류'),
-(1, '베이컨', '100g', '육류'),
-(1, '크림', '100ml', '조미료');
+(1, 'cook 2번 재료', '200g', '재료'),
+(1, 'cook 3번 재료', '100g', '재료'),
+(1, 'cook 1번 재료', '100ml', '조미료'),
+(1, 'cook 2번 재료', '200g', '재료'),
+(1, 'cook 3번 재료', '100g', '재료'),
+(1, 'cook 2번 재료', '100ml', '조미료'),
+(1, 'cook 1번 재료', '200g', '조미료'),
+(1, 'cook 1번 재료', '100g', '조미료'),
+(1, 'cook 2번 재료', '100ml', '조미료');
 
 
 
@@ -80,7 +83,7 @@ VALUES (1, '스파게티 조리',
 
 SELECT m.*
 FROM cook_material cm
-INNER JOIN material m ON cm.material_id = m.material_id where cooking_id=1 and board_No=1;
+INNER JOIN material m ON cm.material_id = m.material_id where  m.board_No=3;
 
 
 SELECT m.*
@@ -91,7 +94,17 @@ WHERE rb.board_no = 1;
 SELECT count(*)
 FROM recipe_board rb
 INNER JOIN cooking c ON rb.board_no = c.board_no
-WHERE rb.board_no = 1;
+WHERE rb.board_no = 2;
 
-
-
+ SELECT c.*
+	FROM recipe_board rb
+	INNER JOIN cooking c ON rb.board_no = c.board_no
+	WHERE c.board_no = 3 and c.cooking_id =7;
+     SELECT m.*
+	FROM recipe_board rb
+	INNER JOIN material  m ON rb.board_no = m.board_no
+	WHERE c.board_no = 3;
+    insert cook_material values (,7 ,3 );
+cooking_id INT,
+	material_id INT,
+	board_No INT,

@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
@@ -64,5 +68,22 @@ public class RecipeService {
 	    }
 	    
 	    
+	    //추가하는 메서드
+	    public void addRecipe(String thumbnail, String foodName, String boardTitle,  String boardContent,
+              String foodGenre,  int numberEaters,  int foodTime, List<Material> materials,
+               List<Cooking> cookings, List<CookMaterial> CookMaterials) {
+	    	RecipeBoard recipeBoard = new RecipeBoard();
+	    	recipeBoard.setBoardContent(boardContent);
+	    	recipeBoard.setBoardTitle(boardTitle);
+	    	recipeBoard.setFoodName(foodName);
+	    	recipeBoard.setFoodGenre(foodGenre);
+	    	recipeBoard.setNumberEaters(numberEaters);
+	    	recipeBoard.setFoodTime(foodTime);
+	    	
+	    	recipeBoard.setCookingList(cookings);
+	    	recipeBoard.setMaterialList(materials);
+	    	
+	    	recipeMapper.insertRecipe(recipeBoard);
+	    }
     }
 

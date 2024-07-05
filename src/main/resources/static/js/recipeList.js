@@ -5,6 +5,7 @@ $(function() {
 	$("#listBtn").on("click", function() {
 		$(".rList").empty();
 		const bookContent = `
+					<div class="testList">테스트입니다.</div>
                     <div class="col-1"></div>
 					<div class="col my-2">
 						<div class="row my-2 bg-secondary">

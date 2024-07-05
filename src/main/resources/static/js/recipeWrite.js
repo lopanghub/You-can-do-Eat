@@ -51,13 +51,13 @@ $(function() {
         const newMaterialTrue = `
             <div class="row g-3 align-items-center my-2" id="material-true-${materialIndex}">
                 <div class="col-md-3">
-                    <span id="materials[${materialIndex}].materialName" name="materials[${materialIndex}].materialName" value="materials[${materialIndex}].materialName">${materialName}</span>
+                    <span id="cookMaterials[${materialIndex}].materialName" name="cookMaterials[${materialIndex}].materialName" value="cookMaterials[${materialIndex}].materialName">${materialName}</span>
                 </div>
                 <div class="col-md-3">
-                    <span id="materials[${materialIndex}].mensuration" name="materials[${materialIndex}].mensuration">${mensuration}</span>
+                    <span id="cookMaterials[${materialIndex}].mensuration" name="cookMaterials[${materialIndex}].mensuration">${mensuration}</span>
                 </div>
                 <div class="col-md-3">
-                    <span id="materials[${materialIndex}].typeMaterial" name="materials[${materialIndex}].typeMaterial">${typeMaterial}</span>
+                    <span id="cookMaterials[${materialIndex}].typeMaterial" name="cookMaterials[${materialIndex}].typeMaterial">${typeMaterial}</span>
                 </div>
                 <div class="col-md-3">
                     <div class="form-check form-switch">
@@ -150,9 +150,9 @@ $(function() {
 
         $(".material-check:checked").each(function() {
             let index = $(this).attr('id').split('-')[1];
-            let IndexMaterialName = $(`span[name='materials[${index}].materialName']`).text();
-            let IndexMensuration = $(`span[name='materials[${index}].mensuration']`).text();
-            let IndexTypeMaterial = $(`span[name='materials[${index}].typeMaterial']`).text();
+            let IndexMaterialName = $(`span[name='cookMaterials[${index}].materialName']`).text();
+            let IndexMensuration = $(`span[name='cookMaterials[${index}].mensuration']`).text();
+            let IndexTypeMaterial = $(`span[name='cookMaterials[${index}].typeMaterial']`).text();
             console.log("IndexMensuration 제발 두번 출렷x "+IndexMensuration);	
             const newCookingMetrial = `
                 <div class="row my-2">

@@ -16,7 +16,6 @@ public class CommentAjax {
 	private CommentService commentService;
 	
 	@PostMapping("/ajax/addComment")
-	@ResponseBody
 	public Comment addComment(@RequestParam(name="boardNo")int boardNo,@RequestParam(name="commentContent")String commentContent,
 			@RequestParam(name="commentPoint")int commentPoint,@RequestParam(name="memberId")String memberId) {
 		return commentService.addComment(boardNo, commentContent, commentPoint,memberId);
@@ -24,7 +23,6 @@ public class CommentAjax {
 	
 	
 	@PostMapping("/ajax/updateComment")
-    @ResponseBody
     public Comment updateComment(@RequestParam(name="commentId") int commentId, 
                                  @RequestParam(name="commentContent") String commentContent,
                                  @RequestParam(name="commentPoint") int commentPoint) {
@@ -33,7 +31,6 @@ public class CommentAjax {
 	
 	
 	@PostMapping("/ajax/deleteComment")
-	@ResponseBody
 	public Comment deleteComment(@RequestParam(name="commentId") int commentId) {
 		return commentService.deleteComment(commentId);
 	}

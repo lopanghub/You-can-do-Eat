@@ -1,8 +1,4 @@
 
-## DATABASE 생성 및 선택
-CREATE DATABASE IF NOT EXISTS springboot;
-use springboot;
-
 -- 게시글 번호, 제목, 이메일, 내용, 글쓴이, 날짜, 조회수, 비밀번호, 파일정보,
 -- no, title, email, content, writer, reg_date, read_count, pass, file
 DROP TABLE IF EXISTS noticeboard;
@@ -42,3 +38,4 @@ INSERT INTO noticeboard (title,writer,content,reg_date, read_count, pass, file1)
 COMMIT;
 
 SELECT * FROM noticeboard ORDER BY no DESC;
+

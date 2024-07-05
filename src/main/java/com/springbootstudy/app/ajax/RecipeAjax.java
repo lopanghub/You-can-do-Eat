@@ -15,7 +15,9 @@ import com.springbootstudy.app.domain.RecipeBoard;
 import com.springbootstudy.app.service.RecipeService;
 
 
+
 @RestController
+
 public class RecipeAjax {
 	@Autowired
 	private RecipeService recipeService;

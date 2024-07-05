@@ -1,10 +1,8 @@
 package com.springbootstudy.app.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,14 +16,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-	
 	private int product_id;
-	private int price;
-	private String product_image;
-	private String seller;
-	private String origin;
-	private String size;
-	private int category_id;
+    private int price;
+    private String product_image;
+    private String seller;
+    private String origin;
+    private String size;
+    private String category;
+    private String ingredient;
+    private String expiration_date;
 }
 
 

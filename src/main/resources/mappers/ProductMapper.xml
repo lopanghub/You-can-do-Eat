@@ -15,6 +15,6 @@
 	
 	<select id ="findByCategory" resultType="Product">
 		Select * From product
-		Where category_id = #{category_id}
+		Where category = #{category}
 	</select>
 </mapper>

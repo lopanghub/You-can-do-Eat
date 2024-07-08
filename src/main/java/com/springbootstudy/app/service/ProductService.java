@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springbootstudy.app.domain.Cart;
 import com.springbootstudy.app.domain.Product;
 import com.springbootstudy.app.mapper.ProductMapper;
 
@@ -34,5 +35,14 @@ public class ProductService {
 	public List<Product> getProductByCategory(String category) {
 		log.info("service : getProductByCategory(String category)");
 		return productMapper.findByCategory(category);
+	}
+	
+	//장바구니 추가
+	public void addCart(int productId, int quantity) {
+		Cart cart = new Cart();
+		cart.setProductId(productId);
+		cart.setQuantity(quantity);
+		
+		productMapper.insertCart(cart);
 	}
 }

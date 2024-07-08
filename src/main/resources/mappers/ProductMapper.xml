@@ -7,29 +7,44 @@
 	<select id="findAll" resultType="Product">
 		Select * from product;
 	</select>
-	
+
 	<select id="findById" resultType="Product">
-        SELECT * FROM product
-        WHERE product_id = #{product_id}
-    </select>
-	
-	<select id ="findByCategory" resultType="Product">
-		Select  *, product_id  From product
+		SELECT * FROM product
+		WHERE product_id = #{product_id}
+	</select>
+
+	<select id="findByCategory" resultType="Product">
+		Select *, product_id From
+		product
 		Where category = #{category}
 	</select>
-	
-	
-	
-	<resultMap id="productResultMap" type="com.springbootstudy.app.domain.Product">
-	    <id property="productId" column="product_id"/>
-	    <result property="price" column="price"/>
-	    <result property="productImage" column="product_image"/>
-	    <result property="seller" column="seller"/>
-	    <result property="origin" column="origin"/>
-	    <result property="size" column="size"/>
-	    <result property="category" column="category"/>
-	    <result property="ingredient" column="ingredient"/>
-	    <result property="expirationDate" column="expiration_date"/>
+
+	<insert id="insertCart" useGeneratedKeys="true" keyProperty="cart_id">
+		insert into cart (quantity, product_id)
+		values (#{quantity},#{product_id})
+	</insert>
+
+
+	<resultMap id="productResultMap"
+		type="com.springbootstudy.app.domain.Product">
+		<id property="productId" column="product_id" />
+		<result property="price" column="price" />
+		<result property="productImage" column="product_image" />
+		<result property="seller" column="seller" />
+		<result property="origin" column="origin" />
+		<result property="size" column="size" />
+		<result property="category" column="category" />
+		<result property="ingredient" column="ingredient" />
+		<result property="expirationDate" column="expiration_date" />
 	</resultMap>
 	
+	<resultMap  id="cartResultMap"
+		type="com.springbootstudy.app.domain.Cart">
+		<id property="cartId" column="cart_id"></id>
+		<result property="quantity" column="quantity"></result>
+		<result property="productId" column="product_id"></result>
+	</resultMap>
+		
+		
+
 </mapper>

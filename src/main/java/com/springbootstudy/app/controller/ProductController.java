@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -34,6 +35,15 @@ public class ProductController {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "views/shopDetail";
+       
     }
+	
+	@PostMapping("/addCart")
+	public String addCart(@RequestParam("productId") int productId,
+				@RequestParam("quantity") int quantity, Model model) {
+		productService.addCart(productId, quantity);
+		
+		return "views/shopCart";
+	}
 	
 }

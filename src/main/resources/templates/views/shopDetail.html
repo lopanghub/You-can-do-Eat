@@ -51,8 +51,14 @@
 			<!-- 장바구니 및 결제 -->
 			<div class="row">
 				<div class="col">
-					<button class="btn btn-outline-secondary">장바구니</button><br>
-					<button class="btn btn-outline-secondary">바로결제</button>
+					<form id="productForm" method="post">
+						<input type="hidden" name="productId" th:value="${product.productId}">
+						<input type="hidden" name="quantity" id="cartQuantity" value="1">
+						<button type="button" id="addCart"
+							class="btn btn-outline-secondary">장바구니</button>
+						<button type="button" id="orderNow"
+							class="btn btn-outline-secondary">바로결제</button>
+					</form>
 				</div>
 			</div>
 		</div>

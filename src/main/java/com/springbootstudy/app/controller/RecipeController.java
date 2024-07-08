@@ -75,7 +75,7 @@ public class RecipeController {
 	                        Files.createDirectories(cookPath.getParent());
 	                        Files.write(cookPath, cookingFiles.get(i).getBytes());
 	                        // 조리 파일의 URL을 적절한 위치에 저장
-	                        recipeBoard.getCookings().get(i).setCookFileUrl(uploadCookDir + fileCookname);
+//	                        recipeBoard.getCookings().get(i).setCookFileUrl(uploadCookDir + fileCookname);
 	                    }
 	                }
 	                recipeService.addCooking(boardNo, recipeBoard.getCookings());

@@ -23,4 +23,5 @@ public interface CommentMapper {
 	//댓글 업데이트후 조회
 	Comment selectCommentById(@Param("commentId")int commentId);
 	
+	void deleteCommentByNo(int board);
 }

@@ -49,4 +49,8 @@
     <delete id="deleteComment" parameterType="int" >
     	delete from Comments where comment_id = ${commentId}
     </delete>
+    <!-- 댓글삭제하기 -->
+    <delete id="deleteCommentByNo" parameterType="int" >
+    	delete from Comments where board_No = ${boardNo};
+    </delete>
 </mapper>

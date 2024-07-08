@@ -63,4 +63,9 @@ public class CommentService {
 		  commentMapper.deleteComment(commentId);
 		  return commentMapper.selectCommentById(commentId);
 	  }
+	  //boardNo의 댓글삭제
+	  public void deleteCommentByNo(int boardNo) {
+		  commentMapper.deleteCommentByNo(boardNo);
+		  
+	  }
 }

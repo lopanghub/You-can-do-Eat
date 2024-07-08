@@ -1,4 +1,18 @@
 $(function() {
+	
+	$("#updateDetailBtn").on("click", function() {
+		
+		$("#recipeDetailForm").attr("action", "updateRecipeForm");
+		$("#recipeDetailForm").attr("method", "get");
+		$("#recipeDetailForm").submit();
+	});
+	$("#deleteDetailBtn").on("click", function() {
+		
+		$("#recipeDetailForm").attr("action", "deleteRecipe");
+		$("#recipeDetailForm").attr("method", "post");
+		$("#recipeDetailForm").submit();
+	});
+	
 	let cookingId = $("#cookingId").val();
 	let isRecipeBtn  = $("#isRecipeBtn").val();
 	//레시피 보기버튼을 클릭했을때 .rList에 뿌려줌

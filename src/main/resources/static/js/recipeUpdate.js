@@ -3,6 +3,22 @@ $(function() {
     let cookingIndex = 0;
     let isTextaddM = true; // addMaterial를 눌렀을때
     let isTextaddC = true; // addCooking를 눌렀을때
+    let boardNo =$("#boardNo").val();
+    
+    $.ajax({
+			url: '/updateRecipeForm',
+			type: 'POST',
+			data: {
+				boardNo: boardNo
+			},
+			success: function(recipe) {
+				console.log(recipe);
+				
+			},
+			error: function(error) {
+				console.error('Error updating comment:', error);
+			}
+		});
 
     $("#addMaterial").on("click", addMaterial);
 	

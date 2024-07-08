@@ -13,13 +13,14 @@
 <body>
 	<!-- content -->
 	<div layout:fragment="content" class="container">
-		<form>
+		<form id="recipeDetailForm">
 			<input type="hidden" id="boardNo" th:value="${rList.boardNo}"
-				name="boardNo"> <input type="hidden" id="cookingId"
-				th:value="${cookingId}" name="cookingId"> <input
-				type="hidden" id="bookCount" th:value="${bookCount}"
-				name="bookCount"> <input type="hidden" id="id"
-				th:value="${id}" name="memberId">
+				name="boardNo"> 
+				<input type="hidden" id="cookingId"
+				th:value="${cookingId}" name="cookingId"> 
+				<input	type="hidden" id="bookCount" th:value="${bookCount}"
+				name="bookCount"> 
+				<input type="hidden" id="id"th:value="${id}" name="memberId">
 		</form>
 		<div class="row border border-dark rounded">
 			<div class="col">
@@ -39,8 +40,7 @@
 							</div>
 							<div
 								class="col-3 text-end text-white d-flex justify-content-end align-items-center">
-								<button type="button" class="btn btn-success" id="recipeBtn">레시피
-									접기</button>
+								<button type="button" class="btn btn-success" id="recipeBtn">레시피	접기</button>
 							</div>
 						</div>
 						<div class="row my-2">
@@ -292,6 +292,12 @@
 			<div class="col">
 				<input class="btn btn-primary" type="button" id="listBtn"
 					value="레시피보기(리스트)">
+			</div>
+			<div class="col">
+			    <input class="btn btn-primary" type="button" id="updateDetailBtn" value="수정하기"/>
+			</div>
+			<div class="col">
+			    <input class="btn btn-danger" type="button" id="deleteDetailBtn" value="삭제하기"/>
 			</div>
 		</div>
 	</div>

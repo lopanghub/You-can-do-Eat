@@ -30,7 +30,7 @@
        </form>
 
        <div class="text-end">
-           <a href="@{addRecipe}" class="write-button">글쓰기</a>
+           <a th:href="@{recipeWrite}" class="write-button">글쓰기</a>
        </div>
 
        <div class="recipe-table-wrapper">
@@ -41,7 +41,6 @@
                        <th class="recipe-name text-center">음식이름</th>
                        <th>작성자</th>
                        <th>작성일</th>
-                       <th>추천수</th>
                    </tr>
                </thead>
                <tbody>
@@ -51,7 +50,6 @@
                            <td class="recipe-name"><a th:text="${board.foodName}" th:href="@{'/recipeDetail?boardNo=' + ${board.boardNo}}"></a></td>
                            <td th:text="${board.memberId}"></td>
                            <td th:text="${#dates.format(board.regDate, 'yyyy-MM-dd')}"></td>
-                           <td th:text="${board.boardCommend}"></td>
                        </tr>
                    </th:block>
                    <th:block th:unless="${not #lists.isEmpty(rList)}">

@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.springbootstudy.app.mapper.CommentMapper">
-	
+	 <!--댓글리스트 불러오기  -->
 	    <select id="commentList" parameterType="int" resultType="com.springbootstudy.app.domain.Comment">
   SELECT 
             cm.* ,
@@ -15,8 +15,9 @@
         ON 
             cm.board_No = rb.board_No 
         WHERE 
-            cm.board_No = #{boardNo}
+            cm.board_No = #{boardNo} order by comment_id DESC
 	</select>
+	<!-- 댓글 갯수불러오기 -->
 	    <select id="commentCount" parameterType="int" resultType="int">
   SELECT 
             count(*) 
@@ -29,19 +30,22 @@
         WHERE 
             cm.board_No = #{boardNo}
 	</select>
+	<!-- 댓글추가하기 -->
 	 <insert id="insertComment" parameterType="Comment" useGeneratedKeys="true"  keyProperty="commentId">
-		INSERT INTO Comments (board_No, comment_content, comment_Point, created_at)
-        VALUES (#{boardNo}, #{commentContent}, #{commentPoint}, NOW())
+		INSERT INTO Comments (board_No, comment_content, comment_Point, created_at,member_Id)
+        VALUES (#{boardNo}, #{commentContent}, #{commentPoint}, NOW(),#{memberId})
 	</insert>
+	<!-- 댓글수정하기 -->
 	<update id="updateComment" parameterType="Comment" useGeneratedKeys="true">
     UPDATE Comments 
-    SET Comment_content = #{commentContent}, Comment_Point = #{commentPoint}, created_at = NOW() 
+    SET Comment_content = #{commentContent}, Comment_Point = #{commentPoint}, created_at = NOW()
     WHERE comment_id = #{commentId}
 </update>
-
+<!-- 특정댓글불러오기 -->
  <select id="selectCommentById" parameterType="int" resultType="Comment">
         SELECT * FROM Comments WHERE comment_id = #{commentId}
     </select>
+    <!-- 댓글삭제하기 -->
     <delete id="deleteComment" parameterType="int" >
     	delete from Comments where comment_id = ${commentId}
     </delete>

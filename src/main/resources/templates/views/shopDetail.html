@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--쇼핑몰 상세보기 담당자 -이현학 -->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/shop_layout}">
+
+<!-- content -->
+<div layout:fragment="content">
+	<!-- 상세 정보 페이지 -->
+	<div class="row my-3">
+		<div class="col-6">
+			<th:block th:if="${product.productImage}">
+				<img th:src="${product.productImage}" alt="Product Image">
+			</th:block>
+			<th:block th:unless="${product.productImage}">
+				<img src="http://via.placeholder.com/500x400"
+					alt="Placeholder Image">
+			</th:block>
+		</div>
+		<div class="col-6">
+			<!-- 상품 정보 -->
+			<div class="row">
+				<div class="col">
+					<h1 th:text="${product.ingredient}"></h1>
+					<p id="productPrice" th:data-price="${product.price}"></p>
+				</div>
+			</div>
+
+			<!-- 사이즈 선택 -->
+			<div class="row">
+				<div class="col"></div>
+			</div>
+
+			<!-- 수량 조절 버튼 -->
+			<div class="row d-flex justify-content-betwenn">
+				<div class="col">
+					<table class="table">
+						<tr>
+							<th><button id="quantityMinus" disabled>-</button></th>
+							<th id="quantity">1</th>
+							<th><button id="quantityPlus">+</button></th>
+						</tr>
+					</table>
+				</div>
+				<div class="col">
+					<span id="totalPrice"></span>
+					<button class="resetQuantity">X</button>
+				</div>
+			</div>
+
+			<!-- 장바구니 및 결제 -->
+			<div class="row">
+				<div class="col">
+					<button class="btn btn-outline-secondary">장바구니</button><br>
+					<button class="btn btn-outline-secondary">바로결제</button>
+				</div>
+			</div>
+		</div>
+	</div>

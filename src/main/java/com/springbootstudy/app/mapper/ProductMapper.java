@@ -3,6 +3,7 @@ package com.springbootstudy.app.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 import com.springbootstudy.app.domain.Product;
 
@@ -15,8 +16,8 @@ public interface ProductMapper {
 	List<Product> findAll();
 	
 	//기본키로 특정  상품 확인
-	Product findById(String product_id);
+	Product findById(@Param("product_id") int productId);
 	
 	//카테고리 별 분류
-	List<Product> findByCategory(String category);
+    List<Product> findByCategory(@Param("category") String category);
 }

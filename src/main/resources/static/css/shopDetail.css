@@ -1,0 +1,5 @@
+#quantityMinus:disabled {
+    opacity: 0.5;
+    color : gray;
+    cursor: not-allowed;
+}

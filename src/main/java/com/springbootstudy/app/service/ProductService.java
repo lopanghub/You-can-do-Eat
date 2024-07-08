@@ -23,10 +23,12 @@ public class ProductService {
 		return productMapper.findAll();
 	}
 	
-	public Product getProductById(String productId) {
-		log.info("service : getProductById(String productId)");
-		return productMapper.findById(productId);
-	}
+	public Product getProductById(int productId) {
+        log.info("service : getProductById(int productId)");
+        Product product = productMapper.findById(productId);
+        log.info("Retrieved product: " + product);
+        return product;
+    }
 	
 	//카테고리 별 분류 
 	public List<Product> getProductByCategory(String category) {

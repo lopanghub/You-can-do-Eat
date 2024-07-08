@@ -4,7 +4,7 @@ $(function(){
 		$("#noticeDetailDelete").on("click", function(){
 			let pass = $("#pass").val();
 			if(pass.length <= 0) {
-				alert("비밀번호를 입력해주쎼요");
+				alert("비밀번호를 입력해주세요");
 				return false;
 			}
 			
@@ -12,8 +12,8 @@ $(function(){
 			$("#checkForm").attr("action", "deleteNotice");
 			$("#checkForm").attr("method", "post");
 			
-			if(confirm("정말로 삭제하시겠습니까?!?")){
-				alert("게시글이 삭제되었습니다!");
+			if(confirm("해당 공지를 삭제하시겠습니까?")){
+				alert("게시글이 삭제되었습니다.");
 				$("#checkForm").submit();
 			}
 			
@@ -41,7 +41,7 @@ $(function(){
 	$("#noticeDetailUpdate").on("click", function(){
 		let pass = $("#pass").val();
 		if(pass.length <= 0) {
-			alert("비밀번호를 입력해주세요!");
+			alert("비밀번호를 입력해주세요");
 			return false;
 		}
 		
@@ -66,7 +66,10 @@ $(function(){
 		if($("#content").val().length <= 0){
 				alert("내용을 입력해주세요");
 				return false;	
-			}			
+			}
+		if(confirm("해당 공지를 업로드하시겠습니까?"))	{
+			this.submut();
+		}			
 
 	});
 	

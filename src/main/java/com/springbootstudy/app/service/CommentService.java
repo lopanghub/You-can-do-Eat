@@ -38,16 +38,17 @@ public class CommentService {
 	        BigDecimal bd = new BigDecimal(average).setScale(1, RoundingMode.HALF_UP);
 	        return bd.doubleValue();
 	    }
-	  
-	  public Comment addComment(int boardNo, String commentContent, int commentPoint) {
+	  // 댓글추가
+	  public Comment addComment(int boardNo, String commentContent, int commentPoint,String memberId) {
 	        Comment comment = new Comment();
 	        comment.setBoardNo(boardNo);
 	        comment.setCommentContent(commentContent);
 	        comment.setCommentPoint(commentPoint);
+	        comment.setMemberId(memberId);
 	        commentMapper.insertComment(comment);
-	        return comment;
+	        return commentMapper.selectCommentById(comment.getCommentId());
 	    }
-	  
+	  // 댓글 업데이트
 	  public Comment updateComment(int commentId, String commentContent, int commentPoint) {
 	        Comment comment = new Comment();
 	        comment.setCommentId(commentId);
@@ -56,6 +57,8 @@ public class CommentService {
 	        commentMapper.updateComment(comment);
 	        return commentMapper.selectCommentById(commentId);
 	    }
+	  
+	  //댓글삭제
 	  public Comment deleteComment( int  commentId) {
 		  commentMapper.deleteComment(commentId);
 		  return commentMapper.selectCommentById(commentId);

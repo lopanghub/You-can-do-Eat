@@ -17,18 +17,21 @@ public class CommentAjax {
 	
 	@PostMapping("/ajax/addComment")
 	public Comment addComment(@RequestParam(name="boardNo")int boardNo,@RequestParam(name="commentContent")String commentContent,
-			@RequestParam(name="commentPoint")int commentPoint/*,@RequestParam(name="memberId")String memberId*/) {
-		return commentService.addComment(boardNo, commentContent, commentPoint);
+			@RequestParam(name="commentPoint")int commentPoint,@RequestParam(name="memberId")String memberId) {
+		return commentService.addComment(boardNo, commentContent, commentPoint,memberId);
 	}
+	
+	
 	@PostMapping("/ajax/updateComment")
     public Comment updateComment(@RequestParam(name="commentId") int commentId, 
                                  @RequestParam(name="commentContent") String commentContent,
                                  @RequestParam(name="commentPoint") int commentPoint) {
         return commentService.updateComment(commentId, commentContent, commentPoint);
     }
+	
+	
 	@PostMapping("/ajax/deleteComment")
 	public Comment deleteComment(@RequestParam(name="commentId") int commentId) {
-		System.out.println("deleteComment ajax입니다 "+ commentId +"를 받았습니다.");
 		return commentService.deleteComment(commentId);
 	}
 	

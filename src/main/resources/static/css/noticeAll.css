@@ -1,3 +1,5 @@
+/* Noto Sans 글꼴 적용 */
+
 @import
 	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
@@ -6,6 +8,7 @@
 	margin: 50px 0;
 }
 
+/* 공지사항 제목 크기 (공지사항 전체 반영) */
 .notice-header {
 	margin-bottom: 30px;
 }
@@ -15,6 +18,7 @@
 	font-weight: bold;
 }
 
+/* 버튼들 (공지사항 전체 반영) */
 .write-button {
 	display: inline-block;
 	padding: 6px 14px;
@@ -34,6 +38,7 @@
 	border-color: #7a8577;
 }
 
+/* 공지 리스트 테이블 */
 .notice-table {
 	width: 100%;
 	border-collapse: collapse;
@@ -68,8 +73,21 @@
 	text-decoration: none;
 }
 
+/* 공지사항 없을 때 */
 .no-notices {
 	text-align: center;
 	padding: 50px 0;
 	color: #6c757d;
 }
+
+
+/* 공지 글쓰기 폼 여백 */
+.noticeWrite{
+	margin-bottom: 15px;
+	font-weight: bold;
+}
+
+label.noticeWrite{
+	margin-bottom: 10px;	
+}
+

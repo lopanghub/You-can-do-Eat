@@ -2,12 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/notice_layout}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/noticeAll.css}" />
 <!-- content -->
 <div layout:fragment="content" class="row my-5" id="global-content">
 	<div class="col-10 offset-1">
 		<div class="row text-center">
 			<div class="col">
-				<h2 class="fs-3 fw-bold">게시 글 수정하기</h2>
+				<h2 class="fs-3 fw-bold">공지사항 수정</h2>
 			</div>
 		</div>
 		<form name="noticeUpdateForm" action="/noticeUpdate" id="noticeUpdateForm"
@@ -15,7 +16,7 @@
 			<input type="hidden" name="no" th:value="${noticeBoard.no}" />
 
 			<div class="col-4 offset-md-2">
-				<label for="writer" class="form-label">글쓴이</label> <input
+				<label for="writer" class="form-label">작성자</label> <input
 					type="text" class="form-control" name="writer" id="writer"
 					th:value="${noticeBoard.writer}" readonly>
 				<!-- 작성자 수정 불가하게 -->
@@ -34,9 +35,9 @@
 				<textarea class="form-control" name="content" id="content" rows="10">[[ ${noticeBoard.content} ]]</textarea>
 			</div>
 			<div class="col-8 offset-md-2 text-center mt-5">
-				<input type="submit" value="수정하기" class="btn btn-primary" />
+				<input type="submit" value="수정하기" class="write-button" />
 				&nbsp;&nbsp;<input type="button" value="목록보기"
-					th:onclick="location.href='/noticeList'" class="btn btn-primary" />
+					th:onclick="location.href='/noticeList'" class="write-button" />
 			</div>
 		</form>
 	</div>

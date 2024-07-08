@@ -9,6 +9,14 @@
       background-color: #FF914D;
       margin-bottom: 10px;
     }
+    
+    div.headerTop2{
+      width: auto;
+      height: 8px;
+      background-color: #93B665;
+      margin-bottom: 10px;
+    }
+    
 
     /* 로고 영역 */
     div.mainLogo{
@@ -82,5 +90,17 @@
     a.join{
       text-decoration: none;
       color: #FF914D;
+      font-weight: bold;
+    }
+    
+      a.login2{
+      text-decoration: none;
+      color: #93B665;
+      font-weight: bold;
+    }
+
+    a.join2{
+      text-decoration: none;
+      color: #93B665;
       font-weight: bold;
     }

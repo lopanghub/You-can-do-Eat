@@ -20,7 +20,11 @@ import com.springbootstudy.app.service.RecipeService;
 
 public class RecipeAjax {
 	@Autowired
-	private RecipeService recipeService;
+	private RecipeService recipeService; 
+	
+	
+	//매
+	
 	
 	
 	// 조리과정리스트 - 조리리스트 버튼
@@ -29,7 +33,7 @@ public class RecipeAjax {
 	    public List<Cooking> recipeList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "cookingId") int cookingId) {
 	    	 List<Cooking> recipe = recipeService.getCookList(boardNo);
 	         return recipe;
-	    }
+	    } 
 	   
 	   //cookingId 의 재료리스트 -조리리스트 책 버튼
 		@GetMapping("/ajax/recipeMList")
@@ -62,7 +66,7 @@ public class RecipeAjax {
 	@ResponseBody
 	public RecipeBoard getBook(@RequestParam(name = "boardNo") int boardNo) {
 		 RecipeBoard recipe = recipeService.getRecipe(boardNo);
-		    recipe.setMaterialList(recipeService.getMaterialList(boardNo));
+		    recipe.setMaterials(recipeService.getMaterialList(boardNo));
 		    return recipe;
 	}
     

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
+import com.springbootstudy.app.domain.RecipeBoard;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 
@@ -41,75 +44,54 @@ public class RecipeController {
 	}
 	
 	   private static String UPLOAD_DIR = "uploads/";
+	   private static String COOK_DIR = "cookloads/";
 
 	   @PostMapping("/recipeWriteProcess")
-	    public String writeRecipe(@RequestParam("thumbnail") MultipartFile thumbnail,
-	                             @RequestParam("foodName") String foodName,
-	                             @RequestParam("boardTitle") String boardTitle,
-	                             @RequestParam("boardContent") String boardContent,
-	                             @RequestParam("foodGenre") String foodGenre,
-	                             @RequestParam("numberEaters") int numberEaters,
-	                             @RequestParam("foodTime") int foodTime,
-	                             @RequestParam("materials") List<String> materialNames,
-	                             @RequestParam("mensurations") List<String> mensurations,
-	                             @RequestParam("typeMaterials") List<String> typeMaterials,
-	                             @RequestParam("cookTitles") List<String> cookTitles,
-	                             @RequestParam("cookMethods") List<String> cookMethods,
-	                             @RequestParam("recommendeds") List<String> recommendeds,
-	                             @RequestParam("cookFiles") List<MultipartFile> cookFiles,
-	                             Model model) {
-	        if (thumbnail.isEmpty()) {
-	            model.addAttribute("message", "Please select a file to upload");
-	            return "redirect:/";
-	        }
-
-	        try {
-	            // Save the thumbnail file
-	            byte[] bytes = thumbnail.getBytes();
-	            Path path = Paths.get(UPLOAD_DIR + thumbnail.getOriginalFilename());
-	            Files.write(path, bytes);
-
-	            // Process materials and cooking steps
-	            for (int i = 0; i < materialNames.size(); i++) {
-	                // Save each material
-	                String materialName = materialNames.get(i);
-	                String mensuration = mensurations.get(i);
-	                String typeMaterial = typeMaterials.get(i);
-	                // Save or process material data as needed
+	    public ModelAndView writeRecipe(@ModelAttribute RecipeBoard recipeBoard,@RequestParam("cookings") List<MultipartFile> cookingFiles, @RequestParam("thumbnailname") MultipartFile thumbnailname)throws Exception {
+	        ModelAndView modelAndView = new ModelAndView();
+	       
+	            if (thumbnailname != null && !thumbnailname.isEmpty()) {
+	            	  String uploadDir = "uploads/";
+	                  String filename = System.currentTimeMillis() + "-" + thumbnailname.getOriginalFilename(); // 파일명 중복 방지
+	                  Path path = Paths.get(uploadDir + filename);
+	                  Files.createDirectories(path.getParent());
+	                  Files.write(path, thumbnailname.getBytes());
+	                  recipeBoard.setThumbnail(uploadDir + filename); // 파일 경로 저장
 	            }
-
-	            for (int i = 0; i < cookTitles.size(); i++) {
-	                // Save each cooking step
-	                String cookTitle = cookTitles.get(i);
-	                String cookMethod = cookMethods.get(i);
-	                String recommended = recommendeds.get(i);
-
-	                if (!cookFiles.get(i).isEmpty()) {
-	                    // Save each cook file
-	                    byte[] cookFileBytes = cookFiles.get(i).getBytes();
-	                    Path cookFilePath = Paths.get(UPLOAD_DIR + cookFiles.get(i).getOriginalFilename());
-	                    Files.write(cookFilePath, cookFileBytes);
+	            // 레시피 및 관련 데이터를 데이터베이스에 저장
+	            recipeService.addRecipe(recipeBoard);
+	            int boardNo =recipeBoard.getBoardNo();
+	            if (recipeBoard.getMaterials() != null && !recipeBoard.getMaterials().isEmpty()) {
+	            	System.out.println("여기는 컨트롤러구간" + recipeBoard.getMaterials().get(0).getMaterialName());
+	                recipeService.addMaterial(boardNo, recipeBoard.getMaterials());
+	                
+	            }
+	            if (recipeBoard.getCookings() != null && !recipeBoard.getCookings().isEmpty()) {
+	                for (int i = 0; i < cookingFiles.size(); i++) {
+	                    if (!cookingFiles.get(i).isEmpty()) {
+	                        String uploadCookDir = "uploads/cooking/";
+	                        String fileCookname = System.currentTimeMillis() + "-" + cookingFiles.get(i).getOriginalFilename();
+	                        Path cookPath = Paths.get(uploadCookDir + fileCookname);
+	                        Files.createDirectories(cookPath.getParent());
+	                        Files.write(cookPath, cookingFiles.get(i).getBytes());
+	                        // 조리 파일의 URL을 적절한 위치에 저장
+	                        recipeBoard.getCookings().get(i).setCookFileUrl(uploadCookDir + fileCookname);
+	                    }
 	                }
-
-	                // Save or process cooking step data as needed
+	                recipeService.addCooking(boardNo, recipeBoard.getCookings());
 	            }
-
-	            // Add attributes to the model
-	            model.addAttribute("foodName", foodName);
-	            model.addAttribute("boardTitle", boardTitle);
-	            model.addAttribute("boardContent", boardContent);
-	            model.addAttribute("foodGenre", foodGenre);
-	            model.addAttribute("numberEaters", numberEaters);
-	            model.addAttribute("foodTime", foodTime);
-	            model.addAttribute("fileName", thumbnail.getOriginalFilename());
-
-	            // Return success page
-	            return "uploadSuccess";
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-
-	        return "redirect:/recipeList";
+	           
+	            
+	            for(int i=0;i< recipeBoard.getCookings().size();i++){
+	            	int cookingId = recipeService.cookIdCheck(boardNo).get(i);
+	            	System.out.println("컨트롤러 cookingId :" + cookingId);
+	            	recipeService.addCookMaterial(cookingId,boardNo, recipeBoard.getCookings().get(i).getCookMaterials());	
+	            	
+	            }
+	           
+	            
+	            modelAndView.setViewName("redirect:/recipeList");
+	        return modelAndView;
 	    }
 	
 	
@@ -174,6 +156,8 @@ public class RecipeController {
 	    for(int z=0; z<cCount;z++) {
 		    int cookingId = recipeService.cookIdCheck(boardNo).get(z);
 		    model.addAttribute("cMList"+z, recipeService.cookMaterList(cookingId,boardNo));
+		   
+		    
 	    }
 	    
 	    //조리과정리스트
@@ -186,7 +170,27 @@ public class RecipeController {
 		model.addAttribute("cookingId",recipeService.cookIdCheck(boardNo).get(0));
 		// 재료리스트
 		model.addAttribute("mList",recipeService.getMaterialList(boardNo));
-		return "views/listRecipe-temp";
+		return "views/recipeDetail";
+	}
+	
+	@GetMapping("recipeUpdateForm")
+	public String recipeUpdateForm(@RequestParam("boardNo")int boardNo,Model model) {
+		    
+		    // 조리과정의 재료리스트
+		    int cCount =recipeService.cookCount(boardNo);	    
+		    for(int z=0; z<cCount;z++) {
+			    int cookingId = recipeService.cookIdCheck(boardNo).get(z);
+			    model.addAttribute("cMList"+z, recipeService.cookMaterList(cookingId,boardNo));
+		    }
+		    
+		    //조리과정리스트
+		    model.addAttribute("cList",  recipeService.getCookList(boardNo));
+		    //  상세보기
+			model.addAttribute("rList",recipeService.getRecipe(boardNo));
+			// 재료리스트
+			model.addAttribute("mList",recipeService.getMaterialList(boardNo));
+		
+		return "views/recipeUpdate";
 	}
 	
 }

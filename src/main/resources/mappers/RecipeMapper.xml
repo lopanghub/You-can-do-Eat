@@ -6,26 +6,27 @@
 
 
 <!-- 레시피 추가하기 -->
-<insert id="insertBoard" parameterType="RecipeBoard" useGeneratedKeys="true" keyProperty="boardNo">
-    INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
-    VALUES (#{foodName}, #{boardTitle}, #{boardContent}, #{foodGenre}, #{memberId});
+<insert id="insertRecipe" parameterType="RecipeBoard" useGeneratedKeys="true" keyProperty="boardNo">
+    INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id,thumbnail,numberEaters,food_time)
+    VALUES (#{foodName}, #{boardTitle}, #{boardContent}, #{foodGenre}, 'skh9301', #{thumbnail},#{numberEaters},#{foodTime});
 </insert>
 <!-- 레시피에 요리재료추가하기 -->
-<insert id="insertMaterial" parameterType="Material" useGeneratedKeys="true" keyProperty="boardNo">
-    INSERT INTO material (board_No, material_name, mensuration, type_Material)
-    VALUES (#{boardNo}, #{materialName}, #{mensuration}, #{typeMaterial});
+<insert id="insertMaterial"  parameterType="Material">
+        INSERT INTO material (board_no, material_name, mensuration, type_Material) VALUES
+       (#{boardNo}, #{materialName}, #{mensuration}, #{typeMaterial})
 </insert>
 <!-- 레시피 재료리스트로 바로 불러오기 -->
 
 <!-- 레시피에 요리과정추가하기 -->
-<insert id="insertCooking" parameterType="Cooking" useGeneratedKeys="true" keyProperty="boardNo">
-    INSERT INTO cooking (board_No, cook_title, cook_Method, recommended)
-    VALUES (#{boardNo}, #{cookTitle}, #{cookMethod}, #{recommended});
+<insert id="insertCooking"  parameterType="list">
+        INSERT INTO cooking (board_no, cook_title, cook_method, recommended)
+        VALUES (#{boardNo}, #{cookTitle}, #{cookMethod}, #{recommended})
 </insert>
+
 <!-- 요리과정의 요리재료 추가하기 -->
-<insert id="insertCookMaterial" parameterType="CookMaterial" useGeneratedKeys="true" keyProperty="boardNo">
-    INSERT INTO cook_material (cooking_id, material_id, board_No)
-    VALUES (#{cookingId}, #{materialId}, #{boardNo});
+<insert id="insertCookMaterial"  parameterType="list" >
+        INSERT INTO cook_material (cooking_id, board_no , material_name , mensuration)
+        VALUES (#{cookingId}, #{boardNo} , #{materialName} ,#{mensuration})
 </insert>
 
 	
@@ -43,9 +44,7 @@ WHERE rb.board_no = #{boardNo};
 	
 	<!--요리과정 재료-->
 	<select id="cookMaterList" parameterType="hashmap">
-		SELECT m.*
-		FROM cook_material cm
-		INNER JOIN material m ON cm.material_id = m.material_id WHERE cm.cooking_id = #{cookingId} AND cm.board_No = #{boardNo};
+		SELECT cm.*  FROM cook_material cm   WHERE cm.cooking_id = #{cookingId};
 	</select>	
 	
 	<!--레시피 리스트-->

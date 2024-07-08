@@ -22,7 +22,7 @@ public class Cooking {
     private String recommended;
     private String cookFile;
     
-    private List<CookMaterial> cookMaterial;
+    private List<CookMaterial> cookMaterials;
 
     // Getter, Setter, toString 등 필요한 메서드 추가
 }

@@ -5,7 +5,7 @@ $(function() {
     let isTextaddC = true; // addCooking를 눌렀을때
 
     $("#addMaterial").on("click", addMaterial);
-
+	
     function addMaterial() {
         const materialSection = $('#materialSection');
         const cookMetrial = $(".cookMetrialTextPlace");
@@ -32,16 +32,28 @@ $(function() {
         let materialName = $("#materialName").val();
         let mensuration = $("#mensuration").val();
         let typeMaterial = $("#typeMaterial").val();
+        let materials = [];
+         // 재료 객체 생성
+		    let material = {
+		        materialName: materialName,
+		        mensuration: mensuration,
+		        typeMaterial: typeMaterial
+		    };
+		    materials.push(material);
         const newMaterial = `
+		
             <div class="row g-3 align-items-center my-2" id="material-${materialIndex}">
                 <div class="col-md-3">
-                    <span id="materials[${materialIndex}].materialName" name="materials[${materialIndex}].materialName" value="${materialName}">${materialName}</span>
+                    <span id="materials[${materialIndex}].materialName" >${materialName}</span>
+                    <input type="hidden" name="materials[${materialIndex}].materialName" value="${materialName}" />
                 </div>
                 <div class="col-md-3">
-                    <span id="materials[${materialIndex}].mensuration" name="materials[${materialIndex}].mensuration">${mensuration}</span>
+                    <span id="materials[${materialIndex}].mensuration" >${mensuration}</span>
+                    <input type="hidden" name="materials[${materialIndex}].mensuration" value="${mensuration}" />
                 </div>
                 <div class="col-md-3">
-                    <span id="materials[${materialIndex}].typeMaterial" name="materials[${materialIndex}].typeMaterial">${typeMaterial}</span>
+                    <span id="materials[${materialIndex}].typeMaterial">${typeMaterial}</span>
+                    <input type="hidden" name="materials[${materialIndex}].typeMaterial" value="${typeMaterial}" />
                 </div>
                 <div class="col-md-3">
                     <i class="bi bi-trash3 deleteMaterialBtn" data-index="${materialIndex}"></i>
@@ -51,13 +63,13 @@ $(function() {
         const newMaterialTrue = `
             <div class="row g-3 align-items-center my-2" id="material-true-${materialIndex}">
                 <div class="col-md-3">
-                    <span id="cookMaterials[${materialIndex}].materialName" name="cookMaterials[${materialIndex}].materialName" value="cookMaterials[${materialIndex}].materialName">${materialName}</span>
+                    <span id="isMaterials[${materialIndex}].materialName" name="isMaterials[${materialIndex}].materialName">${materialName}</span>
                 </div>
                 <div class="col-md-3">
-                    <span id="cookMaterials[${materialIndex}].mensuration" name="cookMaterials[${materialIndex}].mensuration">${mensuration}</span>
+                    <span id="isMaterials[${materialIndex}].mensuration" name="isMaterials[${materialIndex}].mensuration">${mensuration}</span>
                 </div>
                 <div class="col-md-3">
-                    <span id="cookMaterials[${materialIndex}].typeMaterial" name="cookMaterials[${materialIndex}].typeMaterial">${typeMaterial}</span>
+                    <span id="isMaterials[${materialIndex}].typeMaterial" name="isMaterials[${materialIndex}].typeMaterial">${typeMaterial}</span>
                 </div>
                 <div class="col-md-3">
                     <div class="form-check form-switch">
@@ -67,7 +79,6 @@ $(function() {
                 </div>
             </div>
         `;
-		console.log(newMaterialTrue);
         materialSection.append(newMaterial);
         cookMetrial.append(newMaterialTrue);
         materialIndex++;
@@ -129,16 +140,20 @@ $(function() {
          const newCooking = `
             <div class="row my-2" id="cooking-${cookingIndex}">
                 <div class="col-md-3 mb-3">
-                    <span name="cookings[${cookingIndex}].cookTitle" id="cookTitle">${cookTitle}</span>
+                    <span  id="cookTitle">${cookTitle}</span>
+                    <input type="hidden" name="cookings[${cookingIndex}].cookTitle" value="${cookTitle}">
                 </div>
                 <div class="col-md-3 mb-3">
-                    <span id="cookMethod" name="cookings[${cookingIndex}].cookMethod">${cookMethod}</span>
+                    <span id="cookMethod" >${cookMethod}</span>
+                    <input type="hidden" name="cookings[${cookingIndex}].cookMethod" value="${cookMethod}">
                 </div>
                 <div class="col-md-3 mb-3">
-                    <span id="recommended" name="cookings[${cookingIndex}].recommended">${recommended}</span>
+                    <span id="recommended">${recommended}</span>
+                    <input type="hidden" name="cookings[${cookingIndex}].recommended" value="${recommended}">
                 </div>
                 <div class="col-md-3 mb-3">
-                    <span id="cookFile" name="cookings[${cookingIndex}].cookFile">${cookFile}</span>
+                    <span id="cookFile" >${cookFile}</span>
+                    <input type="hidden" name="cookings[${cookingIndex}].addCookFile" value="${cookFile}">
                 </div>
                 <div class="col-md-3 mb-3">
                     <i class="bi bi-trash3 deleteCookingBtn" data-index="${cookingIndex}"></i>
@@ -150,23 +165,29 @@ $(function() {
 
         $(".material-check:checked").each(function() {
             let index = $(this).attr('id').split('-')[1];
-            let IndexMaterialName = $(`span[name='cookMaterials[${index}].materialName']`).text();
-            let IndexMensuration = $(`span[name='cookMaterials[${index}].mensuration']`).text();
-            let IndexTypeMaterial = $(`span[name='cookMaterials[${index}].typeMaterial']`).text();
-            console.log("IndexMensuration 제발 두번 출렷x "+IndexMensuration);	
+            let materialName = $(`span[name='isMaterials[${index}].materialName']`).text();
+            let mensuration = $(`span[name='isMaterials[${index}].mensuration']`).text();
+            let typeMaterial = $(`span[name='isMaterials[${index}].typeMaterial']`).text();
             const newCookingMetrial = `
                 <div class="row my-2">
                     <div class="col-md-3 mb-3">
-                        <span name="cookings[${index}].materialName">${IndexMaterialName}</span>
+                        <span >${materialName}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].materialName" value="${materialName}">
                     </div>
                     <div class="col-md-3 mb-3">
-                        <span name="cookings[${index}].mensuration">${IndexMensuration}</span>
+                        <span >${mensuration}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].mensuration" value="${mensuration}">
                     </div>
                     <div class="col-md-3 mb-3">
-                        <span name="cookings[${index}].typeMaterial">${IndexTypeMaterial}</span>
+                        <span >${typeMaterial}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].typeMaterial" value="${typeMaterial}">
                     </div>
                 </div>
             `;
+            index++;
+                         console.log("cookMaterials["+index+"].materialName" +materialName);
+                         console.log("cookMaterials["+index+"].mensuration" +mensuration);
+                         console.log("cookMaterials["+index+"].typeMaterial" +typeMaterial);
             $(`#cooking-${cookingIndex} .cookMing`).append(newCookingMetrial);
         });
         cookingIndex++;
@@ -184,4 +205,5 @@ $(function() {
             cookingElement.remove();
         }
     }
+    
 });

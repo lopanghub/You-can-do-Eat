@@ -19,8 +19,8 @@
 
 <!-- 레시피에 요리과정추가하기 -->
 <insert id="insertCooking"  parameterType="list">
-        INSERT INTO cooking (board_no, cook_title, cook_method, recommended)
-        VALUES (#{boardNo}, #{cookTitle}, #{cookMethod}, #{recommended})
+        INSERT INTO cooking (board_no, cook_title, cook_method, recommended,cook_file)
+        VALUES (#{boardNo}, #{cookTitle}, #{cookMethod}, #{recommended},#{cookFile})
 </insert>
 
 <!-- 요리과정의 요리재료 추가하기 -->
@@ -29,9 +29,44 @@
         VALUES (#{cookingId}, #{boardNo} , #{materialName} ,#{mensuration})
 </insert>
 
+	<!--boardUpdate  -->
+	<update id="updateRecipe">
+    UPDATE recipe_Board 
+    SET 
+        food_name = #{foodName},
+        board_title = #{boardTitle},
+        board_content = #{boardContent},
+        food_genre = #{foodGenre},
+        reg_date = NOW(),
+        thumbnail = #{thumbnail},
+        food_time = #{foodTime},
+        numberEaters = #{numberEaters}
+    WHERE board_No = #{boardNo};
+</update>
 	
-	<update id="updateBoard">
-	</update>
+	<!--recipeDelete  -->
+	<delete id="deleteRecipe">
+		DELETE FROM recipe_Board WHERE board_No = #{boardNo};
+	</delete>
+	<!--materialDelete  -->
+	<delete id="deleteMaterialByNo">
+	DELETE FROM material WHERE  board_No = #{boardNo};
+	</delete>
+	<!--cookingDelete  -->
+	<delete id="deleteCookingByNo">
+	DELETE FROM cooking WHERE  board_No = #{boardNo};
+	</delete>
+	<delete id="deleteCookMatrailByNo">
+	delete from cook_material where board_no=#{boardNo};
+	</delete>
+	<!--materialDelete  -->
+	<delete id="deleteMaterial">
+	DELETE FROM material WHERE material_id = #{materialId};
+	</delete>
+	<!--cookingDelete  -->
+	<delete id="deleteCooking">
+	DELETE FROM cooking WHERE cooking_id = ${cookingId};
+	</delete>
 	
 	
   <!-- boardNO의 요리과정리스트 -->

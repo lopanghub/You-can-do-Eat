@@ -1,8 +1,15 @@
 package com.springbootstudy.app.service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +36,7 @@ import net.bytebuddy.asm.Advice.Return;
 public class RecipeService {
 	@Autowired
 	public RecipeMapper recipeMapper;
+
 
 	// 레시피 리스트
 	public List<RecipeBoard> RecipeBoardList() {
@@ -89,30 +97,55 @@ public class RecipeService {
 
 	// 요리과정 추가하는 매서드
 	@Transactional
-	public void addCooking(int boardNo, List<Cooking> cookings) throws Exception {
-		if (cookings != null) {
-			for (Cooking cooking : cookings) {
+	public void addCooking(int boardNo, List<Cooking> cookings, List<MultipartFile> addCookFile) throws Exception {
+
+		for (int i = 0; i < cookings.size(); i++) {
+			try {
+				MultipartFile file = addCookFile.get(i);
+				if (!file.isEmpty()) {
+					String uploadDir = "uploads/cooking/";
+					String filename = System.currentTimeMillis() + "-" + file.getOriginalFilename();
+					Path path = Paths.get(uploadDir + filename);
+					Files.createDirectories(path.getParent());
+					Files.write(path, file.getBytes());
+					// 파일 경로를 Cooking 객체에 설정
+					cookings.get(i).setCookFile(uploadDir + filename);
+				}
+
+				// 데이터베이스 저장
+				Cooking cooking = cookings.get(i);
 				cooking.setBoardNo(boardNo);
 				recipeMapper.insertCooking(cooking);
+
+			} catch (Exception e) {
+				throw new RuntimeException(e);
 			}
+
 		}
 
 	}
 	// 요리과정의 재료 추가하는 매서드
 
 	@Transactional
-	public void addCookMaterial(int cookingId,int boardNo, List<CookMaterial> cookMaterials)
-			throws Exception {
+	public void addCookMaterial(int cookingId, int boardNo, List<CookMaterial> cookMaterials) throws Exception {
 		if (cookMaterials != null) {
 			for (CookMaterial CookMaterial : cookMaterials) {
 				CookMaterial.setCookingId(cookingId);
 				CookMaterial.setBoardNo(boardNo);
-				System.out.println("서비스에 cookingId : "+ cookingId);
-				System.out.println("서비스에 boardNo : "+ boardNo);
+				System.out.println("서비스에 cookingId : " + cookingId);
+				System.out.println("서비스에 boardNo : " + boardNo);
 				recipeMapper.insertCookMaterial(CookMaterial);
 
 			}
 		}
+	}
+	
+	// boardNo 삭제
+	public void deleteRecipe(int boardNo) {
+		recipeMapper.deleteCookMatrailByNo(boardNo);
+		recipeMapper.deleteCookingByNo(boardNo);
+		recipeMapper.deleteMaterialByNo(boardNo);
+		recipeMapper.deleteRecipe(boardNo);
 	}
 
 }

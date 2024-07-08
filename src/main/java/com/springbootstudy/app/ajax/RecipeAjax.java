@@ -1,23 +1,25 @@
 package com.springbootstudy.app.ajax;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
+import com.springbootstudy.app.domain.Material;
 import com.springbootstudy.app.domain.RecipeBoard;
 import com.springbootstudy.app.service.RecipeService;
 
 
 
 @RestController
-
 public class RecipeAjax {
 	@Autowired
 	private RecipeService recipeService; 
@@ -66,6 +68,20 @@ public class RecipeAjax {
 		 RecipeBoard recipe = recipeService.getRecipe(boardNo);
 		    recipe.setMaterials(recipeService.getMaterialList(boardNo));
 		    return recipe;
+	}
+	@PostMapping("/ajax/cookUpdate")
+	@ResponseBody
+	public List<Cooking> updateCookAjax(@RequestParam(name="boardNo")int boardNo) {
+		List<Cooking> cList = recipeService.getCookList(boardNo);
+		return cList;
+	}
+	@PostMapping("/ajax/cookUpdate")
+	@ResponseBody
+	public List<Material> updateMaterailAjax(@RequestParam(name="boardNo")int boardNo) {
+		List<Material> mList = recipeService.getMaterialList(boardNo);
+		// 재료리스트
+		return mList;
+		
 	}
     
 }

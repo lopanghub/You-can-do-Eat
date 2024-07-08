@@ -1,6 +1,9 @@
 package com.springbootstudy.app.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,6 +28,7 @@ import com.springbootstudy.app.domain.RecipeBoard;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,11 +47,9 @@ public class RecipeController {
 		return "views/recipeWrite";
 	}
 	
-	   private static String UPLOAD_DIR = "uploads/";
-	   private static String COOK_DIR = "cookloads/";
 
 	   @PostMapping("/recipeWriteProcess")
-	    public ModelAndView writeRecipe(@ModelAttribute RecipeBoard recipeBoard,@RequestParam("cookings") List<MultipartFile> cookingFiles, @RequestParam("thumbnailname") MultipartFile thumbnailname)throws Exception {
+	    public ModelAndView writeRecipe(@ModelAttribute RecipeBoard recipeBoard,@RequestParam("cookFile") List<MultipartFile> addCookFile, @RequestParam("thumbnailname") MultipartFile thumbnailname)throws Exception {
 	        ModelAndView modelAndView = new ModelAndView();
 	       
 	            if (thumbnailname != null && !thumbnailname.isEmpty()) {
@@ -67,18 +69,8 @@ public class RecipeController {
 	                
 	            }
 	            if (recipeBoard.getCookings() != null && !recipeBoard.getCookings().isEmpty()) {
-	                for (int i = 0; i < cookingFiles.size(); i++) {
-	                    if (!cookingFiles.get(i).isEmpty()) {
-	                        String uploadCookDir = "uploads/cooking/";
-	                        String fileCookname = System.currentTimeMillis() + "-" + cookingFiles.get(i).getOriginalFilename();
-	                        Path cookPath = Paths.get(uploadCookDir + fileCookname);
-	                        Files.createDirectories(cookPath.getParent());
-	                        Files.write(cookPath, cookingFiles.get(i).getBytes());
-	                        // 조리 파일의 URL을 적절한 위치에 저장
-//	                        recipeBoard.getCookings().get(i).setCookFileUrl(uploadCookDir + fileCookname);
-	                    }
-	                }
-	                recipeService.addCooking(boardNo, recipeBoard.getCookings());
+	            	
+	                recipeService.addCooking(boardNo, recipeBoard.getCookings(),addCookFile);
 	            }
 	           
 	            
@@ -173,9 +165,9 @@ public class RecipeController {
 		return "views/recipeDetail";
 	}
 	
-	@GetMapping("recipeUpdateForm")
+	@GetMapping("/updateRecipeForm")
 	public String recipeUpdateForm(@RequestParam("boardNo")int boardNo,Model model) {
-		    
+		    System.out.println("update board no" + boardNo);
 		    // 조리과정의 재료리스트
 		    int cCount =recipeService.cookCount(boardNo);	    
 		    for(int z=0; z<cCount;z++) {
@@ -183,8 +175,6 @@ public class RecipeController {
 			    model.addAttribute("cMList"+z, recipeService.cookMaterList(cookingId,boardNo));
 		    }
 		    
-		    //조리과정리스트
-		    model.addAttribute("cList",  recipeService.getCookList(boardNo));
 		    //  상세보기
 			model.addAttribute("rList",recipeService.getRecipe(boardNo));
 			// 재료리스트
@@ -192,5 +182,23 @@ public class RecipeController {
 		
 		return "views/recipeUpdate";
 	}
-	
+	@PostMapping("/deleteRecipe")
+	public String recipeDelete(@RequestParam("boardNo")int boardNo, HttpServletResponse response) throws IOException {
+		  response.setContentType("text/html; charset=utf-8");
+		    PrintWriter out = response.getWriter();
+		    
+		    out.println("<script>");
+		    out.println("if(confirm('정말 삭제하시겠습니까?')) {");
+		    out.println("    window.location.href = 'deleteConfirmedRecipe?boardNo=" + boardNo + "';");
+		    out.println("} else {");
+		    out.println("    history.back();");
+		    out.println("}");
+		    out.println("</script>");
+		
+		
+		commentService.deleteCommentByNo(boardNo);
+		recipeService.deleteRecipe(boardNo);
+		
+		return "redirect:recipeList";
+	}
 }

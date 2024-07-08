@@ -43,4 +43,14 @@ public interface RecipeMapper {
 		void insertCooking(Cooking cooking);
 		//레시피에 요리과정재료 추가하기
 		void insertCookMaterial(CookMaterial cookMaterial);
+		
+		//레시피삭제
+		void deleteRecipe(int boardNo);
+		//재료삭제
+		void deleteMaterialByNo(int board);
+		//요리과정 삭제
+		void deleteCookingByNo(int board);
+		//요리과정 재료 삭제
+		void deleteCookMatrailByNo(int board);
+		
 }

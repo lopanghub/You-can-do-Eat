@@ -44,6 +44,10 @@ public class NoticeBoardController {
 	
 	@PostMapping("/addNoticeBoard")
 	public String addNoticeBoard(NoticeBoard noticeBoard) {
+		// 관리자 아이디만 등록 가능
+		noticeBoard.setWriter("admin");
+		noticeBoard.setPass("admin"); 
+		
 		noticeBoardService.addNoticeBoard(noticeBoard);
 		return "redirect:/noticeList";
 	}

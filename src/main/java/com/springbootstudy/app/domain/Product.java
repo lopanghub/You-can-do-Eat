@@ -16,15 +16,33 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-	private int product_id;
+	private int productId;
     private int price;
-    private String product_image;
+    private String productImage;
     private String seller;
     private String origin;
     private String size;
     private String category;
     private String ingredient;
-    private String expiration_date;
+    private String expirationDate;
+    
+    
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "product_id=" + productId +
+                ", price=" + price +
+                ", product_image='" + productImage + '\'' +
+                ", seller='" + seller + '\'' +
+                ", origin='" + origin + '\'' +
+                ", size='" + size + '\'' +
+                ", category='" + category + '\'' +
+                ", ingredient='" + ingredient + '\'' +
+                ", expiration_date='" + expirationDate + '\'' +
+                '}';
+    }
+
 }
 
 

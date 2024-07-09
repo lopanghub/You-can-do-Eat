@@ -18,15 +18,13 @@ public interface CommentMapper {
 	int commentCount(int boardNo);
 	//댓글 추가
 	void insertComment(Comment comment);
-	
 	//댓글 업데이트
 	void updateComment(Comment comment);
-	
 	//댓글 삭제 
 	void deleteComment(int commentId);
-	
 	//댓글 업데이트후 조회
 	Comment selectCommentById(@Param("commentId")int commentId);
 	
+	void deleteCommentByNo(int board);
 }
 

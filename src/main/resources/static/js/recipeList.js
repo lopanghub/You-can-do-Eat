@@ -1,10 +1,25 @@
 $(function() {
+	
+	$("#updateDetailBtn").on("click", function() {
+		
+		$("#recipeDetailForm").attr("action", "updateRecipeForm");
+		$("#recipeDetailForm").attr("method", "get");
+		$("#recipeDetailForm").submit();
+	});
+	$("#deleteDetailBtn").on("click", function() {
+		
+		$("#recipeDetailForm").attr("action", "deleteRecipe");
+		$("#recipeDetailForm").attr("method", "post");
+		$("#recipeDetailForm").submit();
+	});
+	
 	let cookingId = $("#cookingId").val();
 	let isRecipeBtn  = $("#isRecipeBtn").val();
 	//레시피 보기버튼을 클릭했을때 .rList에 뿌려줌
 	$("#listBtn").on("click", function() {
 		$(".rList").empty();
 		const bookContent = `
+					<div class="testList">테스트입니다.</div>
                     <div class="col-1"></div>
 					<div class="col my-2">
 						<div class="row my-2 bg-secondary">

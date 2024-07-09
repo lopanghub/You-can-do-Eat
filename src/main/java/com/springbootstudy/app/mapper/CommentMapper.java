@@ -10,8 +10,10 @@ import com.springbootstudy.app.domain.Comment;
 
 @Mapper
 public interface CommentMapper {
+	
 	//boardno의 댓글리스트
 	List<Comment> commentList(@Param("boardNo") int boardNo);
+	
 	//댓글 카운트
 	int commentCount(int boardNo);
 	//댓글 추가
@@ -27,3 +29,4 @@ public interface CommentMapper {
 	Comment selectCommentById(@Param("commentId")int commentId);
 	
 }
+

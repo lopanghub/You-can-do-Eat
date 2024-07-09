@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main_layout}">
+
+<div layout:fragment="content" class="row" id="global-content">
+	<div class="col">
+		<form class="my-5" id="loginForm" action="login" method="post">
+			<div class="row my-3 text-center">
+				<div class="col">
+					<img src="./images/youcandoeat.png"
+						style="width: 120px; height: 150px;">
+				</div>
+			</div>
+			<div class="offset-4">
+				<div class="input-group has-validation my-3">
+					<span class="input-group-text" style="width: 100px;">아이디</span>
+					<div class="form-floating is-invalid">
+						<input type="text" class="form-control is-invalid"
+							style="width: 300px;" id="userId" name="userId" 
+							placeholder="Userid" required>
+					</div>
+					<div class="invalid-feedback" id="please1">아이디를 입력해주세요.</div>
+				</div>
+				<div class="input-group has-validation my-3">
+					<span class="input-group-text" style="width: 100px;">비밀번호</span>
+					<div class="form-floating is-invalid">
+						<input type="password" class="form-control is-invalid"
+							style="width: 300px;" id="userPass" name="pass" 
+							placeholder="Userpass" required>
+					</div>
+					<div class="invalid-feedback" id="please2">비밀번호를 입력해주세요.</div>
+				</div>
+				<div class="row">
+					<div class="col-2 offset-2 my-5">
+						<input type="submit" value="로그인" id="btnLogin"
+							class="btn btn-success w-100 h-100" />
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<a
+						href="https://nid.naver.com/oauth2.0/preview?client_id=f8M5iPjLrDjwQURjjenj&client_icon=https://ndevthumb-phinf.pstatic.net/20240624_169/1719214656485ec59W_PNG/I5daBiQjcc3N20240624163736.png&client_name=%EC%9C%A0%EC%BA%94%EB%91%90%EC%9E%87&profile_scope=%7B%22optional%22:%5B%5D,%22required%22:%5B%22AGE%22,%22BIRTHYEAR%22,%22MOBILE%22%5D%7D&service_scope=%7B%22default%22:%5B%5D%7D&agreement=%7B%22clientId%22:%22f8M5iPjLrDjwQURjjenj%22,%22available%22:false,%22allowUnder14%22:true,%22agreementInfos%22:%5B%5D%7D"><img
+						src="./images/naverlogo.png" style="width: 64px; height: 64px; margin: 0 12px;"></a>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</html>

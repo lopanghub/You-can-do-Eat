@@ -10,6 +10,9 @@ $(function() {
 		let commentContent = $("#commentContent").val();
 		let commentPoint = $("#commentPoint").val();
 		console.log(id);
+		console.log(boardNo);
+		console.log(commentContent);
+		console.log(commentPoint);
 		$.ajax({
 			url: "/ajax/addComment",
 			type: "POST",

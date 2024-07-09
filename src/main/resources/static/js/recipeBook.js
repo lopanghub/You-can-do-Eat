@@ -123,20 +123,21 @@ function updatePlayPauseButton(isPlay) {
             success: function(recipe) {
                 console.log("Received recipe:", recipe);
 			 const { materials } = recipe; // recipe 객체에서 materialList 추출
-			console.log("여기서 왜 에러가남?",materials );
 			    // 재료 필터링
 			    const ingredients = materials.filter(materials => materials.typeMaterial === '재료');
 			    const seasonings = materials.filter(materials => materials.typeMaterial === '조미료');
-					console.log(ingredients);
-					console.log(seasonings);
+					if(recipe.thumbnail === null || recipe.thumbnail === "" || !recipe.file){
+						recipe.thumbnail="https://via.placeholder.com/400";
+					}else{
+						recipe.thumbnail="./"+recipe.thumbnail;
+					}
                 const bookContent = `
                     <!-- 왼쪽 페이지 -->
                     <div class="col border border-dark p-2 m-2">
                         <div class="row">
                             <div class="col d-flex justify-content-center">
-                            	<img src="./${recipe.thumbnail}" style="height:400px; width:400px;">
-                                <img src="https://via.placeholder.com/400" alt="샘플이미지">
-                            </div>
+                            	<img src="${recipe.thumbnail}" style="height:400px; width:400px;">
+	                            </div>
                         </div>
                         <div class="row my-2">
                             <div class="col text-center">

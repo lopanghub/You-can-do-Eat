@@ -15,7 +15,7 @@ $(function() {
 					let imageUrl = product.productImage ? product.productImage : 'http://via.placeholder.com/300x250';
 					let productBox = `
 						<div class="col-4 productBox">
-							<a href="/shopDetail?id=${product.productId}">
+							<a href="/shopDetail?productId=${product.productId}">
 								<img src="${imageUrl}" alt="${product.ingredient}" class="img-fluid">
 								<div>${product.ingredient}</div>
 								<div>${product.seller} & ${product.origin}</div>

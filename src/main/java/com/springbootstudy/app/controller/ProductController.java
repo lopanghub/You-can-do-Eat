@@ -3,6 +3,7 @@ package com.springbootstudy.app.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootstudy.app.domain.Product;
+import com.springbootstudy.app.dto.CartProductDTO;
 import com.springbootstudy.app.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,10 @@ public class ProductController {
 	
 	
 	@GetMapping("/shopDetail")
-    public String getProductByID(Model model, @RequestParam("id") int id) {
-        Product product = productService.getProductById(id);
+    public String getProductByID(Model model, @RequestParam("productId") int productId) {
+        Product product = productService.getProductById(productId);
         model.addAttribute("product", product);
         return "views/shopDetail";
-       
     }
 	
 	@PostMapping("/addCart")
@@ -43,7 +43,13 @@ public class ProductController {
 				@RequestParam("quantity") int quantity, Model model) {
 		productService.addCart(productId, quantity);
 		
-		return "views/shopCart";
+		return "redirect:/shopDetail?productId="+productId;
 	}
 	
+	@GetMapping("/shopCart")
+    public String getCartDetails(Model model) {
+        List<CartProductDTO> cartDetails = productService.getCartDetails();
+        model.addAttribute("cartDetails", cartDetails);
+        return "views/shopCart";
+    }
 }

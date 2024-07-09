@@ -10,7 +10,8 @@
 
 	<select id="findById" resultType="Product">
 		SELECT * FROM product
-		WHERE product_id = #{product_id}
+		WHERE
+		product_id = #{productId}
 	</select>
 
 	<select id="findByCategory" resultType="Product">
@@ -19,11 +20,29 @@
 		Where category = #{category}
 	</select>
 
-	<insert id="insertCart" useGeneratedKeys="true" keyProperty="cart_id">
+	<insert id="insertCart" useGeneratedKeys="true"
+		keyProperty="cartId">
 		insert into cart (quantity, product_id)
-		values (#{quantity},#{product_id})
+		values (#{quantity}, #{productId})
 	</insert>
+	
+	<select id="getCartByProductId" resultType="Cart">
+        SELECT * FROM cart WHERE product_id = #{productId} LIMIT 1
+    </select>
 
+    <update id="updateCart">
+        UPDATE cart SET quantity = #{quantity} WHERE cart_id = #{cartId}
+    </update>
+	
+	<select id="getCartDetails" resultType="com.springbootstudy.app.dto.CartProductDTO">
+        SELECT c.cart_id AS cartId, c.product_id AS productId, p.ingredient,
+               c.quantity, p.price
+        FROM cart c
+        JOIN product p ON c.product_id = p.product_id
+    </select>
+	
+
+	
 
 	<resultMap id="productResultMap"
 		type="com.springbootstudy.app.domain.Product">
@@ -37,14 +56,14 @@
 		<result property="ingredient" column="ingredient" />
 		<result property="expirationDate" column="expiration_date" />
 	</resultMap>
-	
-	<resultMap  id="cartResultMap"
+
+	<resultMap id="cartResultMap"
 		type="com.springbootstudy.app.domain.Cart">
 		<id property="cartId" column="cart_id"></id>
 		<result property="quantity" column="quantity"></result>
 		<result property="productId" column="product_id"></result>
 	</resultMap>
-		
-		
+
+
 
 </mapper>

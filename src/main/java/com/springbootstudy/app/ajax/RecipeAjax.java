@@ -75,7 +75,7 @@ public class RecipeAjax {
 		List<Cooking> cList = recipeService.getCookList(boardNo);
 		return cList;
 	}
-	@PostMapping("/ajax/cookUpdate")
+	@PostMapping("/ajax/cookUpdate2")
 	@ResponseBody
 	public List<Material> updateMaterailAjax(@RequestParam(name="boardNo")int boardNo) {
 		List<Material> mList = recipeService.getMaterialList(boardNo);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.springbootstudy.app.domain.Cart;
 import com.springbootstudy.app.domain.Product;
+import com.springbootstudy.app.dto.CartProductDTO;
 import com.springbootstudy.app.mapper.ProductMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +40,20 @@ public class ProductService {
 	
 	//장바구니 추가
 	public void addCart(int productId, int quantity) {
-		Cart cart = new Cart();
-		cart.setProductId(productId);
-		cart.setQuantity(quantity);
-		
-		productMapper.insertCart(cart);
+		 Cart existingCart = productMapper.getCartByProductId(productId);
+	        if (existingCart != null) {
+	            existingCart.setQuantity(existingCart.getQuantity() + quantity);
+	            productMapper.updateCart(existingCart);
+	        } else {
+	            Cart cart = new Cart();
+	            cart.setProductId(productId);
+	            cart.setQuantity(quantity);
+	            productMapper.insertCart(cart);
+	        }
 	}
+	
+	//장바구니 상세보기
+	public List<CartProductDTO> getCartDetails() {
+        return productMapper.getCartDetails();
+    }
 }

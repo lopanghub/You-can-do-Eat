@@ -6,6 +6,7 @@ import com.springbootstudy.app.domain.Product;
 import com.springbootstudy.app.dto.CartProductDTO;
 import com.springbootstudy.app.service.ProductService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -58,11 +59,33 @@ public class ProductController {
 	//바로구매 버튼 누를시
 	@PostMapping("/orderNow")
 	public String orderNow(Model model, @RequestParam("productId") int productId,
-			@RequestParam("quantity") int quantity) {
+			@RequestParam("quantity") int quantity, HttpSession session) {
 		productService.addCart(productId, quantity);
 		CartProductDTO cart = productService.getCartDetailsById(productId);
-		model.addAttribute("cart", cart);
-		
-		return "views/shopOrder";
+		session.setAttribute("cart", cart);
+		session.removeAttribute("cartDetails"); 
+		return "redirect:/shopOrder";
 	}
+	
+	//장바구니에서 구매버튼 누를시 구매 페이지 이동 
+	@PostMapping("/cartToOrder")
+	public String cartToOrder(HttpSession session){
+		List<CartProductDTO> cartDetails = productService.getCartDetails();
+	    session.setAttribute("cartDetails", cartDetails);
+	    session.removeAttribute("cart");
+	    return "redirect:/shopOrder";
+
+	}
+	
+	//구매 페이지 진입시
+	@GetMapping("/shopOrder")
+	public String showOrderPage(HttpSession session, Model model) {
+	    CartProductDTO cart = (CartProductDTO) session.getAttribute("cart");
+	    List<CartProductDTO> cartDetails = (List<CartProductDTO>) session.getAttribute("cartDetails");
+	    
+	    model.addAttribute("cart", cart);
+	    model.addAttribute("cartDetails", cartDetails);
+	    return "views/shopOrder";
+	}
+
 }

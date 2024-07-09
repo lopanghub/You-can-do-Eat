@@ -78,16 +78,27 @@
 					<th>주문금액</th>
 				</tr>
 				</thead>
-				<tbody>
-						<tr >
-							<td>	이미지 들어갈자리</td>
-							<td th:text="${cart.ingredient}"></td>
-							<td th:text="${cart.price}"></td>
-							<td >할인금액 자리</td>
-							<td >배송금액 자리</td>
-							<td th:text="${cart.quantity * cart.price}"></td>
-						</tr>
-					</tbody>
+				 <tbody>
+                <!-- 단일 상품 정보 -->
+                <tr th:if="${cart != null}">
+                    <td>이미지 들어갈자리</td>
+                    <td th:text="${cart.ingredient}"></td>
+                    <td th:text="${cart.price}"></td>
+                    <td>할인금액 자리</td>
+                    <td>배송금액 자리</td>
+                    <td th:text="${cart.quantity * cart.price}"></td>
+                </tr>
+
+                <!-- 장바구니 목록 -->
+                <tr th:if="${cartDetails != null}" th:each="item : ${cartDetails}">
+                    <td>이미지 들어갈자리</td>
+                    <td th:text="${item.ingredient}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td>할인금액 자리</td>
+                    <td>배송금액 자리</td>
+                    <td th:text="${item.quantity * item.price}"></td>
+                </tr>
+                </tbody>
 			</table>
 		</div>
 	</div>

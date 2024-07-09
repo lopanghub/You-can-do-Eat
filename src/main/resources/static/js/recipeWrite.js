@@ -1,209 +1,198 @@
 $(function() {
     let materialIndex = 0;
-    let cookingIndex = 0;
-    let isTextaddM = true; // addMaterial를 눌렀을때
-    let isTextaddC = true; // addCooking를 눌렀을때
+    let cookingIndex = 1;
+    let cookMaterialIndex = 0;
+    let materials = [];
 
     $("#addMaterial").on("click", addMaterial);
-	
-    function addMaterial() {
-        const materialSection = $('#materialSection');
-        const cookMetrial = $(".cookMetrialTextPlace");
-        if (isTextaddM) {
-            isTextaddM = false;
-            const newHeadMaterial = `
-                <div class="row g-3 align-items-center my-2">
-                    <div class="col-md-3">
-                        <span>재료</span>
-                    </div>
-                    <div class="col-md-3">
-                        <span>수량</span>
-                    </div>
-                    <div class="col-md-3">
-                        <span>분류</span>
-                    </div>
-                    <div class="col-md-3">
-                    </div>
-                </div>
-            `;
-            materialSection.append(newHeadMaterial);
-        }
+    $("#addCooking").on("click", addCooking);
 
+    function addMaterial() {
         let materialName = $("#materialName").val();
         let mensuration = $("#mensuration").val();
         let typeMaterial = $("#typeMaterial").val();
-        let materials = [];
-         // 재료 객체 생성
-		    let material = {
-		        materialName: materialName,
-		        mensuration: mensuration,
-		        typeMaterial: typeMaterial
-		    };
-		    materials.push(material);
-        const newMaterial = `
-		
-            <div class="row g-3 align-items-center my-2" id="material-${materialIndex}">
-                <div class="col-md-3">
-                    <span id="materials[${materialIndex}].materialName" >${materialName}</span>
-                    <input type="hidden" name="materials[${materialIndex}].materialName" value="${materialName}" />
-                </div>
-                <div class="col-md-3">
-                    <span id="materials[${materialIndex}].mensuration" >${mensuration}</span>
-                    <input type="hidden" name="materials[${materialIndex}].mensuration" value="${mensuration}" />
-                </div>
-                <div class="col-md-3">
-                    <span id="materials[${materialIndex}].typeMaterial">${typeMaterial}</span>
-                    <input type="hidden" name="materials[${materialIndex}].typeMaterial" value="${typeMaterial}" />
-                </div>
-                <div class="col-md-3">
-                    <i class="bi bi-trash3 deleteMaterialBtn" data-index="${materialIndex}"></i>
-                </div>
-            </div>
-        `;
-        const newMaterialTrue = `
-            <div class="row g-3 align-items-center my-2" id="material-true-${materialIndex}">
-                <div class="col-md-3">
-                    <span id="isMaterials[${materialIndex}].materialName" name="isMaterials[${materialIndex}].materialName">${materialName}</span>
-                </div>
-                <div class="col-md-3">
-                    <span id="isMaterials[${materialIndex}].mensuration" name="isMaterials[${materialIndex}].mensuration">${mensuration}</span>
-                </div>
-                <div class="col-md-3">
-                    <span id="isMaterials[${materialIndex}].typeMaterial" name="isMaterials[${materialIndex}].typeMaterial">${typeMaterial}</span>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input material-check" type="checkbox" role="switch" id="Meterialcheck-${materialIndex}" name="materials[${materialIndex}].checked" checked>
-                        <label class="form-check-label" for="Meterialcheck-${materialIndex}">등록하기</label>
-                    </div>
-                </div>
-            </div>
-        `;
-        materialSection.append(newMaterial);
-        cookMetrial.append(newMaterialTrue);
-        materialIndex++;
-    }
 
-    // 재료 제거
-    $(document).on("click", ".deleteMaterialBtn", function() {
-        const index = $(this).data('index');
-        removeMaterial(index);
-    });
+        if (materialName && mensuration && typeMaterial) {
+            materials.push({ materialName, mensuration, typeMaterial, index: materialIndex });
 
-    function removeMaterial(index) {
-        const materialElement = document.getElementById(`material-${index}`);
-        const cookMaterialElement = document.querySelector(`.cookMetrialTextPlace #material-true-${index}`);
-        if (materialElement) {
-            materialElement.remove();
-        }
-        if (cookMaterialElement) {
-            cookMaterialElement.remove();
-        }
-    }
+            const materialSection = $('#materialSection');
+            const cookMaterial = $(".cookMetrialTextPlace");
 
-    // 조리과정추가
-    $("#addCooking").on("click", addCooking);
-
-    function addCooking() {
-        let cookTitle = $("#cookTitle").val();
-        let cookMethod = $("#cookMethod").val();
-        let recommended = $("#recommended").val();
-        let cookFile = $("#cookFile").val();
-
-        const cookingSection = $('#cookingSection');
-        if (isTextaddC) {
-            isTextaddC = false;
-            const newHeadCooking = `
-                <div class="row my-2">
-                    <div class="col text-center">
-                        <h3>요리과정 추가</h3>
-                    </div>
-                </div>
-                <div class="row my-2">
+            const newMaterial = `
+                <div class="row g-3 align-items-center my-2" id="material-${materialIndex}">
                     <div class="col-md-3">
-                        <span>요리 제목</span>
+                        <span>${materialName}</span>
+                        <input type="hidden" name="materialNames" value="${materialName}" />
                     </div>
                     <div class="col-md-3">
-                        <span>요리 설명</span>
+                        <span>${mensuration}</span>
+                        <input type="hidden" name="mensurations" value="${mensuration}" />
                     </div>
                     <div class="col-md-3">
-                        <span>주의할점</span>
+                        <span>${typeMaterial}</span>
+                        <input type="hidden" name="typeMaterials" value="${typeMaterial}" />
                     </div>
                     <div class="col-md-3">
-                        <span>조리과정사진</span>
+                        <i class="bi bi-trash3 deleteMaterialBtn" data-index="${materialIndex}"></i>
                     </div>
                 </div>
             `;
-            cookingSection.append(newHeadCooking);
+            const newMaterialTrue = `
+                <div class="row g-3 align-items-center my-2" id="material-true-${cookMaterialIndex}">
+                    <div class="col-md-3">
+                        <span>${materialName}</span>
+                        <input type="hidden" name="cookMaterialNames" id="material-true-${cookMaterialIndex}.materialName" value="${materialName}"/>
+                    </div>
+                    <div class="col-md-3">
+                        <span>${mensuration}</span>
+                        <input type="hidden" name="cookMensuration" id="material-true-${cookMaterialIndex}.mensuration" value="${mensuration}"/>
+                    </div>
+                    <div class="col-md-3">
+                        <span>${typeMaterial}</span>
+                        <input type="hidden" name="cookTypeMaterial" id="material-true-${cookMaterialIndex}.typeMaterial" value="${typeMaterial}"/>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input material-check" type="checkbox" role="switch" id="Meterialcheck-${cookMaterialIndex}" name="materials${materialIndex}.checked" checked>
+                        </div>
+                    </div>
+                </div>
+            `;
+            materialSection.append(newMaterial);
+            cookMaterial.append(newMaterialTrue);
+            cookMaterialIndex++;
+            materialIndex++;
+        } else {
+            alert("모든 필드를 채워주세요.");
         }
+    }
 
-         const newCooking = `
-            <div class="row my-2" id="cooking-${cookingIndex}">
-                <div class="col-md-3 mb-3">
-                    <span  id="cookTitle">${cookTitle}</span>
-                    <input type="hidden" name="cookings[${cookingIndex}].cookTitle" value="${cookTitle}">
+    $(document).on("click", ".deleteMaterialBtn", function() {
+        const index = $(this).data('index');
+        removeMaterial(index);
+        removeMaterialFromCooking(index);
+    });
+
+    function removeMaterial(index) {
+        $(`#material-${index}`).remove();
+        $(`#material-true-${index}`).remove();
+        materials = materials.filter(material => material.index !== index);
+    }
+
+    function removeMaterialFromCooking(materialIndex) {
+        $(`.cookMetrialTextPlace #material-true-${materialIndex}`).remove();
+    }
+
+    function addCooking() {
+        const cookingSection = $('#cookingSection');
+        const newCooking = `
+            <div class="cooking-item" id="cooking-${cookingIndex}">
+                <div class="row my-2">
+                    <div class="col my-2">
+                        <div class="form-group row">
+                            <label for="cookTitle" class="col-sm-3 col-form-label">요리제목</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="cookings${cookingIndex}.cookTitle" name="cookTitles" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cookMethods" class="col-sm-3 col-form-label">요리과정</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="cookMethods" id="cookings${cookingIndex}.cookMethod" class="form-control">
+                            </div>
+                            <label for="recommendeds" class="col-sm-3 col-form-label">주의사항</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="cookings${cookingIndex}.recommended" name="recommendeds" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="cookFile" class="col-sm-3 col-form-label">조리사진</label>
+                            <div class="col-sm-9">
+                                <input type="file" class="form-control" name="cookFiles" id="cookings${cookingIndex}.cookFile" onchange="previewFile(event)">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <i class="bi bi-trash3 deleteCookingBtn" data-index="${cookingIndex}"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <span id="cookMethod" >${cookMethod}</span>
-                    <input type="hidden" name="cookings[${cookingIndex}].cookMethod" value="${cookMethod}">
+                <div class="row">
+                    <div class="col-5 cookMetrialTextPlace" id="cookMetrial-${cookingIndex}">
+                        <h4>선택된 재료 목록</h4>
+                    </div>
+                    <div class="col-md-4 mb-3 preview-container">
+                        <img class="preview" src="" alt="Image preview">
+                    </div>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <span id="recommended">${recommended}</span>
-                    <input type="hidden" name="cookings[${cookingIndex}].recommended" value="${recommended}">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <span id="cookFile" >${cookFile}</span>
-                    <input type="hidden" name="cookings[${cookingIndex}].cookFile" value="${cookFile}">
-                </div>
-                <div class="col-md-3 mb-3">
-                    <i class="bi bi-trash3 deleteCookingBtn" data-index="${cookingIndex}"></i>
-                </div>
-                <div class="cookMing"></div>
             </div>
         `;
         cookingSection.append(newCooking);
 
-        $(".material-check:checked").each(function() {
-            let index = $(this).attr('id').split('-')[1];
-            let materialName = $(`span[name='isMaterials[${index}].materialName']`).text();
-            let mensuration = $(`span[name='isMaterials[${index}].mensuration']`).text();
-            let typeMaterial = $(`span[name='isMaterials[${index}].typeMaterial']`).text();
-            const newCookingMetrial = `
-                <div class="row my-2">
-                    <div class="col-md-3 mb-3">
-                        <span >${materialName}</span>
-                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].materialName" value="${materialName}">
+        materials.forEach(material => {
+            const newCookingMaterial = `
+                <div class="row g-3 align-items-center my-2" id="material-true-${material.index}">
+                    <div class="col-md-3">
+                        <span>${material.materialName}</span>
+                        <input type="hidden" id="" name="CookMaterialNames" value="${material.materialName}">
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <span >${mensuration}</span>
-                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].mensuration" value="${mensuration}">
+                    <div class="col-md-3">
+                        <span>${material.mensuration}</span>
+                        <input type="hidden" name="CookMensurations" value="${material.mensuration}">
                     </div>
-                    <div class="col-md-3 mb-3">
-                        <span >${typeMaterial}</span>
-                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].typeMaterial" value="${typeMaterial}">
+                    <div class="col-md-3">
+                        <span>${material.typeMaterial}</span>
+                        <input type="hidden" name="CookTypeMaterials" value="${material.typeMaterial}">
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input material-check" type="checkbox" role="switch" id="Meterialcheck-${material.index}" name="materials${material.index}.checked" checked>
+                        </div>
                     </div>
                 </div>
             `;
-            index++;
-                         console.log("cookMaterials["+index+"].materialName" +materialName);
-                         console.log("cookMaterials["+index+"].mensuration" +mensuration);
-                         console.log("cookMaterials["+index+"].typeMaterial" +typeMaterial);
-            $(`#cooking-${cookingIndex} .cookMing`).append(newCookingMetrial);
+
+            $(`#cookMetrial-${cookingIndex}`).append(newCookingMaterial);
         });
+
         cookingIndex++;
     }
 
-    // 요리 과정 제거
     $(document).on("click", ".deleteCookingBtn", function() {
         const index = $(this).data('index');
         removeCooking(index);
     });
 
     function removeCooking(index) {
-        const cookingElement = document.getElementById(`cooking-${index}`);
-        if (cookingElement) {
-            cookingElement.remove();
+        $(`#cooking-${index}`).remove();
+    }
+
+    function previewFile(event) {
+        const input = event.target;
+        const preview = $(input).closest('.cooking-item').find('.preview');
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.attr('src', e.target.result).show();
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.hide();
         }
     }
-    
+
+    $(document).on("change", ".material-check", function() {
+        const isChecked = $(this).prop('checked');
+        const materialIndex = $(this).attr('id').split('-')[1]; // 체크박스의 ID에서 materialIndex 추출
+
+        const hiddenInputs = $(`#material-true-${materialIndex} input[type=hidden]`);
+        if (isChecked) {
+            hiddenInputs.show(); // 체크됐을 때 보이기
+        } else {
+            hiddenInputs.hide(); // 체크 해제됐을 때 숨기기
+        }
+    });
+
 });

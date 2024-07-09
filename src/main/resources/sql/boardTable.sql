@@ -15,7 +15,7 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     Apoint INT DEFAULT 0,
     member_id VARCHAR(200) NOT NULL
 );
-select * from recipe_Board;
+select * from cooking;
 CREATE TABLE material (  -- 재료 리스트 테이블
     material_id INT AUTO_INCREMENT PRIMARY KEY,
     board_No INT,
@@ -31,6 +31,7 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     cook_title VARCHAR(200) NOT NULL,	-- 레시피제복
     cook_Method VARCHAR(2000) NOT NULL,-- 레시피내용
     recommended VARCHAR(2000),-- 주의사항
+    cook_material VARCHAR(2000), -- 음식재료
     cook_file VARCHAR(500) ,
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );

@@ -21,4 +21,5 @@ public interface NoticeBoardMapper {
 	
 	void deleteNoticeBoard(int no);
 
+	void incrementReadCount(int no);
 }

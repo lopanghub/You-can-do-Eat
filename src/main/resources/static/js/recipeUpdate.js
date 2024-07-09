@@ -6,25 +6,29 @@ $(function() {
     let boardNo =$("#boardNo").val();
     
     $.ajax({
-			url: '/updateRecipeForm',
+			url: '/ajax/materialUpdate',
 			type: 'POST',
 			data: {
 				boardNo: boardNo
 			},
-			success: function(recipe) {
-				console.log(recipe);
-				
+			success: function(materialList) {
+				console.log(materialList);
+				 if (materialList === null || materialList.length === 0) {
+					console.log("materialList 리스트는 비어있습니다.")
+				}else{
+					 addMaterial(materialList);
+				}
 			},
 			error: function(error) {
 				console.error('Error updating comment:', error);
 			}
 		});
 
-    $("#addMaterial").on("click", addMaterial);
+    $("#UpdateMaterialBtn").on("click", addMaterial);
 	
-    function addMaterial() {
-        const materialSection = $('#materialSection');
-        const cookMetrial = $(".cookMetrialTextPlace");
+    function addMaterial(materialList) {
+        const materialSection = $('#materialUpdateSection');
+        const cookMetrial = $(".cookMetrialUpdatePlace");
         if (isTextaddM) {
             isTextaddM = false;
             const newHeadMaterial = `
@@ -44,7 +48,56 @@ $(function() {
             `;
             materialSection.append(newHeadMaterial);
         }
-
+        
+        if (materialList && materialList.length > 0) {
+        	materialList.forEach((mList, index) => {
+             const oldMaterial = `
+		
+            <div class="row g-3 align-items-center my-2" id="material-${materialIndex}">
+                <div class="col-md-3">
+                    <span id="materials[${materialIndex}].materialName" >${mList.materialName}</span>
+                    <input type="hidden" name="materials[${materialIndex}].materialName" value="${mList.materialName}" />
+                </div>
+                <div class="col-md-3">
+                    <span id="materials[${materialIndex}].mensuration" >${mList.mensuration}</span>
+                    <input type="hidden" name="materials[${materialIndex}].mensuration" value="${mList.mensuration}" />
+                </div>
+                <div class="col-md-3">
+                    <span id="materials[${materialIndex}].typeMaterial">${mList.typeMaterial}</span>
+                    <input type="hidden" name="materials[${materialIndex}].typeMaterial" value="${mList.typeMaterial}" />
+                </div>
+                <div class="col-md-3">
+                    <i class="bi bi-trash3 deleteMaterialBtn" data-index="${materialIndex}"></i>
+                </div>
+            </div>
+        `;
+        const oldMaterialTrue = `
+            <div class="row g-3 align-items-center my-2" id="material-true-${materialIndex}">
+                <div class="col-md-3">
+                    <span id="isMaterials[${materialIndex}].materialName" name="isMaterials[${materialIndex}].materialName">${mList.materialName}</span>
+                </div>
+                <div class="col-md-3">
+                    <span id="isMaterials[${materialIndex}].mensuration" name="isMaterials[${materialIndex}].mensuration">${mList.mensuration}</span>
+                </div>
+                <div class="col-md-3">
+                    <span id="isMaterials[${materialIndex}].typeMaterial" name="isMaterials[${materialIndex}].typeMaterial">${mList.typeMaterial}</span>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input material-check" type="checkbox" role="switch" id="Meterialcheck-${materialIndex}" name="materials[${materialIndex}].checked" checked>
+                        <label class="form-check-label" for="Meterialcheck-${materialIndex}">등록하기</label>
+                    </div>
+                </div>
+            </div>
+        `;
+             materialSection.append(oldMaterial);
+        	cookMetrial.append(oldMaterialTrue);
+            materialIndex++;
+        });
+    }
+        
+        
+        
         let materialName = $("#materialName").val();
         let mensuration = $("#mensuration").val();
         let typeMaterial = $("#typeMaterial").val();
@@ -108,7 +161,7 @@ $(function() {
 
     function removeMaterial(index) {
         const materialElement = document.getElementById(`material-${index}`);
-        const cookMaterialElement = document.querySelector(`.cookMetrialTextPlace #material-true-${index}`);
+        const cookMaterialElement = document.querySelector(`.cookMetrialUpdatePlace #material-true-${index}`);
         if (materialElement) {
             materialElement.remove();
         }
@@ -117,16 +170,36 @@ $(function() {
         }
     }
 
-    // 조리과정추가
-    $("#addCooking").on("click", addCooking);
+	$.ajax({
+			url: '/ajax/cookUpdate',
+			type: 'POST',
+			data: {
+				boardNo: boardNo
+			},
+			success: function(cooking) {
+				console.log(cooking);
+				 if (cooking === null || cooking.length === 0) {
+					console.log("cooking 리스트는 비어있습니다.")
+				}else{
+					 addCooking(cooking);
+				}
+			},
+			error: function(error) {
+				console.error('Error updating comment:', error);
+			}
+		});
 
-    function addCooking() {
+
+    // 조리과정추가
+    $("#UpdateCookingBtn").on("click", addCooking);
+
+    function addCooking(cooking) {
         let cookTitle = $("#cookTitle").val();
         let cookMethod = $("#cookMethod").val();
         let recommended = $("#recommended").val();
         let cookFile = $("#cookFile").val();
-
-        const cookingSection = $('#cookingSection');
+		
+        const cookingSection = $('#cookingUpdateSection');
         if (isTextaddC) {
             isTextaddC = false;
             const newHeadCooking = `
@@ -152,7 +225,40 @@ $(function() {
             `;
             cookingSection.append(newHeadCooking);
         }
-
+		if (cooking && cooking.length > 0) {
+        cooking.forEach((cList, index) => {
+			if(cList.cookFile===null){
+				cList.cookFile="해당조리사진이 없습니다.";
+			}
+            const oldCooking = `
+                <div class="row my-2" id="cooking-${cookingIndex}">
+                    <div class="col-md-3 mb-3">
+                        <span>${cList.cookTitle}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookTitle" value="${cList.cookTitle}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <span>${cList.cookMethod}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookMethod" value="${cList.cookMethod}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <span>${cList.recommended}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].recommended" value="${cList.recommended}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <span>${cList.cookFile}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookFile" value="${cList.cookFile}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <i class="bi bi-trash3 deleteCookingBtn" data-index="${cookingIndex}"></i>
+                    </div>
+                    <div class="cookMing"></div>
+                </div>
+            `;
+            cookingSection.append(oldCooking);
+            cookingIndex++;
+        });
+    }
+		
          const newCooking = `
             <div class="row my-2" id="cooking-${cookingIndex}">
                 <div class="col-md-3 mb-3">
@@ -201,9 +307,6 @@ $(function() {
                 </div>
             `;
             index++;
-                         console.log("cookMaterials["+index+"].materialName" +materialName);
-                         console.log("cookMaterials["+index+"].mensuration" +mensuration);
-                         console.log("cookMaterials["+index+"].typeMaterial" +typeMaterial);
             $(`#cooking-${cookingIndex} .cookMing`).append(newCookingMetrial);
         });
         cookingIndex++;

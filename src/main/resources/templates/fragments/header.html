@@ -25,68 +25,74 @@
 			<div class="row">
 				<div class="col">
 					<ul class="nav justify-content-end">
-						<li class="nav-item">
-							<th:block th:unless="${session.isLogin}">
+						<li class="nav-item"><th:block th:unless="${session.isLogin}">
 								<a class="nav-link" href="login">로그인</a>
-							</th:block>
-							<th:block th:if="${session.isLogin}">
+							</th:block> <th:block th:if="${session.isLogin}">
 								<a class="nav-link" href="logout">로그아웃</a>
-							</th:block>
-						</li>
-						<li class="nav-item">
-							<th:block th:unless="${session.isLogin}">
+							</th:block></li>
+						<li class="nav-item"><th:block th:unless="${session.isLogin}">
 								<a class="nav-link" href="membership">회원가입</a>
-							</th:block>
-							<th:block th:if="${session.isLogin}">
+							</th:block> <th:block th:if="${session.isLogin}">
 								<a class="nav-link" href="joinupdate">정보수정</a>
-							</th:block>
-						</li>
+							</th:block></li>
 					</ul>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col text-end">
-				    <span th:if="${session.member != null}" th:text="${'안녕하세요 ' + session.member.id + ' 님'}"></span>
+					<span th:if="${session.member != null}"
+						th:text="${'안녕하세요 ' + session.member.id + ' 님'}"></span>
 				</div>
+			</div>
+		</div>
+		<div class="dropdown">
+			<a href="/noticeList" class="dropbtn">공지 & 이벤트</a>
+			<div class="dropdown-content">
+				<a href="/noticeList">공지사항</a> <a href="#">이벤트</a> <a href="#">FAQ</a>
+			</div>
+		</div>
+
+		<div class="dropdown">
+			<a href="#" class="dropbtn">커뮤니티</a>
+			<div class="dropdown-content">
+				<a href="#">항목 3-1</a> <a href="#">항목 3-2</a> <a href="#">항목 3-3</a>
 			</div>
 		</div>
 
 
-
-         <div class="nav-link">
-            <a href="/shopMain">YOU CAN BUY EAT</a>
-        </div>
-    </nav>
-  </header>
-
-
-
-		<!-- nav바 영역-->
-		<nav>
-			<div class="dropdown">
-				<button class="dropbtn">YOU CAN DO EAT</button>
-				<div class="dropdown-content">
-					<a href="#">한식</a> <a href="#">중식</a> <a href="#">일식</a> <a
-						href="#">양식</a> <a href="#">기타</a>
-				</div>
-			</div>
-			<div class="dropdown">
-				<button class="dropbtn">공지 & 이벤트</button>
-				<div class="dropdown-content">
-					<a href="#">공지사항</a> <a href="#">이벤트</a> <a href="#">혹시몰라 두는</a>
-				</div>
-			</div>
-			<div class="dropdown">
-				<button class="dropbtn">카테고리 3</button>
-				<div class="dropdown-content">
-					<a href="#">항목 3-1</a> <a href="#">항목 3-2</a> <a href="#">항목
-						3-3</a>
-				</div>
-			</div>
-			<div class="nav-link">
-				<a href="#">YOU CAN BUY EAT</a>
-			</div>
+		<div class="nav-link">
+			<a href="/shopMain">YOU CAN BUY EAT</a>
+		</div>
 		</nav>
+	</header>
+
+
+
+	<!-- nav바 영역-->
+	<nav>
+		<div class="dropdown">
+			<button class="dropbtn">YOU CAN DO EAT</button>
+			<div class="dropdown-content">
+				<a href="#">한식</a> <a href="#">중식</a> <a href="#">일식</a> <a href="#">양식</a>
+				<a href="#">기타</a>
+			</div>
+		</div>
+		<div class="dropdown">
+			<button class="dropbtn">공지 & 이벤트</button>
+			<div class="dropdown-content">
+				<a href="#">공지사항</a> <a href="#">이벤트</a> <a href="#">혹시몰라 두는</a>
+			</div>
+		</div>
+		<div class="dropdown">
+			<button class="dropbtn">카테고리 3</button>
+			<div class="dropdown-content">
+				<a href="#">항목 3-1</a> <a href="#">항목 3-2</a> <a href="#">항목 3-3</a>
+			</div>
+		</div>
+		<div class="nav-link">
+			<a href="#">YOU CAN BUY EAT</a>
+		</div>
+	</nav>
 	</header>
 </body>
 </html>

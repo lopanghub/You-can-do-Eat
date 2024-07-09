@@ -30,7 +30,7 @@ public class ProductController {
 //		return productService.getProductByCategory(category);
 //	}
 	
-	
+	//상품 상세보기 페이지
 	@GetMapping("/shopDetail")
     public String getProductByID(Model model, @RequestParam("productId") int productId) {
         Product product = productService.getProductById(productId);
@@ -38,6 +38,7 @@ public class ProductController {
         return "views/shopDetail";
     }
 	
+	//장바구니 추가하기 버튼 누를시
 	@PostMapping("/addCart")
 	public String addCart(@RequestParam("productId") int productId,
 				@RequestParam("quantity") int quantity, Model model) {
@@ -46,10 +47,22 @@ public class ProductController {
 		return "redirect:/shopDetail?productId="+productId;
 	}
 	
+	//장바구니 페이지로 이동
 	@GetMapping("/shopCart")
     public String getCartDetails(Model model) {
         List<CartProductDTO> cartDetails = productService.getCartDetails();
         model.addAttribute("cartDetails", cartDetails);
         return "views/shopCart";
     }
+	
+	//바로구매 버튼 누를시
+	@PostMapping("/orderNow")
+	public String orderNow(Model model, @RequestParam("productId") int productId,
+			@RequestParam("quantity") int quantity) {
+		productService.addCart(productId, quantity);
+		CartProductDTO cart = productService.getCartDetailsById(productId);
+		model.addAttribute("cart", cart);
+		
+		return "views/shopOrder";
+	}
 }

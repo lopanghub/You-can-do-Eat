@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--쇼핑몰 상세보기 담당자 -이현학 -->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/shop_layout}">
+
+<!-- content -->
+<div layout:fragment="content">
+	<div class="row">
+		<div class="col">
+			<h1>장바구니</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-8" id="productContainer">
+			<div th:if="${cartDetails != null}">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Product</th>
+							<th>Image</th>
+							<th>Quantity</th>
+							<th>Price</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item : ${cartDetails}">
+							<td th:text="${item.ingredient}"></td>
+							<td>
+							</td>
+							<td th:text="${item.quantity}"></td>
+							<td th:text="${item.price}"></td>
+							<td th:text="${item.quantity * item.price}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div th:if="${cartDetails == null}">
+				<p>Your cart is empty.</p>
+			</div>
+		</div>
+		<div class="col-4">
+			<div class="">
+				<h2>주문 예상 금액</h2>
+				<div>상품 총액</div>
+				<div>할인 총액</div>
+				<div>배송 총액</div>
+			</div>
+			<div>합계금액 들어갈 자리</div>
+			<button class="btn btn-primary">구매하기</button>
+		</div>
+	</div>
+</div>
+</html>

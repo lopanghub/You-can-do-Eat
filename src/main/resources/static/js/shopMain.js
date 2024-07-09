@@ -12,13 +12,15 @@ $(function() {
 				$('#productGrid').empty();
 
 				$.each(resData, function(i, product) {
-					let imageUrl = product.product_image ? product.product_image : 'http://via.placeholder.com/300x250';
+					let imageUrl = product.productImage ? product.productImage : 'http://via.placeholder.com/300x250';
 					let productBox = `
 						<div class="col-4 productBox">
-							<img src="${imageUrl}" alt="${product.ingredient}" class="img-fluid">
-							<div>${product.ingredient}</div>
-							<div>${product.seller} & ${product.origin}</div>
-							<div>${formatPrice(product.price)}원</div>
+							<a href="/shopDetail?productId=${product.productId}">
+								<img src="${imageUrl}" alt="${product.ingredient}" class="img-fluid">
+								<div>${product.ingredient}</div>
+								<div>${product.seller} & ${product.origin}</div>
+								<div>${formatPrice(product.price)}원</div>
+							</a>
 						</div>
 					`;
 					$('#productGrid').append(productBox);	
@@ -34,7 +36,7 @@ $(function() {
 	loadCategory('fruits');
 
 	// 카테고리 버튼 클릭 시 해당 카테고리 로드
-	$('.btn').click(function() {
+	$('.category').click(function() {
 		var category = $(this).data('category');
 		loadCategory(category);
 	});

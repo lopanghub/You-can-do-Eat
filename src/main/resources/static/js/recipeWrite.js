@@ -57,6 +57,7 @@ $(function() {
                         </div>
                     </div>
                 </div>
+                <div class="cookMing"></div>
             `;
             materialSection.append(newMaterial);
             cookMaterial.append(newMaterialTrue);
@@ -149,12 +150,39 @@ $(function() {
                         </div>
                     </div>
                 </div>
+                <div class="cookMing"></div>
             `;
 
             $(`#cookMetrial-${cookingIndex}`).append(newCookingMaterial);
         });
 
         cookingIndex++;
+        
+            $(".material-check:checked").each(function() {
+            let index = $(this).attr('id').split('-')[1];
+            let materialName = $(`span[name='isMaterials[${index}].materialName']`).text();
+            let mensuration = $(`span[name='isMaterials[${index}].mensuration']`).text();
+            let typeMaterial = $(`span[name='isMaterials[${index}].typeMaterial']`).text();
+            const newCookingMetrial = `
+                <div class="row my-2">
+                    <div class="col-md-3 mb-3">
+                        <span >${materialName}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].materialName" value="${materialName}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <span >${mensuration}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].mensuration" value="${mensuration}">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <span >${typeMaterial}</span>
+                        <input type="hidden" name="cookings[${cookingIndex}].cookMaterials[${index}].typeMaterial" value="${typeMaterial}">
+                    </div>
+                </div>
+            `;
+            index++;
+            $(`#cooking-${cookingIndex} .cookMing`).append(newCookingMetrial);
+        });
+        
     }
 
     $(document).on("click", ".deleteCookingBtn", function() {
@@ -182,6 +210,11 @@ $(function() {
             preview.hide();
         }
     }
+    
+   
+    
+    
+    
 
     $(document).on("change", ".material-check", function() {
         const isChecked = $(this).prop('checked');

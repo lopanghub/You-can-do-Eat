@@ -48,7 +48,9 @@ public class RecipeController {
 	}
 
 	@PostMapping("/recipeWriteProcess")
-	public String writeRecipe(@RequestParam("foodName") String foodName,
+	public String writeRecipe(
+			@ModelAttribute RecipeBoard recipeBoard,
+			@RequestParam("foodName") String foodName,
 			@RequestParam("boardTitle") String boardTitle,
 			@RequestParam("boardContent") String boardContent,
 			@RequestParam("foodGenre") String foodGenre, 
@@ -61,7 +63,7 @@ public class RecipeController {
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
 			@RequestParam("cookFiles") List<MultipartFile> cookFiles) throws Exception {
-		RecipeBoard recipeBoard = new RecipeBoard();
+		RecipeBoard recipeBoard1 = new RecipeBoard();
 		if (thumbnailname != null && !thumbnailname.isEmpty()) {
 			String uploadDir = "/src/main/resources/static/uploads/";
 			String filename = System.currentTimeMillis() + "-" + thumbnailname.getOriginalFilename(); // 파일명 중복 방지
@@ -70,13 +72,13 @@ public class RecipeController {
 			Files.write(path, thumbnailname.getBytes());
 			recipeBoard.setThumbnail(uploadDir + filename); // 파일 경로 저장
 		}
-		recipeBoard.setFoodName(foodName);
-		recipeBoard.setBoardTitle(boardTitle);
-		recipeBoard.setBoardContent(boardContent);
-		recipeBoard.setFoodGenre(foodGenre);
-		recipeBoard.setNumberEaters(numberEaters);
+		recipeBoard1.setFoodName(foodName);
+		recipeBoard1.setBoardTitle(boardTitle);
+		recipeBoard1.setBoardContent(boardContent);
+		recipeBoard1.setFoodGenre(foodGenre);
+		recipeBoard1.setNumberEaters(numberEaters);
 		recipeService.addRecipe(recipeBoard);
-		int boardNo =recipeBoard.getBoardNo();
+		int boardNo =recipeBoard1.getBoardNo();
 		Material material = new Material();
 		if (materialNames.size() > 0) {
 			for (int i = 0; i < materialNames.size(); i++) {
@@ -113,6 +115,11 @@ public class RecipeController {
 				recipeService.addCooking(boardNo,cooking);
 			}
 		}
+		 for(int i=0;i< recipeBoard.getCookings().size();i++){
+         	int cookingId = recipeService.cookIdCheck(boardNo).get(i);
+         	
+         	recipeService.addCookMaterial(cookingId,boardNo, recipeBoard.getCookings().get(i).getCookMaterials());	
+		 }	
 		
 		return "redirect:recipeList";
 	}

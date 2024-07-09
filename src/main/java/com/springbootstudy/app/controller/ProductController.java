@@ -3,19 +3,23 @@ package com.springbootstudy.app.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootstudy.app.domain.Product;
+import com.springbootstudy.app.dto.CartProductDTO;
 import com.springbootstudy.app.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 //상품 컨트롤러
 //담당자 - 이현학
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class ProductController {
 	
@@ -26,4 +30,26 @@ public class ProductController {
 //		return productService.getProductByCategory(category);
 //	}
 	
+	
+	@GetMapping("/shopDetail")
+    public String getProductByID(Model model, @RequestParam("productId") int productId) {
+        Product product = productService.getProductById(productId);
+        model.addAttribute("product", product);
+        return "views/shopDetail";
+    }
+	
+	@PostMapping("/addCart")
+	public String addCart(@RequestParam("productId") int productId,
+				@RequestParam("quantity") int quantity, Model model) {
+		productService.addCart(productId, quantity);
+		
+		return "redirect:/shopDetail?productId="+productId;
+	}
+	
+	@GetMapping("/shopCart")
+    public String getCartDetails(Model model) {
+        List<CartProductDTO> cartDetails = productService.getCartDetails();
+        model.addAttribute("cartDetails", cartDetails);
+        return "views/shopCart";
+    }
 }

@@ -69,6 +69,7 @@
 	<div class="row">
 		<div class="col">
 			<table class="table">
+				<thead>
 				<tr>
 					<th colspan=2>상품정보</th>
 					<th>상품금액</th>
@@ -76,15 +77,28 @@
 					<th>배송비</th>
 					<th>주문금액</th>
 				</tr>
-				<tr>
-					<td>[[${product.productImage]]</td>
-					<td>[[${product.name]]<br>
-						<button>수량변경</button></td>
-					<td>[[${product.price]]</td>
-					<td></td>
-					<td></td>
-					<td>[[${product.price}]]</td>
-				</tr>
+				</thead>
+				 <tbody>
+                <!-- 단일 상품 정보 -->
+                <tr th:if="${cart != null}">
+                    <td>이미지 들어갈자리</td>
+                    <td th:text="${cart.ingredient}"></td>
+                    <td th:text="${cart.price}"></td>
+                    <td>할인금액 자리</td>
+                    <td>배송금액 자리</td>
+                    <td th:text="${cart.quantity * cart.price}"></td>
+                </tr>
+
+                <!-- 장바구니 목록 -->
+                <tr th:if="${cartDetails != null}" th:each="item : ${cartDetails}">
+                    <td>이미지 들어갈자리</td>
+                    <td th:text="${item.ingredient}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td>할인금액 자리</td>
+                    <td>배송금액 자리</td>
+                    <td th:text="${item.quantity * item.price}"></td>
+                </tr>
+                </tbody>
 			</table>
 		</div>
 	</div>

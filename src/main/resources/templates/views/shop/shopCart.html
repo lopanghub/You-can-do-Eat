@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!--쇼핑몰 상세보기 담당자 -이현학 -->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/shop_layout}">
+
+<!-- content -->
+<div layout:fragment="content">
+	<div class="row">
+		<div class="col">
+			<h1>장바구니</h1>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-8" id="productContainer">
+			<div th:if="${cartDetails != null}">
+				<!-- 장바구니 품목 -->
+				<th:block th:each="item : ${cartDetails}">
+				<div class="row productBox" th:data-product-id="${item.productId}">
+					<div class="col productImage"><img src="http://via.placeholder.com/140x140"></div>
+					<div class="col">
+						<p th:text="${item.ingredient}"></p>
+						<p class="price" th:text="${item.price}"></p>
+						<div class="quantity-input-container">
+							<div class="quantity-input-minus">-</div>
+							<input class="quantity-input" type="text" th:value="${item.quantity}" />
+							<div class="quantity-input-plus">+</div>
+						</div>
+						<p class="totalPrice" th:text="${item.quantity * item.price}"></p>
+					</div>
+					<div class="col deleteCart"><i class="bi bi-trash3"></i>
+					</div>
+				</div>
+				</th:block>
+			</div>
+			<div th:if="${cartDetails == null}">
+				<p>Your cart is empty.</p>
+			</div>
+		</div>
+		<div class="col-4 orderBox">
+			<div class="">
+				<h2>주문 예상 금액</h2>
+				<div>상품 총액: <span id="totalProductPrice"></span> 원</div>
+				<div>할인 총액: <span id="totalDiscountPrice">0</span> 원</div>
+				<div>배송 총액: <span id="totalDeliveryPrice">0</span> 원</div>
+			</div>
+			<div>합계금액: <span id="totalOrderPrice"></span> 원</div>
+			<form id="orderForm" method="post" th:action="@{/cartToOrder}">
+				<button class="btn btn-primary" type="submit">구매하기</button>
+			</form>
+		</div>
+	</div>
+</div>
+</html>

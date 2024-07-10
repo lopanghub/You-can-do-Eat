@@ -35,11 +35,56 @@ public class MemberController {
 	private static final String DEFAULT_PATH = "src/main/resources/static/profile/";
 
 	// 회원가입
+	@PostMapping({ "/memberUpdateResult" })
+	public String memberUpdateResult(MemberShip member,
+			HttpServletResponse pesp,
+			Model model,
+			@RequestParam(value = "emailId") String emailId,
+			@RequestParam(value = "emailDomain") String emailDomain, 
+			@RequestParam(value = "mobile1") String mobile1,
+			@RequestParam(value = "mobile2") String mobile2, 
+			@RequestParam(value = "mobile3") String mobile3,
+			HttpServletRequest req,
+			@RequestParam(value = "emailGet", defaultValue = "false") boolean emailGat,
+			@RequestParam(value = "gerdonalGet", defaultValue = "false") boolean gerdonalGet,
+			@RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
+		
+		if (!multipartFile.isEmpty()) {
+			String realPath = req.getServletContext().getRealPath(DEFAULT_PATH);
+
+			UUID uid = UUID.randomUUID();
+			String saveName = uid.toString() + "_" + multipartFile.getOriginalFilename();
+			File file = new File(realPath, saveName);
+			System.out.println("joinResult : " + file.getName());
+
+			multipartFile.transferTo(file);
+		}
+
+		member.setEmail(emailId + "@" + emailDomain);
+		member.setMobile(mobile1 + "-" + mobile2 + "-" + mobile3);
+		member.setEmailGet(emailGat);
+		member.setGerdonalGet(gerdonalGet);
+
+		memberService.addMember(member);
+		
+		model.addAttribute("membership", member);
+
+		return "redirect:/";
+	}
+
+	// 회원 수정 폼
+	@GetMapping("/memberUpdateForm")
+	public String memberUpdateForm() {
+		return "views/joinupdate";
+	}
+
+	// 회원가입
 	@PostMapping({ "joinResult" })
 	public String joinResult(MemberShip member, @RequestParam(value = "emailId") String emailId,
 			@RequestParam(value = "emailDomain") String emailDomain, @RequestParam(value = "mobile1") String mobile1,
 			@RequestParam(value = "mobile2") String mobile2, @RequestParam(value = "mobile3") String mobile3,
 			HttpServletRequest req, @RequestParam(value = "emailGet", defaultValue = "false") boolean emailGat,
+			@RequestParam(value = "gerdonalGet", defaultValue = "false") boolean gerdonalGet,
 			@RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
 
 		if (!multipartFile.isEmpty()) {
@@ -56,7 +101,7 @@ public class MemberController {
 		member.setEmail(emailId + "@" + emailDomain);
 		member.setMobile(mobile1 + "-" + mobile2 + "-" + mobile3);
 		member.setEmailGet(emailGat);
-		member.setGerdonalGet(emailGat);
+		member.setGerdonalGet(gerdonalGet);
 
 		memberService.addMember(member);
 
@@ -100,7 +145,7 @@ public class MemberController {
 		session.setAttribute("isLogin", true);
 
 		session.setAttribute("member", member);
-		System.out.println("member.id : " + member);
+		System.out.println("member.id : " + member.getId());
 
 		return "redirect:/";
 	}

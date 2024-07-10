@@ -14,4 +14,11 @@
 	<select id="getMemberShip" parameterType="String">
 		select * from membership where id=#{id}
 	</select>
+	
+	<select id="memberPassCheck" resultType="String">
+		select pass from membership where id=#{id}
+	</select>
+	
+	<update id="update"></update>
+	
 </mapper>

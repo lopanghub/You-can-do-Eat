@@ -36,7 +36,7 @@ public class ProductController {
     public String getProductByID(Model model, @RequestParam("productId") int productId) {
         Product product = productService.getProductById(productId);
         model.addAttribute("product", product);
-        return "views/shopDetail";
+        return "views/shop/shopDetail";
     }
 	
 	//장바구니 추가하기 버튼 누를시
@@ -53,7 +53,7 @@ public class ProductController {
     public String getCartDetails(Model model) {
         List<CartProductDTO> cartDetails = productService.getCartDetails();
         model.addAttribute("cartDetails", cartDetails);
-        return "views/shopCart";
+        return "views/shop/shopCart";
     }
 	
 	//바로구매 버튼 누를시
@@ -85,7 +85,7 @@ public class ProductController {
 	    
 	    model.addAttribute("cart", cart);
 	    model.addAttribute("cartDetails", cartDetails);
-	    return "views/shopOrder";
+	    return "views/shop/shopOrder";
 	}
 
 }

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/event_layout}">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/eventAll.css}" />
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<div id="global-content">
+			<div class="event-header text-center">
+				<h2>이벤트</h2>
+			</div>
+
+			<div class="text-end">
+				<a th:href="@{addEventBoard}" class="write-button">이벤트 글쓰기</a>
+			</div>
+
+			<div class="event-table-wrapper">
+				<table class="event-table">
+					<thead>
+						<tr>
+							<th>번&nbsp;호</th>
+							<th class="event-title text-center">제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목</th>
+							<th>작성일</th>
+							<th>조회수</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:if="${not #lists.isEmpty(eventList)}">
+							<tr th:each="event, status: ${eventList}">
+								<td th:text="${event.no}"></td>
+								<td class="event-title"><a
+									th:href="@{eventDetail(no=${event.no})}"
+									th:text="${event.title}"></a></td>
+								<td th:text="${#dates.format(event.regDate, 'yyyy-MM-dd')}"></td>
+								<td th:text="${event.readCount}"></td>
+							</tr>
+						</th:block>
+						<th:block th:unless="${not #lists.isEmpty(eventList)}">
+							<tr>
+								<td colspan="4" class="no-notices">이벤트가 존재하지 않습니다😅</td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</th:block>
+</body>
+</html>

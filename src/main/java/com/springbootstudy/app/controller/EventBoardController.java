@@ -24,8 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.resource.HttpResource;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
-import com.springbootstudy.app.domain.NoticeBoard;
-import com.springbootstudy.app.service.NoticeBoardService;
+import com.springbootstudy.app.domain.EventBoard;
+import com.springbootstudy.app.service.EventBoardService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,21 +35,21 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class NoticeBoardController {
+public class EventBoardController {
 	
-	private final NoticeBoardService noticeBoardService;
+	private final EventBoardService eventBoardService;
 	
 	private static final String DEFAULT_PATH  = "src/main/resources/static/files/";
 	
-	@GetMapping("/fileDownload")
-	public void noticeFileDownload(HttpServletRequest req,
+	@GetMapping("/eventFileDownload")
+	public void eventFileDownload(HttpServletRequest req,
 			HttpServletResponse resp) throws Exception {
 		
 		String fileName = req.getParameter("fileName");
 		log.info("fileName : " + fileName);
 		
-		File noticeFile = new File(DEFAULT_PATH);
-		File file = new File(noticeFile.getAbsolutePath(), fileName);
+		File eventFile = new File(DEFAULT_PATH);
+		File file = new File(eventFile.getAbsolutePath(), fileName);
 		log.info("file.getNamee() : " + file.getName());
 		
 		// 파일 타입 설정
@@ -81,70 +81,70 @@ public class NoticeBoardController {
 	}
 	
 	
-	@GetMapping("/noticeList")
-	public String noticeBoardList(Model model) {
-	        model.addAttribute("noticeList", noticeBoardService.noticeBoardList());
-	        return "views/notice/noticeList"; 
+	@GetMapping("/eventList")
+	public String eventBoardList(Model model) {
+	        model.addAttribute("eventList", eventBoardService.eventBoardList());
+	        return "views/event/eventList"; 
 	    }
 	
-	@GetMapping("/noticeDetail")
-	public String noticeBoardDetail(Model model, @RequestParam("no") int no) {
-		noticeBoardService.incrementReadCount(no);
-		model.addAttribute("noticeBoard", noticeBoardService.getNoticeBoard(no));
-		return "views/notice/noticeDetail";
+	@GetMapping("/eventDetail")
+	public String eventBoardDetail(Model model, @RequestParam("no") int no) {
+		eventBoardService.incrementReadCount(no);
+		model.addAttribute("eventBoard", eventBoardService.getEventBoard(no));
+		return "views/event/eventDetail";
 	}
 	
-	@GetMapping("/addNoticeBoard")
-	public String addNoticeBoard() {
-		return "views/notice/noticeWriteForm";
+	@GetMapping("/addEventBoard")
+	public String addEventBoard() {
+		return "views/event/eventWriteForm";
 	}
 	
-	@PostMapping("/addNoticeBoard")
-	public String addNoticeBoard(NoticeBoard noticeBoard,
+	@PostMapping("/addEventBoard")
+	public String addEventBoard(EventBoard eventBoard,
 			HttpServletRequest req,
 			@RequestParam(value="addFile", required=false) MultipartFile multipartFile) throws IOException{
 		// 관리자 아이디만 등록 가능
-		/* noticeBoard.setWriter("admin");
-		 * noticeBoard.setPass("admin"); */
+		/* eventBoard.setWriter("admin");
+		 * eventBoard.setPass("admin"); */
 		System.out.println("originName : " + multipartFile.getOriginalFilename());
 		System.out.println("name : " + multipartFile.getName());
 		
 		if(multipartFile != null && !multipartFile.isEmpty()) {
-			File noticeFile = new File(DEFAULT_PATH);
-			log.info("noticeFile 절대경로 : " + noticeFile.getAbsolutePath());
-			log.info("noticeFile 경로 : " + noticeFile.getPath());
-			log.info("exist : " + noticeFile.exists() + ", dir : " + noticeFile.isDirectory());
+			File eventFile = new File(DEFAULT_PATH);
+			log.info("noticeFile 절대경로 : " + eventFile.getAbsolutePath());
+			log.info("noticeFile 경로 : " + eventFile.getPath());
+			log.info("exist : " + eventFile.exists() + ", dir : " + eventFile.isDirectory());
 		
-		if (!noticeFile.isDirectory() && !noticeFile.exists()) {
-			noticeFile.mkdirs();
+		if (!eventFile.isDirectory() && !eventFile.exists()) {
+			eventFile.mkdirs();
 		}
 		
 		UUID uid = UUID.randomUUID();
 		String extension = StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
 		String saveName = multipartFile.getOriginalFilename();
 		
-		File file = new File(noticeFile.getAbsolutePath(), saveName);
+		File file = new File(eventFile.getAbsolutePath(), saveName);
 		log.info("file 절대경로 : " + file.getAbsolutePath());
 		log.info("file 경로 : " + file.getPath());
 		
 		multipartFile.transferTo(file);
-		noticeBoard.setFile1(saveName);
+		eventBoard.setFile1(saveName);
 		
 		} else {
 			log.info("파일이 업로드 되지 않았습니다.");
 		}
 		
-		noticeBoardService.addNoticeBoard(noticeBoard);
-		return "redirect:/noticeList";
+		eventBoardService.addEventBoard(eventBoard);
+		return "redirect:/eventList";
 	}
 	
-	@PostMapping("/noticeUpdateForm")
-	public String updateNoticeBoard(Model model, HttpServletResponse resp, PrintWriter out,
+	@PostMapping("/eventUpdateForm")
+	public String updateEventBoard(Model model, HttpServletResponse resp, PrintWriter out,
 			@RequestParam("no") int no, @RequestParam("pass") String pass) {
 		
-		NoticeBoard noticeBoard = noticeBoardService.getNoticeBoard(no);
+		EventBoard eventBoard = eventBoardService.getEventBoard(no);
 		
-		if(! noticeBoard.getPass().equals(pass)) {
+		if(! eventBoard.getPass().equals(pass)) {
 			 resp.setContentType("text/html; charset=utf-8");
 			 out.println("<script>");
 			 out.println(" alert('비밀번호가 맞지 않습니다!!');");
@@ -153,17 +153,17 @@ public class NoticeBoardController {
 			 return null;
 		}
 		
-		model.addAttribute("noticeBoard", noticeBoard);
-	    return "views/notice/noticeUpdateForm";
+		model.addAttribute("eventBoard", eventBoard);
+	    return "views/event/eventUpdateForm";
 	}
 	
-	@PostMapping("/noticeUpdate")
-	public String updateNoticeBoard (NoticeBoard noticeBoard,
+	@PostMapping("/eventUpdate")
+	public String updateEventBoard (EventBoard eventBoard,
 			HttpServletResponse resp, PrintWriter out) {
 		
-		NoticeBoard nBoard = noticeBoardService.getNoticeBoard(noticeBoard.getNo());
+		EventBoard eBoard = eventBoardService.getEventBoard(eventBoard.getNo());
 		
-		if(! nBoard.getPass().equals(noticeBoard.getPass())) {
+		if(! eBoard.getPass().equals(eventBoard.getPass())) {
 			 resp.setContentType("text/html; charset=utf-8");
 			 out.println("<script>");
 			 out.println(" alert('비밀번호가 맞지 않습니다~!!');");
@@ -172,18 +172,18 @@ public class NoticeBoardController {
 			 return null;
 		}
 		
-		noticeBoardService.updateNoticeBoard(noticeBoard);
-		return "redirect:/noticeList";
+		eventBoardService.updateEventBoard(eventBoard);
+		return "redirect:/eventList";
 	}
 	
-	@PostMapping("/deleteNotice")
-	public String deleteNoticeBoard(
+	@PostMapping("/deleteEvent")
+	public String deleteEventBoard(
 			HttpServletResponse resp, PrintWriter out, 
 			@RequestParam("no") int no, @RequestParam("pass") String pass) {
 		
-		NoticeBoard noticeBoard = noticeBoardService.getNoticeBoard(no);
+		EventBoard eventBoard = eventBoardService.getEventBoard(no);
 		
-		if(! noticeBoard.getPass().equals(pass)) {
+		if(! eventBoard.getPass().equals(pass)) {
 			 resp.setContentType("text/html; charset=utf-8");
 			 out.println("<script>");
 			 out.println(" alert('비밀번호가 맞지 않습니다~!!');");
@@ -192,8 +192,8 @@ public class NoticeBoardController {
 			 return null;
 		}
 		
-		noticeBoardService.deleteNoticeBoard(no);
-		return "redirect:/noticeList";
+		eventBoardService.deleteEventBoard(no);
+		return "redirect:/eventList";
 	}
 	
 

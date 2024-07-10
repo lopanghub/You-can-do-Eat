@@ -27,7 +27,7 @@ public class ProductAjax {
 	// shopmain페이지에서 카테고리 클릭시 해당 카테고리로 상품리스트 출력
 	@GetMapping("/products/{category}")
 	public List<Product> loadCategory(@PathVariable("category") String category) {
-		log.info("Loading products for category: " + category);
+
 		List<Product> productBox = productService.getProductByCategory(category);
 		productBox.forEach(product -> log.info(product.toString())); // 로그에 각 상품 정보를 출력
 		return productBox;

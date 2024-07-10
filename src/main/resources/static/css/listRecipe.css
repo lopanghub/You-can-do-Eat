@@ -7,8 +7,8 @@ body {
 
 /* 레시피 모아보기 제목 스타일 */
 .recipe-collection-title {
-    color: #333333; /* 검은색에 가까운 가독성 좋은 컬러 */
-    border-bottom: 2px solid #FF914D; /* 하단에 주황색 줄 */
+    color: #333333; 
+    border-bottom: 2px solid #FF914D;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }

@@ -1,5 +1,6 @@
 package com.springbootstudy.app.service;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -85,44 +86,19 @@ public class RecipeService {
 
 	// 재료 추가하는 메서드
 	@Transactional
-	public void addMaterial(int boardNo, List<Material> materials) throws Exception {
-		if (materials != null) {
-			for (Material material : materials) {
-				material.setBoardNo(boardNo); // 각 재료에 게시판 번호 설정
+	public void addMaterial(int boardNo, Material material) throws Exception {
+		material.setBoardNo(boardNo);
+	    System.out.println("서비스의 재료라인:"+material.getMaterialName());
 				recipeMapper.insertMaterial(material); // 각 재료를 데이터베이스에 저장
-			}
-		}
 
 	}
 
 	// 요리과정 추가하는 매서드
 	@Transactional
-	public void addCooking(int boardNo, List<Cooking> cookings, List<MultipartFile> addCookFile) throws Exception {
-
-		for (int i = 0; i < cookings.size(); i++) {
-			try {
-				MultipartFile file = addCookFile.get(i);
-				if (!file.isEmpty()) {
-					String uploadDir = "uploads/cooking/";
-					String filename = System.currentTimeMillis() + "-" + file.getOriginalFilename();
-					Path path = Paths.get(uploadDir + filename);
-					Files.createDirectories(path.getParent());
-					Files.write(path, file.getBytes());
-					// 파일 경로를 Cooking 객체에 설정
-					cookings.get(i).setCookFile(uploadDir + filename);
-				}
-
-				// 데이터베이스 저장
-				Cooking cooking = cookings.get(i);
-				cooking.setBoardNo(boardNo);
-				recipeMapper.insertCooking(cooking);
-
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
+	public void addCooking(int boardNo, Cooking cooking) throws Exception {
+		cooking.setBoardNo(boardNo);
+		System.out.println("시스탬 쿠키파일 :"+cooking.getCookFile());
+		    recipeMapper.insertCooking(cooking);
 	}
 	// 요리과정의 재료 추가하는 매서드
 

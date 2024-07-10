@@ -36,7 +36,9 @@ public class MemberController {
 
 	// 회원가입
 	@PostMapping({ "/memberUpdateResult" })
-	public String memberUpdateResult(MemberShip member, 
+	public String memberUpdateResult(MemberShip member,
+			HttpServletResponse pesp,
+			Model model,
 			@RequestParam(value = "emailId") String emailId,
 			@RequestParam(value = "emailDomain") String emailDomain, 
 			@RequestParam(value = "mobile1") String mobile1,
@@ -46,7 +48,7 @@ public class MemberController {
 			@RequestParam(value = "emailGet", defaultValue = "false") boolean emailGat,
 			@RequestParam(value = "gerdonalGet", defaultValue = "false") boolean gerdonalGet,
 			@RequestParam(value = "profileImage") MultipartFile multipartFile) throws IOException {
-
+		
 		if (!multipartFile.isEmpty()) {
 			String realPath = req.getServletContext().getRealPath(DEFAULT_PATH);
 
@@ -64,8 +66,10 @@ public class MemberController {
 		member.setGerdonalGet(gerdonalGet);
 
 		memberService.addMember(member);
+		
+		model.addAttribute("membership", member);
 
-		return "views/login";
+		return "redirect:/";
 	}
 
 	// 회원 수정 폼

@@ -15,12 +15,11 @@
 		</div>
 		<div class="row my-3 text-center">
 			<div class="col">
-				<h2 class="fs-3 fw-bold">회원가입</h2>
+				<h2 class="fs-3 fw-bold">회원수정</h2>
 			</div>
 		</div>
 		<hr class="border border-black border-2 opacit-50">
-		<form action="joinResult" name="joinForm" method="post" id="joinForm"
-			enctype="multipart/form-data">
+		<form action="memberUpdateResult" name="memberUpdateForm" method="post" id="memberUpdateForm" enctype="multipart/form-data">
 			<input type="hidden" name="isIdCheck" id="isIdCheck" value="false" />
 			<div class="row mt-5 mb-3">
 				<div class="col-2 offset-2">
@@ -47,9 +46,16 @@
 			</div>
 			<div class="row my-3">
 				<div class="col-3 offset-2">
-					<label for="pass1" class="form-label">* 비밀번호 : </label> <input
-						type="password" class="form-control" name="pass1" id="pass1">
+					<label for="pass1" class="form-label">* 기존 비밀번호 : </label> <input
+						type="password" class="form-control" name="oldPass" id="oldPass">
 				</div>
+				<div class="col-4">
+					<input type="button" class="btn btn-success" id="btnPassCheck" value="비밀번호 확인" />
+				</div>
+				<div class="row">
+					<div class="col " id="oldPassComment">
+					</div>
+				</div>	
 			</div>
 			<div class="row my-3">
 				<div class="col-5 offset-2">
@@ -74,7 +80,8 @@
 				</div>
 				<div class="col-3">
 					<label for="address2" class="form-label">상세주소 : </label> <input
-						type="text" class="form-control" name="address2" id="address2">
+						type="text" class="form-control" name="address2" id="address2"
+						>
 				</div>
 			</div>
 			<div class="row my-3">
@@ -83,12 +90,12 @@
 					<div class="row">
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="emailId"
-								id="emailId">
+								id="emailId" th:value="${#strings.setSplit(session.member.email, '@')[0]}">
 						</div>
 						@
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="emailDomain"
-								id="emailDomain">
+								id="emailDomain" th:value="${#strings.setSplit(session.member.email, '@')[1]}">
 						</div>
 						<div class="col-md-3">
 							<select class="form-select" name="selectDomain" id="selectDomain">
@@ -118,12 +125,12 @@
 						-
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="mobile2"
-								id="mobile2" maxlength="4">
+								id="mobile2" maxlength="4" th:value="${#strings.setSplit(session.member.mobile, '-')[1]}">
 						</div>
 						-
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="mobile3"
-								id="mobile3" maxlength="4">
+								id="mobile3" maxlength="4" th:value="${#strings.setSplit(session.member.mobile, '-')[2]}">
 						</div>
 					</div>
 				</div>
@@ -135,14 +142,14 @@
 						<div class="col-md-3">
 							<div class="form-check">
 								<input type="radio" class="form-check-input" name="emailGet"
-									id="emailOk" value="true" th:checked="${member != null and member.emailGet eq 'true'}"> <label
+									id="emailOk" value="true" th:checked="${session.member.emailGet == 1}"> <label
 									class="form-check-label" for="emailOk">동의</label>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-check">
 								<input type="radio" class="form-check-input" name="emailGet"
-									id="emailNo" value="false" th:checked="${member != null and member.emailGet eq 'false'}"> <label
+									id="emailNo" value="false"> <label
 									class="form-check-label" for="emailNo">동의안함</label>
 							</div>
 						</div>
@@ -170,9 +177,7 @@
 			</div>
 			<div class="row mb-3 mt-5">
 				<div class="col-8 offset-5">
-					<input type="submit" value="가입하기" class="btn btn-secondary">
-					<input type="reset" value="다시쓰기" class="btn btn-secondary"
-						id="reset">
+					<input type="submit" value="수정하기" class="btn btn-secondary">
 				</div>
 			</div>
 		</form>

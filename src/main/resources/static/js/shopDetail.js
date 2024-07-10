@@ -1,50 +1,61 @@
 $(function() {
-	let quantity = 1;
-	const price = parseInt($("#productPrice").data("price"));
+    let detailQuantity = 1;
+    const detailPrice = parseInt($("#productPrice").data("price"));
 
-	//1,000원 처럼 천단위 콤마
-	function formatPrice(value) {
-		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' 원';
-	}
+    // 1,000원 처럼 천단위 콤마
+    function formatPrice(value) {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' 원';
+    }
 
-	//상품 수량 +- 제어
-	function updateQuantityDisplay() {
-		$("#quantity").text(quantity);
-		$("#quantityMinus").prop('disabled', quantity == 1);
-		$("#totalPrice").text(formatPrice(price * quantity));
-		$("#productPrice").text(formatPrice(price));
-	}
+    // 상품 수량 +- 제어
+    function updateDetailQuantityDisplay() {
+        $(".detail-quantity-input").val(detailQuantity);
+        $(".detail-quantity-input-minus").prop('disabled', detailQuantity == 1);
+        $("#detail-totalPrice").text(formatPrice(detailPrice * detailQuantity));
+        $("#detail-productPrice").text(formatPrice(detailPrice));
+    }
 
-	$("#quantityMinus").click(function() {
-		if (quantity > 1) {
-			quantity -= 1;
-			updateQuantityDisplay();
-		}
-	});
+    $(".detail-quantity-input-minus").click(function() {
+        if (detailQuantity > 1) {
+            detailQuantity -= 1;
+            updateDetailQuantityDisplay();
+        }
+    });
 
-	$("#quantityPlus").click(function() {
-		quantity += 1;
-		updateQuantityDisplay();
-	});
-	$(".resetQuantity").click(function() {
-		quantity = 1;
-		updateQuantityDisplay();
-	});
+    $(".detail-quantity-input-plus").click(function() {
+        detailQuantity += 1;
+        updateDetailQuantityDisplay();
+    });
 
-	updateQuantityDisplay();
-	
-	//장바구니 및 결제 버튼 제어
-	function updateCartQuantity() {
-		$('#cartQuantity').val($('#quantity').text());
-	}
+    $(".detail-resetQuantity").click(function() {
+        detailQuantity = 1;
+        updateDetailQuantityDisplay();
+    });
 
-	$('#addCart').click(function() {
-		updateCartQuantity();
-		$('#productForm').attr('action', '/addCart').submit();
-	});
+    // 수량 0이하 금지 및 1일 경우 -버튼 disabled
+    $(".quantity-input").on('input', function() {
+        let newQuantity = parseInt($(this).val());
+        if (newQuantity < 1) {
+            $(this).val(1);
+            newQuantity = 1;
+        }
+        detailQuantity = newQuantity;
+        updateDetailQuantityDisplay();
+    });
 
-	$('#orderNow').click(function() {
-		updateCartQuantity();
-		$('#productForm').attr('action', '/orderNow').submit();
-	});
+    function updateCartQuantity() {
+        $('#cartQuantity').val(detailQuantity);
+    }
+
+    $('#addCart').click(function() {
+        updateCartQuantity();
+        $('#productForm').attr('action', '/addCart').submit();
+    });
+
+    $('#orderNow').click(function() {
+        updateCartQuantity();
+        $('#productForm').attr('action', '/orderNow').submit();
+    });
+
+    updateDetailQuantityDisplay();
 });

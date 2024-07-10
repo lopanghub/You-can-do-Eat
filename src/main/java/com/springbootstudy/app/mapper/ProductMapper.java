@@ -29,9 +29,12 @@ public interface ProductMapper {
    //장바구니 중복검사
    Cart getCartByProductId(@Param("product_id") int productId);
    
-   //장바구니 중복시 수량변경
+   //장바구니 수량 변경
    void updateCart(Cart cart);
 
+   //장바구니 삭제
+   void deleteCartByProductId(@Param("productId") int productId);
+   
    //장바구니-상품 결합 리스트
    List<CartProductDTO> getCartDetails();
    
@@ -40,4 +43,7 @@ public interface ProductMapper {
    
    //결제시 주문 번호 추가
    void insertOrder(Order order);
+   
+  
+
 }

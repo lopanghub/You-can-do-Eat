@@ -11,32 +11,7 @@
 </head>
 <body>
 	<header>
-		<div class="headerTop"></div>
-		<div class="mainLogo">
-			<div class="imgo">
-				<img src="images/YouCanDoEat.png" alt="logo" class="logo">
-			</div>
-		</div>
 
-		<div class="col-8">
-			<div class="row">
-				<div class="col">
-					<ul class="nav justify-content-end">
-						<li class="nav-item"><th:block th:unless="${session.isLogin}">
-								<a class="nav-link" href="login">로그인</a>
-							</th:block> <th:block th:if="${session.isLogin}">
-								<a class="nav-link" href="logout">로그아웃</a>
-							</th:block></li>
-						<li class="nav-item"><th:block th:unless="${session.isLogin}">
-								<a class="nav-link" href="membership">회원가입</a>
-							</th:block> <th:block th:if="${session.isLogin}">
-								<a class="nav-link" href="memberUpdateForm">정보수정</a>
-							</th:block></li>
-					</ul>
-				</div>
-			</div>
-			<div class="row">
-  <header>
     <div class="headerTop"></div>
     <div class="mainLogo"> 
       <div class="imgo">

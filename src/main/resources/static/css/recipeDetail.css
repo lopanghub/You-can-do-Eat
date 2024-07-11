@@ -6,7 +6,7 @@ body {
 }
 
 .recipe-content {
-    margin-top: 50px; /* Header와 내용 사이의 간격 */
+    margin-top: 50px; 
 }
 
 .recipe-title {
@@ -17,9 +17,7 @@ body {
     text-align: center;
 }
 
-/* 다른 스타일은 그대로 유지 */
 
-/* 버튼 스타일 수정 */
 .btn-custom {
     background-color: transparent;
     color: #7a8577;
@@ -36,4 +34,3 @@ body {
     border-color: #7a8577;
 }
 
-/* 나머지 스타일은 그대로 유지 */

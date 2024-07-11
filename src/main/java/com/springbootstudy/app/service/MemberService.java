@@ -12,47 +12,60 @@ public class MemberService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private MemberMapper memberMapper;
-	
-	//  DB에서 id 있는지 확인
+
+	// DB에서 id 있는지 확인
 	public boolean isIdcheck(String id) {
-		
+
 		MemberShip member = memberMapper.getMemberShip(id);
-		
-		if(member == null) {
+
+		if (member == null) {
 			return false;
 		}
 		return true;
 	}
-	
+
+	// DB에서 pass 있는지 확인
+	public boolean isPasscheck(String id, String pass) {
+
+		String dbPass = memberMapper.memberPassCheck(pass);
+
+		boolean result = false;
+
+		if (passwordEncoder.matches(pass, dbPass)) {
+			result = true;
+		}
+		return result;
+	}
+
 	// 회원정보를 DB에 넣기
 	public void addMember(MemberShip member) {
 		member.setPass(passwordEncoder.encode(member.getPass()));
 		memberMapper.insertMember(member);
 	}
-	
+
 	// login 처리 메서드
 	public int login(String id, String pass) {
-		
+
 		MemberShip m = memberMapper.getMemberShip(id);
 
 		int result = -1;
-		
-		if(m == null) {
+
+		if (m == null) {
 			return result;
 		}
-		
-		if(passwordEncoder.matches(pass, m.getPass())) {
+
+		if (passwordEncoder.matches(pass, m.getPass())) {
 			result = 1;
-		}else {
+		} else {
 			result = 0;
 		}
-		
+
 		return result;
 	}
-	
+
 	public MemberShip getMember(String id) {
 		return memberMapper.getMemberShip(id);
 	}

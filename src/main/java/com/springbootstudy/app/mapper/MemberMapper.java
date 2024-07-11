@@ -9,4 +9,6 @@ public interface MemberMapper {
 	void insertMember(MemberShip member);
 
 	MemberShip getMemberShip(String id);
+
+	String memberPassCheck(String pass);
 }

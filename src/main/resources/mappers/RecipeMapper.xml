@@ -3,6 +3,54 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.springbootstudy.app.mapper.RecipeMapper">
+	<!--boardUpdate  -->
+	<update id="updateRecipe">
+    UPDATE recipe_Board 
+    SET 
+        food_name = #{foodName},
+        board_title = #{boardTitle},
+        board_content = #{boardContent},
+        food_genre = #{foodGenre},
+        reg_date = NOW(),
+        thumbnail = #{thumbnail},
+        food_time = #{foodTime},
+        numberEaters = #{numberEaters}
+    WHERE board_No = #{boardNo};
+</update>
+<!-- 레시피에 요리재료 업데이트하기 -->
+<update id="updateMaterial" parameterType="Material">
+    UPDATE material 
+    SET 
+        material_name = #{materialName}, 
+        mensuration = #{mensuration}, 
+        type_Material = #{typeMaterial}
+    WHERE 
+        board_no = #{boardNo}
+</update>
+<!-- 레시피에 요리과정 업데이트하기 -->
+<update id="updateCooking" parameterType="Cooking">
+    UPDATE cooking 
+    SET 
+        cook_title = #{cookTitle}, 
+        cook_method = #{cookMethod}, 
+        recommended = #{recommended}, 
+        cook_file = #{cookFile}
+    WHERE 
+        board_no = #{boardNo}
+</update>
+<!-- 요리과정의 요리재료 업데이트하기 -->
+<update id="updateCookMaterial" parameterType="list">
+    UPDATE cook_material
+    SET 
+        material_name = #{materialName}, 
+        mensuration = #{mensuration},
+        type_Material = #{typeMaterial}
+    WHERE 
+        cooking_id = #{cookingId}
+        AND board_no = #{boardNo}
+</update>
+
+
 
 
 <!-- 레시피 추가하기 -->
@@ -25,24 +73,11 @@
 
 <!-- 요리과정의 요리재료 추가하기 -->
 <insert id="insertCookMaterial"  parameterType="list" >
-        INSERT INTO cook_material (cooking_id, board_no , material_name , mensuration)
-        VALUES (#{cookingId}, #{boardNo} , #{materialName} ,#{mensuration})
+        INSERT INTO cook_material (cooking_id, board_no , material_name , mensuration,type_Material)
+        VALUES (#{cookingId}, #{boardNo} , #{materialName} ,#{mensuration},#{typeMaterial})
 </insert>
 
-	<!--boardUpdate  -->
-	<update id="updateRecipe">
-    UPDATE recipe_Board 
-    SET 
-        food_name = #{foodName},
-        board_title = #{boardTitle},
-        board_content = #{boardContent},
-        food_genre = #{foodGenre},
-        reg_date = NOW(),
-        thumbnail = #{thumbnail},
-        food_time = #{foodTime},
-        numberEaters = #{numberEaters}
-    WHERE board_No = #{boardNo};
-</update>
+
 	
 	<!--recipeDelete  -->
 	<delete id="deleteRecipe">

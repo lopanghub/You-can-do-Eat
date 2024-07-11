@@ -7,7 +7,7 @@
 <!-- content -->
 <div layout:fragment="content">
     <!-- 상세 정보 페이지 -->
-    <div class="row my-3">
+    <div class="row my-3" >
         <div class="col-6">
             <th:block th:if="${product.productImage}">
                 <img th:src="${product.productImage}" alt="Product Image">
@@ -21,7 +21,8 @@
             <!-- 상품 정보 -->
             <div class="row">
                 <div class="col">
-                    <h1 th:text="${product.ingredient}"></h1>
+                    <h2 class=productName th:text="${product.ingredient}"></h2>
+                    <h5>상품설명? 추가하는게 좋을 것 같슴다</h5>
                     <p id="productPrice" th:data-price="${product.price}"></p>
                 </div>
             </div>
@@ -32,36 +33,43 @@
             </div>
 
             <!-- 수량 조절 버튼 -->
-            <div class="row d-flex justify-content-between">
-                <div class="col">
-                    <div class="detail-quantity-input-container">
-                        <div class="detail-quantity-input-minus">-</div>
-                        <input class="detail-quantity-input" type="text" th:value="1" />
-                        <div class="detail-quantity-input-plus">+</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <button class="detail-resetQuantity">X</button>
-                </div>
-            </div>
-            
+			<div class="row d-flex justify-content-between">
+				<div class="col">
+					<div class="detail-quantity-control-wrapper">
+						<div class="detail-quantity-input-container">
+							<button class="detail-quantity-input-minus">-</button>
+							<input class="detail-quantity-input" type="text" value="1"
+								readonly />
+							<button class="detail-quantity-input-plus">+</button>
+						</div>
+						<button class="detail-resetQuantity">X</button>
+					</div>
+				</div>
+			</div>
+
+			<hr class="order-divider">
+			<div class="row">
+				<div class="col">
+					<p class="order-total-title">
+						주문금액: <span id="detail-totalPrice"></span>
+					</p>
+				</div>
+			</div>
+
+
+			<!-- 장바구니 및 결제 -->
             <div class="row">
                 <div class="col">
-                    <span id="detail-totalPrice"></span>
-                </div>
-            </div>
-            <!-- 장바구니 및 결제 -->
-            <div class="row">
-                <div class="col">
-                    <form id="productForm" method="post">
-                        <input type="hidden" name="productId" th:value="${product.productId}">
-                        <input type="hidden" name="quantity" id="cartQuantity" value="1">
-                        <button type="button" id="addCart"
-                            class="btn btn-outline-secondary">장바구니</button>
-                        <button type="button" id="orderNow"
-                            class="btn btn-outline-secondary">바로결제</button>
-                    </form>
-                </div>
+					<form id="productForm" method="post">
+						<input type="hidden" name="productId"
+							th:value="${product.productId}"> <input type="hidden"
+							name="quantity" id="cartQuantity" value="1">
+						<div class="button-container">
+							<button type="button" id="addCart">장바구니</button>
+							<button type="button" id="orderNow">바로결제</button>
+						</div>
+					</form>
+				</div>
             </div>
         </div>
     </div>

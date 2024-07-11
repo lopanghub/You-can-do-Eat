@@ -21,6 +21,7 @@ public class Cooking {
     private String cookMethod;
     private String recommended;
     private String cookFile;
+    private String encodedFileName;
     
     private List<CookMaterial> cookMaterials;
 

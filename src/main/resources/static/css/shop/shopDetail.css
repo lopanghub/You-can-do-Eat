@@ -1,5 +1,117 @@
+
 #quantityMinus:disabled {
     opacity: 0.5;
     color : gray;
     cursor: not-allowed;
+}
+
+/* 상품명 */
+h2.productName {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 헤더와 상세 내용 사이의 여백 증가 */
+.row.my-3 {
+    margin-top: 2rem !important; 
+}
+
+/* 수량 조절 버튼 파트 */
+.detail-quantity-input-container {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.detail-quantity-input-minus,
+.detail-quantity-input-plus {
+    background-color: #f8f9fa;
+    border: none;
+    color: #495057;
+    font-size: 16px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.detail-quantity-input {
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    width: 100px; /* 숫자 입력 부분 너비만 증가 */
+    padding: 8px 0;
+}
+
+/* 주문 금액 파트 */
+.order-divider {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 2px solid black;
+}
+
+.order-total-title {
+    font-size: 24px;  /* 글씨 크기 증가 */
+    font-weight: bold;
+    text-align: right;  /* 오른쪽 정렬 */
+}
+
+#detail-totalPrice {
+    font-size: 24px;  /* 금액 글씨 크기도 증가 */
+}
+
+.text-right {
+    text-align: right;
+}
+
+.detail-quantity-control-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.detail-resetQuantity {
+    margin-left: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #495057;
+    font-size: 16px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.detail-resetQuantity:hover {
+    background-color: #e9ecef;
+}
+
+#productForm {
+    margin-top: 20px;  /* 폼 위에 여백 추가 */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;  /* 버튼 사이의 간격 */
+}
+
+
+
+
+
+#addCart, #orderNow {
+    flex: 1;  /* 버튼이 컨테이너의 남은 공간을 균등하게 차지 */
+    padding: 10px 0;  
+    font-size: 16px;
+    background-color: white; 
+    color: #7a8577;
+    border: 1px solid #7a8577;
+    border-radius: 3px;
+}
+
+
+#addCart:hover,#orderNow:hover {
+    background-color: #7a8577;
+    color: white;
+    border-color: #7a8577;
 }

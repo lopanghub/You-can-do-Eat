@@ -34,6 +34,8 @@ public interface RecipeMapper {
 		// boardNo의 cookingId 출력
 		List<Integer> cookidCheck(int boardNo);
 		
+		//boardNo의 cookMaterial 출력
+		List<CookMaterial> cookMaterListByNo(int boardNo);
 		
 		//레시피 추가하기
 		void insertRecipe(RecipeBoard recipeBoard);
@@ -52,5 +54,16 @@ public interface RecipeMapper {
 		void deleteCookingByNo(int board);
 		//요리과정 재료 삭제
 		void deleteCookMatrailByNo(int board);
+		
+		//레시피 업데이트
+		void updateRecipe(Map<String, Object>  params);
+		//레시피에 요리재료 업데이트
+		void updateMatrial(Map<String, Object>  params);
+		
+		//레시피 요리 리스트 업데이트
+		void updateCooking(Map<String, Object>  params);
+		
+		//레시피에 요리과정재료 업데이트
+		void updateCookMaterial(Map<String, Object>  params);
 		
 }

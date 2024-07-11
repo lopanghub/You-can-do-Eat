@@ -8,19 +8,23 @@ $(function() {
 			url: '/products/' + category,
 			method: 'GET',
 			success: function(resData) {
-				$('#productGrid').empty();
+				console.log(resData);
+				$('#productGrid').empty().addClass('row row-cols-1 row-cols-md-2 row-cols-lg-4 gx-3 gy-3');
 
 				$.each(resData, function(i, product) {
 					let imageUrl = product.productImage ? product.productImage : 'http://via.placeholder.com/300x250';
 					let productBox = `
-						<div class="col-4 productBox">
+					<div class="col">
+					     <div class="productBox">
 							<a href="/shopDetail?productId=${product.productId}">
-								<img src="${imageUrl}" alt="${product.ingredient}" class="img-fluid">
+								<img src="${imageUrl}" alt="${product.ingredient}" class="img-fluid"
+									onerror="this.src='http://via.placeholder.com/300x250';">
 								<div>${product.ingredient}</div>
-								<div>${product.seller} & ${product.origin}</div>
+								<div>${product.seller} (${product.origin})</div>
 								<div>${formatPrice(product.price)}원</div>
 							</a>
 						</div>
+					</div>
 					`;
 					$('#productGrid').append(productBox);	
 				});
@@ -30,7 +34,7 @@ $(function() {
 			}
 		});
 	}
-
+	
 	// 초기 카테고리를 로드할 때 사용
 	loadCategory('fruits');
 
@@ -39,4 +43,20 @@ $(function() {
 		var category = $(this).data('category');
 		loadCategory(category);
 	});
+	
+
+	// 카테고리 버튼 클릭 이벤트
+    $('.category').click(function() {
+        $('.category').removeClass('active');
+        $(this).addClass('active');
+        var category = $(this).data('category');
+        loadCategory(category);
+    });
+
+	// 페이지 로드 시 첫 번째 카테고리 활성화 
+    $('.category:first').click();
+
+
+
+
 });

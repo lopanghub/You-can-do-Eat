@@ -47,16 +47,21 @@
 									<th>파&nbsp;&nbsp;&nbsp;&nbsp;일</th>
 									<td colspan="3">
 										<th:block th:if="${ not #strings.isEmpty(noticeBoard.file1) }">
-											<a th:href="@{|upload/${noticeBoard.file1}|}">다운로드</a>
+											<a th:href="@{|fileDownload?fileName=${noticeBoard.file1}|}"> [[ ${noticeBoard.file1} ]] </a>
 										</th:block>
 										<th:block th:unless="${ not #strings.isEmpty(noticeBoard.file1) }">
 											첨부파일 없음
 										</th:block>
 									</td>		
 								</tr>
-								<tr>		
-									<td colspan="4" style="white-space: pre">[[${ noticeBoard.content }]]</td>
-								</tr>	
+								 <td colspan="4">
+                                    <div style="white-space: pre-wrap;" th:text="${noticeBoard.content}"></div>
+                                    <th:block th:if="${not #strings.isEmpty(noticeBoard.file1)}">
+                                        <img th:src="@{|/fileDownload?fileName=${noticeBoard.file1}|}" 
+                                             th:alt="${noticeBoard.file1}" 
+                                             style="max-width: 100%; height: auto; margin-top: 10px;">
+                                    </th:block>
+                                </td>
 							</tbody>
 						</table>
 					</div>

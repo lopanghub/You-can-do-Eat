@@ -86,9 +86,7 @@ public class RecipeService {
 
 	// 재료 추가하는 메서드
 	@Transactional
-	public void addMaterial(int boardNo, Material material) throws Exception {
-		material.setBoardNo(boardNo);
-	    System.out.println("서비스의 재료라인:"+material.getMaterialName());
+	public void addMaterial(Material material) throws Exception {
 				recipeMapper.insertMaterial(material); // 각 재료를 데이터베이스에 저장
 
 	}
@@ -115,6 +113,12 @@ public class RecipeService {
 			}
 		}
 	}
+	
+	@Transactional
+	public List<CookMaterial> cookMaterListByNo(int boardNo){
+		return recipeMapper.cookMaterListByNo(boardNo);
+	}
+	
 	
 	// boardNo 삭제
 	public void deleteRecipe(int boardNo) {

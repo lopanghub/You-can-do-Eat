@@ -25,19 +25,26 @@
         SELECT * FROM noticeboard WHERE no = #{no}
     </select>
 
-    <insert id="addNoticeBoard" parameterType="com.springbootstudy.app.domain.NoticeBoard">
+    <insert id="addNoticeBoard" parameterType="NoticeBoard">
         INSERT INTO noticeboard (title, writer, content, reg_date, read_count, pass, file1)
         VALUES (#{title}, #{writer}, #{content}, NOW(), #{readCount}, #{pass}, #{file1})
     </insert>
 
-    <update id="updateNoticeBoard" parameterType="com.springbootstudy.app.domain.NoticeBoard">
+    <update id="updateNoticeBoard" parameterType="NoticeBoard">
         UPDATE noticeboard
         SET title = #{title}, writer = #{writer}, content = #{content},
             <!-- reg_date = #{regDate} --> read_count = #{readCount}, pass = #{pass}, file1 = #{file1}
         WHERE no = #{no}
     </update>
+    
+    <update id="incrementReadCount">
+    	UPDATE noticeboard
+    	SET read_count = read_count + 1
+    	WHERE no = #{no}
+    </update>
 
     <delete id="deleteNoticeBoard" parameterType="int">
         DELETE FROM noticeboard WHERE no = #{no}
     </delete>
+    
 </mapper>

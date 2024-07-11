@@ -27,7 +27,7 @@
 <body>
 	<!-- content -->
 	<div layout:fragment="content" class="container">
-		<form th:action="@{recipeWriteProcess}" method="post"
+		<form th:action="@{recipeWriteProcess}" method="post" id="recipeWriteForm"
 			enctype="multipart/form-data">
 			<div class="row">
 				<div class="col text-center">
@@ -87,88 +87,22 @@
 			</div>
 			<div class="row my-2">
 				<div class="col">
-					<h2>재료등록</h2>
-				</div>
-			</div>
-			<div id="materialSection">
-				<div class="row g-3 align-items-center my-2">
-					<div class="col-md-4">
-						<label for="materialName" class="form-label">재료</label> <input
-							type="text" class="form-control" id="materialName">
-					</div>
-					<div class="col-md-4">
-						<label for="mensuration" class="form-label">수량</label> <input
-							type="text" class="form-control" id="mensuration">
-					</div>
-					<div class="col-md-4">
-						<label for="typeMaterial" class="form-label">분류</label> <select
-							class="form-select" id="typeMaterial">
-							<option value="재료">재료</option>
-							<option value="조미료">조미료</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			
-			
-			<div class="row my-2">
-				<div class="col text-end">
-					<button type="button" class="btn btn-secondary" id="addMaterial">재료
-						추가</button>
-				</div>
-			</div>
-			<div class="row my-2">
-				<div class="col">
 					<h2>조리과정등록</h2>
 				</div>
 			</div>
-	<div class="row my-2 cooking-item" id="cookingSection">
-        <div class="col my-2">
-            <div class="form-group row">
-                <label for="cookTitle" class="col-sm-3 col-form-label">요리제목</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="cookTitles"
-							id="cookings.cookTitle">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="cookMethod" class="col-sm-3 col-form-label">요리과정</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="cookMethods"
-							id="cookings0.cookMethod">
-                </div>
-                <label for="recommended" class="col-sm-3 col-form-label">주의사항</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="recommendeds"
-							id="cookings0.recommended">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="cookFile" class="col-sm-3 col-form-label">조리사진</label>
-                <div class="col-sm-9">
-                    <input type="file" class="form-control-file" name="cookFiles" onchange="previewFile(event)" id="cookings0.cookFile">
-                </div>
-            </div>
-        </div>
-	     <div class="row">
-	                <div class="col-5 cookMetrialTextPlace"> </div>
-	     			<div class="col-md-4 mb-3 preview-container">
-                        <img class="preview" src="" alt="Image preview">
-                    </div>
-	  	</div>
-     </div>
-
-			<div class="row">
-				<div class="col">
-					<input type="button" class="btn btn-primary" id="addCooking"
-						value="추가하기">
+			<div class="row my-2 cooking-item cookingSection">
+			</div>	
+				<div class="row">
+					<div class="col">
+						<input type="button" class="btn btn-primary" id="addCooking"
+							data-cookingIndex="0" value="조리과정추가">
+					</div>
 				</div>
-			</div>
-			<div class="row my-2">
-				<div class="col text-end">
-					<button type="submit" class="btn btn-primary">등록하기</button>
+				<div class="row my-2">
+					<div class="col text-end">
+						<button type="submit" class="btn btn-primary">등록하기</button>
+					</div>
 				</div>
-			</div>
 		</form>
 	</div>
 

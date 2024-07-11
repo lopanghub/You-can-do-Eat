@@ -1,9 +1,9 @@
-.carousel-item {
+ * .carousel-item {
 	height: 360px;
 	background-size: cover;
 	background-position: center;
 }
-
+/*
 .carousel-caption{
 	position :absolute;
 	top: 20px;
@@ -25,11 +25,11 @@
 	padding: 10px;
 	border-radius: 20px;
 }
-
+ 
 .carousel-control-prev, .carousel-control-next {
                 width: 50px;
                 height: 50px;
-                background-color: #fff; /* 버튼 배경색 */
+                background-color: #fff; 버튼 배경색
                 border-radius: 50%;
                 color: black;
 	           	display:flex;
@@ -38,6 +38,8 @@
 	                    
        }
   .carousel-control-prev-icon, .carousel-control-next-icon {
-                filter: invert(1); /* 화살표 색상을 검정으로 변경 */
+                filter: invert(1); 화살표 색상을 검정으로 변경 
             }      
-       
+          
+         
+      */

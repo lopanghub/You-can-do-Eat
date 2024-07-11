@@ -56,14 +56,14 @@ public interface RecipeMapper {
 		void deleteCookMatrailByNo(int board);
 		
 		//레시피 업데이트
-		void updateRecipe(RecipeBoard recipeBoard);
+		void updateRecipe(Map<String, Object>  params);
 		//레시피에 요리재료 업데이트
-		void updateMatrial(Material material);
+		void updateMatrial(Map<String, Object>  params);
 		
 		//레시피 요리 리스트 업데이트
-		void updateCooking(Cooking cooking);
+		void updateCooking(Map<String, Object>  params);
 		
 		//레시피에 요리과정재료 업데이트
-		void updateCookMaterial(CookMaterial cookMaterial);
+		void updateCookMaterial(Map<String, Object>  params);
 		
 }

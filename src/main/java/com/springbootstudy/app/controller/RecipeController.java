@@ -136,6 +136,7 @@ public class RecipeController {
 	@PostMapping("/recipeUpdateProcess")
 	public String updateRecipe(
 			@ModelAttribute RecipeBoard recipeBoard,
+			@RequestParam("boardNo")int boardNo,
 			@RequestParam("foodName") String foodName,
 			@RequestParam("boardTitle") String boardTitle,
 			@RequestParam("boardContent") String boardContent,
@@ -170,8 +171,7 @@ public class RecipeController {
 		recipeBoard1.setBoardContent(boardContent);
 		recipeBoard1.setFoodGenre(foodGenre);
 		recipeBoard1.setNumberEaters(numberEaters);
-		recipeService.updateRecipe(recipeBoard1);
-		int boardNo =recipeBoard1.getBoardNo();
+		recipeService.updateRecipe(recipeBoard1, boardNo);
 		Cooking cooking = new Cooking();
 		
 		if (cookTitles.size() > 0) {
@@ -212,7 +212,7 @@ public class RecipeController {
 			material.setMaterialName(cookMaterial.getMaterialName());
 			material.setMensuration( cookMaterial.getMensuration());
 			material.setTypeMaterial(cookMaterial.getTypeMaterial());
-			recipeService.updateMaterial(material);
+			recipeService.updateMaterial(boardNo, material);
 		}
 		
 		
@@ -288,18 +288,7 @@ public class RecipeController {
 		model.addAttribute("cookingId", recipeService.cookIdCheck(boardNo).get(0));
 		// 재료리스트
 		model.addAttribute("mList", recipeService.getMaterialList(boardNo));
-		List<Cooking> cooking = new ArrayList<>();
-		List<Cooking> cooks = recipeService.getCookList(boardNo);
-		for (Cooking cook : cooks) {
-		    String encodedFileName = URLEncoder.encode(cook.getCookFile(), "UTF-8");
-		    System.out.println("인코딩" +encodedFileName);
-		   System.out.println("이것만" + cooks.get(0).getCookFile());
-		    Cooking dto = new Cooking();
-		    dto.setCookFile(cook.getCookFile());
-		    dto.setEncodedFileName(encodedFileName);
-		    cooking.add(dto);
-		}
-		model.addAttribute("cList", cooking);
+		model.addAttribute("cList", recipeService.getCookList(boardNo));
 		return "views/recipe/recipeDetail";
 	}
 

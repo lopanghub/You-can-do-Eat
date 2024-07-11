@@ -55,4 +55,15 @@ public interface RecipeMapper {
 		//요리과정 재료 삭제
 		void deleteCookMatrailByNo(int board);
 		
+		//레시피 업데이트
+		void updateRecipe(RecipeBoard recipeBoard);
+		//레시피에 요리재료 업데이트
+		void updateMatrial(Material material);
+		
+		//레시피 요리 리스트 업데이트
+		void updateCooking(Cooking cooking);
+		
+		//레시피에 요리과정재료 업데이트
+		void updateCookMaterial(CookMaterial cookMaterial);
+		
 }

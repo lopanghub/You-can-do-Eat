@@ -82,20 +82,20 @@
                 <tr th:if="${cart != null}">
                     <td>이미지 들어갈자리</td>
                     <td th:text="${cart.ingredient}"></td>
-                    <td th:text="${cart.price}"></td>
+                    <td th:text="${cart.price}" class="price"></td>
                     <td>할인금액 자리</td>
                     <td>배송금액 자리</td>
-                    <td th:text="${cart.quantity * cart.price}"></td>
+                    <td th:text="${cart.quantity * cart.price}" class="price"></td>
                 </tr>
 
                 <!-- 장바구니 목록 -->
                 <tr th:if="${cartDetails != null}" th:each="item : ${cartDetails}">
                     <td>이미지 들어갈자리</td>
                     <td th:text="${item.ingredient}"></td>
-                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.price}" class="price"></td>
                     <td>할인금액 자리</td>
                     <td>배송금액 자리</td>
-                    <td th:text="${item.quantity * item.price}"></td>
+                    <td th:text="${item.quantity * item.price}" class="price"></td>
                 </tr>
                 </tbody>
             </table>
@@ -106,5 +106,74 @@
     <div class="row">
         <div class="col">결제 정보</div>
     </div>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <!-- 바로 구매 -->
+                <th:block th:if="${cart != null}">
+                <tr>
+                    <td>상품 총액</td>
+                    <td id="totalAmount" th:text="${cart.price}" class="price"></td>
+                </tr>
+                <tr>
+                    <td>할인 총액</td>
+                    <td id="totalDiscount" th:text="${cart.discount != null ? cart.discount : 0}" class="price"></td>
+                </tr>
+                <tr>
+                    <td>배송 총액</td>
+                    <td id="totalShipping" th:text="${cart.shipping != null ? cart.shipping : 0}" class="price"></td>
+                </tr>
+                <tr>
+                    <td>포인트</td>
+                    <td>0원</td>
+                </tr>
+                <tr>
+                    <td>결제 총액</td>
+                    <td id="finalAmount" th:text="${cart.price - (cart.discount != null ? cart.discount : 0) + (cart.shipping != null ? cart.shipping : 0)}" class="price"></td>
+                </tr>
+                </th:block>
+                
+                <!-- 장바구니에서 결제 -->
+                <th:block th:if="${cartDetails != null}">
+                <tr>
+                    <td>상품 총액</td>
+                    <td id="totalAmount" th:text="${totalAmount}" class="price"></td>
+                </tr>
+                <tr>
+                    <td>할인 총액</td>
+                    <td id="totalDiscount" th:text="${totalDiscount}" class="price"></td>
+                </tr>
+                <tr>
+                    <td>배송 총액</td>
+                    <td id="totalShipping" th:text="${totalShipping}" class="price"></td>
+                </tr>
+                <tr>
+                    <td>포인트</td>
+                    <td>0원</td>
+                </tr>
+                <tr>
+                    <td>결제 총액</td>
+                    <td id="finalAmount" th:text="${finalAmount}" class="price"></td>
+                </tr>
+                </th:block>
+                <tr>
+                    <td>결제방법</td>
+                    <td>
+                        <input type="radio" name="paymentMethod" value="card"> 카드 결제<br>
+                        <input type="radio" name="paymentMethod" value="bank"> 계좌 이체<br>
+                        <input type="radio" name="paymentMethod" value="cash"> 현금 결제
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">현금영수증</div>
+    </div>
 </div>
+
+<!-- JavaScript로 가격 형식 처리 -->
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script type="module" th:src="@{/js/shop/shopOrder.js}"></script>
 </html>

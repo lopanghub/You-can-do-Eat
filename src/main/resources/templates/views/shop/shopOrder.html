@@ -168,12 +168,19 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">현금영수증</div>
-    </div>
+    <div id = "payment-widget"></div>
 </div>
 
-<!-- JavaScript로 가격 형식 처리 -->
-<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
-<script type="module" th:src="@{/js/shop/shopOrder.js}"></script>
+<!-- 토스페이먼츠 연동 -->
+<script src="https://js.tosspayments.com/v2/payment-widget"></script>
+<script>
+	/* const clientKey = 'test_ck_nRQoOaPz8LDXWL2QLy7m8y47BMw6' // 상점을 특정하는 키
+	//const customerKey = 'YbX2HuSlsC9uVJW6NMRMj' 
+	const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS)
+	
+	paymentWidget.renderPaymentMethods("#payment-widget", "#finalAmount")
+  	const paymentAgreement = paymentWidget.renderAgreement('#agreement') */
+
+	
+</script>
 </html>

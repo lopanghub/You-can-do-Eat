@@ -8,7 +8,6 @@ $(function() {
 			url: '/products/' + category,
 			method: 'GET',
 			success: function(resData) {
-				console.log(resData);
 				$('#productGrid').empty();
 
 				$.each(resData, function(i, product) {

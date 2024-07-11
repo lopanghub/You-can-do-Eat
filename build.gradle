@@ -40,6 +40,7 @@ dependencies {
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
     implementation 'org.springframework.boot:spring-boot-starter-security' 
+    implementation 'org.json:json:20210307'
 }
 
 tasks.named('test') {

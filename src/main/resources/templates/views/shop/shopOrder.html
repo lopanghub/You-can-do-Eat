@@ -1,186 +1,231 @@
+<!-- 페이지 파일(shopOrder.html) -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/shop_layout}">
 
-<!-- content -->
-<div layout:fragment="content">
-    <div class="row">
-        <div class="col">
-            <h1>주문 및 결제</h1>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>주문 및 결제</title>
+</head>
+
+<body>
+    <!-- content -->
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col">
+                <h1>주문 및 결제</h1>
+            </div>
         </div>
-    </div>
 
-    <!-- 구매자 정보 -->
-    <div class="row">
-        <div class="col">구매자 정보</div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <table class="table">
-                <tr>
-                    <td>이름</td>
-                    <td th:text="${member != null ? member.name : '정보 없음'}"></td>    
-                </tr>
-                <tr>
-                    <td>이메일</td>
-                    <td th:text="${member != null ? member.email : '정보 없음'}"></td>    
-                </tr>
-                <tr>
-                    <td>연락처</td>
-                    <td th:text="${member != null ? member.mobile : '정보 없음'}"></td>    
-                </tr>
-            </table>
+        <!-- 구매자 정보 -->
+        <div class="row">
+            <div class="col">구매자 정보</div>
         </div>
-    </div>
-
-    <!-- 받는사람 정보 -->
-    <div class="row">
-        <div class="col">받는 사람 정보</div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <table class="table">
-                <tr>
-                    <td>이름</td>
-                    <td th:text="${member != null ? member.name : '정보 없음'}"></td>    
-                </tr>
-                <tr>
-                    <td>주소</td>
-                    <td th:text="${member != null ? member.address1 : '정보 없음'}"></td>    
-                </tr>
-                <tr>
-                    <td>연락처</td>
-                    <td th:text="${member != null ? member.mobile : '정보 없음'}"></td>    
-                </tr>
-                <tr>
-                    <td>배송 요청 사항</td>
-                    <td>*</td>    
-                </tr>
-            </table>
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <tr>
+                        <td>이름</td>
+                        <td th:text="${member != null ? member.name : '정보 없음'}"></td>
+                    </tr>
+                    <tr>
+                        <td>이메일</td>
+                        <td th:text="${member != null ? member.email : '정보 없음'}"
+                            id="memberEmail"></td>
+                    </tr>
+                    <tr>
+                        <td>연락처</td>
+                        <td th:text="${member != null ? member.mobile : '정보 없음'}"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <!-- 상품 정보  -->
-    <div class="row">
-        <div class="col">주문 상품 정보</div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th colspan="2">상품정보</th>
-                    <th>상품금액</th>
-                    <th>할인금액</th>
-                    <th>배송비</th>
-                    <th>주문금액</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- 단일 상품 정보 -->
-                <tr th:if="${cart != null}">
-                    <td>이미지 들어갈자리</td>
-                    <td th:text="${cart.ingredient}"></td>
-                    <td th:text="${cart.price}" class="price"></td>
-                    <td>할인금액 자리</td>
-                    <td>배송금액 자리</td>
-                    <td th:text="${cart.quantity * cart.price}" class="price"></td>
-                </tr>
-
-                <!-- 장바구니 목록 -->
-                <tr th:if="${cartDetails != null}" th:each="item : ${cartDetails}">
-                    <td>이미지 들어갈자리</td>
-                    <td th:text="${item.ingredient}"></td>
-                    <td th:text="${item.price}" class="price"></td>
-                    <td>할인금액 자리</td>
-                    <td>배송금액 자리</td>
-                    <td th:text="${item.quantity * item.price}" class="price"></td>
-                </tr>
-                </tbody>
-            </table>
+        <!-- 받는사람 정보 -->
+        <div class="row">
+            <div class="col">받는 사람 정보</div>
         </div>
-    </div>
-
-    <!-- 결제 정보 -->
-    <div class="row">
-        <div class="col">결제 정보</div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <table class="table">
-                <!-- 바로 구매 -->
-                <th:block th:if="${cart != null}">
-                <tr>
-                    <td>상품 총액</td>
-                    <td id="totalAmount" th:text="${cart.price}" class="price"></td>
-                </tr>
-                <tr>
-                    <td>할인 총액</td>
-                    <td id="totalDiscount" th:text="${cart.discount != null ? cart.discount : 0}" class="price"></td>
-                </tr>
-                <tr>
-                    <td>배송 총액</td>
-                    <td id="totalShipping" th:text="${cart.shipping != null ? cart.shipping : 0}" class="price"></td>
-                </tr>
-                <tr>
-                    <td>포인트</td>
-                    <td>0원</td>
-                </tr>
-                <tr>
-                    <td>결제 총액</td>
-                    <td id="finalAmount" th:text="${cart.price - (cart.discount != null ? cart.discount : 0) + (cart.shipping != null ? cart.shipping : 0)}" class="price"></td>
-                </tr>
-                </th:block>
-                
-                <!-- 장바구니에서 결제 -->
-                <th:block th:if="${cartDetails != null}">
-                <tr>
-                    <td>상품 총액</td>
-                    <td id="totalAmount" th:text="${totalAmount}" class="price"></td>
-                </tr>
-                <tr>
-                    <td>할인 총액</td>
-                    <td id="totalDiscount" th:text="${totalDiscount}" class="price"></td>
-                </tr>
-                <tr>
-                    <td>배송 총액</td>
-                    <td id="totalShipping" th:text="${totalShipping}" class="price"></td>
-                </tr>
-                <tr>
-                    <td>포인트</td>
-                    <td>0원</td>
-                </tr>
-                <tr>
-                    <td>결제 총액</td>
-                    <td id="finalAmount" th:text="${finalAmount}" class="price"></td>
-                </tr>
-                </th:block>
-                <tr>
-                    <td>결제방법</td>
-                    <td>
-                        <input type="radio" name="paymentMethod" value="card"> 카드 결제<br>
-                        <input type="radio" name="paymentMethod" value="bank"> 계좌 이체<br>
-                        <input type="radio" name="paymentMethod" value="cash"> 현금 결제
-                    </td>
-                </tr>
-            </table>
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <tr>
+                        <td>이름</td>
+                        <td th:text="${member != null ? member.name : '정보 없음'}"></td>
+                    </tr>
+                    <tr>
+                        <td>주소</td>
+                        <td th:text="${member != null ? member.address1 : '정보 없음'}"></td>
+                    </tr>
+                    <tr>
+                        <td>연락처</td>
+                        <td th:text="${member != null ? member.mobile : '정보 없음'}"></td>
+                    </tr>
+                    <tr>
+                        <td>배송 요청 사항</td>
+                        <td>*</td>
+                    </tr>
+                </table>
+            </div>
         </div>
+
+        <!-- 상품 정보 -->
+        <div class="row">
+            <div class="col">주문 상품 정보</div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="2">상품정보</th>
+                            <th>상품금액</th>
+                            <th>할인금액</th>
+                            <th>배송비</th>
+                            <th>주문금액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 단일 상품 정보 -->
+                        <tr th:if="${cart != null}">
+                            <td>이미지 들어갈자리</td>
+                            <td th:text="${cart.ingredient}"></td>
+                            <td th:text="${cart.price}" class="price"></td>
+                            <td>할인금액 자리</td>
+                            <td>배송금액 자리</td>
+                            <td th:text="${cart.quantity * cart.price}" class="price"></td>
+                        </tr>
+
+                        <!-- 장바구니 목록 -->
+                        <tr th:if="${cartDetails != null}" th:each="item : ${cartDetails}">
+                            <td>이미지 들어갈자리</td>
+                            <td th:text="${item.ingredient}"></td>
+                            <td th:text="${item.price}" class="price"></td>
+                            <td>할인금액 자리</td>
+                            <td>배송금액 자리</td>
+                            <td th:text="${item.quantity * item.price}" class="price"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 결제 정보 -->
+        <div class="row">
+            <div class="col">결제 정보</div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <!-- 바로 구매 -->
+                    <th:block th:if="${cart != null}">
+                        <tr>
+                            <td>상품 총액</td>
+                            <td id="totalAmount" th:text="${cart.price}" class="price"></td>
+                        </tr>
+                        <tr>
+                            <td>할인 총액</td>
+                            <td id="totalDiscount"
+                                th:text="${cart.discount != null ? cart.discount : 0}"
+                                class="price"></td>
+                        </tr>
+                        <tr>
+                            <td>배송 총액</td>
+                            <td id="totalShipping"
+                                th:text="${cart.shipping != null ? cart.shipping : 0}"
+                                class="price"></td>
+                        </tr>
+                        <tr>
+                            <td>포인트</td>
+                            <td>0원</td>
+                        </tr>
+                        <tr>
+                            <td>결제 총액</td>
+                            <td id="finalAmount"
+                                th:text="${cart.price - (cart.discount != null ? cart.discount : 0) + (cart.shipping != null ? cart.shipping : 0)}"
+                                class="price"></td>
+                        </tr>
+                    </th:block>
+
+                    <!-- 장바구니에서 결제 -->
+                    <th:block th:if="${cartDetails != null}">
+                        <tr>
+                            <td>상품 총액</td>
+                            <td id="totalAmount" th:text="${totalAmount}" class="price"></td>
+                        </tr>
+                        <tr>
+                            <td>할인 총액</td>
+                            <td id="totalDiscount" th:text="${totalDiscount}" class="price"></td>
+                        </tr>
+                        <tr>
+                            <td>배송 총액</td>
+                            <td id="totalShipping" th:text="${totalShipping}" class="price"></td>
+                        </tr>
+                        <tr>
+                            <td>포인트</td>
+                            <td>0원</td>
+                        </tr>
+                        <tr>
+                            <td>결제 총액</td>
+                            <td id="finalAmount" th:text="${finalAmount}" class="price"></td>
+                        </tr>
+                    </th:block>
+                    <tr>
+                        <td>결제방법</td>
+                        <td><input type="radio" name="paymentMethod" value="card"> 카드 결제<br>
+                            <input type="radio" name="paymentMethod" value="bank"> 계좌 이체<br>
+                            <input type="radio" name="paymentMethod" value="cash"> 현금 결제</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- 결제 UI -->
+        <div id="payment-method"></div>
+        <!-- 이용약관 UI -->
+        <div id="agreement"></div>
+        <!-- 결제하기 버튼 -->
+        <button class="button" id="payment-button" style="margin-top: 30px">결제하기</button>
     </div>
 
-    <div id = "payment-widget"></div>
-</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const script = document.createElement('script');
+            script.src = 'https://js.tosspayments.com/v2/standard';
+            script.onload = function() {
+                console.log("TossPayments script loaded successfully.");
+                main();
+            };
+            script.onerror = function() {
+                console.error("Failed to load TossPayments script.");
+            };
+            document.head.appendChild(script);
+        });
 
-<!-- 토스페이먼츠 연동 -->
-<script src="https://js.tosspayments.com/v2/payment-widget"></script>
-<script>
-	/* const clientKey = 'test_ck_nRQoOaPz8LDXWL2QLy7m8y47BMw6' // 상점을 특정하는 키
-	//const customerKey = 'YbX2HuSlsC9uVJW6NMRMj' 
-	const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS)
-	
-	paymentWidget.renderPaymentMethods("#payment-widget", "#finalAmount")
-  	const paymentAgreement = paymentWidget.renderAgreement('#agreement') */
+        async function main(){
+            try {
+                const button = document.getElementById("payment-button");
 
-	
-</script>
+                // ------  결제위젯 초기화 ------
+                const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+                const tossPayments = TossPayments(clientKey);
+
+                // 회원 결제
+                const customerKey = document.getElementById("memberEmail").innerText;
+                const widgets = tossPayments.widget({ customerKey });
+
+                // ------  결제 UI 렌더링 ------
+                await widgets.renderPaymentMethods({
+                    selector: "#payment-method",
+                    variantKey: "DEFAULT",
+                });
+
+                // ------  이용약관 UI 렌더링 ------
+                await widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" });
+            } catch (error) {
+                console.error("Error during TossPayments initialization:", error);
+            }
+        }
+    </script>
+</body>
 </html>

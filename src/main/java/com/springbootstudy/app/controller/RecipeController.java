@@ -45,7 +45,7 @@ public class RecipeController {
 	// 레시피 리스트 쓰기
 	@GetMapping("/recipeWrite")
 	public String recipeWrite() {
-		return "views/recipeWrite";
+		return "views/recipe/recipeWrite";
 	}
 
 	@PostMapping("/recipeWriteProcess")
@@ -220,7 +220,7 @@ public class RecipeController {
 	@GetMapping({ "/", "/recipeList" })
 	public String recipeList(Model model) {
 		model.addAttribute("rList", recipeService.RecipeBoardList());
-		return "views/recipeList";
+		return "views/recipe/recipeList";
 	}
 
 	// No의 상세보기 출력
@@ -297,12 +297,11 @@ public class RecipeController {
 		    cooking.add(dto);
 		}
 		model.addAttribute("cList", cooking);
-		return "views/recipeDetail";
+		return "views/recipe/recipeDetail";
 	}
 
 	@GetMapping("/updateRecipeForm")
 	public String recipeUpdateForm(@RequestParam("boardNo") int boardNo, Model model) {
-		System.out.println("update board no" + boardNo);
 		// 조리과정의 재료리스트
 		int cCount = recipeService.cookCount(boardNo);
 		List<List<CookMaterial>> allCookMaterials = new ArrayList<>();
@@ -316,11 +315,10 @@ public class RecipeController {
 		// 상세보기
 		model.addAttribute("rList", recipeService.getRecipe(boardNo));
 		// 요리리스트
-		System.out.println("업데이트컨트롤러 입니다. : "+recipeService.getCookList(boardNo));
 		
 		model.addAttribute("cList", recipeService.getCookList(boardNo));
 
-		return "views/recipeUpdate";
+		return "views/recipe/recipeUpdate";
 	}
 
 	@PostMapping("/deleteRecipe")

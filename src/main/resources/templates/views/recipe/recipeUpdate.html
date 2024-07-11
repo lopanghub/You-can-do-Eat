@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main_layout}">
+
+<head>
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+	rel="stylesheet">
+<script src="js/recipe/recipeUpdate.js"></script>
+<script src="js/recipe/recipeUpdateFormCheck.js"></script>
+<style>
+.preview {
+	max-width: 200px;
+	max-height: 200px;
+	margin-top: 10px;
+	display: none; /* Hide preview initially */
+}
+</style>
+</head>
+
+<body>
+	<!-- content -->
+	<div layout:fragment="content" class="container">
+		<form th:action="@{recipeUpdateProcess}" method="post" id="recipeUpdateForm"
+			enctype="multipart/form-data">
+			<div class="row">
+				<div class="col text-center">
+					<h1 class="my-4">레시피 등록</h1>
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col-md-4 mb-3">
+					<label for="foodName" class="form-label">음식이름</label> 
+					<input type="text" class="form-control" id="foodName" name="foodName" th:value="${rList.foodName}">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label for="boardTitle" class="form-label">레시피 제목</label> 
+					<input type="text" class="form-control" id="boardTitle" name="boardTitle" th:value="${rList.boardTitle}">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label for="boardContent" class="form-label">레시피 소개</label>
+					<textarea class="form-control" id="boardContent" name="boardContent" rows="2">[[${rList.boardContent}]]</textarea>
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col-md-6 mb-3">
+					<label for="foodGenre" class="form-label">카테고리</label> 
+					<select class="form-select" id="foodGenre" name="foodGenre">
+						<option th:value="한식">한식</option>
+						<option th:value="일식">일식</option>
+						<option th:value="중식">중식</option>
+						<option th:value="양식">양식</option>
+						<option th:value="기타">기타</option>
+					</select>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label for="thumbnailname" class="form-label">대표사진</label> 
+					<input type="file" class="form-control" id="thumbnailname" name="thumbnailname">
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col-md-6 mb-3">
+					<label for="numberEaters" class="form-label">요리 정보</label>
+					<div class="input-group">
+						<span class="input-group-text">인원</span> 
+						<input type="number" class="form-control" id="numberEaters" name="numberEaters" th:value="${rList.numberEaters}"> 
+						<span class="input-group-text">명</span>
+					</div>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label for="foodTime" class="form-label">시간</label>
+					<div class="input-group">
+						<input type="number" class="form-control" id="foodTime" name="foodTime" th:value="${rList.foodTime}"> 
+						<span class="input-group-text">분 이하</span>
+					</div>
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col">
+					<h2>조리과정등록</h2>
+				</div>
+			</div>
+			<th:block th:if="${not #lists.isEmpty(cList)}">
+				<th:block th:each="cList, iterStat : ${cList}">
+					<div class="row my-2 cooking-item cookingSection" th:id="'cooking' + ${iterStat.index}">
+						<div class="col my-2">
+							<div class="form-group row">
+								<label for="cookTitle" class="col-sm-3 col-form-label">요리제목</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" name="cookTitles" th:id="'cooking' + ${iterStat.index} + '.cookTitle'" th:value="${cList.cookTitle}">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="cookMethod" class="col-sm-3 col-form-label">요리과정</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" name="cookMethods" th:id="'cooking' + ${iterStat.index} + '.cookMethod'" th:value="${cList.cookMethod}">
+								</div>
+								<label for="recommended" class="col-sm-3 col-form-label">주의사항</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" name="recommendeds" th:id="'cooking' + ${iterStat.index} + '.recommended'" th:value="${cList.recommended}">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="cookFile" class="col-sm-3 col-form-label">조리사진</label>
+								<div class="col-sm-9">
+									<input type="file" class="form-control" name="cookFiles" th:id="'cooking' + ${iterStat.index} + '.cookFile'" onchange="previewFile(event)">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 mb-3 preview-container">
+								<img class="preview" src="" alt="Image preview">
+							</div>
+						</div>
+						<div class="row mt-2 cookMaterialSession" th:id="'materials' + ${iterStat.index}">
+							<div th:each="material, matStat : ${allCookMaterials[__${iterStat.index}__]}">
+								<div class="row mt-2" th:id="'materialRow' + ${matStat.index}">
+									<div class="col">재료이름</div>
+									<div class="col">
+										<input type="text" class="form-control" th:id="'cooking' + ${iterStat.index} + 'material' + ${matStat.index} + 'Name'" th:name="'cookings[' + ${iterStat.index} + '].cookMaterials[' + ${matStat.index} + '].materialName'" th:value="${material.materialName}">
+									</div>
+									<div class="col">재료 양</div>
+									<div class="col">
+										<input type="text" class="form-control" th:id="'cooking' + ${iterStat.index} + 'material' + ${matStat.index} + 'Mensuration'" th:name="'cookings[' + ${iterStat.index} + '].cookMaterials[' + ${matStat.index} + '].mensuration'" th:value="${material.mensuration}">
+									</div>
+									<div class="col-3">
+										<select class="form-select" th:id="'cooking' + ${iterStat.index} + 'material' + ${matStat.index} + 'TypeMaterial'" th:name="'cookings[' + ${iterStat.index} + '].cookMaterials[' + ${matStat.index} + '].typeMaterial'">
+											<option th:selected="${material.TypeMaterial == '재료'}" value="재료">재료</option>
+											<option th:selected="${material.TypeMaterial == '조미료'}" value="조미료">조미료</option>
+										</select>
+									</div>
+									<div class="col">
+										<input type="button" class="btn btn-danger deleteMaterial" th:attr="data-materialindex=${matStat.index}, data-cookingindex=${iterStat.index}" value="재료삭제">
+									</div>
+									<div class="col">
+										<th:block th:if="${matStat.index == 0}">
+											<input type="button" class="btn btn-primary addMaterial" th:attr="data-materialindex=${matStat.index}, data-cookingindex=${iterStat.index}" value="재료추가">
+										</th:block>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<input type="button" class="btn btn-danger deleteCooking" th:attr="data-cookingindex=${iterStat.index}" value="조리과정삭제">
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</th:block>
+			<div class="row">
+				<div class="col">
+					<input type="button" class="btn btn-primary" id="addCooking" data-cookingIndex="0" value="조리과정추가">
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col text-end">
+					<button type="submit" class="btn btn-primary">등록하기</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/main_layout}">
+
+<head>
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+	rel="stylesheet">
+<script src="js/recipe/recipeWrite.js"></script>
+<style>
+.preview {
+	max-width: 200px;
+	max-height: 200px;
+	margin-top: 10px;
+	display: none; /* Hide preview initially */
+}
+</style>
+</head>
+
+
+
+<body>
+	<!-- content -->
+	<div layout:fragment="content" class="container">
+		<form th:action="@{recipeWriteProcess}" method="post" id="recipeWriteForm"
+			enctype="multipart/form-data">
+			<div class="row">
+				<div class="col text-center">
+					<h1 class="my-4">레시피 등록</h1>
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col-md-4 mb-3">
+					<label for="foodName" class="form-label">음식이름</label> <input
+						type="text" class="form-control" id="foodName" name="foodName"
+						th:value=${foodName}>
+				</div>
+				<div class="col-md-4 mb-3">
+					<label for="boardTitle" class="form-label">레시피 제목</label> <input
+						type="text" class="form-control" id="boardTitle" name="boardTitle">
+				</div>
+				<div class="col-md-4 mb-3">
+					<label for="boardContent" class="form-label">레시피 소개</label>
+					<textarea class="form-control" id="boardContent"
+						name="boardContent" rows="2"></textarea>
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col-md-6 mb-3">
+					<label for="foodGenre" class="form-label">카테고리</label> <select
+						class="form-select" id="foodGenre" name="foodGenre">
+						<option th:value="한식">한식</option>
+						<option th:value="일식">일식</option>
+						<option th:value="중식">중식</option>
+						<option th:value="양식">양식</option>
+						<option th:value="기타">기타</option>
+					</select>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label for="thumbnailname" class="form-label">대표사진</label> <input
+						type="file" class="form-control" id="thumbnailname"
+						name="thumbnailname">
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col-md-6 mb-3">
+					<label for="numberEaters" class="form-label">요리 정보</label>
+					<div class="input-group">
+						<span class="input-group-text">인원</span> <input type="number"
+							class="form-control" id="numberEaters" name="numberEaters">
+						<span class="input-group-text">명</span>
+					</div>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label for="foodTime" class="form-label">시간</label>
+					<div class="input-group">
+						<input type="number" class="form-control" id="foodTime"
+							name="foodTime"> <span class="input-group-text">분
+							이하</span>
+					</div>
+				</div>
+			</div>
+			<div class="row my-2">
+				<div class="col">
+					<h2>조리과정등록</h2>
+				</div>
+			</div>
+			<div class="row my-2 cooking-item cookingSection">
+			</div>	
+				<div class="row">
+					<div class="col">
+						<input type="button" class="btn btn-primary" id="addCooking"
+							data-cookingIndex="0" value="조리과정추가">
+					</div>
+				</div>
+				<div class="row my-2">
+					<div class="col text-end">
+						<button type="submit" class="btn btn-primary">등록하기</button>
+					</div>
+				</div>
+		</form>
+	</div>
+
+
+</body>
+</html>

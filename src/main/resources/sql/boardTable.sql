@@ -15,7 +15,7 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     Apoint INT DEFAULT 0,
     member_id VARCHAR(200) NOT NULL
 );
-select * from cooking;
+select * from recipe_Board;
 CREATE TABLE material (  -- 재료 리스트 테이블
     material_id INT AUTO_INCREMENT PRIMARY KEY,
     board_No INT,
@@ -31,25 +31,26 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     cook_title VARCHAR(200) NOT NULL,	-- 레시피제복
     cook_Method VARCHAR(2000) NOT NULL,-- 레시피내용
     recommended VARCHAR(2000),-- 주의사항
-    cook_material VARCHAR(2000), -- 음식재료
     cook_file VARCHAR(500) ,
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );
-select * from cooking;
+select * from cook_material where board_no=1;
+
 CREATE TABLE cook_material ( -- 요리에 재료테이블
 	cooking_id INT,
 	board_No INT,
 	material_name VARCHAR(200) NOT NULL,-- 재료이름
     mensuration VARCHAR(200) NOT NULL,-- 재료량
+     type_Material VARCHAR(200) not null,
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No),
     FOREIGN KEY (cooking_id) REFERENCES cooking(cooking_id)
 );
-select * from cook_material;
+select * from material;
 drop table recipe_Board;
 drop table material;
 drop table cooking;
 drop table cook_material;
-
+select * from cooking where = ;
 INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
 VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
  select * from material;
@@ -79,3 +80,4 @@ VALUES (82, '스파게티 조리',
  INSERT INTO cook_material (cooking_id, board_no , material_name , mensuration)
         VALUES (87,82,'cook 3번 재료','100g');
 
+delete from cook_material where board_no=19;

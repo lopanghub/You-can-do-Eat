@@ -78,6 +78,10 @@ WHERE rb.board_no = #{boardNo};
 </select>
 	
 	<!--요리과정 재료-->
+	<select id="cookMaterListByNo" parameterType="hashmap">
+		SELECT *  FROM cook_material    WHERE board_no = #{boardNo};
+	</select>	
+	<!--요리과정 재료-->
 	<select id="cookMaterList" parameterType="hashmap">
 		SELECT cm.*  FROM cook_material cm   WHERE cm.cooking_id = #{cookingId};
 	</select>	

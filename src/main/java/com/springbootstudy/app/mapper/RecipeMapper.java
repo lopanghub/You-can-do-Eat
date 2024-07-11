@@ -34,6 +34,8 @@ public interface RecipeMapper {
 		// boardNo의 cookingId 출력
 		List<Integer> cookidCheck(int boardNo);
 		
+		//boardNo의 cookMaterial 출력
+		List<CookMaterial> cookMaterListByNo(int boardNo);
 		
 		//레시피 추가하기
 		void insertRecipe(RecipeBoard recipeBoard);

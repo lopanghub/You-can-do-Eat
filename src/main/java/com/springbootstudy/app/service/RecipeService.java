@@ -95,7 +95,6 @@ public class RecipeService {
 	@Transactional
 	public void addCooking(int boardNo, Cooking cooking) throws Exception {
 		cooking.setBoardNo(boardNo);
-		System.out.println("시스탬 쿠키파일 :"+cooking.getCookFile());
 		    recipeMapper.insertCooking(cooking);
 	}
 	// 요리과정의 재료 추가하는 매서드
@@ -106,34 +105,32 @@ public class RecipeService {
 			for (CookMaterial CookMaterial : cookMaterials) {
 				CookMaterial.setCookingId(cookingId);
 				CookMaterial.setBoardNo(boardNo);
-				System.out.println("서비스에 cookingId : " + cookingId);
-				System.out.println("서비스에 boardNo : " + boardNo);
 				recipeMapper.insertCookMaterial(CookMaterial);
 
 			}
 		}
 	}
-	// 레시피 추가
+	// 레시피 업데이트
 	@Transactional
 	public void updateRecipe(RecipeBoard recipeBoard) throws Exception {
 		recipeMapper.updateRecipe(recipeBoard);
 	}
 	
-	// 재료 추가하는 메서드
+	// 재료 업데이트
 	@Transactional
 	public void updateMaterial(Material material) throws Exception {
 		recipeMapper.updateMatrial(material); // 각 재료를 데이터베이스에 저장
 		
 	}
 	
-	// 요리과정 추가하는 매서드
+	// 요리과정 업데이트
 	@Transactional
 	public void updateCooking(int boardNo, Cooking cooking) throws Exception {
 		cooking.setBoardNo(boardNo);
 		System.out.println("시스탬 쿠키파일 :"+cooking.getCookFile());
 		recipeMapper.updateCooking(cooking);
 	}
-	// 요리과정의 재료 추가하는 매서드
+	// 요리과정의 재료 업데이트
 	
 	@Transactional
 	public void updateCookMaterial(int cookingId, int boardNo, List<CookMaterial> cookMaterials) throws Exception {

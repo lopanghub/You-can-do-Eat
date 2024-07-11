@@ -57,6 +57,7 @@ public class RecipeController {
 			@RequestParam("foodGenre") String foodGenre, 
 			@RequestParam("thumbnailname") MultipartFile thumbnailname,
 			@RequestParam("numberEaters") int numberEaters, 
+			@RequestParam("foodTime") int foodTime, 
 			@RequestParam("cookTitles") List<String> cookTitles, 
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
@@ -141,10 +142,12 @@ public class RecipeController {
 			@RequestParam("foodGenre") String foodGenre, 
 			@RequestParam("thumbnailname") MultipartFile thumbnailname,
 			@RequestParam("numberEaters") int numberEaters, 
+			@RequestParam("foodTime") int foodTime, 
 			@RequestParam("cookTitles") List<String> cookTitles, 
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
 			@RequestParam("cookFiles") List<MultipartFile> cookFiles) throws Exception {
+		System.out.println("업데이트 컨트롤러" +foodName );
 		RecipeBoard recipeBoard1 = new RecipeBoard();
 		try {
 			if (thumbnailname != null && !thumbnailname.isEmpty()) {
@@ -167,7 +170,7 @@ public class RecipeController {
 		recipeBoard1.setBoardContent(boardContent);
 		recipeBoard1.setFoodGenre(foodGenre);
 		recipeBoard1.setNumberEaters(numberEaters);
-		recipeService.addRecipe(recipeBoard1);
+		recipeService.updateRecipe(recipeBoard1);
 		int boardNo =recipeBoard1.getBoardNo();
 		Cooking cooking = new Cooking();
 		
@@ -192,7 +195,7 @@ public class RecipeController {
 				}else {
 					cooking.setCookFile("");
 				}
-				recipeService.addCooking(boardNo,cooking);
+				recipeService.updateCooking(boardNo,cooking);
 			}
 		}
 		
@@ -209,7 +212,7 @@ public class RecipeController {
 			material.setMaterialName(cookMaterial.getMaterialName());
 			material.setMensuration( cookMaterial.getMensuration());
 			material.setTypeMaterial(cookMaterial.getTypeMaterial());
-			recipeService.addMaterial(material);
+			recipeService.updateMaterial(material);
 		}
 		
 		

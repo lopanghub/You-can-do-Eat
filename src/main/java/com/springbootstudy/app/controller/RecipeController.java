@@ -61,8 +61,11 @@ public class RecipeController {
 			@RequestParam("cookTitles") List<String> cookTitles, 
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
-			@RequestParam("cookFiles") List<MultipartFile> cookFiles) throws Exception {
-		System.out.println("여기는 컨트롤러 마지막 :"+ recipeBoard.getCookings());
+			@RequestParam("cookFiles") List<MultipartFile> cookFiles,
+			@RequestParam("recommendeds") List<String> materialNames,
+			@RequestParam("mensurations") List<String> mensurations,
+			@RequestParam("typeMaterials") List<String> typeMaterials
+			) throws Exception {
 		RecipeBoard recipeBoard1 = new RecipeBoard();
 		try {
 		    if (thumbnailname != null && !thumbnailname.isEmpty()) {
@@ -85,18 +88,26 @@ public class RecipeController {
 		recipeBoard1.setBoardContent(boardContent);
 		recipeBoard1.setFoodGenre(foodGenre);
 		recipeBoard1.setNumberEaters(numberEaters);
+		recipeBoard1.setFoodTime(foodTime);
 		recipeService.addRecipe(recipeBoard1);
 		int boardNo =recipeBoard1.getBoardNo();
+		
 		Cooking cooking = new Cooking();
 
 		if (cookTitles.size() > 0) {
+			
 			for (int i = 0; i < cookTitles.size(); i++) {
 				String cookTitle = cookTitles.get(i);
 				cooking.setCookTitle(cookTitle);
 				String cookMethod = cookMethods.get(i);
 				cooking.setCookMethod(cookMethod);
-				String recommended = recommendeds.get(i);
-				cooking.setRecommended(recommended);
+				if (recommendeds != null && !recommendeds.isEmpty()) {
+					String recommended=recommendeds.get(i);
+					cooking.setRecommended(recommended);
+				}else {
+					cooking.setRecommended("");
+				}
+				
 				MultipartFile cookMultiFile = cookFiles.get(i);
 				
 				if (cookMultiFile != null && !cookMultiFile.isEmpty()) {
@@ -105,7 +116,6 @@ public class RecipeController {
 					Path path = Paths.get(uploadDir + filename);
 					Files.createDirectories(path.getParent());
 					Files.write(path, cookMultiFile.getBytes());
-					System.out.println(filename);
 					cooking.setCookFile(filename); // 파일 경로 저장
 				}else {
 					cooking.setCookFile("");
@@ -113,29 +123,23 @@ public class RecipeController {
 				recipeService.addCooking(boardNo,cooking);
 			}
 		}
-		
-		 for(int i=0;i< recipeBoard.getCookings().size();i++){
-         	int cookingId = recipeService.cookIdCheck(boardNo).get(i);
-         	recipeService.addCookMaterial(cookingId,boardNo, recipeBoard.getCookings().get(i).getCookMaterials());	
-		 }	
-		 
-		 List<CookMaterial> cookMaterList =recipeService.cookMaterListByNo(boardNo);
-		 
-		 Material material = new Material();
-		 for(CookMaterial cookMaterial : cookMaterList) {
-			 material.setBoardNo(boardNo);
-			 material.setMaterialName(cookMaterial.getMaterialName());
-			 material.setMensuration( cookMaterial.getMensuration());
-			 material.setTypeMaterial(cookMaterial.getTypeMaterial());
-			 recipeService.addMaterial(material);
+		Material material = new Material();
+		 if(materialNames.size()>0) {
+			 for(int i=0; i<materialNames.size();i++) {
+				 String materialName=materialNames.get(i);
+				 material.setMaterialName(materialName);
+				 String mensuration = mensurations.get(i);
+				 material.setMensuration(mensuration);
+				 String typeMaterial = typeMaterials.get(i);
+				 material.setTypeMaterial(typeMaterial);
+				 recipeService.addMaterial(boardNo,material);
+			 }
 		 }
-		 
-		 
+		
 		return "redirect:recipeList";
 	}
 	@PostMapping("/recipeUpdateProcess")
 	public String updateRecipe(
-			@ModelAttribute RecipeBoard recipeBoard,
 			@RequestParam("boardNo")int boardNo,
 			@RequestParam("foodName") String foodName,
 			@RequestParam("boardTitle") String boardTitle,
@@ -147,17 +151,19 @@ public class RecipeController {
 			@RequestParam("cookTitles") List<String> cookTitles, 
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
-			@RequestParam("cookFiles") List<MultipartFile> cookFiles) throws Exception {
-		System.out.println("업데이트 컨트롤러" +foodName );
-		RecipeBoard recipeBoard1 = new RecipeBoard();
+			@RequestParam("cookFiles") List<MultipartFile> cookFiles,
+			@RequestParam("recommendeds") List<String> materialNames,
+			@RequestParam("mensurations") List<String> mensurations,
+			@RequestParam("typeMaterials") List<String> typeMaterials) throws Exception {
+		System.out.println("board No는"+ boardNo);
+		String filename=null;
 		try {
 			if (thumbnailname != null && !thumbnailname.isEmpty()) {
 				String uploadDir = "bin/main/static/uploads/";
-				String filename = System.currentTimeMillis() + "-" + thumbnailname.getOriginalFilename(); // 파일명 중복 방지
+				filename = System.currentTimeMillis() + "-" + thumbnailname.getOriginalFilename(); // 파일명 중복 방지
 				Path path = Paths.get(uploadDir + filename);
 				Files.createDirectories(path.getParent());
 				Files.write(path, thumbnailname.getBytes());
-				recipeBoard1.setThumbnail(filename); // 파일 경로 저장
 			} else {
 				// 파일이 제대로 전송되지 않았을 때의 처리
 				System.out.println("파일이 전송되지 않았거나 비어 있습니다.");
@@ -166,14 +172,10 @@ public class RecipeController {
 			// 파일 쓰기 중 예외 발생 시 처리
 			e.printStackTrace();
 		}
-		recipeBoard1.setFoodName(foodName);
-		recipeBoard1.setBoardTitle(boardTitle);
-		recipeBoard1.setBoardContent(boardContent);
-		recipeBoard1.setFoodGenre(foodGenre);
-		recipeBoard1.setNumberEaters(numberEaters);
-		recipeService.updateRecipe(recipeBoard1, boardNo);
-		Cooking cooking = new Cooking();
+		recipeService.updateRecipe(foodName,boardTitle,boardContent,foodGenre,numberEaters,foodTime,filename, boardNo);
 		
+		recipeService.deleteByNo(boardNo);
+		Cooking cooking = new Cooking();
 		if (cookTitles.size() > 0) {
 			for (int i = 0; i < cookTitles.size(); i++) {
 				String cookTitle = cookTitles.get(i);
@@ -186,7 +188,7 @@ public class RecipeController {
 				
 				if (cookMultiFile != null && !cookMultiFile.isEmpty()) {
 					String uploadDir = "bin/main/static/uploads/cooking/";
-					String filename = System.currentTimeMillis() + "-" + cookMultiFile.getOriginalFilename(); // 파일명 중복 방지
+					filename = System.currentTimeMillis() + "-" + cookMultiFile.getOriginalFilename(); // 파일명 중복 방지
 					Path path = Paths.get(uploadDir + filename);
 					Files.createDirectories(path.getParent());
 					Files.write(path, cookMultiFile.getBytes());
@@ -195,25 +197,22 @@ public class RecipeController {
 				}else {
 					cooking.setCookFile("");
 				}
-				recipeService.updateCooking(boardNo,cooking);
+				
+				recipeService.addCooking(boardNo,cooking);
 			}
 		}
-		
-		for(int i=0;i< recipeBoard.getCookings().size();i++){
-			int cookingId = recipeService.cookIdCheck(boardNo).get(i);
-			recipeService.addCookMaterial(cookingId,boardNo, recipeBoard.getCookings().get(i).getCookMaterials());	
-		}	
-		
-		List<CookMaterial> cookMaterList =recipeService.cookMaterListByNo(boardNo);
-		
 		Material material = new Material();
-		for(CookMaterial cookMaterial : cookMaterList) {
-			material.setBoardNo(boardNo);
-			material.setMaterialName(cookMaterial.getMaterialName());
-			material.setMensuration( cookMaterial.getMensuration());
-			material.setTypeMaterial(cookMaterial.getTypeMaterial());
-			recipeService.updateMaterial(boardNo, material);
-		}
+		 if(materialNames.size()>0) {
+			 for(int i=0; i<materialNames.size();i++) {
+				 String materialName=materialNames.get(i);
+				 material.setMaterialName(materialName);
+				 String mensuration = mensurations.get(i);
+				 material.setMensuration(mensuration);
+				 String typeMaterial = typeMaterials.get(i);
+				 material.setTypeMaterial(typeMaterial);
+				 recipeService.addMaterial(boardNo,material);
+			 }
+		 }
 		
 		
 		return "redirect:recipeList";
@@ -271,12 +270,7 @@ public class RecipeController {
 		model.addAttribute("stars", symbols.toString());
 
 		// 조리과정의 재료리스트
-		int cCount = recipeService.cookCount(boardNo);
-		for (int z = 0; z < cCount; z++) {
-			int cookingId = recipeService.cookIdCheck(boardNo).get(z);
-			model.addAttribute("cMList" + z, recipeService.cookMaterList(cookingId, boardNo));
-
-		}
+	
 		System.out.println("recipeService.getCookList(boardNo)" + recipeService.getCookList(boardNo).get(0).getCookFile());
 		// 조리과정리스트
 		
@@ -295,15 +289,8 @@ public class RecipeController {
 	@GetMapping("/updateRecipeForm")
 	public String recipeUpdateForm(@RequestParam("boardNo") int boardNo, Model model) {
 		// 조리과정의 재료리스트
-		int cCount = recipeService.cookCount(boardNo);
-		List<List<CookMaterial>> allCookMaterials = new ArrayList<>();
-		for (int z = 0; z < cCount; z++) {
-		    int cookingId = recipeService.cookIdCheck(boardNo).get(z);
-		    List<CookMaterial> cookMaterials = recipeService.cookMaterList(cookingId, boardNo);
-		    allCookMaterials.add(cookMaterials);
-		}
-		model.addAttribute("allCookMaterials", allCookMaterials);
-
+		model.addAttribute("mList",recipeService.getMaterialList(boardNo));
+		System.out.println( recipeService.getMaterialList(boardNo).get(0).getMaterialName());
 		// 상세보기
 		model.addAttribute("rList", recipeService.getRecipe(boardNo));
 		// 요리리스트
@@ -314,18 +301,7 @@ public class RecipeController {
 	}
 
 	@PostMapping("/deleteRecipe")
-	public String recipeDelete(@RequestParam("boardNo") int boardNo, HttpServletResponse response) throws IOException {
-		response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
-
-		out.println("<script>");
-		out.println("if(confirm('정말 삭제하시겠습니까?')) {");
-		out.println("    window.location.href = 'deleteConfirmedRecipe?boardNo=" + boardNo + "';");
-		out.println("} else {");
-		out.println("    history.back();");
-		out.println("}");
-		out.println("</script>");
-
+	public String recipeDelete(@RequestParam("boardNo") int boardNo) throws IOException {
 		commentService.deleteCommentByNo(boardNo);
 		recipeService.deleteRecipe(boardNo);
 

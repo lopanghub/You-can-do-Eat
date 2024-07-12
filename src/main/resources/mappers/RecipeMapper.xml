@@ -38,17 +38,10 @@
     WHERE 
         board_no = #{boardNo}
 </update>
-<!-- 요리과정의 요리재료 업데이트하기 -->
-<update id="updateCookMaterial" parameterType="list">
-    UPDATE cook_material
-    SET 
-        material_name = #{materialName}, 
-        mensuration = #{mensuration},
-        type_Material = #{typeMaterial}
-    WHERE 
-        cooking_id = #{cookingId}
-        AND board_no = #{boardNo}
-</update>
+
+<select id="getMaterialListByNoId" >
+	select * from Material where cooking_id= #{cookingId} and board_no=#{boardNo}
+</select>
 
 
 
@@ -71,12 +64,6 @@
         VALUES (#{boardNo}, #{cookTitle}, #{cookMethod}, #{recommended},#{cookFile})
 </insert>
 
-<!-- 요리과정의 요리재료 추가하기 -->
-<insert id="insertCookMaterial"  parameterType="list" >
-        INSERT INTO cook_material (cooking_id, board_no , material_name , mensuration,type_Material)
-        VALUES (#{cookingId}, #{boardNo} , #{materialName} ,#{mensuration},#{typeMaterial})
-</insert>
-
 
 	
 	<!--recipeDelete  -->
@@ -91,9 +78,7 @@
 	<delete id="deleteCookingByNo">
 	DELETE FROM cooking WHERE  board_No = #{boardNo};
 	</delete>
-	<delete id="deleteCookMatrailByNo">
-	delete from cook_material where board_no=#{boardNo};
-	</delete>
+	
 	<!--materialDelete  -->
 	<delete id="deleteMaterial">
 	DELETE FROM material WHERE material_id = #{materialId};
@@ -112,15 +97,7 @@ INNER JOIN cooking c ON rb.board_no = c.board_no
 WHERE rb.board_no = #{boardNo};
 </select>
 	
-	<!--요리과정 재료-->
-	<select id="cookMaterListByNo" parameterType="hashmap">
-		SELECT *  FROM cook_material    WHERE board_no = #{boardNo};
-	</select>	
-	<!--요리과정 재료-->
-	<select id="cookMaterList" parameterType="hashmap">
-		SELECT cm.*  FROM cook_material cm   WHERE cm.cooking_id = #{cookingId};
-	</select>	
-	
+
 	<!--레시피 리스트-->
 	<select id="recipeBoardList">
 		select * from Recipe_Board order by board_No desc

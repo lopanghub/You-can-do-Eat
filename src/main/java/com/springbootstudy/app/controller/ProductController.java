@@ -13,10 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import org.json.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -88,12 +92,6 @@ public class ProductController {
 	    List<CartProductDTO> cartDetails = (List<CartProductDTO>) session.getAttribute("cartDetails");
         MemberShip member = (MemberShip) session.getAttribute("member");
         
-     // 로그로 세션에 있는 회원 정보 확인
-        if (member != null) {
-            log.info("회원 정보: 이름={}, 이메일={}, 전화번호={}, 주소={}", member.getName(), member.getEmail(), member.getMobile(), member.getAddress1());
-        } else {
-            log.info("세션에 회원 정보가 없습니다.");
-        }
         
         //결제창 총액 계산 
         int totalAmount = 0;
@@ -116,5 +114,6 @@ public class ProductController {
 	    
 	    return "views/shop/shopOrder";
 	}
-
+	
+	
 }

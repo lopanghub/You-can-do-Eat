@@ -1,4 +1,4 @@
-import { formatPrice } from './shopModule.js';
+import { formatPrice } from './shopUtils.js';
 
 $(function() {
     let detailQuantity = 1;

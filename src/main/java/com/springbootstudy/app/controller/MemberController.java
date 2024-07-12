@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class MemberController {
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -40,7 +40,25 @@ public class MemberController {
 	private MemberService memberService;
 
 	private static final String DEFAULT_PATH = "src/main/resources/static/profiles/";
-	
+
+	@PostMapping("/delete")
+	public String deleteUser(MemberShip member, HttpServletResponse pesp, Model model, HttpSession session,
+			@RequestParam(value = "id", required = false) String id) throws IOException {
+		MemberShip m = (MemberShip) session.getAttribute("member");
+		member = memberService.getMember(m.getId());
+		session.setAttribute("member", member);
+		System.out.println(id);
+		memberService.deleteUser(id);
+		return "redirect:login";
+	}
+
+	/*
+	 * // 회원탈퇴 페이지
+	 * 
+	 * @GetMapping("/userdelete") public String userdelete() { return
+	 * "views/joindelete"; }
+	 */
+
 	// 마이페이지
 	@GetMapping("/memberMyPage")
 	public String myPageForm() {
@@ -57,14 +75,14 @@ public class MemberController {
 			@RequestParam(value = "gerdonalGet", defaultValue = "false") boolean gerdonalGet,
 			@RequestParam(value = "profileImage") MultipartFile multipartFile,
 			@RequestParam(value = "pass1", required = false) String pass) throws IOException {
-		
+
 		// 비밀번호를 변경 안해도 수정 가능
 		if (pass == null || pass.isEmpty()) {
-	        MemberShip existingMember = memberService.getMemberById(member.getId());
-	        member.setPass(existingMember.getPass());
-	    } else {
-	    	member.setPass(passwordEncoder.encode(pass));
-	    }
+			MemberShip existingMember = memberService.getMemberById(member.getId());
+			member.setPass(existingMember.getPass());
+		} else {
+			member.setPass(passwordEncoder.encode(pass));
+		}
 
 		if (multipartFile != null && !multipartFile.isEmpty()) {
 			File parent = new File(DEFAULT_PATH);
@@ -93,11 +111,11 @@ public class MemberController {
 		member.setGerdonalGet(gerdonalGet);
 		// 회원 수정하면서 DB에서 가져오기
 		memberService.updateMember(member);
-		MemberShip m = (MemberShip)session.getAttribute("member");
+		MemberShip m = (MemberShip) session.getAttribute("member");
 		member = memberService.getMember(m.getId());
 		session.setAttribute("member", member);
 
-		//return "views/joinupdate";
+		// return "views/joinupdate";
 		return "redirect:/memberMyPage";
 	}
 
@@ -185,8 +203,8 @@ public class MemberController {
 		session.setAttribute("member", member);
 		// System.out.println("member.id : " + member.getId());
 		System.out.println("member.id : " + member.getId());
-		
-	    log.info("로그인 성공: 세션 ID={}, 회원 ID={}", session.getId(), member.getId());
+
+		log.info("로그인 성공: 세션 ID={}, 회원 ID={}", session.getId(), member.getId());
 
 		return "redirect:/";
 	}

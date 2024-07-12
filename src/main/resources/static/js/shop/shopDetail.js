@@ -1,11 +1,9 @@
+import { formatPrice } from './shopUtils.js';
+
 $(function() {
     let detailQuantity = 1;
     const detailPrice = parseInt($("#productPrice").data("price"));
 
-    // 1,000원 처럼 천단위 콤마
-    function formatPrice(value) {
-        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' 원';
-    }
 
     // 상품 수량 +- 제어
     function updateDetailQuantityDisplay() {

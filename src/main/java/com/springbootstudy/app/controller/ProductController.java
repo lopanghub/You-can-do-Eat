@@ -1,6 +1,5 @@
 package com.springbootstudy.app.controller;
 
-import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootstudy.app.domain.MemberShip;
 import com.springbootstudy.app.domain.Product;
@@ -13,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +36,7 @@ public class ProductController {
 //		return productService.getProductByCategory(category);
 //	}
 	
-	//상품 상세보기 페이지
+	//상품 상세보기 페이지로 이동
 	@GetMapping("/shopDetail")
     public String getProductByID(Model model, @RequestParam("productId") int productId) {
         Product product = productService.getProductById(productId);
@@ -46,24 +44,20 @@ public class ProductController {
         return "views/shop/shopDetail";
     }
 	
-	//장바구니 추가하기 버튼 누를시
+	//shopDetails-장바구니 추가하기 버튼 누를시
 	@PostMapping("/addCart")
 	public String addCart(@RequestParam("productId") int productId,
-				@RequestParam("quantity") int quantity, Model model) {
+				@RequestParam("quantity") int quantity, Model model, HttpSession session) {
+		if(session.getAttribute("member") == null) {
+			return "redirect:/login";
+		}
+		
 		productService.addCart(productId, quantity);
 		
 		return "redirect:/shopDetail?productId="+productId;
 	}
 	
-	//장바구니 페이지로 이동
-	@GetMapping("/shopCart")
-    public String getCartDetails(Model model) {
-        List<CartProductDTO> cartDetails = productService.getCartDetails();
-        model.addAttribute("cartDetails", cartDetails);
-        return "views/shop/shopCart";
-    }
-	
-	//바로구매 버튼 누를시
+	//shopDetails-바로구매 버튼 누를시
 	@PostMapping("/orderNow")
 	public String orderNow(Model model, @RequestParam("productId") int productId,
 			@RequestParam("quantity") int quantity, HttpSession session) {
@@ -74,7 +68,15 @@ public class ProductController {
 		return "redirect:/shopOrder";
 	}
 	
-	//장바구니에서 구매버튼 누를시 구매 페이지 이동 
+	//장바구니 페이지로 이동
+	@GetMapping("/shopCart")
+    public String getCartDetails(Model model) {
+        List<CartProductDTO> cartDetails = productService.getCartDetails();
+        model.addAttribute("cartDetails", cartDetails);
+        return "views/shop/shopCart";
+    }
+	
+	//shopCart- 구매버튼 누를시 구매 페이지 이동 
 	@PostMapping("/cartToOrder")
 	public String cartToOrder(HttpSession session){
 		List<CartProductDTO> cartDetails = productService.getCartDetails();

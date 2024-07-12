@@ -62,10 +62,11 @@ public class RecipeController {
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
 			@RequestParam("cookFiles") List<MultipartFile> cookFiles,
-			@RequestParam("recommendeds") List<String> materialNames,
+			@RequestParam("materialNames") List<String> materialNames,
 			@RequestParam("mensurations") List<String> mensurations,
 			@RequestParam("typeMaterials") List<String> typeMaterials
 			) throws Exception {
+		System.out.println("recommendeds");
 		RecipeBoard recipeBoard1 = new RecipeBoard();
 		try {
 		    if (thumbnailname != null && !thumbnailname.isEmpty()) {
@@ -152,7 +153,7 @@ public class RecipeController {
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
 			@RequestParam("cookFiles") List<MultipartFile> cookFiles,
-			@RequestParam("recommendeds") List<String> materialNames,
+			@RequestParam("materialNames") List<String> materialNames,
 			@RequestParam("mensurations") List<String> mensurations,
 			@RequestParam("typeMaterials") List<String> typeMaterials) throws Exception {
 		System.out.println("board No는"+ boardNo);
@@ -290,13 +291,12 @@ public class RecipeController {
 	public String recipeUpdateForm(@RequestParam("boardNo") int boardNo, Model model) {
 		// 조리과정의 재료리스트
 		model.addAttribute("mList",recipeService.getMaterialList(boardNo));
-		System.out.println( recipeService.getMaterialList(boardNo).get(0).getMaterialName());
 		// 상세보기
 		model.addAttribute("rList", recipeService.getRecipe(boardNo));
 		// 요리리스트
-		
+		recipeService.getCookList(boardNo);
 		model.addAttribute("cList", recipeService.getCookList(boardNo));
-
+		
 		return "views/recipe/recipeUpdate";
 	}
 

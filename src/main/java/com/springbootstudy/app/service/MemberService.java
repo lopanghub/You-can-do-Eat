@@ -26,11 +26,15 @@ public class MemberService {
 		}
 		return true;
 	}
+	
+	public MemberShip getMemberById(String id) {
+        return memberMapper.getMemberShip(id);
+    }
 
 	// DB에서 pass 있는지 확인
 	public boolean isPasscheck(String id, String pass) {
 
-		String dbPass = memberMapper.memberPassCheck(pass);
+		String dbPass = memberMapper.memberPassCheck(id);
 
 		boolean result = false;
 
@@ -44,6 +48,12 @@ public class MemberService {
 	public void addMember(MemberShip member) {
 		member.setPass(passwordEncoder.encode(member.getPass()));
 		memberMapper.insertMember(member);
+	}
+	
+	// 회원정보를 DB에 update 하기
+	public void updateMember(MemberShip member) {
+		//member.setPass(passwordEncoder.encode(member.getPass()));
+		memberMapper.updateMember(member);
 	}
 
 	// login 처리 메서드

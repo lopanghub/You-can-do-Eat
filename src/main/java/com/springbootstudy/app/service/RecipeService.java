@@ -64,14 +64,7 @@ public class RecipeService {
 		return recipeMapper.getMaterialList(boardNo);
 	}
 
-	// boardNo 의 cooking 각 요리과정 재료 리스트
-	public List<CookMaterial> cookMaterList(int cookingId, int boardNo) {
-
-		Map<String, Object> params = new HashMap<>();
-		params.put("cookingId", cookingId);
-		params.put("boardNo", boardNo);
-		return recipeMapper.cookMaterList(params);
-	}
+	
 
 	// cookingId 의시작 을 알기위한 매서드
 	public List<Integer> cookIdCheck(int boardNo) {
@@ -86,7 +79,8 @@ public class RecipeService {
 
 	// 재료 추가하는 메서드
 	@Transactional
-	public void addMaterial(Material material) throws Exception {
+	public void addMaterial(int boardNo,Material material) throws Exception {
+		material.setBoardNo(boardNo);
 				recipeMapper.insertMaterial(material); // 각 재료를 데이터베이스에 저장
 
 	}
@@ -99,71 +93,58 @@ public class RecipeService {
 	}
 	// 요리과정의 재료 추가하는 매서드
 
-	@Transactional
-	public void addCookMaterial(int cookingId, int boardNo, List<CookMaterial> cookMaterials) throws Exception {
-		if (cookMaterials != null) {
-			for (CookMaterial CookMaterial : cookMaterials) {
-				CookMaterial.setCookingId(cookingId);
-				CookMaterial.setBoardNo(boardNo);
-				recipeMapper.insertCookMaterial(CookMaterial);
-
-			}
-		}
-	}
+	
 	// 레시피 업데이트
 	@Transactional
-	public void updateRecipe(RecipeBoard recipeBoard, int boardNo) throws Exception {
+	public void updateRecipe(String foodName,String boardTitle,String boardContent,String foodGenre,int numberEaters,int foodTime,String filename, int boardNo) throws Exception {
 		Map<String, Object> params = new HashMap<>();
-		params.put("recipeBoard", recipeBoard);
+		params.put("foodName", foodName);
+		params.put("boardTitle", boardTitle);
+		params.put("boardContent", boardContent);
+		params.put("foodGenre", foodGenre);
+		params.put("numberEaters", numberEaters);
+		params.put("numberEaters", numberEaters);
+		params.put("foodTime", foodTime);
+		params.put("filename", filename);
 		params.put("boardNo", boardNo);
 		recipeMapper.updateRecipe(params);
 	}
 	
 	// 재료 업데이트
 	@Transactional
-	public void updateMaterial(int boardNo,Material material) throws Exception {
+	public void updateMaterial(int boardNo,String materialName,String mensuration,String typeMaterial) throws Exception {
 		Map<String, Object> params = new HashMap<>();
 		params.put("boardNo", boardNo);
-		params.put("material", material);
+		params.put("materialName", materialName);
+		params.put("mensuration", mensuration);
+		params.put("typeMaterial", typeMaterial);
 		
-		recipeMapper.updateMatrial(params); // 각 재료를 데이터베이스에 저장
+		recipeMapper.updateMaterial(params); // 각 재료를 데이터베이스에 저장
 		
 	}
 	
 	// 요리과정 업데이트
 	@Transactional
-	public void updateCooking(int boardNo, Cooking cooking) throws Exception {
+	public void updateCooking(int boardNo,String cookTitle,String cookMethod,String recommended,String filename) throws Exception {
 		Map<String, Object> params = new HashMap<>();
 		params.put("boardNo", boardNo);
-		params.put("material",cooking);
+		params.put("cookTitle",cookTitle);
+		params.put("cookMethod",cookMethod);
+		params.put("recommended",recommended);
+		params.put("filename",filename);
 		recipeMapper.updateCooking(params);
 	}
 	// 요리과정의 재료 업데이트
 	
-	@Transactional
-	public void updateCookMaterial(int cookingId, int boardNo, List<CookMaterial> cookMaterials) throws Exception {
-		if (cookMaterials != null) {
-			for (CookMaterial CookMaterial : cookMaterials) {
-				Map<String, Object> params = new HashMap<>();
-				params.put("cookingId", cookingId);
-				params.put("boardNo", boardNo);
-				params.put("CookMaterial",CookMaterial);
-				System.out.println("서비스에 CookMaterial : " + CookMaterial);
-				recipeMapper.updateCookMaterial(params);
-				
-			}
-		}
-	}
-	
-	@Transactional
-	public List<CookMaterial> cookMaterListByNo(int boardNo){
-		return recipeMapper.cookMaterListByNo(boardNo);
+	public void deleteByNo(int boardNo) {
+		recipeMapper.deleteMaterialByNo(boardNo);
+		recipeMapper.deleteCookingByNo(boardNo);
 	}
 	
 	
 	// boardNo 삭제
 	public void deleteRecipe(int boardNo) {
-		recipeMapper.deleteCookMatrailByNo(boardNo);
+		
 		recipeMapper.deleteCookingByNo(boardNo);
 		recipeMapper.deleteMaterialByNo(boardNo);
 		recipeMapper.deleteRecipe(boardNo);

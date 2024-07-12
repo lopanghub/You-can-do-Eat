@@ -15,6 +15,7 @@ public class Material {
 
 	// 확인 - test!
     private int materialId;
+    private int cookingId;
     private int boardNo; // ManyToOne 관계가 있던 RecipeBoard 대신 boardNo 필드를 사용합니다.
     private String materialName;	// 재료 이름
     private String mensuration;		// 재료 량

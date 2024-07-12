@@ -34,30 +34,16 @@ public class RecipeAjax {
 	         return recipe;
 	    } 
 	   
-	   //cookingId 의 재료리스트 -조리리스트 책 버튼
-		@GetMapping("/ajax/recipeMList")
-
-	    public List<CookMaterial> recipeMList(@RequestParam(name = "cookingId") int cookingId,@RequestParam(name = "boardNo") int boardNo) {
-	    	
-	        return recipeService.cookMaterList(cookingId,boardNo);
-	    }
-		
 	
 	
 		// 조리과정리스트 -조리리스트 책 버튼
     @GetMapping("/ajax/cookList")
 
     public Cooking cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage,@RequestParam(name = "cookingId") int cookingId) {
-    	
         Cooking getCook = recipeService.getCookList(boardNo).get(currentPage);
          return getCook;
     }
     
-    //cookingId 의 재료리스트 -조리리스트 책 버튼
-	@GetMapping("/ajax/cookMList")
-    public List<CookMaterial> cookMList(@RequestParam(name = "cookingId") int cookingId,@RequestParam(name = "boardNo") int boardNo) {
-        return recipeService.cookMaterList(cookingId,boardNo);
-    }
 	
 	// 책의 첫페이지  -조리리스트 책 버튼
 	@GetMapping("/ajax/bookDetail")

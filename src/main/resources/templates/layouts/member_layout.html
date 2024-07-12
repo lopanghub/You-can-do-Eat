@@ -13,6 +13,7 @@
 	<script src="js/login.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script src="js/member.js"></script>
+	<script src="js/memberupdate.js"></script>
 	<link href="css/header.css" rel="stylesheet">
 	<link href="css/footer.css" rel="stylesheet">
 	<link href="css/listRecipe.css" rel="stylesheet">
@@ -21,13 +22,10 @@
   </head>
   <body>
   	<div class="container">
-  		헤더
   	    <div th:replace="~{fragments/header::header}"></div>
 		
-		/* content : 요청 마다 변경되는 부분 */
 		<div layout:fragment="content"></div>
 		
-		푸터
 		<div th:replace="~{fragments/footer::footer}"></div>
   		
 	</div>

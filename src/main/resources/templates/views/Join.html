@@ -61,6 +61,7 @@
 				<div class="col-3">
 					<label for="pass2" class="form-label">* 비밀번호 확인 : </label> <input
 						type="password" class="form-control" name="pass2" id="pass2">
+						<div class="invalid-feedback" id="passwordcheck">비밀번호 확인해주세요.</div>
 				</div>
 			</div>
 			<div class="row my-3">
@@ -146,14 +147,14 @@
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-check">
-								<input type="radio" class="form-check-input" name="emailGet"
+								<input type="radio" class="form-check-input" name="emailGet1"
 									id="emailOk" value="true"> <label
 									class="form-check-label" for="emailOk">동의</label>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-check">
-								<input type="radio" class="form-check-input" name="emailGet"
+								<input type="radio" class="form-check-input" name="emailGet2"
 									id="emailNo" value="false"> <label
 									class="form-check-label" for="emailNo">동의안함</label>
 							</div>
@@ -165,14 +166,14 @@
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-check">
-								<input type="radio" class="form-check-input" name="gerdonalGet"
+								<input type="radio" class="form-check-input" name="gerdonalGet1"
 									id="emailOk" value="true"> <label
 									class="form-check-label" for="emailOk">동의</label>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-check">
-								<input type="radio" class="form-check-input" name="gerdonalGet"
+								<input type="radio" class="form-check-input" name="gerdonalGet2"
 									id="emailNo" value="false"> <label
 									class="form-check-label" for="emailNo">동의안함</label>
 							</div>
@@ -182,7 +183,7 @@
 			</div>
 			<div class="row mb-3 mt-5">
 				<div class="col-8 offset-5">
-					<input type="submit" value="가입하기" class="btn btn-secondary">
+					<input type="submit" value="가입하기" class="btn btn-secondary" id="memberShipwriter">
 					<input type="reset" value="다시쓰기" class="btn btn-secondary"
 						id="reset">
 				</div>

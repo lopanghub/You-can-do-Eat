@@ -54,18 +54,18 @@
 									</div>
 								</div>
 								<div class="row border justify-content-start">
-									<div class="col-6">
-										<ul>
-											<th:block th:each="mList, cStatus : ${mList}">
+									<th:block th:each="mList, cStatus : ${mList}">
+										<div class="col-6">
+											<ul>
 												<li>
 													<div class="row my-1">
 														<div class="col">[[${mList.materialName}]]</div>
 														<div class="col">[[${mList.mensuration}]]</div>
 													</div>
 												</li>
-											</th:block>
-										</ul>
-									</div>
+											</ul>
+										</div>
+									</th:block>
 								</div>
 							</div>
 						</div>
@@ -77,9 +77,10 @@
 										<div class="col-5">
 											<div class="row">
 												<div class="col mx-4">
-													<th:block th:if="${cList.cookFile}">
-														<img th:src="@{'./uploads/cooking/'+${cList.cookFile}}" alt="샘플이미지" class="img-fluid"
-															style="height:300px; width:300px;">
+													<th:block th:if="${cList.cookFile!=''}">
+														<img th:src="@{'./uploads/cooking/'+${cList.cookFile}}"
+															alt="샘플이미지" class="img-fluid"
+															style="height: 300px; width: 300px;">
 													</th:block>
 													<th:block th:unless="${cList.cookFile}">
 														<img src="https://via.placeholder.com/300" alt="샘플이미지"
@@ -120,35 +121,7 @@
 											</th:block>
 										</div>
 									</div>
-									<div class="row mx-4">
-										<div class="col ">
-											<h4 class="fw-bold">요리재료</h4>
-										</div>
-									</div>
-									<div class="row my-1 mx-4 list border row-cols-2 rounded">
-										<th:block
-											th:if="${not #lists.isEmpty(__${'cMList' + cStatus.index}__)}">
-											<th:block
-												th:each="cMList0 : ${__${'cMList' + cStatus.index}__}">
-												<div class="col">
-													<div class="row">
-														<div class="col">
-															<span th:text="${cMList0.materialName}"></span>
-														</div>
-														<div class="col">
-															<span th:text="${cMList0.mensuration}"></span>
-														</div>
-													</div>
-												</div>
-											</th:block>
-										</th:block>
-										<th:block
-											th:unless="${not #lists.isEmpty(__${'cMList' + cStatus.index}__)}">
-											<div class="col">
-												<p>현 조리과정에는 재료가 포함되어 있지 않습니다.</p>
-											</div>
-										</th:block>
-									</div>
+
 								</div>
 							</div>
 						</th:block>
@@ -309,6 +282,7 @@
 					value="삭제하기" />
 			</div>
 		</div>
+	
 	</div>
 
 	<!-- Bootstrap Bundle with Popper -->

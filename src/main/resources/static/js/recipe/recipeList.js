@@ -143,14 +143,7 @@ $(function() {
 								`}
 							</div>
 						</div>
-							<div class="row border mx-4">
-							<div class="col ">
-								<h4 class="fw-bold">요리재료</h4>
-							</div>
-						</div>
-						<!--요리재료 반복문  -->
-						<div class="row my-1  mx-4 listM${cookingId} border row-cols-2">
-						</div>
+						
                     `;
 
 					// 새로운 콘텐츠를 타겟 div에 추가

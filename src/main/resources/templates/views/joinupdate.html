@@ -28,9 +28,17 @@
 								th:value="${session.member.name}" readonly>
 				</div>
 			</div>
+			<div class="row mt-5 mb-3">
+				<div class="col-2 offset-2">
+					<label for="name" class="form-label">* 생 일 : </label> <input
+						type="text" class="form-control" name="birthdate" id="birthdate" style="background-color:lightgray;"
+						th:value="${session.member.birthdate}" readonly>
+				</div>
+			</div>
 			<div class="col-4 offset-2">
-				<label for="file1" class="form-label">프로필 사진 : </label> <input
-					type="file" class="form-control" name="profile" id="file1">
+			    <label for="profile" class="form-label">프로필 사진 : </label>
+			    <input type="file" class="form-control" name="profileImage" id="profile" th:attr="data-preview-image=#{'preview'}">
+			    <img id="preview" alt="프로필 사진 미리보기" class="img-fluid mt-2" style="max-width: 100%; max-height: 300px;">
 			</div>
 			<div class="row my-3">
 				<div class="col-5 offset-2">
@@ -55,7 +63,29 @@
 				<div class="row">
 					<div class="col " id="oldPassComment">
 					</div>
-				</div>	
+					<div class="col " id="someContainer">
+					</div>
+				</div>
+				<!--/* 숨긴 폼 영역 비밀번호 변경 */-->
+			<div class="rew my-3 d-none" id="passUpdateForm">
+			<div class="col">
+			<div class="row my-3">
+				<div class="col-5 offset-2">
+					<label for="pass1" class="form-label">* 새 비밀번호 : </label>
+					<input type="password" class="form-control" name="pass1" id="pass1">					
+				</div>
+			</div>
+			<div class="row my-3">
+				<div class="col-5 offset-2">
+					<label for="pass2" class="form-label">* 새 비밀번호 확인 : </label>
+					<input type="password" class="form-control" name="pass2" id="pass2">
+				</div>
+			</div>
+			</div>
+			</div>
+				
+				
+					
 			</div>
 			<div class="row my-3">
 				<div class="col-5 offset-2">

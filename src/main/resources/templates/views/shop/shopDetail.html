@@ -21,9 +21,23 @@
             <!-- 상품 정보 -->
             <div class="row">
                 <div class="col">
-                    <h2 class=productName th:text="${product.ingredient}"></h2>
-                    <h5>상품설명? 추가하는게 좋을 것 같슴다</h5>
-                    <p id="productPrice" th:data-price="${product.price}"></p>
+                    <h3 class=productName th:text="${product.ingredient}"></h3>
+                    <h5>맛있는 고당도 사과</h5>
+                  	<p class="product-origin">원산지: <span th:text="${product.origin}"></span></p>
+					<div class="shipping-info">
+						<table>
+							<tr>
+								<th>배송정보</th>
+								<td>택배배송 <span class="delivery-info-icon">?</span>
+								</td>
+							</tr>
+							<tr>
+								<th>배송비</th>
+								<td>무료</td>
+							</tr>
+						</table>
+					</div>
+					<p id="productPrice" th:data-price="${product.price}"></p>
                 </div>
             </div>
 
@@ -32,17 +46,23 @@
                 <div class="col"></div>
             </div>
 
-            <!-- 수량 조절 버튼 -->
-			<div class="row d-flex justify-content-between">
-				<div class="col">
-					<div class="detail-quantity-control-wrapper">
-						<div class="detail-quantity-input-container">
-							<button class="detail-quantity-input-minus">-</button>
-							<input class="detail-quantity-input" type="text" value="1"
-								readonly />
-							<button class="detail-quantity-input-plus">+</button>
+
+
+			<div class="quantity-control-box">
+				<p class="small-ingredient" th:text="${product.ingredient}"></p>
+				
+				<!-- 수량 조절 버튼 -->
+				<div class="row d-flex justify-content-between">
+					<div class="col">
+						<div class="detail-quantity-control-wrapper">
+							<div class="detail-quantity-input-container">
+								<button class="detail-quantity-input-minus">-</button>
+								<input class="detail-quantity-input" type="text" value="1"
+									readonly />
+								<button class="detail-quantity-input-plus">+</button>
+							</div>
+							<button class="detail-resetQuantity">X</button>
 						</div>
-						<button class="detail-resetQuantity">X</button>
 					</div>
 				</div>
 			</div>

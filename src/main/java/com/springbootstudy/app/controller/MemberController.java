@@ -27,8 +27,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
+@Slf4j
 public class MemberController {
 	
 	@Autowired
@@ -182,6 +184,9 @@ public class MemberController {
 
 		session.setAttribute("member", member);
 		// System.out.println("member.id : " + member.getId());
+		System.out.println("member.id : " + member.getId());
+		
+	    log.info("로그인 성공: 세션 ID={}, 회원 ID={}", session.getId(), member.getId());
 
 		return "redirect:/";
 	}

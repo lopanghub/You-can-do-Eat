@@ -1,137 +1,140 @@
 $(function() {
-     const totalPages = parseInt($("#bookCount").val()); // 전체 페이지 수
-    const mainPage = 0; // 메인 소개 페이지
-    let currentPage = mainPage;
-    let cookingId = parseInt($("#cookingId").val()); // 요리 ID
-	let isPlay=false; // 플레이버튼
-	let isBook=false; // 레시피보기(북) 버튼
+	const totalPages = parseInt($("#bookCount").val()); // 전체 페이지 수
+	const mainPage = 0; // 메인 소개 페이지
+	let currentPage = mainPage;
+	let cookingId = parseInt($("#cookingId").val()); // 요리 ID
+	let isPlay = false; // 플레이버튼
+	let isBook = false; // 레시피보기(북) 버튼
 	let id = $("#id").val();
 	var intervalId;
-  // 이전 페이지 버튼 클릭 시
-$(document).on("click", "#prevPageBtn", function() {
-    cookingId--;
-    currentPage--;
-    if (currentPage < mainPage) {
-        currentPage = totalPages;
-        cookingId = parseInt($("#cookingId").val())+ totalPages-1;
-    }
+	// 이전 페이지 버튼 클릭 시
+	$(document).on("click", "#prevPageBtn", function() {
+		cookingId--;
+		currentPage--;
+		if (currentPage < mainPage) {
+			currentPage = totalPages;
+			cookingId = parseInt($("#cookingId").val()) + totalPages - 1;
+		}
 
-    if (currentPage === mainPage) {
-        loadBookDetail();
-    } else {
-        loadCookList(currentPage-1, cookingId);
-    }
-});
+		if (currentPage === mainPage) {
+			loadBookDetail();
+		} else {
+			loadCookList(currentPage - 1, cookingId);
+		}
+	});
 
-// 다음 페이지 버튼 클릭 시
-$(document).on("click", "#nextPageBtn", rightPage)
+	// 다음 페이지 버튼 클릭 시
+	$(document).on("click", "#nextPageBtn", rightPage)
 
-// 오른페이지 가는 함수
-function rightPage() {
-    cookingId++;// 7 8 9
-    currentPage++;  
-    console.log("바로 앞의 cookingId: " + cookingId);
+	// 오른페이지 가는 함수
+	function rightPage() {
+		cookingId++;// 7 8 9
+		currentPage++;
+		console.log("바로 앞의 cookingId: " + cookingId);
 
-    if (currentPage > totalPages) {  //3 //7
-        currentPage = mainPage;
-        cookingId = parseInt($("#cookingId").val());
-         console.log("cookingId를 초기화 했습니다 cookingId: " + cookingId);
-    }
+		if (currentPage > totalPages) {  //3 //7
+			currentPage = mainPage;
+			cookingId = parseInt($("#cookingId").val());
+			console.log("cookingId를 초기화 했습니다 cookingId: " + cookingId);
+		}
 
-    if (currentPage === mainPage) {
-        loadBookDetail();
-    } else {
-        loadCookList(currentPage-1, cookingId-1);
-        console.log("else 안의cookingId: " + cookingId);
-    }
-}
-    
-    
+		if (currentPage === mainPage) {
+			loadBookDetail();
+		} else {
+			loadCookList(currentPage - 1, cookingId - 1);
+			console.log("else 안의cookingId: " + cookingId);
+		}
+	}
 
-    
 
-    // 책 보기 버튼 클릭 시
-    $("#bookBtn").on("click", function() {
-        // 기존 내용 초기화
-         $(".rList").empty();
-		if(isBook){
-			isBook=false;
-		}else{
-			
-		
-        // 초기 페이지 구조
-        const htmlContent = `
+
+
+
+	// 책 보기 버튼 클릭 시
+	$("#bookBtn").on("click", function() {
+		// 기존 내용 초기화
+		$(".rList").empty();
+		if (isBook) {
+			isBook = false;
+		} else {
+
+
+			// 초기 페이지 구조
+			const htmlContent = `
             <div class="col" style="background-image:url('/images/note11.png'); background-size:cover; height:100%; width: 100%;">
                 <div class="row page" style="margin-top:80px;"></div>
             </div>
         `;
-        $(".rList").append(htmlContent);
-        
-       loadBookDetail();
-       	isBook=true;
-       }
-    });
-    
+			$(".rList").append(htmlContent);
 
-// 스타트 버튼이 클릭되었을때
-$(document).on("click","#startBtn",function() {
-	 
-	  isPlay = true;
-    setTimeout(()=>{togglePlayPause(isPlay)},100);  // 초기 버튼 상태 설정
-});
-$(document).on("click","#pauseBtn",function() {
-	 isPlay = false;
-   	setTimeout(()=>{togglePlayPause(isPlay)},100);  // 초기 버튼 상태 설정
-});
-// 버튼눌렀을때 멈춤 재생 함수
-function togglePlayPause(isPlay) {
-    if (isPlay) {
-         intervalId = setInterval(rightPage, 1000);
-       
-    } else {
-       
-      clearInterval(intervalId);
-    }
-    updatePlayPauseButton(isPlay);  // 버튼 상태 업데이트
-} 
+			loadBookDetail();
+			isBook = true;
+		}
+	});
 
-// 버튼 업데이트 함수
-function updatePlayPauseButton(isPlay) {
-    const buttonHTML = isPlay ?
-      `<button id="pauseBtn" class="btn btn-dark" onclick="togglePlayPause()">
+
+	// 스타트 버튼이 클릭되었을때
+	$(document).on("click", "#startBtn", function() {
+
+		isPlay = true;
+		setTimeout(() => { togglePlayPause(isPlay) }, 100);  // 초기 버튼 상태 설정
+	});
+	$(document).on("click", "#pauseBtn", function() {
+		isPlay = false;
+		setTimeout(() => { togglePlayPause(isPlay) }, 100);  // 초기 버튼 상태 설정
+	});
+	// 버튼눌렀을때 멈춤 재생 함수
+	function togglePlayPause(isPlay) {
+		if (isPlay) {
+			intervalId = setInterval(rightPage, 1000);
+
+		} else {
+
+			clearInterval(intervalId);
+		}
+		updatePlayPauseButton(isPlay);  // 버튼 상태 업데이트
+	}
+
+	// 버튼 업데이트 함수
+	function updatePlayPauseButton(isPlay) {
+		const buttonHTML = isPlay ?
+			`<button id="pauseBtn" class="btn btn-dark" onclick="togglePlayPause()">
             <i class="bi bi-pause-fill" style="font-size:40px;"></i>
         </button>` :
-      `<button id="startBtn" class="btn btn-dark" onclick="togglePlayPause()">
+			`<button id="startBtn" class="btn btn-dark" onclick="togglePlayPause()">
             <i class="bi bi-caret-right-fill" style="font-size:40px;"></i>
         </button>`;
-      
-    $(".play").html(buttonHTML);
-}
+
+		$(".play").html(buttonHTML);
+	}
 
 
- 
-// 책의 상세보기 함수
-    function loadBookDetail() {
-        let boardNo = $("#boardNo").val();
-        $(".page").empty();
-        $.ajax({
-            url: "/ajax/bookDetail",
-            type: "GET",
-            data: { boardNo: boardNo 
-            	
-            			},
-            success: function(recipe) {
-                console.log("Received recipe:", recipe);
-			 const { materials } = recipe; // recipe 객체에서 materialList 추출
-			    // 재료 필터링
-			    const ingredients = materials.filter(materials => materials.typeMaterial === '재료');
-			    const seasonings = materials.filter(materials => materials.typeMaterial === '조미료');
-					if(recipe.thumbnail === null || recipe.thumbnail === "" || !recipe.file){
-						recipe.thumbnail="https://via.placeholder.com/400";
-					}else{
-						recipe.thumbnail="./"+recipe.thumbnail;
-					}
-                const bookContent = `
+
+	// 책의 상세보기 함수
+	function loadBookDetail() {
+		let boardNo = $("#boardNo").val();
+		$(".page").empty();
+		$.ajax({
+			url: "/ajax/bookDetail",
+			type: "GET",
+			data: {
+				boardNo: boardNo
+
+			},
+			success: function(recipe) {
+				console.log("Received recipe:", recipe);
+				const { materials } = recipe; // recipe 객체에서 materialList 추출
+				// 재료 필터링
+				const ingredients = materials.filter(materials => materials.typeMaterial === '재료');
+				const seasonings = materials.filter(materials => materials.typeMaterial === '조미료');
+				console.log("recipe.thumbnail: ", recipe.thumbnail);
+				if (recipe.thumbnail == null || recipe.thumbnail.length<0) {
+					recipe.thumbnail="https://via.placeholder.com/300.jpg"
+				}else{
+					recipe.thumbnail= "./uploads/"+recipe.thumbnail;
+				}
+				
+				const bookContent = `
                     <!-- 왼쪽 페이지 -->
                     <div class="col border border-dark p-2 m-2">
                         <div class="row">
@@ -286,31 +289,31 @@ function updatePlayPauseButton(isPlay) {
                     </div>
                 `;
 
-                // 새로운 콘텐츠를 타겟 div에 추가
-                $(".page").append(bookContent);
-                 updatePlayPauseButton(isPlay);
-            },
-            error: function(error) {
-                console.error("Error fetching book details:", error);
-            }
-        });
-    }
-    
-  function loadCookMList(cookingId) {
-	console.log("여기는 loadMList 입니다. cookingId의 값은 "+ cookingId+"입니다.");
-    let boardNo = $("#boardNo").val();
-  
-   
-    $(".cookM").empty();
-    $.ajax({
-        url: "/ajax/cookMList",
-        type: "GET",
-        dataType: 'json',
-        data: { boardNo: boardNo, cookingId: cookingId },
-        success: function(recipe) {
-			console.log("recipe : \n", recipe);
-			
-            const bookContent = recipe.map(material => `
+				// 새로운 콘텐츠를 타겟 div에 추가
+				$(".page").append(bookContent);
+				updatePlayPauseButton(isPlay);
+			},
+			error: function(error) {
+				console.error("Error fetching book details:", error);
+			}
+		});
+	}
+
+	function loadCookMList(cookingId) {
+		console.log("여기는 loadMList 입니다. cookingId의 값은 " + cookingId + "입니다.");
+		let boardNo = $("#boardNo").val();
+		
+
+		$(".cookM").empty();
+		$.ajax({
+			url: "/ajax/cookMList",
+			type: "GET",
+			dataType: 'json',
+			data: { boardNo: boardNo, cookingId: cookingId },
+			success: function(recipe) {
+				console.log("recipe : \n", recipe);
+
+				const bookContent = recipe.map(material => `
                 <div class="row my-1" style="width:550px; height:30px; font-size:20px; margin-left: 25px;">
                     <div class="col text-start">
                         <span>${material.materialName}</span>
@@ -320,39 +323,45 @@ function updatePlayPauseButton(isPlay) {
                     </div>
                 </div>
             `).join('');
-            //console.log(bookContent);
-            $(".cookM").append(bookContent);
-            
-        },
-        error: function(error) {
-            console.error("Error fetching book details:", error);
-        }
-    });
-}
+				//console.log(bookContent);
+				$(".cookM").append(bookContent);
 
-    
-    function loadCookList(currentPage,cookingId) {
-        let boardNo = $("#boardNo").val();
-        console.log("loadCookList 입니다. cookingId:"+cookingId);
-        $(".page").empty();
-        $.ajax({
-            url: "/ajax/cookList",
-            type: "GET",
-            dataType: 'json',
-            data: { boardNo: boardNo ,
-            currentPage:currentPage,
-            cookingId:cookingId
-            },
-            success: function(recipeList) {
-                console.log("Received recipe list:", recipeList);
-					cook=recipeList;
-               
-                    const bookContent = `
+			},
+			error: function(error) {
+				console.error("Error fetching book details:", error);
+			}
+		});
+	}
+
+
+	function loadCookList(currentPage, cookingId) {
+		let boardNo = $("#boardNo").val();
+		console.log("loadCookList 입니다. cookingId:" + cookingId);
+		
+		$(".page").empty();
+		$.ajax({
+			url: "/ajax/cookList",
+			type: "GET",
+			dataType: 'json',
+			data: {
+				boardNo: boardNo,
+				currentPage: currentPage,
+				cookingId: cookingId
+			},
+			success: function(recipeList) {
+				console.log("Received recipe list:", recipeList);
+				cook = recipeList;
+				if (recipeList.cookFile == null || recipeList.cookFile=="") {
+					recipeList.cookFile="https://via.placeholder.com/300"
+				}else{
+					recipeList.cookFile= "./uploads/cooking/"+recipeList.cookFile;
+				}
+				const bookContent = `
                         <!-- 왼쪽 페이지 -->
                         <div class="col border border-dark p-2 m-2">
                             <div class="row">
                                 <div class="col d-flex justify-content-center">
-                                    <img src="https://via.placeholder.com/400" alt="샘플이미지">
+                                    <img src=${recipeList.cookFile} alt="샘플이미지" style="height:400px; width:400px">
                                 </div>
                             </div>
                             <div class="row">
@@ -450,17 +459,17 @@ function updatePlayPauseButton(isPlay) {
                         </div>
                     `;
 
-                    // 새로운 콘텐츠를 타겟 div에 추가
-                    $(".page").append(bookContent);
-                    loadCookMList(cookingId);
-                     updatePlayPauseButton(isPlay);
-            },
-            error: function(error) {
-                console.error("Error fetching book details:", error);
-            }
-        });
-    }
-        // 페이지가 비어있는지 확인하는 함수 (예시)
-// 페이지가 비어있는지 확인하는 함수 (예시)
-    
+				// 새로운 콘텐츠를 타겟 div에 추가
+				$(".page").append(bookContent);
+				loadCookMList(cookingId);
+				updatePlayPauseButton(isPlay);
+			},
+			error: function(error) {
+				console.error("Error fetching book details:", error);
+			}
+		});
+	}
+	// 페이지가 비어있는지 확인하는 함수 (예시)
+	// 페이지가 비어있는지 확인하는 함수 (예시)
+
 });

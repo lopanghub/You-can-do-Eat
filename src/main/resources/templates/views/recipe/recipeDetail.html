@@ -9,9 +9,9 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-		<script src="js/recipeBook.js"></script>
-	<script src="js/recipeList.js"></script>
-	<script src="js/comment.js"></script>
+<script src="js/recipe/recipeBook.js"></script>
+<script src="js/recipe/recipeList.js"></script>
+<script src="js/recipe/comment.js"></script>
 </head>
 
 <body>
@@ -19,12 +19,11 @@
 	<div layout:fragment="content" class="container">
 		<form id="recipeDetailForm">
 			<input type="hidden" id="boardNo" th:value="${rList.boardNo}"
-				name="boardNo"> 
-				<input type="hidden" id="cookingId"
-				th:value="${cookingId}" name="cookingId"> 
-				<input	type="hidden" id="bookCount" th:value="${bookCount}"
-				name="bookCount"> 
-				<input type="hidden" id="id"th:value="${id}" name="memberId">
+				name="boardNo"> <input type="hidden" id="cookingId"
+				th:value="${cookingId}" name="cookingId"> <input
+				type="hidden" id="bookCount" th:value="${bookCount}"
+				name="bookCount"> <input type="hidden" id="id"
+				th:value="${id}" name="memberId">
 		</form>
 		<div class="row border border-dark rounded">
 			<div class="col">
@@ -43,7 +42,8 @@
 							</div>
 							<div
 								class="col-3 text-end text-white d-flex justify-content-end align-items-center">
-								<button type="button" class="btn btn-success" id="recipeBtn">레시피	접기</button>
+								<button type="button" class="btn btn-success" id="recipeBtn">레시피
+									접기</button>
 							</div>
 						</div>
 						<div class="row my-2">
@@ -57,16 +57,12 @@
 									<div class="col-6">
 										<ul>
 											<th:block th:each="mList, cStatus : ${mList}">
-											<li>
-												<div class="row my-1">
-													<div class="col">
-														[[${mList.materialName}]]
+												<li>
+													<div class="row my-1">
+														<div class="col">[[${mList.materialName}]]</div>
+														<div class="col">[[${mList.mensuration}]]</div>
 													</div>
-													<div class="col">
-														[[${mList.mensuration}]]
-													</div>
-												</div>
-											</li>
+												</li>
 											</th:block>
 										</ul>
 									</div>
@@ -81,8 +77,14 @@
 										<div class="col-5">
 											<div class="row">
 												<div class="col mx-4">
-													<img src="https://via.placeholder.com/300" alt="샘플이미지"
-														class="img-fluid">
+													<th:block th:if="${cList.cookFile}">
+														<img th:src="@{'./uploads/cooking/'+${cList.cookFile}}" alt="샘플이미지" class="img-fluid"
+															style="height:300px; width:300px;">
+													</th:block>
+													<th:block th:unless="${cList.cookFile}">
+														<img src="https://via.placeholder.com/300" alt="샘플이미지"
+															class="img-fluid">
+													</th:block>
 												</div>
 											</div>
 										</div>
@@ -131,10 +133,10 @@
 												<div class="col">
 													<div class="row">
 														<div class="col">
-															<span th:text="${cMList0.materialName}" ></span>
+															<span th:text="${cMList0.materialName}"></span>
 														</div>
 														<div class="col">
-															<span th:text="${cMList0.mensuration}" ></span>
+															<span th:text="${cMList0.mensuration}"></span>
 														</div>
 													</div>
 												</div>
@@ -218,13 +220,13 @@
 												<h4>평균 점수 :</h4>
 											</div>
 											<div class="col-3 border arg-star">
-												<div th:utext="${stars}"></div> 
+												<div th:utext="${stars}"></div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						
+
 							<div class="card-body">
 								<ul class="list-group" id="commentList">
 									<!-- 댓글 아이템 -->
@@ -238,19 +240,22 @@
 															<strong>[[${comment.memberId}]]</strong>
 														</p>
 														<p class="mb-1 comment-content">[[${comment.commentContent}]]</p>
-														<span class="text-muted" name="createdAt" th:text="${#dates.format(comment.createdAt,
+														<span class="text-muted" name="createdAt"
+															th:text="${#dates.format(comment.createdAt,
 															'yyyy-MM-dd')}"></span>
 														<div class="star-icons">
-															 <th:block th:if="${comment.commentPoint > 0}">
-					                                                <th:block th:each="star : ${#numbers.sequence(1, comment.commentPoint)}">
-					                                                    <i class="bi bi-star-fill"></i>
-					                                                </th:block>
-					                                            </th:block>
-					                                            <th:block th:if="${comment.commentPoint < 5}">
-					                                                <th:block th:each="star : ${#numbers.sequence(comment.commentPoint + 1, 5)}">
-					                                                    <i class="bi bi-star"></i>
-					                                                </th:block>
-					                                            </th:block>
+															<th:block th:if="${comment.commentPoint > 0}">
+																<th:block
+																	th:each="star : ${#numbers.sequence(1, comment.commentPoint)}">
+																	<i class="bi bi-star-fill"></i>
+																</th:block>
+															</th:block>
+															<th:block th:if="${comment.commentPoint < 5}">
+																<th:block
+																	th:each="star : ${#numbers.sequence(comment.commentPoint + 1, 5)}">
+																	<i class="bi bi-star"></i>
+																</th:block>
+															</th:block>
 														</div>
 													</div>
 													<div>
@@ -285,8 +290,7 @@
 					value="리뷰보기">
 			</div>
 			<div class="col">
-				<input class="write-button" type="button" id="meterBtn"
-					value="재료보기">
+				<input class="write-button" type="button" id="meterBtn" value="재료보기">
 			</div>
 			<div class="col">
 				<input class="write-button" type="button" id="bookBtn"
@@ -297,10 +301,12 @@
 					value="레시피보기(리스트)">
 			</div>
 			<div class="col">
-			    <input class="btn btn-primary" type="button" id="updateDetailBtn" value="수정하기"/>
+				<input class="btn btn-primary" type="button" id="updateDetailBtn"
+					value="수정하기" />
 			</div>
 			<div class="col">
-			    <input class="btn btn-danger" type="button" id="deleteDetailBtn" value="삭제하기"/>
+				<input class="btn btn-danger" type="button" id="deleteDetailBtn"
+					value="삭제하기" />
 			</div>
 		</div>
 	</div>

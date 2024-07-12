@@ -1,8 +1,9 @@
 footer {
   font-family: Arial, sans-serif;
-  color: #F5E6D3;
+  color: #FCF9F5;
   padding: 20px;
   background-color: #7a8577;
+  /* background-color: #4A6741; */
 }
 
 .footer-top {
@@ -33,7 +34,7 @@ footer {
   background-color: #6b7568;  
   border: 1px solid #5e665b;
   border-radius: 5px;
-  color: #F5E6D3; 
+  color: #FCF9F5; 
 }
 
 .contact-buttons button i {
@@ -78,7 +79,7 @@ footer {
 }
 
 .social-icons .icon i {
-  color: #F5E6D3;  
+  color: #FCF9F5;  
   font-size: 20px;
 }
 
@@ -92,13 +93,13 @@ footer {
 .footer-middle a, .footer-middle span {
   margin-right: 15px;
   font-size: 14px;
-  color: #F5E6D3;
+  color: #FCF9F5;
 }
 
 .footer-bottom {
   margin-top: 20px;
   font-size: 12px;
-  color: #F5E6D3;
+  color: #FCF9F5;
 }
 
 .company-info p {

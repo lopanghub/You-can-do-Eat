@@ -52,13 +52,6 @@ public class MemberController {
 		return "redirect:login";
 	}
 
-	/*
-	 * // 회원탈퇴 페이지
-	 * 
-	 * @GetMapping("/userdelete") public String userdelete() { return
-	 * "views/joindelete"; }
-	 */
-
 	// 마이페이지
 	@GetMapping("/memberMyPage")
 	public String myPageForm() {

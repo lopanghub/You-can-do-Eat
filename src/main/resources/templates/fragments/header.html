@@ -20,7 +20,7 @@
       <div class="loginJoin">
         <th:block th:if="${session.isLogin}">
           <a class="logout" href="/logout">로그아웃&nbsp;&nbsp;</a>
-          <a class="joinupdate" href="/joinupdate">마이페이지&nbsp;&nbsp;</a>
+          <a class="joinupdate" href="/memberMyPage">마이페이지&nbsp;&nbsp;</a>
         </th:block>
         <th:block th:unless="${session.isLogin}">
           <a class="login" href="/login">로그인&nbsp;&nbsp;</a>

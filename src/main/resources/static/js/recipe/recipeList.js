@@ -1,5 +1,9 @@
 $(function() {
 	
+	$("#searchForm").on("submit",function(){
+		
+	})
+	
 	$("#updateDetailBtn").on("click", function() {
 		
 		$("#recipeDetailForm").attr("action", "updateRecipeForm");

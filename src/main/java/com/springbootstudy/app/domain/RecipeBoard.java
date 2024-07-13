@@ -17,7 +17,6 @@ import java.util.List;
 public class RecipeBoard {
 
     private int boardNo;     //게시판 고유값
-    private String foodName; // 음식이름
     private String boardTitle; // 레시피 제목
     private String boardContent; // 레시피 간단한 소개
     private String foodGenre;// 음식 장르 (한중일양기)
@@ -27,7 +26,7 @@ public class RecipeBoard {
     private String thumbnailUrl; // 섭내일 파일
     private int foodTime;    //조리시간
     private int numberEaters; // 인원수
-    private int apoint;      // 평점
+    private double Apoint;      // 평점
     private String memberId; // 아이디
 
     // 연관 관계는 제거하고, 필요시 별도의 서비스에서 조합하여 사용

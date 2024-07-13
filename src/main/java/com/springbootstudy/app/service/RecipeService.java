@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
@@ -37,15 +40,60 @@ import net.bytebuddy.asm.Advice.Return;
 public class RecipeService {
 	@Autowired
 	public RecipeMapper recipeMapper;
+	
+	private static final int PAGE_SIZE = 10;
 
+	private static final int PAGE_GROUP=10;
 
+	private static final int HashMap = 0;
 	// 레시피 리스트
-	public List<RecipeBoard> RecipeBoardList() {
-		return recipeMapper.recipeBoardList();
+	public Map<String, Object>  RecipeBoardList(int pageNum) {
+		int currentPage = pageNum;
+		
+		int offset = (currentPage -1)* PAGE_SIZE;
+		
+		int listCount = recipeMapper.getRecipeCount();
+		
+		Map<String,Object> param = new HashMap<>();
+		
+		param.put("offset", offset);
+		param.put("limit", PAGE_SIZE);
+		List<RecipeBoard> recipeList = recipeMapper.recipeBoardList(param);
+		
+		int pageCount= listCount /PAGE_SIZE + (listCount % PAGE_SIZE == 0 ? 0 : 1);
+		
+		int startPage = (currentPage / PAGE_GROUP) * PAGE_GROUP + 1
+				- (currentPage % PAGE_GROUP == 0 ? PAGE_GROUP : 0);
+				// 현재 페이지 그룹의 마지막 페이지 : 10, 20, 30...
+		int endPage = startPage + PAGE_GROUP - 1;
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+			}
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+			modelMap.put("recipeList",recipeList );
+			modelMap.put("pageCount", pageCount);
+			modelMap.put("startPage", startPage);
+			modelMap.put("endPage", endPage);
+			modelMap.put("currentPage", currentPage);
+			modelMap.put("listCount", listCount);
+			modelMap.put("pageGroup", PAGE_GROUP);
+			return modelMap;
 	}
 
+	
+	 @Transactional public int updateApoint(int boardNo ,double Apoint) {
+	  Map<String, Object> param = new HashMap(); 
+	  System.out.println("averagePoint 총점수 : "+ Apoint);
+	  param.put("Apoint", Apoint);
+	  param.put("boardNo", boardNo);
+	  return recipeMapper.updateApoint(param); }
+	 
 	// boardno 레시피
-	public RecipeBoard getRecipe(int BoardNo) {
+	public RecipeBoard getRecipe(int BoardNo, boolean isCount) {
+		if(isCount) {
+			recipeMapper.readCount(BoardNo);
+		}
 		return recipeMapper.getBoard(BoardNo);
 	}
 
@@ -96,9 +144,9 @@ public class RecipeService {
 	
 	// 레시피 업데이트
 	@Transactional
-	public void updateRecipe(String foodName,String boardTitle,String boardContent,String foodGenre,int numberEaters,int foodTime,String filename, int boardNo) throws Exception {
+	public void updateRecipe(String boardTitle,String boardContent,String foodGenre,int numberEaters,int foodTime,String filename, int boardNo) throws Exception {
 		Map<String, Object> params = new HashMap<>();
-		params.put("foodName", foodName);
+	
 		params.put("boardTitle", boardTitle);
 		params.put("boardContent", boardContent);
 		params.put("foodGenre", foodGenre);

@@ -68,6 +68,7 @@ $(function() {
 
 
     // 책의 상세보기 함수
+
 	function loadBookDetail() {
 	    let boardNo = $("#boardNo").val();
 	    $(".page").empty();

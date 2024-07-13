@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootstudy.app.domain.Comment;
+import com.springbootstudy.app.dto.commentDTO;
 import com.springbootstudy.app.service.CommentService;
+import com.springbootstudy.app.service.RecipeService;
 
 @RestController
 public class CommentAjax {
@@ -16,10 +18,41 @@ public class CommentAjax {
 	@Autowired
 	private CommentService commentService;
 	
+	@Autowired
+	private RecipeService recipeService;
+	
 	@PostMapping("/ajax/addComment")
-	public Comment addComment(@RequestParam(name="boardNo")int boardNo,@RequestParam(name="commentContent")String commentContent,
+	public commentDTO addComment(@RequestParam(name="boardNo")int boardNo,@RequestParam(name="commentContent")String commentContent,
 			@RequestParam(name="commentPoint")int commentPoint,@RequestParam(name="memberId")String memberId) {
-		return commentService.addComment(boardNo, commentContent, commentPoint,memberId);
+		Comment comment = commentService.addComment(boardNo, commentContent, commentPoint,memberId);
+		 // 평균 점수 계산
+	    double averagePoint = commentService.calculateAveragePoint(boardNo);
+		
+		 recipeService.updateApoint(boardNo,averagePoint);
+		int commentCount = commentService.commentCount(boardNo);
+	    // 평균 점수 별점
+	    StringBuilder symbols = new StringBuilder();
+	    int i = 0;
+	    int Ipoint = (int) (averagePoint * 10) / 10;
+	    for (int j = 0; j < Ipoint; j++) {
+	        symbols.append(" <i class=\"bi bi-star-fill\"></i>");
+	        i++;
+	    }
+	    if ((averagePoint * 10) % 10 > 1) {
+	        if (i < 5) {
+	            symbols.append(" <i class=\"bi bi-star-half\"></i>");
+	            i++;
+	        }
+	    }
+	    for (int j = i; j < 5; j++) {
+	        symbols.append(" <i class=\"bi bi-star\"></i>");
+	        i++;
+	    }
+	    String stars = symbols.toString();
+	    
+	    // commentDTO 객체 생성 및 반환
+	    commentDTO commentDTO = new commentDTO(comment, stars);
+	    return commentDTO;
 	}
 	
 	

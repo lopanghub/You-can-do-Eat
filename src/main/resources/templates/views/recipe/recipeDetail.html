@@ -23,16 +23,13 @@
 				name="boardNo"> <input type="hidden" id="cookingId"
 				th:value="${cookingId}" name="cookingId"> <input
 				type="hidden" id="bookCount" th:value="${bookCount}"
-				name="bookCount"> <input type="hidden" id="id"
-				th:value="${id}" name="memberId">
+				name="bookCount">
+				<input hidden="hidden" id="id" name="id" th:value="${rList.memberId}">
+				<input hidden="hidden" id="commentCount" name="commentCount" th:value="${commentCount}"/>
+				<input hidden="hidden" id="averagePoint" name="averagePoint" th:value="${averagePoint}">
 		</form>
 		<div class="row">
 			<div class="col">
-				<div class="row">
-					<div class="col">
-						<h1 class="text-center my-4" th:text="${rList.foodName}"></h1>
-					</div>
-				</div>
 				<div class="row rList">
 				
 					<div class="col">
@@ -274,14 +271,16 @@
 				<input class="write-button" type="button" id="listBtn"
 					value="레시피보기(리스트)">
 			</div>
-			<div class="col">
-				<input class="btn btn-primary" type="button" id="updateDetailBtn"
-					value="수정하기" />
-			</div>
-			<div class="col">
-				<input class="btn btn-danger" type="button" id="deleteDetailBtn"
-					value="삭제하기" />
-			</div>
+			<th:block th:if="${session.member != null and session.member.id == rList.memberId}">
+				<div class="col">
+					<input class="btn btn-primary" type="button" id="updateDetailBtn"
+						value="수정하기" />
+				</div>
+				<div class="col">
+					<input class="btn btn-danger" type="button" id="deleteDetailBtn"
+						value="삭제하기" />
+				</div>
+			</th:block>
 		</div>
 	
 	</div>

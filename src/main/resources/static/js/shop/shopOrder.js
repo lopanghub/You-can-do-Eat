@@ -1,10 +1,8 @@
-// shopCart.js
+// shopOrder.js
 import { updateOrderBox, formatAllPrices, deleteCart } from './shopModule.js';
 import { initializeQuantityHandlers } from './quantityModule.js';
 
 $(document).ready(function() {
-	// 초기값 포맷팅 함수
-	   formatAllPrices();
     // 새로고침시 orderBox 가격 표시
     updateOrderBox();
 
@@ -20,5 +18,10 @@ $(document).ready(function() {
         deleteCart(productId, productBox);
     });
 
-   
+    // 초기값 포맷팅 함수
+    formatAllPrices();
+	
+	$("#payment-button").on('click', function(){
+		window.open('/shopTest', 'YOUCANBUYIT', 'width=800,height=600');
+	});
 });

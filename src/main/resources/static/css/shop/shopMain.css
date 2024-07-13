@@ -1,4 +1,4 @@
- * .carousel-item {
+* .carousel-item {
 	height: 360px;
 	background-size: cover;
 	background-position: center;
@@ -7,10 +7,13 @@
 /* 캐러셀 스타일 */
 #shopEvent {
     margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
 }
 
 .carousel-item {
-    height: 400px; /* 캐러셀 높이 조정 */
+    height: 400px;
+    position: relative;
 }
 
 .carousel-item img {
@@ -19,55 +22,86 @@
     width: 100%;
 }
 
-.carousel-caption {
+#shopEvent .carousel-caption {
     background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     padding: 20px;
-    border-radius: 10px;
-    bottom: 20px;
-    left: 10%;
-    right: 10%;
+    margin: 0;
+    text-align: left;
+    z-index: 10; /* 캡션의 z-index 설정 */
 }
 
-.carousel-caption h2 {
+#shopEvent .carousel-caption h2 {
     font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 10px;
     color: #fff;
+    padding-left: 15px;
 }
 
-.carousel-caption p {
+#shopEvent .carousel-caption p {
     font-size: 1.2rem;
     margin-bottom: 15px;
     color: #f8f9fa;
+    padding-left: 15px;
+    padding-right: 120px;
 }
 
-.carousel-caption .btn {
-    background-color: #93B665;
-    border: none;
+#shopEvent .carousel-caption .btn {
+    background-color: transparent;
+    border: 2px solid #fff;
+    color: #fff;
     padding: 10px 20px;
     font-size: 1rem;
     transition: all 0.3s ease;
+    position: absolute;
+    right: 20px;
+    bottom: 25px;
+    z-index: 15; /* 버튼의 z-index를 캡션보다 높게 설정 */
 }
 
-.carousel-caption .btn:hover {
-    background-color: #7a9754;
+#shopEvent .carousel-caption .btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.05);
 }
 
-.carousel-control-prev, .carousel-control-next {
-    width: 5%;
+/* 캐러셀 컨트롤의 z-index도 조정 */
+.carousel-control-prev,
+.carousel-control-next {
+    z-index: 20;
 }
 
+/* 캐러셀 인디케이터의 z-index도 조정 */
 .carousel-indicators {
-    bottom: 10px;
+    z-index: 20;
 }
 
-.carousel-indicators button {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin: 0 5px;
+/* 인디케이터 스타일 */
+.carousel-indicators {
+    bottom: 0;
+    z-index: 20;
+    margin-bottom: 0;
 }
+
+.carousel-indicators [data-bs-target] {
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    opacity: 0.5;
+    transition: opacity 0.6s ease;
+    margin: 0 3px;
+    border: none;
+    border-radius: 0;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+}
+
 
 /* 상품 리스트 */
  .productBox {

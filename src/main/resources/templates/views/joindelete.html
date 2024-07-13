@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/user_layout}">
+
+<div layout:fragment="content" class="row" id="global-content">
+	<div class="col">
+		<h2>정말로 회원탈퇴 하시는 건가요?</h2>
+			<label for="pass1" class="form-label">* 기존 비밀번호 : </label>
+			<input type="password" class="form-control" name="oldPass" id="oldPass">
+			<input type="button" value="탈퇴하기" class="btn btn-secondary" id="btnjoindelete">
+	</div>
+</div>
+</html>

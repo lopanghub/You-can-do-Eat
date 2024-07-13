@@ -13,4 +13,6 @@ public interface MemberMapper {
 	MemberShip getMemberShip(String id);
 
 	String memberPassCheck(String pass);
+	
+	void deleteUser(String id);
 }

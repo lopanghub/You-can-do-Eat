@@ -1,29 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/main_layout}">
+	layout:decorate="~{layouts/member_layout}">
 <script type="text/javascript" src="js/member.js"></script>
 
 <!-- content -->
 <div layout:fragment="content" class="row my-5" id="global-content">
 	<div class="col my-0">
-		<table>
-			<tr>
-			<th>
-			    <img th:if="${not #strings.isEmpty(session.member.profile)}" th:src="@{|/resources/profiles/${session.member.profile}|}" 
-			         style="width: 50px; height: 50px; border-radius: 50%;">
-			    <img th:unless="${not #strings.isEmpty(session.member.profile)}" th:src="@{images/YouCanDoEat.png}" 
-			         style="width: 50px; height: 50px; border-radius: 50%;">
-			</th>
-				<td th:text="${session.member.id}"></td>
-			</tr>
-			<tr>
-		        <td colspan="2"><a href="/memberUpdateForm">회원정보 수정</a></td>
-		        <td colspan="3"><a href="#">장바구니</a></td>
-		    </tr>
-		</table>
+		<article>
+            <div class="inpo">
+                <dt>
+                	<img th:if="${not #strings.isEmpty(session.member.profile)}" th:src="@{|/resources/profiles/${session.member.profile}|}" 
+        				style="width: 50px; height: 50px; border-radius: 50%;">
+    				<img th:unless="${not #strings.isEmpty(session.member.profile)}" th:src="@{images/YouCanDoEat.png}" 
+         				style="width: 50px; height: 50px; border-radius: 50%;"></dt>
+                <dd><a href="/memberUpdateForm">회원정보 수정</a></dd>
+                <dd><a href="#">장바구니</a></dd>
+            </div>
+	    </article>
 	</div>
 </div>
+		
+	
 </html>
 
 	

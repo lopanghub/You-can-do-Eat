@@ -1,0 +1,43 @@
+article {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	width: 250px;
+}
+
+.inpo {
+	position: relative;
+	padding: 11px;
+}
+
+.pr {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.i {
+	padding: 20px;
+}
+
+.inpo dt {
+	float: left;
+	clear: both;
+	width: 85px;
+	color: #666;
+	font-size: 12px;
+	line-height: 20px;
+	margin-top: 2px;
+}
+
+.inpo dd {
+	width: 300px;
+	color: #1a1a1a;
+	line-height: 20px;
+	margin-top: 2px;
+}
+
+dt dd {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}

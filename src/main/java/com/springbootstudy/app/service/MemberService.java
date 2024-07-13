@@ -55,6 +55,11 @@ public class MemberService {
 		//member.setPass(passwordEncoder.encode(member.getPass()));
 		memberMapper.updateMember(member);
 	}
+	
+	// 회원탈퇴
+	public void deleteUser(String id) {
+		memberMapper.deleteUser(id);
+	}
 
 	// login 처리 메서드
 	public int login(String id, String pass) {

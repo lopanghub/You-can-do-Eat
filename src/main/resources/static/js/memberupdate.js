@@ -1,5 +1,13 @@
 $(function() {
 
+	$("#btnjoindelete").on("click", function() {
+		if (!$("#btnPassCheck").attr("disabled")) {
+			alert("기존 비밀번호를 확인해주세요.");
+			return false;
+		}
+		confirm("회원탈퇴하시겠습니까?");
+	});
+
 	document.getElementById('profile').addEventListener('change', function(event) {
 		var previewImage = document.getElementById('preview'); // 이미지 미리 보기를 위한 img 요소 선택
 		var file = event.target.files[0]; // 업로드된 파일 가져오기

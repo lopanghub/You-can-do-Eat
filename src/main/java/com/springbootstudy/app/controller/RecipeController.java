@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.devtools.restart.server.HttpRestartServer;
@@ -221,8 +222,13 @@ public class RecipeController {
 
 	// 레시피 리스트 출력(boardList)
 	@GetMapping({ "/", "/recipeList" })
-	public String recipeList(Model model) {
-		model.addAttribute("rList", recipeService.RecipeBoardList());
+	public String recipeList(Model model,@RequestParam(value="pageNum", defaultValue="0") int pageNum,@RequestParam(value="type", defaultValue="null") String type,@RequestParam(value="keyword", defaultValue="null") String keyword) {
+			pageNum = pageNum == 0 ? 0 : pageNum -1; 
+		
+		Map<String, Object> modelMap = recipeService.recipeSearchList(pageNum, type, keyword);
+		//Map<String, Object> modelMap = boardService.boardList(pageNum, type, keyword);
+		log.info("page : " + modelMap);
+		model.addAllAttributes(modelMap);
 		return "views/recipe/recipeList";
 	}
 

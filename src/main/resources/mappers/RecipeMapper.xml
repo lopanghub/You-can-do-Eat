@@ -102,6 +102,17 @@ WHERE rb.board_no = #{boardNo};
 	<select id="recipeBoardList">
 		select * from Recipe_Board order by board_No desc
 	</select>
+<select id="recipeSearchList" resultType="RecipeBoard">
+      select id="searchAll" resultType="com.example.model.Board">
+    SELECT * FROM board
+    <where>
+        <if test="type != null and keyword != null and keyword != ''">
+            AND #{type} LIKE CONCAT('%', #{keyword}, '%')
+        </if>
+    </where>
+    ORDER BY no DESC
+</select>
+
 	
 	<!--레시피 boardNo 가져오기 Detail-->
 	<select id="getBoard"  resultType="RecipeBoard">

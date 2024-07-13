@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -38,10 +39,33 @@ public class RecipeService {
 	@Autowired
 	public RecipeMapper recipeMapper;
 
-
+	private static final int PAGE_SIZE = 10;
 	// 레시피 리스트
 	public List<RecipeBoard> RecipeBoardList() {
 		return recipeMapper.recipeBoardList();
+	}
+	// 레시피 검색리스트
+	public Map<String,Object> recipeSearchList(int pageNum,String type, String keyword) {
+		        boolean searchOption = (type != null && !type.equals("null")) || (keyword != null && !keyword.equals("null"));
+
+		        // 페이징 처리
+		        PageRequest pageable = PageRequest.of(pageNum, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "no"));
+
+		        // MyBatis를 사용하여 검색 쿼리 실행
+		        List<RecipeBoard> boardList = recipeMapper.recipeSearchList(pageNum,type, keyword);
+
+		        // 검색 결과를 DTO로 변환 (생략)
+
+		        Map<String, Object> modelMap = new HashMap<>();
+		        modelMap.put("boardList", boardList);
+		        modelMap.put("searchOption", searchOption);
+
+		        if (searchOption) {
+		            modelMap.put("type", type);
+		            modelMap.put("keyword", keyword);
+		        }
+
+		        return modelMap;
 	}
 
 	// boardno 레시피

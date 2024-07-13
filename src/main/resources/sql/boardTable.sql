@@ -15,7 +15,8 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     Apoint INT DEFAULT 0,
     member_id VARCHAR(200) NOT NULL
 );
-select * from recipe_Board;
+select * from cooking;
+select * from material;
 CREATE TABLE material (  -- 재료 리스트 테이블
     material_id INT AUTO_INCREMENT PRIMARY KEY,
     board_No INT,
@@ -35,7 +36,7 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );
 
-select * from recipe_Board;
+select * from recipe_Board where bood_name=%'떡'% order by board_no desc;
 drop table recipe_Board;
 drop table material;
 drop table cooking;

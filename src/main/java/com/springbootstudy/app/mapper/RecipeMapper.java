@@ -25,6 +25,8 @@ public interface RecipeMapper {
 		
 		// BoardList
 		List<RecipeBoard> recipeBoardList();
+		// BoardList
+		List<RecipeBoard> recipeSearchList(Map<String, Object> params);
 		// boardNo의 상세보기
 		RecipeBoard getBoard(int boardNo);
 		

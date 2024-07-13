@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageInfo;
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
@@ -222,32 +223,27 @@ public class RecipeController {
 
 	// 레시피 리스트 출력(boardList)
 	@GetMapping({ "/", "/recipeList" })
-	public String recipeList(Model model,@RequestParam(value="pageNum", defaultValue="0") int pageNum,@RequestParam(value="type", defaultValue="null") String type,@RequestParam(value="keyword", defaultValue="null") String keyword) {
-			pageNum = pageNum == 0 ? 0 : pageNum -1; 
-		
-		Map<String, Object> modelMap = recipeService.recipeSearchList(pageNum, type, keyword);
-		//Map<String, Object> modelMap = boardService.boardList(pageNum, type, keyword);
-		log.info("page : " + modelMap);
+	public String recipeList(Model model ,@RequestParam(value="pageNum", required=false,
+			defaultValue="1") int pageNum) {
+		// Service 클래스를 이용해 게시 글 리스트를 가져온다.
+		Map<String, Object> modelMap = recipeService.RecipeBoardList(pageNum);
 		model.addAllAttributes(modelMap);
+		System.out.println(modelMap);
 		return "views/recipe/recipeList";
 	}
+	
+	
 
 	// No의 상세보기 출력
 	@GetMapping("/recipeDetail")
-	public String getRecipe(Model model, @RequestParam("boardNo") int boardNo, HttpSession session) throws UnsupportedEncodingException {
+	public String getRecipe(Model model,@RequestParam("boardNo") int boardNo) throws UnsupportedEncodingException {
 
-		// id 세션저장 나중에 로그인 기능 나오면 삭제
-		String id = recipeService.getRecipe(boardNo).getMemberId();
-		session.setAttribute("id", id);
-		model.addAttribute("id", id);
 
 		// 평균 점수 계산
 		double averagePoint = commentService.calculateAveragePoint(boardNo);
 		// 댓글리스트
 		model.addAttribute("commentList", commentService.commentList(boardNo));
-		// 댓글리스트 카운트
-		model.addAttribute("commentCount", commentService.commentCount(boardNo));
-
+		
 		// 평균점수
 		model.addAttribute("averagePoint", averagePoint);
 
@@ -278,11 +274,10 @@ public class RecipeController {
 
 		// 조리과정의 재료리스트
 	
-		System.out.println("recipeService.getCookList(boardNo)" + recipeService.getCookList(boardNo).get(0).getCookFile());
 		// 조리과정리스트
-		
+		RecipeBoard recipeBoard =  recipeService.getRecipe(boardNo,true);
 		// 상세보기
-		model.addAttribute("rList", recipeService.getRecipe(boardNo));
+		model.addAttribute("rList", recipeBoard);
 		// 책리스트 카운트
 		model.addAttribute("bookCount", recipeService.cookCount(boardNo));
 		// 조리과정 no의 초기값
@@ -298,7 +293,7 @@ public class RecipeController {
 		// 조리과정의 재료리스트
 		model.addAttribute("mList",recipeService.getMaterialList(boardNo));
 		// 상세보기
-		model.addAttribute("rList", recipeService.getRecipe(boardNo));
+		model.addAttribute("rList", recipeService.getRecipe(boardNo,false));
 		// 요리리스트
 		recipeService.getCookList(boardNo);
 		model.addAttribute("cList", recipeService.getCookList(boardNo));

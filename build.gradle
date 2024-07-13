@@ -36,12 +36,20 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	// 페이징 처리를 위한 추가
+	implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.5'
 	
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
     implementation 'org.springframework.boot:spring-boot-starter-security' 
     implementation 'org.json:json:20210307'
 }
+// 페이지 처리할때 추가됐음
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
+}
+
+
 
 tasks.named('test') {
 	useJUnitPlatform()

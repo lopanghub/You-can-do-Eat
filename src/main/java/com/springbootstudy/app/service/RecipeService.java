@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
@@ -38,38 +40,52 @@ import net.bytebuddy.asm.Advice.Return;
 public class RecipeService {
 	@Autowired
 	public RecipeMapper recipeMapper;
-
+	
 	private static final int PAGE_SIZE = 10;
+
+	private static final int PAGE_GROUP=10;
 	// 레시피 리스트
-	public List<RecipeBoard> RecipeBoardList() {
-		return recipeMapper.recipeBoardList();
+	public Map<String, Object>  RecipeBoardList(int pageNum) {
+		int currentPage = pageNum;
+		
+		int offset = (currentPage -1)* PAGE_SIZE;
+		
+		int listCount = recipeMapper.getRecipeCount();
+		
+		Map<String,Object> param = new HashMap<>();
+		
+		param.put("offset", offset);
+		param.put("limit", PAGE_SIZE);
+		List<RecipeBoard> recipeList = recipeMapper.recipeBoardList(param);
+		
+		int pageCount= listCount /PAGE_SIZE + (listCount % PAGE_SIZE == 0 ? 0 : 1);
+		
+		int startPage = (currentPage / PAGE_GROUP) * PAGE_GROUP + 1
+				- (currentPage % PAGE_GROUP == 0 ? PAGE_GROUP : 0);
+				// 현재 페이지 그룹의 마지막 페이지 : 10, 20, 30...
+		int endPage = startPage + PAGE_GROUP - 1;
+		
+		if(endPage > pageCount) {
+			endPage = pageCount;
+			}
+			Map<String, Object> modelMap = new HashMap<String, Object>();
+			modelMap.put("recipeList",recipeList );
+			modelMap.put("pageCount", pageCount);
+			modelMap.put("startPage", startPage);
+			modelMap.put("endPage", endPage);
+			modelMap.put("currentPage", currentPage);
+			modelMap.put("listCount", listCount);
+			modelMap.put("pageGroup", PAGE_GROUP);
+			return modelMap;
 	}
-	// 레시피 검색리스트
-	public Map<String,Object> recipeSearchList(int pageNum,String type, String keyword) {
-		        boolean searchOption = (type != null && !type.equals("null")) || (keyword != null && !keyword.equals("null"));
-
-		        // 페이징 처리
-		        PageRequest pageable = PageRequest.of(pageNum, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "no"));
-
-		        // MyBatis를 사용하여 검색 쿼리 실행
-		        List<RecipeBoard> boardList = recipeMapper.recipeSearchList(pageNum,type, keyword);
-
-		        // 검색 결과를 DTO로 변환 (생략)
-
-		        Map<String, Object> modelMap = new HashMap<>();
-		        modelMap.put("boardList", boardList);
-		        modelMap.put("searchOption", searchOption);
-
-		        if (searchOption) {
-		            modelMap.put("type", type);
-		            modelMap.put("keyword", keyword);
-		        }
-
-		        return modelMap;
-	}
+	
+	 
 
 	// boardno 레시피
-	public RecipeBoard getRecipe(int BoardNo) {
+	public RecipeBoard getRecipe(int BoardNo, boolean isCount) {
+		if(isCount) {
+			recipeMapper.readCount(BoardNo);
+		}
 		return recipeMapper.getBoard(BoardNo);
 	}
 

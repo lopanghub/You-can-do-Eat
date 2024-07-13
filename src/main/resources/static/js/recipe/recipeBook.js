@@ -100,6 +100,7 @@ $(function() {
 
     // 책의 상세보기 함수
     function loadBookDetail() {
+		let commentCount=$("#commentCount").val();
         let boardNo = $("#boardNo").val();
         $(".page").empty();
         $.ajax({
@@ -107,7 +108,7 @@ $(function() {
             type: "GET",
             data: { boardNo: boardNo },
             success: function(recipe) {
-                console.log("Received recipe:", recipe);
+                console.log("Received recipe:", recipe.model);
                 const { materials } = recipe;
                 const ingredients = materials.filter(material => material.typeMaterial === '재료');
                 const seasonings = materials.filter(material => material.typeMaterial === '조미료');
@@ -134,7 +135,7 @@ $(function() {
                         <div class="row border my-2">
                             <div class="col text-center">
                                 <span>${recipe.boardContent}</span>
-                            </div>
+                            </div> 
                         </div>
                         <div class="row my-2">
                             <div class="col text-center">
@@ -162,7 +163,7 @@ $(function() {
                             <div class="col">
                                 <h1>${id}</h1>
                             </div>
-                        </div>
+                        </div>	
                         <div class="row">
                             <div class="col text-center">
                                 <div class="row">

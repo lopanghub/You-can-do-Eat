@@ -15,8 +15,7 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     Apoint INT DEFAULT 0,
     member_id VARCHAR(200) NOT NULL
 );
-select * from cooking;
-select * from material;
+
 CREATE TABLE material (  -- 재료 리스트 테이블
     material_id INT AUTO_INCREMENT PRIMARY KEY,
     board_No INT,
@@ -36,7 +35,7 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );
 
-select * from recipe_Board where bood_name=%'떡'% order by board_no desc;
+select * from recipe_Board;
 drop table recipe_Board;
 drop table material;
 drop table cooking;
@@ -45,9 +44,31 @@ drop table cooking;
 -- 보트리스트
 INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
 VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
+INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id)
+VALUES ('맛있는 파스타', '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
 
 -- 재료 추가
-INSERT INTO cook_material (cooking_id, board_No, material_name, mensuration,type_Material)
+INSERT INTO material (cooking_id, board_No, material_name, mensuration,type_Material)
 VALUES 
 (2,1, 'cook 2번 재료', '200g', '재료'),
 (3,1, 'cook 3번 재료', '100g', '재료'),
@@ -59,16 +80,13 @@ VALUES
 (1,1, 'cook 1번 재료', '100g', '조미료'),
 (2,1, 'cook 2번 재료', '100ml', '조미료');
 
+select * from recipe_board ;
+update recipe_board set board_view = board_view + 1 where board_no = #{boardNo};
 
 
 INSERT INTO cooking (board_No, cook_title, cook_Method, recommended)
-VALUES (1, '스파게티 면 삶기', 
-        '1. 끓는 물에 소금을 넣고 스파게티 면을 넣습니다.',' 뜨거우니 조심');
-INSERT INTO cooking (board_No, cook_title, cook_Method, recommended)
-VALUES (1, '토마토 소스 만들기', 
-        '2. 팬에 올리브 오일을 데우고 다진 마늘을 볶습니다.\n2. 다진 토마토와 토마토 페이스트를 넣고 볶습니다.','약불로');
-INSERT INTO cooking (board_No, cook_title, cook_Method, recommended)
-VALUES (1, '스파게티 조리', 
-        '3.삶은 스파게티를 체에 걸러 물기를 뺀 후, 토마토 소스에 넣고 잘 섞어 줍니다.','3분만');
+VALUES  (6, '스파게티 면 삶기', '1. 끓는 물에 소금을 넣고 스파게티 면을 넣습니다.',' 뜨거우니 조심'),
+		(6, '토마토 소스 만들기', '2. 팬에 올리브 오일을 데우고 다진 마늘을 볶습니다.\n2. 다진 토마토와 토마토 페이스트를 넣고 볶습니다.','약불로'),
+		(6, '스파게티 조리',  '3.삶은 스파게티를 체에 걸러 물기를 뺀 후, 토마토 소스에 넣고 잘 섞어 줍니다.','3분만');
         
 

@@ -5,6 +5,14 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
 }
 
+.custom-container {
+     max-width: 1000px;  /* 또는 원하는 최대 너비 */
+  		margin: 0 auto;
+}
+
+.inner-content {
+	max-width: 100%;
+}
 .recipe-content {
     margin-top: 50px; 
 }
@@ -28,9 +36,129 @@ body {
     padding: 10px 20px;
 }
 
+.book-background {
+    background-image: url('../images/note11.png'); /* 상대 경로로 변경 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    min-height: 800px; /* 최소 높이 설정 */
+}
+
 .btn-custom:hover {
     background-color: #7a8577;
     color: white;
     border-color: #7a8577;
+}
+
+/* Recipe Book View Styles */
+.page {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.recipe-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.recipe-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.recipe-info {
+    font-size: 1rem;
+    color: #555;
+}
+
+.recipe-info i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    color: #FF914D;
+}
+
+.author-info {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 1rem;
+    background-color: #f9f9f9;
+    max-width: 400px; /* 최대 너비 설정 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.author-info img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border: 2px solid #FF914D;
+}
+
+.author-info h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+
+.recipe-stats {
+    margin-top: 1rem;
+}
+
+.recipe-stats i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    color: #FF914D;
+}
+
+.recipe-stats span {
+    font-size: 1rem;
+    color: #555;
+}
+
+h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.navigation-buttons {
+    margin-top: 1rem;
+}
+
+.navigation-buttons button {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+}
+
+#shareOptions button {
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+}
+
+.border-danger, .border-primary {
+    border-color: #FF914D !important;
+}
+
+/* 재료와 양념 리스트 스타일 */
+.row[style*="height:30px"] {
+    margin-bottom: 0.5rem;
+}
+
+.row[style*="height:30px"] span {
+    font-size: 0.9rem;
+    color: #555;
 }
 

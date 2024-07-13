@@ -16,7 +16,8 @@
 
 <body>
 	<!-- content -->
-	<div layout:fragment="content" class="container">
+	<div layout:fragment="content" class="container-fluid custom-container px-4">
+	<div class="inner-content px-2">
 		<form id="recipeDetailForm">
 			<input type="hidden" id="boardNo" th:value="${rList.boardNo}"
 				name="boardNo"> <input type="hidden" id="cookingId"
@@ -24,16 +25,13 @@
 				type="hidden" id="bookCount" th:value="${bookCount}"
 				name="bookCount">
 				<input hidden="hidden" id="id" name="id" th:value="${rList.memberId}">
+				<input hidden="hidden" id="commentCount" name="commentCount" th:value="${commentCount}"/>
+				<input hidden="hidden" id="averagePoint" name="averagePoint" th:value="${averagePoint}">
 		</form>
-		<div class="row border border-dark rounded">
+		<div class="row">
 			<div class="col">
-				<div class="row">
-					<div class="col">
-						<h1 class="text-center" th:text="${rList.foodName}"></h1>
-					</div>
-				</div>
 				<div class="row rList">
-					<div class="col-1"></div>
+				
 					<div class="col">
 						<div class="row bg-secondary rounded">
 							<div class="col-3"></div>
@@ -251,7 +249,7 @@
 							<!-- 댓글폼마무리 -->
 						</div>
 					</div>
-					<div class="col-1"></div>
+					
 				</div>
 
 			</div>
@@ -285,6 +283,7 @@
 			</th:block>
 		</div>
 	
+	</div>
 	</div>
 
 	<!-- Bootstrap Bundle with Popper -->

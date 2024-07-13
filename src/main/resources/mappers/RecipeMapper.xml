@@ -7,7 +7,6 @@
 	<update id="updateRecipe">
     UPDATE recipe_Board 
     SET 
-        food_name = #{foodName},
         board_title = #{boardTitle},
         board_content = #{boardContent},
         food_genre = #{foodGenre},
@@ -43,13 +42,16 @@
 	select * from Material where cooking_id= #{cookingId} and board_no=#{boardNo}
 </select>
 
+<update id="updateApoint">
+	UPDATE recipe_board SET Apoint = #{Apoint} WHERE board_no = #{boardNo};
+</update>
 
 
 
 <!-- 레시피 추가하기 -->
 <insert id="insertRecipe" parameterType="RecipeBoard" useGeneratedKeys="true" keyProperty="boardNo">
-    INSERT INTO recipe_Board (food_name, board_title, board_content, food_genre, member_id,thumbnail,numberEaters,food_time)
-    VALUES (#{foodName}, #{boardTitle}, #{boardContent}, #{foodGenre}, 'skh9301', #{thumbnail},#{numberEaters},#{foodTime});
+    INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id,thumbnail,numberEaters,food_time)
+    VALUES (#{boardTitle}, #{boardContent}, #{foodGenre}, 'skh9301', #{thumbnail},#{numberEaters},#{foodTime});
 </insert>
 <!-- 레시피에 요리재료추가하기 -->
 <insert id="insertMaterial"  parameterType="Material">

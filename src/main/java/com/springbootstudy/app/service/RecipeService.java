@@ -44,6 +44,8 @@ public class RecipeService {
 	private static final int PAGE_SIZE = 10;
 
 	private static final int PAGE_GROUP=10;
+
+	private static final int HashMap = 0;
 	// 레시피 리스트
 	public Map<String, Object>  RecipeBoardList(int pageNum) {
 		int currentPage = pageNum;
@@ -78,9 +80,15 @@ public class RecipeService {
 			modelMap.put("pageGroup", PAGE_GROUP);
 			return modelMap;
 	}
-	
-	 
 
+	
+	 @Transactional public int updateApoint(int boardNo ,double Apoint) {
+	  Map<String, Object> param = new HashMap(); 
+	  System.out.println("averagePoint 총점수 : "+ Apoint);
+	  param.put("Apoint", Apoint);
+	  param.put("boardNo", boardNo);
+	  return recipeMapper.updateApoint(param); }
+	 
 	// boardno 레시피
 	public RecipeBoard getRecipe(int BoardNo, boolean isCount) {
 		if(isCount) {
@@ -136,9 +144,9 @@ public class RecipeService {
 	
 	// 레시피 업데이트
 	@Transactional
-	public void updateRecipe(String foodName,String boardTitle,String boardContent,String foodGenre,int numberEaters,int foodTime,String filename, int boardNo) throws Exception {
+	public void updateRecipe(String boardTitle,String boardContent,String foodGenre,int numberEaters,int foodTime,String filename, int boardNo) throws Exception {
 		Map<String, Object> params = new HashMap<>();
-		params.put("foodName", foodName);
+	
 		params.put("boardTitle", boardTitle);
 		params.put("boardContent", boardContent);
 		params.put("foodGenre", foodGenre);

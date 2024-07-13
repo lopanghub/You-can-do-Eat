@@ -1,6 +1,5 @@
 $(function() {
 	let id = $("#id").val();
-	
 	// 댓글 추가
 	$("#commentForm").on("submit", function(event) {
 		event.preventDefault(); // 폼 제출 방지
@@ -23,6 +22,8 @@ $(function() {
 				memberId: id
 			},
 			success: function(comment) {
+				
+				console.log("눌렸습니다");
 				console.log(comment);
 				appendCommentToList(comment);
 				$("#commentContent").val("");
@@ -86,7 +87,7 @@ $(function() {
 		var commentId = listItem.data('comment-id');
 		var commentContent = listItem.find('.comment-content').text();
 		var commentPoint = listItem.find('.star-icons .bi-star-fill').length;
-
+		
 		// 기존에 열린 수정 폼이 있으면 제거
 		if (isEditFormOpen) {
 			$('.edit-comment-form').remove();

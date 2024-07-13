@@ -24,10 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
+import com.springbootstudy.app.domain.Comment;
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
 import com.springbootstudy.app.domain.RecipeBoard;
+import com.springbootstudy.app.dto.commentDTO;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 
@@ -53,7 +55,7 @@ public class RecipeController {
 	@PostMapping("/recipeWriteProcess")
 	public String writeRecipe(
 			@ModelAttribute RecipeBoard recipeBoard,
-			@RequestParam("foodName") String foodName,
+			
 			@RequestParam("boardTitle") String boardTitle,
 			@RequestParam("boardContent") String boardContent,
 			@RequestParam("foodGenre") String foodGenre, 
@@ -86,7 +88,7 @@ public class RecipeController {
 		    // 파일 쓰기 중 예외 발생 시 처리
 		    e.printStackTrace();
 		}
-		recipeBoard1.setFoodName(foodName);
+		
 		recipeBoard1.setBoardTitle(boardTitle);
 		recipeBoard1.setBoardContent(boardContent);
 		recipeBoard1.setFoodGenre(foodGenre);
@@ -144,7 +146,6 @@ public class RecipeController {
 	@PostMapping("/recipeUpdateProcess")
 	public String updateRecipe(
 			@RequestParam("boardNo")int boardNo,
-			@RequestParam("foodName") String foodName,
 			@RequestParam("boardTitle") String boardTitle,
 			@RequestParam("boardContent") String boardContent,
 			@RequestParam("foodGenre") String foodGenre, 
@@ -175,7 +176,7 @@ public class RecipeController {
 			// 파일 쓰기 중 예외 발생 시 처리
 			e.printStackTrace();
 		}
-		recipeService.updateRecipe(foodName,boardTitle,boardContent,foodGenre,numberEaters,foodTime,filename, boardNo);
+		recipeService.updateRecipe(boardTitle,boardContent,foodGenre,numberEaters,foodTime,filename, boardNo);
 		
 		recipeService.deleteByNo(boardNo);
 		Cooking cooking = new Cooking();
@@ -238,40 +239,39 @@ public class RecipeController {
 	@GetMapping("/recipeDetail")
 	public String getRecipe(Model model,@RequestParam("boardNo") int boardNo) throws UnsupportedEncodingException {
 
-
-		// 평균 점수 계산
-		double averagePoint = commentService.calculateAveragePoint(boardNo);
-		// 댓글리스트
-		model.addAttribute("commentList", commentService.commentList(boardNo));
+		 // 평균 점수 계산
+	    double averagePoint = commentService.calculateAveragePoint(boardNo);
+		System.out.println("averagePoint 총점수 : "+ averagePoint);
+		 recipeService.updateApoint(boardNo,averagePoint);
+		 	    
+	    // 댓글 리스트와 댓글 수
+	    List<Comment> commentList = commentService.commentList(boardNo);
+	    int commentCount = commentService.commentCount(boardNo);
+	    model.addAttribute("commentList",commentList);
+	    model.addAttribute("commentCount",commentCount);
+	    // 평균 점수 별점
+	    StringBuilder symbols = new StringBuilder();
+	    int i = 0;
+	    int Ipoint = (int) (averagePoint * 10) / 10;
+	    for (int j = 0; j < Ipoint; j++) {
+	        symbols.append(" <i class=\"bi bi-star-fill\"></i>");
+	        i++;
+	    }
+	    if ((averagePoint * 10) % 10 > 1) {
+	        if (i < 5) {
+	            symbols.append(" <i class=\"bi bi-star-half\"></i>");
+	            i++;
+	        }
+	    }
+	    for (int j = i; j < 5; j++) {
+	        symbols.append(" <i class=\"bi bi-star\"></i>");
+	        i++;
+	    }
+	    String stars = symbols.toString();
+	    
+	    model.addAttribute("stars",stars);
 		
-		// 평균점수
-		model.addAttribute("averagePoint", averagePoint);
-
-		// 평균점수 별점
-		StringBuilder symbols = new StringBuilder();
-
-		int i = 0;
-		int Ipoint = (int) (averagePoint * 10) / 10;
-		// 첫 번째 for 문
-		for (int j = 0; j < Ipoint; j++) {
-			symbols.append(" <i class=\"bi bi-star-fill\"></i>");
-			i++;
-		}
-		// if 문
-		if ((averagePoint * 10) % 10 > 1) {
-			if (i < 5) {
-				symbols.append(" <i class=\"bi bi-star-half\"></i>");
-				i++;
-			}
-		}
-		// 두 번째 for 문
-		for (int j = i; j < 5; j++) {
-			symbols.append(" <i class=\"bi bi-star\"></i>");
-			i++;
-		}
-		// 평균점수의 별아이콘
-		model.addAttribute("stars", symbols.toString());
-
+		
 		// 조리과정의 재료리스트
 	
 		// 조리과정리스트

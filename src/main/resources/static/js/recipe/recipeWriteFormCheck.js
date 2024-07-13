@@ -3,14 +3,6 @@ $(document).ready(function() {
     $('#recipeWriteForm').submit(function(event) {
         let isValid = true;
 
-        // 음식 이름 검사
-        if ($('#foodName').val().trim() === '') {
-            alert('음식 이름을 입력하세요.');
-            $('#foodName').focus();
-            isValid = false;
-            event.preventDefault(); // 폼 제출 중단
-            return false;
-        }
 
         // 레시피 제목 검사
         if ($('#boardTitle').val().trim() === '') {

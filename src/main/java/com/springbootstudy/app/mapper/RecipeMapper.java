@@ -22,7 +22,8 @@ public interface RecipeMapper {
 	  
 		// boardNo의 레시피 요리페이지 카운트
 		int cookCount(int boardNo);
-
+		// boardNo의 Apoint(평가점수)업데이트
+		int updateApoint(Map<String,Object> param);
 		// boardNo의 재료들
 		List<Material> getMaterialList(int boardNo);
 		

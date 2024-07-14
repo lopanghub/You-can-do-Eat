@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -65,4 +66,12 @@ public interface RecipeMapper {
 		
 	
 		List<Material> getMaterialListByNoId(Map<String, Object> params);
+		
+		
+		//담당자 -이현학 가지고 온 데이터 삽입 매퍼
+	    void insertRecipeBoard(RecipeBoard recipeBoard);
+	    //담당자 - 이현학 데이터가 있을시 데이터 삽입 금지
+	    @Select("SELECT COUNT(*) > 0 FROM recipe_board WHERE board_title = #{boardTitle}")
+	    boolean existsByTitle(String boardTitle);
+
 }

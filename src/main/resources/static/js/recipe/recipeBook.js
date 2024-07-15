@@ -31,19 +31,16 @@ $(function() {
     function rightPage() {
         cookingId++;
         currentPage++;
-        console.log("바로 앞의 cookingId: " + cookingId);
 
         if (currentPage > totalPages) {
             currentPage = mainPage;
             cookingId = parseInt($("#cookingId").val());
-            console.log("cookingId를 초기화 했습니다 cookingId: " + cookingId);
         }
 
         if (currentPage === mainPage) {
             loadBookDetail();
         } else {
             loadCookList(currentPage - 1, cookingId - 1);
-            console.log("else 안의 cookingId: " + cookingId);
         }
     }
 
@@ -86,7 +83,7 @@ $(function() {
 	            } else {
 	                recipe.thumbnail = "./uploads/" + recipe.thumbnail;
 	            }
-
+				console.log()
 	            const bookContent = `
 				<div class="col border border-dark p-2 m-2">
 				         <div class="row">
@@ -219,7 +216,6 @@ $(function() {
 	}
 
     function loadCookMList(cookingId) {
-        console.log("여기는 loadMList 입니다. cookingId의 값은 " + cookingId + "입니다.");
         let boardNo = $("#boardNo").val();
 
         $(".cookM").empty();
@@ -250,7 +246,6 @@ $(function() {
 
     function loadCookList(currentPage, cookingId) {
         let boardNo = $("#boardNo").val();
-        console.log("loadCookList 입니다. cookingId:" + cookingId);
 
         $(".page").empty();
         $.ajax({

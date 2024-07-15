@@ -120,14 +120,12 @@
 							class="page-link"
 							th:href="@{/recipeList(pageNum=${startPage - pageGroup})}">Pre</a></li>
 						<th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
-							<li class="page-item"
-								th:classappend="${i == currentPage} ? 'active' : ''"><a
-								class="page-link"
-								th:href="@{/recipeList(pageNum=${i==0 ? 1 : i})}">[[${i==0
-									? 1 : i}]]</a></li>
+							<li class="page-item"			th:classappend="${i == currentPage} ? 'active' : ''">
+								<a		class="page-link" th:href="@{/recipeList(pageNum=${i==0 ? 1 : i})}">[[${i==0 ? 1 : i}]]</a>
+								</li>
 						</th:block>
-						<li class="page-item" th:if="${endPage < pageCount}"><a
-							th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a></li>
+						<li class="page-item" th:if="${endPage < pageCount}">
+						<a class="page-link" 	th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a></li>
 					</ul>
 				</div>
 			</div>
@@ -139,16 +137,15 @@
 					<ul class="pagination justify-content-center">
 						<li class="page-item" th:if="${startPage > pageGroup}"><a
 							class="page-link"
-							th:href="@{/recipeList(pageNum=${startPage - pageGroup})}">Pre</a></li>
+							th:href="@{/recipeList(pageNum=${startPage - pageGroup},type=${type},keyword=${keyword})}">Pre</a></li>
 						<th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
 							<li class="page-item"
 								th:classappend="${i == currentPage} ? 'active' : ''"><a
 								class="page-link"
-								th:href="@{/recipeList(pageNum=${i==0 ? 1 : i},type=${type},keyword=${keyword})}">[[${i==0
-									? 1 : i}]]</a></li>
+								th:href="@{/recipeList(pageNum=${i==0 ? 1 : i},type=${type},keyword=${keyword})}">[[${i==0 ? 1 : i}]]</a></li>
 						</th:block>
-						<li class="page-item" th:if="${endPage < pageCount}"><a
-							th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a></li>
+						<li class="page-item" th:if="${endPage < pageCount}"><a class="page-link" 
+							th:href="@{/recipeList(pageNum=${startPage + pageGroup},type=${type},keyword=${keyword})}">Next</a></li>
 					</ul>
 				</div>
 			</div>
@@ -171,7 +168,7 @@
 							</th:block>
 						</th:block>
 						<li class="page-item" th:if="${endPage < pageCount}"><a
-							th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a></li>
+							th:href="@{/recipeList(pageNum=${startPage + pageGroup},type=${type},keyword=${keyword}))}">Next</a></li>
 					</ul>
 				</div>
 			</div>

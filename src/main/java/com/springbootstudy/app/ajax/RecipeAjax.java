@@ -39,12 +39,11 @@ public class RecipeAjax {
 	         return recipe;
 	    } 
 	   
-	
-	
 		// 조리과정리스트 -조리리스트 책 버튼
     @GetMapping("/ajax/cookList")
 
-    public Cooking cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage,@RequestParam(name = "cookingId") int cookingId) {
+    public Cooking cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage,
+    		@RequestParam(name = "cookingId") int cookingId) {
         Cooking getCook = recipeService.getCookList(boardNo).get(currentPage);
          return getCook;
     }

@@ -15,7 +15,7 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     member_id VARCHAR(200) NOT NULL,
     FOREIGN KEY (member_id) REFERENCES membership(id)
 );
-
+select * from recipe_Board where food_genre like '%한식%';
 CREATE TABLE material (  -- 재료 리스트 테이블
     material_id INT AUTO_INCREMENT PRIMARY KEY,
     cooking_id int,

@@ -49,9 +49,10 @@
                     </select>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="thumbnailname" class="form-label">대표사진</label>
-                    <input type="file" class="form-control" id="thumbnailname" name="thumbnailname">
-                </div>
+				    <label for="thumbnailname" class="form-label">대표사진</label>
+				    <input type="file" class="form-control" id="thumbnailname" name="thumbnailname">
+				</div>
+				
             </div>
             <div class="row my-2">
                 <div class="col-md-6 mb-3">
@@ -106,7 +107,7 @@
                     <h2>조리과정등록</h2>
                 </div>
             </div>
-            <div class="row my-2 cooking-item cookingSection" >
+            <div class="row my-2 cooking-item cookingSection" id="cookingSection">
             </div>
             <div class="row">
                 <div class="col">
@@ -115,7 +116,7 @@
             </div>
             <div class="row my-2">
             	<input class="btn btn-primary" type="button" value="목록보기" 
-							th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}"/>
+							th:onclick="@{|location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'|}"/>
                 <div class="col text-end">
                     <button type="submit" class="btn btn-primary">등록하기</button>
                 </div>

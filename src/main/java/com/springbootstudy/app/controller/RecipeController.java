@@ -24,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.github.pagehelper.PageInfo;
 import com.springbootstudy.app.domain.Comment;
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
@@ -77,7 +76,6 @@ public class RecipeController {
 			@RequestParam("mensurations") List<String> mensurations,
 			@RequestParam("typeMaterials") List<String> typeMaterials
 			) throws Exception {
-		System.out.println("recommendeds");
 		RecipeBoard recipeBoard1 = new RecipeBoard();
 		try {
 		    if (thumbnailname != null && !thumbnailname.isEmpty()) {
@@ -170,7 +168,6 @@ public class RecipeController {
 			@RequestParam(value="pageNum", required=false, defaultValue="1")
 			int pageNum,@RequestParam(value="type", defaultValue="null") String type,
 			@RequestParam(value="keyword", defaultValue="null") String keyword) throws Exception {
-		System.out.println("board No는"+ boardNo);
 		String filename=null;
 		try {
 			if (thumbnailname != null && !thumbnailname.isEmpty()) {
@@ -207,7 +204,6 @@ public class RecipeController {
 					Path path = Paths.get(uploadDir + filename);
 					Files.createDirectories(path.getParent());
 					Files.write(path, cookMultiFile.getBytes());
-					System.out.println(filename);
 					cooking.setCookFile(filename); // 파일 경로 저장
 				}else {
 					cooking.setCookFile("");
@@ -257,7 +253,6 @@ public class RecipeController {
 
 		 // 평균 점수 계산
 	    double averagePoint = commentService.calculateAveragePoint(boardNo);
-		System.out.println("averagePoint 총점수 : "+ averagePoint);
 		 // 평균 점수 계산
 			
 			int commentCount = commentService.commentCount(boardNo);

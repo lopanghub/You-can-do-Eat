@@ -1,73 +1,126 @@
 $(document).ready(function() {
-	// 유효성 검사 함수
-	function validateForm() {
-		let isValid = true;
-		let materialCount = $('#material .materialset').length;
-		let cookingCount = $('#cookingSections .cookingSet').length;
-		console.log("materialCount"+materialCount);
-		console.log("cookingCount"+cookingCount);
-		// 입력 필드 검사
-		$('input[type="text"], textarea, input[type="number"], select').each(function() {
-			if ($(this).val() === '') {
-				alert('모든 입력 필드를 채워주세요.');
-				$(this).focus();
-				isValid = false;
-				return false; // each 루프 중단
+    // 폼 제출 이벤트 처리
+    $('#recipeUpdateForm').submit(function(event) {
+        let isValid = true;
+
+        // 레시피 제목 검사
+        if ($('#boardTitle').val().trim() === '') {
+            alert('레시피 제목을 입력하세요.');
+            $('#boardTitle').focus();
+            isValid = false;
+            event.preventDefault(); // 폼 제출 중단
+            return false;
+        }
+
+        // 레시피 소개 검사
+        if ($('#boardContent').val().trim() === '') {
+            alert('레시피 소개를 입력하세요.');
+            $('#boardContent').focus();
+            isValid = false;
+            event.preventDefault(); // 폼 제출 중단
+            return false;
+        }
+
+        // 카테고리 선택 검사
+        if ($('#foodGenre').val() === '') {
+            alert('카테고리를 선택하세요.');
+            $('#foodGenre').focus();
+            isValid = false;
+            event.preventDefault(); // 폼 제출 중단
+            return false;
+        }
+
+        // 대표사진 선택 검사
+        if ($('#thumbnailname').val() === '') {
+            alert('대표사진을 선택하세요.');
+            $('#thumbnailname').focus();
+            isValid = false;
+            event.preventDefault(); // 폼 제출 중단
+            return false;
+        }
+
+        // 요리 정보 검사
+        if ($('#numberEaters').val().trim() === '') {
+            alert('인원을 입력하세요.');
+            $('#numberEaters').focus();
+            isValid = false;
+            event.preventDefault(); // 폼 제출 중단
+            return false;
+        }
+
+        if ($('#foodTime').val().trim() === '') {
+            alert('요리 시간을 입력하세요.');
+            $('#foodTime').focus();
+            isValid = false;
+            event.preventDefault(); // 폼 제출 중단
+            return false;
+        }
+
+        // 재료 검사 (최소 1개 이상)
+        $('#material').find('.row[id^="materialRow"]').each(function() {
+            let id = $(this).attr('id');
+            let number = id.match(/\d+$/);
+            if (number) {
+                let materialName = $(`#material${number[0]}\\.materialName`).val().trim();
+                let mensuration = $(`#material${number[0]}\\.mensuration`).val().trim();
+
+                if (materialName === "") {
+                    isValid = false;
+                    alert(`재료 이름을 입력해 주세요. (행: ${number[0]})`);
+                    $(`#material${number[0]}\\.materialName`).focus();
+                    return false; // 루프 중단
+                }
+
+                if (mensuration === "") {
+                    isValid = false;
+                    alert(`재료 양을 입력해 주세요. (행: ${number[0]})`);
+                    $(`#material${number[0]}\\.mensuration`).focus();
+                    return false; // 루프 중단
+                }
+            }
+        });
+
+        
+        // 조리 과정 검사 (최소 1개 이상)
+        let cookingCount = $('.cookingSection .row[id^="cooking"]').length;
+        if (cookingCount === 0) {
+            alert('조리 과정을 최소 1개 이상 입력하세요.');
+            isValid = false;
+            event.preventDefault(); // 폼 제출 중단
+            return false;
+        }
+
+        $('.cookingSection .row[id^="cooking"]').each(function() {
+            let cookingIndex = $(this).data('cookingindex');
+            let cookTitle = $(`#cookings${cookingIndex}\\.cookTitle`).val().trim();
+            let cookMethod = $(`#cookings${cookingIndex}\\.cookMethod`).val().trim();
+            let recommended = $(`#cookings${cookingIndex}\\.recommended`).val().trim();
+            
+            if(recommended==null){
+				recommended="";
 			}
-		});
+            
 
-		if (!isValid) return false;
+            if (cookTitle === '') {
+                alert('요리 제목을 입력하세요.');
+                $(`#cookings${cookingIndex}\\.cookTitle`).focus();
+                isValid = false;
+                event.preventDefault(); // 폼 제출 중단
+                return false;
+            }
 
-		// 재료와 조리과정 개수 검사
-		if (materialCount < 1) {
-			alert('최소 하나 이상의 재료를 등록해주세요.');
-			return false;
-		}
+            if (cookMethod === '') {
+                alert('요리 설명을 입력하세요.');
+                $(`#cookings${cookingIndex}\\.cookMethod`).focus();
+                isValid = false;
+                event.preventDefault(); // 폼 제출 중단
+                return false;
+            }
 
-		if (cookingCount < 1) {
-			alert('최소 하나 이상의 조리과정을 등록해주세요.');	
-			return false;
-		}
-		$('input[type="text"], textarea, input[type="number"], select').each(function() {
-			if ($(this).val() === '') {
-				alert('모든 입력 필드를 채워주세요.');
-				$(this).focus();
-				isValid = false;
-				return false; // each 루프 중단
-			}
-		});
+        });
 
-		// .mensuration 필드 검사
-		$('input[name="mensurations"]').each(function() {
-			if ($(this).val() === '') {
-				alert('모든 재료의 양을 입력해주세요.');
-				$(this).focus();
-				isValid = false;
-				return false; // each 루프 중단
-			}
-		});
 
-		// 요리과정의 입력 필드 검사
-		$('#cookingSections .cookingSet').each(function() {
-			let cookTitle = $(this).find('input[name="cookTitles"]').val();
-			let cookMethod = $(this).find('input[name="cookMethods"]').val();
-			let recommended = $(this).find('input[name="recommendeds"]').val();
-
-			if (cookTitle === '' || cookMethod === '' || recommended === '') {
-				alert('요리 과정의 모든 필드를 채워주세요.');
-				$(this).find('input[name="cookTitles"]').focus();
-				isValid = false;
-				return false; // each 루프 중단
-			}
-		});
-
-		return isValid;
-	}
-
-	// 폼 제출 전에 유효성 검사 실행
-	$('#recipeUpdateForm').on('submit', function(event) {
-		if (!validateForm()) {
-			event.preventDefault(); // 제출 중단
-		}
-	});
+        // 모든 검사를 통과했으면 true 반환
+        return isValid;
+    });
 });

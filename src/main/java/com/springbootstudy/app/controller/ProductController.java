@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,8 +84,8 @@ public class ProductController {
 
     private String saveFile(MultipartFile file) throws IOException {
         String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        Path path = Paths.get(DEFAULT_PATH + filename);
-        Files.write(path, file.getBytes());
+        Path  path = Paths.get(DEFAULT_PATH + filename);
+        Files .write(path, file.getBytes());
         return filename;
     }
 	

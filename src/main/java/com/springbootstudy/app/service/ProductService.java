@@ -37,6 +37,10 @@ public class ProductService {
 		log.info("service : getProductByCategory(String category)");
 		return productMapper.findByCategory(category);
 	}
+	
+	public void updateProduct(Product product) {
+        productMapper.updateProduct(product);
+    }
 
 	// 장바구니 추가
 	public void addCart(int productId, int quantity) {

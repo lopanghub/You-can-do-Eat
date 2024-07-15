@@ -18,6 +18,7 @@ import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
 import com.springbootstudy.app.domain.RecipeBoard;
+import com.springbootstudy.app.dto.commentDTO;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 
@@ -54,7 +55,7 @@ public class RecipeAjax {
 	public RecipeBoard getBook(Model model,@RequestParam(name = "boardNo") int boardNo) {
 		 RecipeBoard recipe = recipeService.getRecipe(boardNo,false);
 		    recipe.setMaterials(recipeService.getMaterialList(boardNo));
-		 // 댓글리스트 카운트
+		    
 		    return recipe;
 	}
 	@PostMapping("/ajax/cookUpdate")

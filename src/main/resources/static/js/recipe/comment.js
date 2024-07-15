@@ -1,5 +1,5 @@
 $(function() {
-	let id = $("#id").val();
+	let id = $("#loginId").val();
 	// 댓글 추가
 	$("#commentForm").on("submit", function(event) {
 		event.preventDefault(); // 폼 제출 방지
@@ -12,6 +12,10 @@ $(function() {
 		console.log(boardNo);
 		console.log(commentContent);
 		console.log(commentPoint);
+		if(id == null || id === ""){
+		    alert("로그인후 이용해주세요");
+		    return false;
+		}
 		$.ajax({
 			url: "/ajax/addComment",
 			type: "POST",
@@ -22,10 +26,13 @@ $(function() {
 				memberId: id
 			},
 			success: function(comment) {
+				console.log(comment.stars);
+				appendCommentToList(comment.comment);
+				$("#falseText").empty();
+				$("#stars").html("");
+				const ApontHtml = `<div>${comment.stars}</div>`
 				
-				console.log("눌렸습니다");
-				console.log(comment);
-				appendCommentToList(comment);
+				$("#stars").html(ApontHtml);				
 				$("#commentContent").val("");
 				$("#commentPoint").val("");
 				$("#commentAt").val("");
@@ -87,13 +94,12 @@ $(function() {
 		var commentId = listItem.data('comment-id');
 		var commentContent = listItem.find('.comment-content').text();
 		var commentPoint = listItem.find('.star-icons .bi-star-fill').length;
-		
+		console.log("commentId"+ commentId);
 		// 기존에 열린 수정 폼이 있으면 제거
 		if (isEditFormOpen) {
 			$('.edit-comment-form').remove();
 			isEditFormOpen = false;
 		}
-
 		// 수정 폼 HTML 생성
 		var editFormHtml = `
 			<div class="edit-comment-form mt-3">
@@ -114,7 +120,7 @@ $(function() {
 						<textarea class="form-control" id="editCommentContent" name="commentContent" rows="3" required>${commentContent}</textarea>
 					</div>
 					<input type="hidden" id="editCommentId" name="commentId" value="${commentId}">
-					<button type="submit" class="btn btn-primary">댓글 수정</button>
+					 <button type="submit" class="btn btn-primary">댓글 수정</button>
 					<button type="button" class="btn btn-secondary" onclick="cancelEditComment()">취소</button>
 				</form>
 			</div>
@@ -134,8 +140,8 @@ $(function() {
 	// 댓글 수정 폼 제출 시 AJAX 요청 보내기
 	$(document).on('submit', '#editCommentForm', function(event) {
 		event.preventDefault();
-		
-
+		console.log("클릭 완료");
+		let boardNo = $("#boardNo").val();
 		var commentId = $('#editCommentId').val();
 		var commentContent = $('#editCommentContent').val();
 		var commentPoint = $('#editCommentPoint').val();
@@ -143,13 +149,19 @@ $(function() {
 			url: '/ajax/updateComment',
 			type: 'POST',
 			data: {
+				boardNo : boardNo,
 				commentId: commentId,
 				commentContent: commentContent,
 				commentPoint: commentPoint
 			},
 			success: function(response) {
-				console.log('Comment updated:', response);
-				updateCommentInList(response);
+				console.log('response updated:', response);
+				
+				$("#stars").html("");
+				const ApontHtml = `<div>${response.stars}</div>`
+				
+				$("#stars").html(ApontHtml);			
+				updateCommentInList(response.comment);
 				$('.edit-comment-form').remove();
 				isEditFormOpen = false;
 			},
@@ -183,13 +195,21 @@ $(function() {
 		if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
 			var listItem = $(button).closest('li');
 			var commentId = listItem.data('comment-id');
-
+			let boardNo = $("#boardNo").val();
+			console.log("commentId : " + commentId);
+			console.log("id : " + id);
 			$.ajax({
 				url: '/ajax/deleteComment',
 				type: 'POST',
-				data: { commentId: commentId },
+				data: { 
+					boardNo:boardNo,
+					commentId: commentId },
 				success: function(response) {
 					console.log('Comment deleted:', response);
+					$("#stars").html("");
+				const ApontHtml = `<div>${response.stars}</div>`
+				
+				$("#stars").html(ApontHtml);			
 					listItem.remove();
 				},
 				error: function(error) {

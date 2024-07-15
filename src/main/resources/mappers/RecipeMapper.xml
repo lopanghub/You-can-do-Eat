@@ -51,7 +51,7 @@
 <!-- 레시피 추가하기 -->
 <insert id="insertRecipe" parameterType="RecipeBoard" useGeneratedKeys="true" keyProperty="boardNo">
     INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id,thumbnail,numberEaters,food_time)
-    VALUES (#{boardTitle}, #{boardContent}, #{foodGenre}, 'skh9301', #{thumbnail},#{numberEaters},#{foodTime});
+    VALUES (#{boardTitle}, #{boardContent}, #{foodGenre}, #{memberId}, #{thumbnail},#{numberEaters},#{foodTime});
 </insert>
 <!-- 레시피에 요리재료추가하기 -->
 <insert id="insertMaterial"  parameterType="Material">
@@ -102,10 +102,34 @@ WHERE rb.board_no = #{boardNo};
 
 	<!--레시피 리스트-->
 	<select id="recipeBoardList">
-		select * from Recipe_Board order by board_No desc LIMIT  #{offset}, #{limit}
+		select * from Recipe_Board 
+		 <where>
+            <if test="type == 'board_title'">
+                board_title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="type == 'member_id'">
+                member_id LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="type == 'board_content'">
+                board_content LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+		order by board_No desc LIMIT  #{offset}, #{limit}
 	</select>
 	<select id="getRecipeCount" resultType="int">
          SELECT count(*) FROM recipe_board
+          <where>
+            <if test="type == 'board_title'">
+                board_title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="type == 'member_id'">
+                member_id LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="type == 'board_content'">
+                board_content LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+         
     </select>
 
 	

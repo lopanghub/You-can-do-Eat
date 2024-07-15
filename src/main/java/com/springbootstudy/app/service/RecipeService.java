@@ -45,19 +45,21 @@ public class RecipeService {
 
 	private static final int PAGE_GROUP=10;
 
-	private static final int HashMap = 0;
 	// 레시피 리스트
-	public Map<String, Object>  RecipeBoardList(int pageNum) {
+	public Map<String, Object>  RecipeBoardList(int pageNum, String type, String keyword) {
 		int currentPage = pageNum;
-		
+		System.out.println("currentPage 의 값 : " + currentPage);
 		int offset = (currentPage -1)* PAGE_SIZE;
-		
-		int listCount = recipeMapper.getRecipeCount();
-		
+		Map<String,Object> param1 = new HashMap();
+		param1.put("type", type);
+		param1.put("keyword", keyword);
+		int listCount = recipeMapper.getRecipeCount(param1);
 		Map<String,Object> param = new HashMap<>();
 		
+		param.put("type", type);
+		param.put("keyword", keyword);
 		param.put("offset", offset);
-		param.put("limit", PAGE_SIZE);
+		param.put("limit", PAGE_SIZE);	
 		List<RecipeBoard> recipeList = recipeMapper.recipeBoardList(param);
 		
 		int pageCount= listCount /PAGE_SIZE + (listCount % PAGE_SIZE == 0 ? 0 : 1);
@@ -70,6 +72,10 @@ public class RecipeService {
 		if(endPage > pageCount) {
 			endPage = pageCount;
 			}
+		boolean searchOption = (type.equals("null")
+				|| keyword.equals("null")) ? false : true;
+		
+		
 			Map<String, Object> modelMap = new HashMap<String, Object>();
 			modelMap.put("recipeList",recipeList );
 			modelMap.put("pageCount", pageCount);
@@ -78,16 +84,22 @@ public class RecipeService {
 			modelMap.put("currentPage", currentPage);
 			modelMap.put("listCount", listCount);
 			modelMap.put("pageGroup", PAGE_GROUP);
+			modelMap.put("searchOption", searchOption);
+			if(searchOption) {
+			modelMap.put("type", type);
+			modelMap.put("keyword", keyword);
+			}
 			return modelMap;
 	}
 
 	
-	 @Transactional public int updateApoint(int boardNo ,double Apoint) {
-	  Map<String, Object> param = new HashMap(); 
-	  System.out.println("averagePoint 총점수 : "+ Apoint);
-	  param.put("Apoint", Apoint);
-	  param.put("boardNo", boardNo);
-	  return recipeMapper.updateApoint(param); }
+	 @Transactional public void updateApoint(int boardNo ,double Apoint) {
+		  Map<String, Object> param = new HashMap(); 
+		  System.out.println("averagePoint 총점수 : "+ Apoint);
+		  param.put("Apoint", Apoint);
+		  param.put("boardNo", boardNo);
+		  recipeMapper.updateApoint(param); 
+	  }
 	 
 	// boardno 레시피
 	public RecipeBoard getRecipe(int BoardNo, boolean isCount) {

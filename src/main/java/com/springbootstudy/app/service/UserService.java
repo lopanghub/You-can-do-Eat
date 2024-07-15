@@ -1,0 +1,24 @@
+package com.springbootstudy.app.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.springbootstudy.app.domain.MemberShip;
+import com.springbootstudy.app.mapper.UserMapper;
+
+@Service
+public class UserService {
+
+    private final UserMapper userMapper;
+
+    @Autowired
+    public UserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    public List<MemberShip> getAllUsers() {
+        return userMapper.getAllUsers();
+    }
+}

@@ -41,6 +41,12 @@ dependencies {
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
     implementation 'org.springframework.boot:spring-boot-starter-security' 
     implementation 'org.json:json:20210307'
+    
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    
+    
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {

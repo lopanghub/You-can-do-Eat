@@ -1,0 +1,217 @@
+/* Style for the main container */
+.recipeWrite-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-right: 100px;
+    padding-left: 100px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.recipeWrite-name {
+    padding-top: 10px;
+}
+
+/* Style for the title */
+.recipe-title {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+/* Style for labels */
+.recipe-label {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Style for input fields */
+.recipe-input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+/* Style for text areas */
+.recipe-textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+/* Style for select dropdowns */
+.recipe-select {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+/* Style for buttons */
+.recipe-button {
+    background-color: #7a8577;;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.recipe-button-list {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#thumbnailPreview {
+    width: 100%;
+    height: 160px; /* 고정 높이 설정 */
+    object-fit: contain;
+    margin-top: 10px;
+}
+
+.thumbnail-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.thumbnail-preview-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+/* 재료 추가 버튼 스타일 */
+#addMaterial, #addCooking {
+   	background-color: #FCF9F5;
+    color: #FF914D ;
+    border: 1px solid #FF914D;
+    border-radius: 4px;
+    padding: 5px 15px; /* 패딩을 줄여 버튼 높이를 감소 */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 5px;
+    font-size: 14px; /* 글자 크기를 줄여 버튼 크기에 맞춤 */
+    line-height: 1.5; /* 줄 간격 조정 */
+}
+
+#addMaterial:hover, #addCooking:hover {
+    background-color: #FF914D;
+    /* background-color: #7a8577; */
+    color: #FCF9F5;
+}
+/* Style for section headers */
+.recipe-section-header {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+#material .row {
+    margin-bottom: 15px;
+}
+
+#material .row > div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#material .row > div > label {
+    white-space: nowrap;
+    margin-right: 10px;
+    min-width: 65px;
+}
+
+#material .row > div > input,
+#material .row > div > select {
+    width: calc(100% - 45px);
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.col-auto.d-flex.align-items-end {
+    align-items: center !important; /* Bootstrap의 align-items-end를 덮어씁니다 */
+    height: 100%; /* 부모 높이에 맞춥니다 */
+}
+
+.deleteMaterial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    background: none;
+    border: none;
+    color: #FF914D;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+
+.deleteMaterial:hover {
+    color: #dc3545;
+}
+
+
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    #material .row > div {
+        flex-wrap: wrap;
+    }
+    
+    #material .row > div > label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    
+    #material .row > div > input,
+    #material .row > div > select {
+        width: calc(100% - 40px);
+    }
+    
+    .deleteMaterial {
+        margin-left: 5px;
+    }
+}
+/* 추가적인 스타일 */
+.recipeWriteTitle {
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.preview-container {
+    margin-top: 10px;
+}
+
+.preview {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 조리과정 스타일 */
+.cooking-items {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.cooking-item .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.add-materials{
+	margin-top : 10px;
+}

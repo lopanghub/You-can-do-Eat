@@ -20,7 +20,7 @@
 			<div class="loginJoin">
 				<th:block th:if="${session.isLogin}">
 					<a class="logout" href="/logout">로그아웃&nbsp;&nbsp;</a>
-					<a class="joinupdate" href="/joinupdate">|&nbsp;&nbsp;마이페이지&nbsp;</a>
+					<a class="memberMyPage" href="/memberMyPage">|&nbsp;&nbsp;마이페이지&nbsp;</a>
 					<a class="cart" href="/cart">|&nbsp;&nbsp;<i class="bi bi-cart4"></i> (0)&nbsp;&nbsp;</a>
 				</th:block>
 				<th:block th:unless="${session.isLogin}">
@@ -47,7 +47,7 @@
     </div>
 
 		<!-- nav바 영역-->
-		<nav>
+		<nav class="header-nav">
 			<div class="dropdown">
 				<a href="/" class="dropbtn">YOU CAN DO EAT</a>
 				<div class="dropdown-content">
@@ -83,6 +83,19 @@
 			</div>
 		</nav>
 	</header>
+
+<script>
+		document.getElementById('community-link').addEventListener('click', function(event) {
+			
+			var isLogin = /*[[${session.isLogin}]]*/ false; 
+
+			if (!isLogin) {
+				event.preventDefault(); // 기본 동작을 막음
+				alert('로그인 후 이용해주세요.'); // 경고 메시지 표시
+				window.location.href = '/login'; // 로그인 페이지로 리디렉션
+			}
+		});
+	</script>
 
 
 

@@ -49,6 +49,7 @@ public class MemberController {
 		session.setAttribute("member", member);
 		System.out.println(id);
 		memberService.deleteUser(id);
+		session.invalidate();
 		return "redirect:login";
 	}
 
@@ -195,7 +196,7 @@ public class MemberController {
 
 		session.setAttribute("member", member);
 		// System.out.println("member.id : " + member.getId());
-		System.out.println("member.id : " + member.getId());
+		// System.out.println("member.id : " + member.getId());
 
 		log.info("로그인 성공: 세션 ID={}, 회원 ID={}", session.getId(), member.getId());
 

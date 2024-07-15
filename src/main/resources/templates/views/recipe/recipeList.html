@@ -18,7 +18,7 @@
 				<select name="type" class="form-select">
 					<option value="board_title">제목</option>
 					<option value="member_id">작성자</option>
-					<option value="food_name">음식이름</option>
+					<option value="board_content">내용</option>
 				</select>
 			</div>
 			<div class="col-4">
@@ -28,11 +28,39 @@
 				<input type="submit" value="검 색" class="searchButton" />
 			</div>
 		</form>
-
-		<div class="text-end">
-			<a th:href="@{recipeWrite}" class="write-button">글쓰기</a>
-		</div>
-
+		<th:block th:if="${ searchOption }">
+			<div class="row my-3">
+				<div class="col text-center">"[[${ keyword }]]" 검색 결과</div>
+			</div>
+			<div class="row my-3">
+				<div class="col-6">
+					<a th:href="@{/recipeList}" class="btn btn-outline-success">리스트</a>
+				</div>
+				<th:block
+					th:if="${session.member != null and session.member.id != null}">
+					<div class="col-6 text-end">
+						<a th:href="@{/recipeWrite}" class="btn btn-outline-success">글쓰기</a>
+					</div>
+				</th:block>
+				<th:block
+					th:unless="${session.member != null and session.member.id != null}	">
+				</th:block>
+			</div>
+		</th:block>
+		<th:block th:unless="${ searchOption }">
+			<div class="row my-3">
+				<th:block
+					th:if="${session.member != null and session.member.id != null}">
+					<div class="col-6"></div>
+					<div class="col-6 text-end">
+						<a th:href="@{/recipeWrite}" class="btn btn-outline-success">글쓰기</a>
+					</div>
+				</th:block>
+				<th:block
+					th:unless="${session.member != null and session.member.id != null}">
+				</th:block>
+			</div>
+		</th:block>
 		<div class="recipe-table-wrapper">
 			<table class="recipe-table table">
 				<thead>
@@ -44,43 +72,132 @@
 					</tr>
 				</thead>
 				<tbody>
-					<th:block th:if="${not #lists.isEmpty(recipeList)}">
+					<th:block
+						th:if="${not searchOption and not #lists.isEmpty(recipeList)}">
 						<tr th:each="board, status: ${recipeList}">
 							<td th:text="${board.boardNo}"></td>
-							<td class="recipe-name">
-							<a class="page-link" th:href="@{/recipeDetail(boardNo=${board.boardNo}, pageNum=${currentPage})}">[[${board.boardTitle}]]</a></td>
+							<td class="recipe-name"><a class="page-link"
+								th:href="@{/recipeDetail(boardNo=${board.boardNo}, pageNum=${currentPage})}">[[${board.boardTitle}]]</a>
+							</td>
 							<td th:text="${board.memberId}"></td>
 							<td th:text="${#dates.format(board.regDate, 'yyyy-MM-dd')}"></td>
 						</tr>
 					</th:block>
-					<th:block th:unless="${not #lists.isEmpty(recipeList)}">
+					<th:block
+						th:if="${searchOption and not #lists.isEmpty(recipeList)}">
+						<tr th:each="board, status: ${recipeList}">
+							<td th:text="${board.boardNo}"></td>
+							<td class="recipe-name"><a class="page-link"
+								th:href="@{/recipeDetail(boardNo=${board.boardNo}, pageNum=${currentPage},type=${type},keyword=${keyword})}">[[${board.boardTitle}]]</a>
+							</td>
+							<td th:text="${board.memberId}"></td>
+							<td th:text="${#dates.format(board.regDate, 'yyyy-MM-dd')}"></td>
+						</tr>
+					</th:block>
+					<th:block
+						th:if="${not searchOption and #lists.isEmpty(recipeList)}">
 						<tr>
 							<td colspan="5" class="no-recipes">게시 글이 존재하지 않음</td>
+						</tr>
+					</th:block>
+					<th:block th:if="${searchOption and #lists.isEmpty(recipeList)}">
+						<tr>
+							<td colspan="5" class="no-recipes">"[[${keyword}]]" 검색 결과가
+								존재하지 않음</td>
 						</tr>
 					</th:block>
 				</tbody>
 			</table>
 		</div>
 		<!-- 페이지 -->
-		<div class="row">
-			<div class="col">
+		<!-- 기본 검색x 리스트o -->
+		<th:block
+			th:if="${not searchOption and not #lists.isEmpty(recipeList)}">
+			<div class="row">
+				<div class="col">
 					<ul class="pagination justify-content-center">
 						<li class="page-item" th:if="${startPage > pageGroup}"><a
 							class="page-link"
-							th:href="@{/recipeList(pageNum=${startPage - pageGroup})}">Pre</a>
-						</li>
+							th:href="@{/recipeList(pageNum=${startPage - pageGroup})}">Pre</a></li>
 						<th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
 							<li class="page-item"
 								th:classappend="${i == currentPage} ? 'active' : ''"><a
-								class="page-link" th:href="@{/recipeList(pageNum=${i})}"
-								th:text="${i}">1</a></li>
+								class="page-link"
+								th:href="@{/recipeList(pageNum=${i==0 ? 1 : i})}">[[${i==0
+									? 1 : i}]]</a></li>
 						</th:block>
 						<li class="page-item" th:if="${endPage < pageCount}"><a
-							class="page-link"
-							th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a>
-						</li>
+							th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a></li>
 					</ul>
+				</div>
 			</div>
-		</div>
+		</th:block>
+		<!--검색o 리스트o  -->
+		<th:block th:if="${ searchOption and not #lists.isEmpty(recipeList)}">
+			<div class="row">
+				<div class="col">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${startPage > pageGroup}"><a
+							class="page-link"
+							th:href="@{/recipeList(pageNum=${startPage - pageGroup})}">Pre</a></li>
+						<th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+							<li class="page-item"
+								th:classappend="${i == currentPage} ? 'active' : ''"><a
+								class="page-link"
+								th:href="@{/recipeList(pageNum=${i==0 ? 1 : i},type=${type},keyword=${keyword})}">[[${i==0
+									? 1 : i}]]</a></li>
+						</th:block>
+						<li class="page-item" th:if="${endPage < pageCount}"><a
+							th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a></li>
+					</ul>
+				</div>
+			</div>
+		</th:block>
+		<!-- 검색o 리스트x -->
+		<th:block th:if="${ searchOption and  #lists.isEmpty(recipeList)}">
+			<div class="row">
+				<div class="col">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${startPage > pageGroup}"><a
+							class="page-link"
+							th:href="@{/recipeList(pageNum=${startPage - pageGroup})}">Pre</a></li>
+						<th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+							<th:block th:if="${i == currentPage}">
+							    <li class="page-item active" aria-current="page">
+							        <span class="page-link">[[${i}]]</span>
+							    </li>
+							</th:block>
+							<th:block th:if="${i != currentPage}">
+							</th:block>
+						</th:block>
+						<li class="page-item" th:if="${endPage < pageCount}"><a
+							th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a></li>
+					</ul>
+				</div>
+			</div>
+		</th:block>
+		<!-- 검색x리스트x -->
+		<th:block th:if="${not searchOption and  #lists.isEmpty(recipeList)}">
+			<div class="row">
+				<div class="col">
+					<ul class="pagination justify-content-center">
+						<li class="page-item" th:if="${startPage > pageGroup}"><a
+							class="page-link"
+							th:href="@{/recipeList(pageNum=${startPage - pageGroup})}">Pre</a></li>
+						<th:block th:each="i : ${#numbers.sequence(startPage, endPage)}">
+							<th:block th:if="${i == currentPage}">
+							    <li class="page-item active" aria-current="page">
+							        <span class="page-link">[[${i}]]</span>
+							    </li>
+							</th:block>
+							<th:block th:if="${i != currentPage}">
+							</th:block>
+						</th:block>
+						<li class="page-item" th:if="${endPage < pageCount}"><a
+							th:href="@{/recipeList(pageNum=${startPage + pageGroup})}">Next</a></li>
+					</ul>
+				</div>
+			</div>
+		</th:block>
 	</div>
 </html>

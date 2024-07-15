@@ -12,7 +12,8 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     food_time INT DEFAULT 0,
     numberEaters  int DEFAULT 0,
     Apoint double DEFAULT 0,
-    member_id VARCHAR(200) NOT NULL
+    member_id VARCHAR(200) NOT NULL,
+    FOREIGN KEY (member_id) REFERENCES membership(id)
 );
 
 CREATE TABLE material (  -- 재료 리스트 테이블
@@ -35,7 +36,7 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );
 
-select * from material;
+select * from recipe_Board;
 drop table recipe_Board;
 drop table material;
 drop table cooking;
@@ -45,7 +46,7 @@ drop table cooking;
 INSERT INTO recipe_Board (board_title, board_content, food_genre, member_id)
 VALUES ( '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '이탈리안', 'john_doe');
 
-
+UPDATE recipe_board SET Apoint = 4.5 WHERE board_no = 1;
 -- 재료 추가
 INSERT INTO material (cooking_id, board_No, material_name, mensuration,type_Material)
 VALUES 

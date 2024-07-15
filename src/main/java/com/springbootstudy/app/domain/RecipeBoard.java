@@ -23,7 +23,6 @@ public class RecipeBoard {
     private int boardView;	 	//게시판 본수
     private Timestamp regDate; // 올린날짜
     private String thumbnail; // 섭내일 파일
-    private String thumbnailUrl; // 섭내일 파일
     private int foodTime;    //조리시간
     private int numberEaters; // 인원수
     private double Apoint;      // 평점

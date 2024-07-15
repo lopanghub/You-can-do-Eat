@@ -40,8 +40,89 @@
             board_no = #{boardNo}
     </update>
 
-    <select id="getMaterialListByNoId">
-        SELECT * FROM material WHERE cooking_id = #{cookingId} AND board_no = #{boardNo}
+
+<!-- 레시피 추가하기 -->
+<insert id="insertRecipe" parameterType="RecipeBoard" useGeneratedKeys="true" keyProperty="boardNo">
+    INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id,thumbnail,numberEaters,food_time)
+    VALUES (#{boardTitle}, #{boardContent}, #{foodGenre}, #{memberId}, #{thumbnail},#{numberEaters},#{foodTime});
+</insert>
+<!-- 레시피에 요리재료추가하기 -->
+<insert id="insertMaterial"  parameterType="Material">
+        INSERT INTO material (board_no, material_name, mensuration, type_Material) VALUES
+       (#{boardNo}, #{materialName}, #{mensuration}, #{typeMaterial})
+</insert>
+<!-- 레시피 재료리스트로 바로 불러오기 -->
+
+<!-- 레시피에 요리과정추가하기 -->
+<insert id="insertCooking"  parameterType="list">
+        INSERT INTO cooking (board_no, cook_title, cook_method, recommended,cook_file)
+        VALUES (#{boardNo}, #{cookTitle}, #{cookMethod}, #{recommended},#{cookFile})
+</insert>
+
+
+	
+	<!--recipeDelete  -->
+	<delete id="deleteRecipe">
+		DELETE FROM recipe_Board WHERE board_No = #{boardNo};
+	</delete>
+	<!--materialDelete  -->
+	<delete id="deleteMaterialByNo">
+	DELETE FROM material WHERE  board_No = #{boardNo};
+	</delete>
+	<!--cookingDelete  -->
+	<delete id="deleteCookingByNo">
+	DELETE FROM cooking WHERE  board_No = #{boardNo};
+	</delete>
+	
+	<!--materialDelete  -->
+	<delete id="deleteMaterial">
+	DELETE FROM material WHERE material_id = #{materialId};
+	</delete>
+	<!--cookingDelete  -->
+	<delete id="deleteCooking">
+	DELETE FROM cooking WHERE cooking_id = ${cookingId};
+	</delete>
+	
+	
+  <!-- boardNO의 요리과정리스트 -->
+<select id="getCookList" resultType="Cooking"  parameterType="int">
+SELECT c.*
+FROM recipe_board rb
+INNER JOIN cooking c ON rb.board_no = c.board_no
+WHERE rb.board_no = #{boardNo};
+</select>
+	
+
+	<!--레시피 리스트-->
+	<select id="recipeBoardList">
+		select * from Recipe_Board 
+		 <where>
+            <if test="type == 'board_title'">
+                board_title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="type == 'member_id'">
+                member_id LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="type == 'board_content'">
+                board_content LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+		order by board_No desc LIMIT  #{offset}, #{limit}
+	</select>
+	<select id="getRecipeCount" resultType="int">
+         SELECT count(*) FROM recipe_board
+          <where>
+            <if test="type == 'board_title'">
+                board_title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="type == 'member_id'">
+                member_id LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="type == 'board_content'">
+                board_content LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+         
     </select>
 
 

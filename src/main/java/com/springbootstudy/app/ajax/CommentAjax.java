@@ -29,7 +29,7 @@ public class CommentAjax {
 	    double averagePoint = commentService.calculateAveragePoint(boardNo);
 		
 		 recipeService.updateApoint(boardNo,averagePoint);
-		int commentCount = commentService.commentCount(boardNo);
+		 
 	    // 평균 점수 별점
 	    StringBuilder symbols = new StringBuilder();
 	    int i = 0;
@@ -57,16 +57,78 @@ public class CommentAjax {
 	
 	
 	@PostMapping("/ajax/updateComment")
-    public Comment updateComment(@RequestParam(name="commentId") int commentId, 
+    public commentDTO updateComment(@RequestParam(name="boardNo")int boardNo,
+    								@RequestParam(name="commentId") int commentId, 
                                  @RequestParam(name="commentContent") String commentContent,
                                  @RequestParam(name="commentPoint") int commentPoint) {
-        return commentService.updateComment(commentId, commentContent, commentPoint);
+		Comment comment =	commentService.updateComment(commentId, commentContent, commentPoint);
+		 // 평균 점수 계산
+	    double averagePoint = commentService.calculateAveragePoint(boardNo);
+		
+		 recipeService.updateApoint(boardNo,averagePoint);
+		 
+	    // 평균 점수 별점
+	    StringBuilder symbols = new StringBuilder();
+	    int i = 0;
+	    int Ipoint = (int) (averagePoint * 10) / 10;
+	    for (int j = 0; j < Ipoint; j++) {
+	        symbols.append(" <i class=\"bi bi-star-fill\"></i>");
+	        i++;
+	    }
+	    if ((averagePoint * 10) % 10 > 1) {
+	        if (i < 5) {
+	            symbols.append(" <i class=\"bi bi-star-half\"></i>");
+	            i++;
+	        }
+	    }
+	    for (int j = i; j < 5; j++) {
+	        symbols.append(" <i class=\"bi bi-star\"></i>");
+	        i++;
+	    }
+	    String stars = symbols.toString();
+	    
+	    // commentDTO 객체 생성 및 반환
+	    System.out.println("여기는 4번 창구");
+	    commentDTO commentDTO = new commentDTO(comment, stars);
+		
+		
+        return commentDTO;
     }
 	
 	
 	@PostMapping("/ajax/deleteComment")
-	public Comment deleteComment(@RequestParam(name="commentId") int commentId) {
-		return commentService.deleteComment(commentId);
+	public commentDTO deleteComment(@RequestParam(name="commentId") int commentId,@RequestParam(name="boardNo")int boardNo) {
+		Comment comment =commentService.deleteComment(commentId);
+		 // 평균 점수 계산
+	    double averagePoint = commentService.calculateAveragePoint(boardNo);
+		 recipeService.updateApoint(boardNo,averagePoint);
+		 // 평균 점수 별점
+		    StringBuilder symbols = new StringBuilder();
+		    int i = 0;
+		    int Ipoint = (int) (averagePoint * 10) / 10;
+		    for (int j = 0; j < Ipoint; j++) {
+		        symbols.append(" <i class=\"bi bi-star-fill\"></i>");
+		        i++;
+		    }
+		    if ((averagePoint * 10) % 10 > 1) {
+		        if (i < 5) {
+		            symbols.append(" <i class=\"bi bi-star-half\"></i>");
+		            i++;
+		        }
+		    }
+		    for (int j = i; j < 5; j++) {
+		        symbols.append(" <i class=\"bi bi-star\"></i>");
+		        i++;
+		    }
+		    String stars = symbols.toString();
+		    
+		    // commentDTO 객체 생성 및 반환
+		    System.out.println("여기는 4번 창구");
+		    commentDTO commentDTO = new commentDTO(comment, stars);
+			
+		 
+		return commentDTO;
+		
 	}
 	
 }

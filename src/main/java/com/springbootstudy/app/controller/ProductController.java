@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 //상품 컨트롤러
@@ -38,19 +39,26 @@ public class ProductController {
 	
 	//상품 상세보기 페이지로 이동
 	@GetMapping("/shopDetail")
-    public String getProductByID(Model model, @RequestParam("productId") int productId) {
-        Product product = productService.getProductById(productId);
-        model.addAttribute("product", product);
-        return "views/shop/shopDetail";
-    }
+	public String getProductByID(Model model, HttpSession session, @RequestParam(name = "productId") int productId, RedirectAttributes redirectAttributes) {
+	    // 세션에서 member 객체 가져오기
+	    MemberShip member = (MemberShip) session.getAttribute("member");
+
+	    // member가 null이면 로그인 페이지로 리다이렉트
+	    if (member == null) {
+	        redirectAttributes.addFlashAttribute("message", "로그인 후 이용해주세요.");
+	        return "redirect:/login";
+	    }
+
+	    // member가 null이 아니면 상품 정보 가져오기
+	    Product product = productService.getProductById(productId);
+	    model.addAttribute("product", product);
+	    return "views/shop/shopDetail";
+	}
 	
 	//shopDetails-장바구니 추가하기 버튼 누를시
 	@PostMapping("/addCart")
 	public String addCart(@RequestParam("productId") int productId,
 				@RequestParam("quantity") int quantity, Model model, HttpSession session) {
-		if(session.getAttribute("member") == null) {
-			return "redirect:/login";
-		}
 		
 		productService.addCart(productId, quantity);
 		

@@ -62,17 +62,18 @@
 	<delete id="deleteCartByProductId">
 		DELETE FROM cart WHERE product_id = #{productId}
 	</delete>
-
+	
+	
 
 
 	<resultMap id="productResultMap"
 		type="com.springbootstudy.app.domain.Product">
 		<id property="productId" column="product_id" />
 		<result property="price" column="price" />
+		<result property="productName" column="product_name" />
 		<result property="productImage" column="product_image" />
-		<result property="seller" column="seller" />
-		<result property="origin" column="origin" />
 		<result property="size" column="size" />
+		<result property="rating" column="rating" />
 		<result property="category" column="category" />
 		<result property="ingredient" column="ingredient" />
 		<result property="expirationDate" column="expiration_date" />

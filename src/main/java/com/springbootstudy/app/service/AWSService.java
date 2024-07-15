@@ -3,7 +3,9 @@ package com.springbootstudy.app.service;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.springbootstudy.app.domain.Product;
 import com.springbootstudy.app.domain.RecipeBoard;
+import com.springbootstudy.app.mapper.ProductMapper;
 import com.springbootstudy.app.mapper.RecipeMapper;
 
 import jakarta.annotation.PostConstruct;
@@ -16,21 +18,38 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+
 public class AWSService {
 
     private final S3Service s3Service;
     private final RecipeMapper recipeMapper;
+    private final ProductMapper productMapper;
 
+//    @PostConstruct
+//    public void init() {
+//        String key = "recipes_updated_with_details.json";
+//        String jsonContent = s3Service.downloadFile(key);
+//
+//        if (jsonContent != null) {
+//            List<RecipeBoard> recipes = parseRecipesFromJson(jsonContent);
+//            for (RecipeBoard recipe : recipes) {
+//            	if (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
+//                    recipeMapper.insertRecipeBoard(recipe);
+//                }
+//            }
+//        }
+//    }
+    
     @PostConstruct
     public void init() {
-        String key = "recipes_updated_with_details.json";
+        String key = "coupang_products.json";
         String jsonContent = s3Service.downloadFile(key);
 
         if (jsonContent != null) {
-            List<RecipeBoard> recipes = parseRecipesFromJson(jsonContent);
-            for (RecipeBoard recipe : recipes) {
-            	if (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
-                    recipeMapper.insertRecipeBoard(recipe);
+            List<Product> products = parseProductsFromJson(jsonContent);
+            for (Product product : products) {
+                if (!productMapper.existsById(product.getProductId())) {
+                    productMapper.insertProduct(product);
                 }
             }
         }
@@ -76,5 +95,37 @@ public class AWSService {
         } catch (NumberFormatException e) {
             return 0; // 기본값 설정
         }
+    }
+    
+    private List<Product> parseProductsFromJson(String jsonContent) {
+        List<Product> products = new ArrayList<>();
+
+        JsonArray jsonArray = JsonParser.parseString(jsonContent).getAsJsonArray();
+        
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+            Product.ProductBuilder productBuilder = Product.builder();
+            
+            productBuilder.productName(jsonObject.get("name").getAsString());
+            productBuilder.productImage(jsonObject.get("image_url").getAsString());
+            productBuilder.category(jsonObject.get("category").getAsString());
+            productBuilder.ingredient(jsonObject.get("ingredient").getAsString());
+            
+            try {
+                productBuilder.price(Integer.parseInt(jsonObject.get("price").getAsString().replaceAll("[^0-9]", "")));
+            } catch (NumberFormatException e) {
+                productBuilder.price(0); // 기본값 설정
+            }
+            
+            try {
+                productBuilder.rating(Double.parseDouble(jsonObject.get("rating").getAsString()));
+            } catch (NumberFormatException e) {
+                productBuilder.rating(0.0); // 기본값 설정
+            }
+
+            products.add(productBuilder.build());
+        }
+
+        return products;
     }
 }

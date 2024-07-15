@@ -2,7 +2,9 @@ package com.springbootstudy.app.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.data.repository.query.Param;
 
 import com.springbootstudy.app.domain.Cart;
@@ -44,6 +46,13 @@ public interface ProductMapper {
    //결제시 주문 번호 추가
    void insertOrder(Order order);
    
-  
+   //중복 데이터 방지
+   @Select("SELECT COUNT(*) > 0 FROM product WHERE product_id = #{productId}")
+   boolean existsById(int productId);
+   
+   //데이터 삽입
+   @Insert("INSERT INTO product (product_id, product_name, product_image, price, rating, category, ingredient) " +
+           "VALUES (#{productId}, #{productName}, #{productImage}, #{price}, #{rating}, #{category}, #{ingredient})")
+   void insertProduct(Product product);
 
 }

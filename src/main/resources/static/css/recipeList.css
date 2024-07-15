@@ -10,7 +10,7 @@
 	margin-bottom: 30px;
 }
 .recipe-header h2 {
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
   margin-bottom: 20px;
 }
@@ -96,4 +96,35 @@
   text-align: center;
   padding: 20px;
   color: #777;
+}
+
+/* 페이지네이션 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination .page-item {
+    margin: 0 5px;
+}
+
+.pagination .page-link {
+    color: #7a8577;
+    border: 1px solid #7a8577;
+    padding: 5px 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #FF914D;
+    border-color: #FF914D;
+    color: white;
+}
+
+.pagination .page-link:hover {
+    background-color: #7a8577;
+    color: white;
 }

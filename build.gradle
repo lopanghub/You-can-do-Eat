@@ -47,6 +47,16 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.8' // Gson 라이브러리 추가
     
     implementation 'io.github.cdimascio:java-dotenv:5.2.2' //환경변수 읽어오는 라이브러리
+    
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    
+    
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+}
+// 페이지 처리할때 추가됐음
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
 }
 
 

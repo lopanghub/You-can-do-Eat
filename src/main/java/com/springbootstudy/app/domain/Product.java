@@ -26,7 +26,7 @@ public class Product {
     private String category;
     private String ingredient;
     private String expirationDate;
-
+    private String detailImage;
 
 }
 

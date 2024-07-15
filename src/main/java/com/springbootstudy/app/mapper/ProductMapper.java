@@ -25,6 +25,9 @@ public interface ProductMapper {
 	//카테고리 별 분류
     List<Product> findByCategory(@Param("category") String category);
     
+    //상품 업데이트
+    void updateProduct(Product product);
+
     //장바구니 버튼 클릭시 장바구니 추가
    void insertCart(Cart cart);
    

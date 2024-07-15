@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main_layout}">
+<!--/* content */-->
+<th:block layout:fragment="content">
+    <div class="row my-5" id="global-content">
+        <div class="col-10 offset-1">
+            <div class="row text-center">
+                <div class="col">
+                    <h2 class="fs-3 fw-bold">상품 수정하기</h2>
+                </div>
+            </div>
+            <form name="updateForm" action="/update" id="updateForm"
+                  class="row g-3 border-primary p-4" method="post" enctype="multipart/form-data">
+                <div class="col-md-6">
+                    <label for="productName" class="form-label">상품명</label>
+                    <input type="text" class="form-control" name="productName" id="productName"
+                           th:value="${product.productName}">
+                </div>
+                <div class="col-md-6">
+                    <label for="price" class="form-label">가격</label>
+                    <input type="number" class="form-control" name="price" id="price"
+                           th:value="${product.price}">
+                </div>
+                <div class="col-md-6">
+                    <label for="category" class="form-label">카테고리</label>
+                    <select class="form-select" name="category" id="category">
+                        <option value="과일" th:selected="${product.category == '과일'}">과일</option>
+                        <option value="채소" th:selected="${product.category == '채소'}">채소</option>
+                        <option value="정육" th:selected="${product.category == '정육'}">정육</option>
+                        <option value="해산물" th:selected="${product.category == '해산물'}">해산물</option>
+                        <option value="소스" th:selected="${product.category == '소스'}">소스</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="ingredient" class="form-label">재료분류</label>
+                    <input type="text" class="form-control" name="ingredient" id="ingredient"
+                           th:value="${product.ingredient}">
+                </div>
+                <div class="col-md-6">
+                    <label for="productImage" class="form-label">썸네일 업로드</label>
+                    <input type="file" class="form-control" name="productImage" id="productImage">
+                </div>
+                <div class="col-md-6">
+                    <label for="currentImage" class="form-label">현재 이미지</label>
+                    <div>
+                        <img th:src="@{${product.productImage}}" alt="현재 이미지" class="img-thumbnail">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="detailImageUpload" class="form-label">상세 이미지 업로드</label>
+                    <input type="file" class="form-control" name="detailImageUpload" id="detailImageUpload">
+                </div>
+                <div class="col-12">
+                    <label for="detailImage" class="form-label">상세 내용</label>
+                    <textarea class="form-control" name="detailImage" id="detailImage" 
+                              rows="10" th:text="${product.detailImage}"></textarea>
+                </div>
+                <div class="col-12 text-center mt-5">
+                    <input type="submit" value="수정하기" class="btn btn-primary"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+</html>
+                           

@@ -72,8 +72,10 @@
 			<div class="row">
 				<div class="col">
 					<form id="productForm" method="post">
-						<input type="hidden" name="productId" th:value="${product.productId}"> 
-                        <input type="hidden" id="memberId" th:value="${session.member.id}"> <!-- 히든 필드 추가 -->
+						<input type="hidden" name="productId"
+							th:value="${product.productId}"> <input type="hidden"
+							id="memberId" th:value="${session.member.id}">
+						<!-- 히든 필드 추가 -->
 						<input type="hidden" name="quantity" id="cartQuantity" value="1">
 						<div class="button-container">
 							<button type="button" id="addCart">장바구니</button>
@@ -84,16 +86,18 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 관리자2 에게만 보이게 상품 상세 보기 등록 수정 삭제-->
 	<th:block th:if="${session.member.id == 'admin2'}">
-	<div class="row">
-		<div class="col">
-			<button class="btn btn-primary" id="addProduct">상품 등록</button>
-			<button class="btn btn-secondary" id="updateProduct">상품 수정</button>
-			<button class="btn btn-danger" id="deleteProduct">상품 삭제</button>
+		<div class="row">
+			<div class="col">
+				<!-- 업데이트 폼으로 이동하는 버튼 -->
+				<form th:action="@{/updateForm}" method="post">
+					<input type="hidden" name="productId" th:value="${product.productId}" />
+					<button type="submit" class="btn btn-primary">상품 수정</button>
+				</form>
+			</div>
 		</div>
-	</div>
 	</th:block>
 
 
@@ -116,20 +120,20 @@
 
 	<!--상품 상세 페이지 들어갈자리 -->
 	<div class="row"></div>
-	
-	
+
+
 	<!-- 리뷰 작성 -->
 	<h4>상품 리뷰</h4>
 	<div class="row">
 		<div class="col reviewBox"></div>
 	</div>
 	<div class="row" id="reviewForm">
-        <div class="col">
-            <h4>리뷰 작성</h4>
-            <textarea id="reviewText" placeholder="리뷰를 작성하세요"></textarea>
-            <button id="submitReview">리뷰 작성</button>
-        </div>
-    </div>
+		<div class="col">
+			<h4>리뷰 작성</h4>
+			<textarea id="reviewText" placeholder="리뷰를 작성하세요"></textarea>
+			<button id="submitReview">리뷰 작성</button>
+		</div>
+	</div>
 
 	<!-- 추천 상품 -->
 	<div class="row"></div>
@@ -138,7 +142,7 @@
 	<div class="row"></div>
 
 
-<script th:inline="javascript" >
+	<script th:inline="javascript">
 $(document).ready(function() {
    var productId = [[${product.productId}]];
 

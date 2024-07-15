@@ -50,25 +50,26 @@ $(document).ready(function() {
     $(document).on("click", "#addMaterial", function() {
         let materialIndex = $(this).data("materialindex");
         let materialHtml = `
-            <div class="row mt-2" id="materialRow${materialIndex}">
-                <div class="col">재료이름</div>
-                <div class="col">
-                    <input type="text" class="form-control" id="material${materialIndex}.materialName" name="materialNames">
-                </div>
-                <div class="col">재료 양</div>
-                <div class="col">
-                    <input type="text" class="form-control" id="material${materialIndex}.mensuration" name="mensurations">
-                </div>
-                <div class="col-3">
-                    <select class="form-select" id="material${materialIndex}.typeMaterial" name="typeMaterials">
-                        <option value="재료">재료</option>
-                        <option value="조미료">조미료</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <input type="button" class="btn btn-danger deleteMaterial" data-materialindex="${materialIndex}" value="재료삭제">
-                </div>
-            </div>
+		<div class="row mt-2" id="materialRow${materialIndex}">
+		      <div class="col">
+		          <label for="material${materialIndex}.materialName">재료이름</label>
+		          <input type="text" class="form-control" id="material${materialIndex}.materialName" name="materialNames">
+		      </div>
+		      <div class="col">
+		          <label for="material${materialIndex}.mensuration">재료 양</label>
+		          <input type="text" class="form-control" id="material${materialIndex}.mensuration" name="mensurations">
+		      </div>
+		      <div class="col-3">
+		          <label for="material${materialIndex}.typeMaterial">구분</label>
+		          <select class="form-select" id="material${materialIndex}.typeMaterial" name="typeMaterials">
+		              <option value="재료">재료</option>
+		              <option value="조미료">조미료</option>
+		          </select>
+		      </div>
+		      <div class="col-auto d-flex align-items-end">
+		          <button type="button" class="deleteMaterial" data-materialindex="${materialIndex}">X</button>
+		      </div>
+		  </div>
         `;
         $("#material").append(materialHtml); // 해당 요리 섹션에 재료 추가
         $(this).data("materialindex", materialIndex + 1); // materialIndex 증가
@@ -143,4 +144,19 @@ $(document).ready(function() {
             preview.css("display", "none");
         }
     }
+	
+	$('#thumbnailname').change(function() {
+	      var input = this;
+	      if (input.files && input.files[0]) {
+	          var reader = new FileReader();
+
+	          reader.onload = function(e) {
+	              $('#thumbnailPreview')
+	                  .attr('src', e.target.result)
+	                  .show();
+	          };
+
+	          reader.readAsDataURL(input.files[0]);
+	      }
+	  });
 });

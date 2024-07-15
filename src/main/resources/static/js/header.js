@@ -1,4 +1,4 @@
-
+/*
 document.addEventListener('DOMContentLoaded', function() {
     const communityBtn = document.querySelector('.community-btn');
     communityBtn.addEventListener('click', function(e) {
@@ -11,4 +11,4 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/login';
         }
     });
-});
+});*/

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/user_layout}">
+
+<!-- content -->
+<div layout:fragment="content" class="row my-3" id="global-content">
+    <script th:src="@{js/chat.js}"></script>
+    <div class="col">
+        <div class="col-md-8 offset-md-2">
+            <h2>Manager 문의사항</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="chat-container mt-4">
+                        <div class="chat-messages" id="chatMessages">
+                            <!-- Chat messages will be displayed here -->
+                            <div class="message">
+                                <strong>Manager :</strong> 안녕하세요~ 무슨 일로 찾으셨나요?
+                            </div>
+                        </div>
+                        <form id="sendMessageForm">
+                            <div class="row my-3">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <textarea class="form-control" id="messageInput" rows="3" placeholder="Type your message..." style="resize: none;"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <button type="submit" class="btn btn-success">송신</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h4>사용자 목록</h4>
+                    <div id="userListContainer" style="max-height: 400px; overflow-y: auto;">
+                        <ul id="userList" class="list-group">
+                            <li th:each="member : ${userList}" class="list-group-item user-item" th:attr="data-member-id=${member.id}">
+                                <span th:text="${member.id}"></span>
+                                <span th:text="${member.name}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script th:inline="javascript">
+
+	let userId = [[${ session.member.id }]];
+	
+//--------------------------------------------------
+	$("#sendMessageForm").submit(function(event) {
+		event.preventDefault();
+		let message = $("#messageInput").val();
+		sendMessage(message);
+		$("#messageInput").val('');
+	});
+	
+	// textarea에서 Enter 키 누를 때 폼 제출하기
+	$('#messageInput').keydown(function(e) {
+		if (e.keyCode == 13 && !e.shiftKey) {
+			e.preventDefault();
+			$('#sendMessageForm').submit();
+		}
+	});
+	
+	function sendMessage(message) {
+		let messageObj = {
+			sender: userId,
+			content: message
+		};
+		$.ajax({
+			type: "POST",
+			url: "/chat/sendMessage",
+			contentType: "application/json",
+			data: JSON.stringify(messageObj),
+			success: function(data) {
+				// 성공적으로 처리되었을 때
+				displayMessage(messageObj);
+			},
+			error: function(xhr, status, error) {
+				console.error("AJAX 요청 실패", status, error);
+			}
+		});
+	}
+	
+	function displayMessage(messageObj) {
+		// 메시지를 화면에 표시하는 코드
+	}
+	
+	function displayMessage(message) {
+		let messageHtml = '<div class="message"><strong>' + message.sender + ':</strong> ' + message.content + '</div>';
+		$("#chatMessages").append(messageHtml);
+		// Scroll to bottom of chat messages
+		$("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+	}
+</script>	
+</div>
+</html>

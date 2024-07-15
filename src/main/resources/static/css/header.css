@@ -43,20 +43,20 @@ div.loginJoin {
 	font-size: 14px;
 }
 
-a.login, a.logout, a.join, a.joinupdate, a.cart {
+a.login, a.logout, a.join, a.memberMyPage, a.cart {
 	text-decoration: none;
 	color: #FF914D;
 	font-weight: bold;
 }
 
-a.login2, a.logout2, a.join2, a.joinupdate2, a.cart2 {
+a.login2, a.logout2, a.join2, a.memberMyPage2, a.cart2 {
 	text-decoration: none;
 	color: #93B665;
 	font-weight: bold;
 }
 
 /* nav바 영역 */
-nav {
+.header-nav {
 	display: flex;
 	justify-content: flex-start;
 	background-color: #7a8577;
@@ -109,6 +109,7 @@ nav {
 
 .dropdown:hover .dropbtn, .nav-link a:hover {
 	background-color: #FF914D;
+	color:#FCF9F5;
 }
 
 .community-btn {

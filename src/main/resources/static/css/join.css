@@ -1,0 +1,28 @@
+   #join-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .name-birth {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .birth-form, .name-form {
+            flex: 1;
+            margin-right: 1rem;
+        }
+        .birth-form:last-child, .name-form:last-child {
+            margin-right: 0;
+        }
+        .name-form-input, .birth-form-input {
+            width: 100%;
+        }
+        .btn-groups {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+       
+       .btns {
+            margin: 0 0.5rem;
+        }

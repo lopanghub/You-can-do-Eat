@@ -3,49 +3,43 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/main_layout}">
 
-<div layout:fragment="content" class="row" id="global-content">
+<div layout:fragment="content" class="row" id="login-content">
 	<div class="col">
-		<form class="my-5" id="loginForm" action="login" method="post">
-			<div class="row my-3 text-center">
+		<form class="my-5 new-login-form" id="loginForm" action="login" method="post">
+			<div class="row text-center">
 				<div class="col">
 					<img src="./images/youcandoeat.png"
-						style="width: 120px; height: 150px;">
+						style="width: 100px;" class="new-login-logo">
 				</div>
 			</div>
-			<div class="offset-4">
-				<div class="input-group has-validation my-3">
-					<span class="input-group-text" style="width: 100px;">아이디</span>
-					<div class="form-floating is-invalid">
-						<input type="text" class="form-control is-invalid"
-							style="width: 300px;" id="userId" name="userId" 
-							placeholder="Userid" required>
-					</div>
-					<div class="invalid-feedback" id="please1">아이디를 입력해주세요.</div>
-				</div>
-				<div class="input-group has-validation my-3">
-					<span class="input-group-text" style="width: 100px;">비밀번호</span>
-					<div class="form-floating is-invalid">
-						<input type="password" class="form-control is-invalid"
-							style="width: 300px;" id="userPass" name="pass" 
-							placeholder="Userpass" required>
-					</div>
-					<div class="invalid-feedback" id="please2">비밀번호를 입력해주세요.</div>
-				</div>
-				<div class="row">
-					<div class="col-2 offset-2 my-5">
-						<input type="submit" value="로그인" id="btnLogin"
-							class="btn btn-success w-100 h-100" />
+			<div class="">
+				<div class="col-md-12">
+					<label for="validationServerUsername" class="form-label"></label>
+					<div class="input-group has-validation">
+						<span class="input-group-text">&nbsp;아이디&nbsp;</span>
+						<input type="text"
+								class="form-control form-floating is-invalid" id="userId"
+								name="userId" required>
+						<div id="please1" class="invalid-feedback">아이디를 입력해주세요.</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="row">
-				<div class="col">
-					<a href="/oauth2/authorization/naver">
-						<img src="./images/naverlogo.png" style="width: 64px; height: 64px; margin: 0 12px;" />
-					</a>
+			
+				<div class="col-md-12">
+					<label for="validationServerPass" class="form-label"></label>
+					<div class="input-group has-validation">
+						<span class="input-group-text">비밀번호</span>
+						<input type="password"
+								class="form-control form-floating is-invalid" id="userPass"
+								name="pass" required>
+					<div class="invalid-feedback" id="please2">비밀번호를 입력해주세요.</div>
+					</div>
 				</div>
 			</div>
+			
+			<input type="submit" value="로그인" id="btnLogin"	class="login-button" />
+			<a href="/membership" class="signup-button">회원가입</a>
+			
 		</form>
 	</div>
 </div>

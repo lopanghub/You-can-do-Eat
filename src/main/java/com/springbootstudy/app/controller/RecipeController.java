@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.devtools.restart.server.HttpRestartServer;
@@ -21,11 +22,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.github.pagehelper.PageInfo;
+import com.springbootstudy.app.domain.Comment;
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
 import com.springbootstudy.app.domain.RecipeBoard;
+import com.springbootstudy.app.dto.commentDTO;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 
@@ -44,14 +49,20 @@ public class RecipeController {
 
 	// 레시피 리스트 쓰기
 	@GetMapping("/recipeWrite")
-	public String recipeWrite() {
+	public String recipeWrite(@RequestParam(value="pageNum", required=false, defaultValue="1")
+	int pageNum,@RequestParam(value="type", defaultValue="null") String type,
+	@RequestParam(value="keyword", defaultValue="null") String keyword,
+	Model model) {
+		model.addAttribute("pageNum",pageNum);
+		model.addAttribute("type",type);
+		model.addAttribute("keyword",keyword);
 		return "views/recipe/recipeWrite";
 	}
 
 	@PostMapping("/recipeWriteProcess")
 	public String writeRecipe(
 			@ModelAttribute RecipeBoard recipeBoard,
-			@RequestParam("foodName") String foodName,
+			@RequestParam("memberId") String memberId,
 			@RequestParam("boardTitle") String boardTitle,
 			@RequestParam("boardContent") String boardContent,
 			@RequestParam("foodGenre") String foodGenre, 
@@ -84,7 +95,7 @@ public class RecipeController {
 		    // 파일 쓰기 중 예외 발생 시 처리
 		    e.printStackTrace();
 		}
-		recipeBoard1.setFoodName(foodName);
+		recipeBoard1.setMemberId(memberId);
 		recipeBoard1.setBoardTitle(boardTitle);
 		recipeBoard1.setBoardContent(boardContent);
 		recipeBoard1.setFoodGenre(foodGenre);
@@ -142,7 +153,6 @@ public class RecipeController {
 	@PostMapping("/recipeUpdateProcess")
 	public String updateRecipe(
 			@RequestParam("boardNo")int boardNo,
-			@RequestParam("foodName") String foodName,
 			@RequestParam("boardTitle") String boardTitle,
 			@RequestParam("boardContent") String boardContent,
 			@RequestParam("foodGenre") String foodGenre, 
@@ -155,7 +165,11 @@ public class RecipeController {
 			@RequestParam("cookFiles") List<MultipartFile> cookFiles,
 			@RequestParam("materialNames") List<String> materialNames,
 			@RequestParam("mensurations") List<String> mensurations,
-			@RequestParam("typeMaterials") List<String> typeMaterials) throws Exception {
+			@RequestParam("typeMaterials") List<String> typeMaterials,
+			RedirectAttributes reAttrs,
+			@RequestParam(value="pageNum", required=false, defaultValue="1")
+			int pageNum,@RequestParam(value="type", defaultValue="null") String type,
+			@RequestParam(value="keyword", defaultValue="null") String keyword) throws Exception {
 		System.out.println("board No는"+ boardNo);
 		String filename=null;
 		try {
@@ -173,7 +187,7 @@ public class RecipeController {
 			// 파일 쓰기 중 예외 발생 시 처리
 			e.printStackTrace();
 		}
-		recipeService.updateRecipe(foodName,boardTitle,boardContent,foodGenre,numberEaters,foodTime,filename, boardNo);
+		recipeService.updateRecipe(boardTitle,boardContent,foodGenre,numberEaters,foodTime,filename, boardNo);
 		
 		recipeService.deleteByNo(boardNo);
 		Cooking cooking = new Cooking();
@@ -214,69 +228,87 @@ public class RecipeController {
 				 recipeService.addMaterial(boardNo,material);
 			 }
 		 }
-		
+		 reAttrs.addAttribute("pageNum", pageNum);
+		 reAttrs.addAttribute("type", type);
+		 reAttrs.addAttribute("keyword", keyword);
 		
 		return "redirect:recipeList";
 	}
 
 	// 레시피 리스트 출력(boardList)
 	@GetMapping({ "/", "/recipeList" })
-	public String recipeList(Model model) {
-		model.addAttribute("rList", recipeService.RecipeBoardList());
+	public String recipeList(Model model ,@RequestParam(value="pageNum", required=false,
+			defaultValue="1") int pageNum,@RequestParam(value="type", defaultValue="null") String type,
+			@RequestParam(value="keyword", defaultValue="null") String keyword) {
+		// Service 클래스를 이용해 게시 글 리스트를 가져온다.
+		Map<String, Object> modelMap = recipeService.RecipeBoardList(pageNum,type,keyword);
+		model.addAllAttributes(modelMap);
 		return "views/recipe/recipeList";
 	}
+	
+	
 
 	// No의 상세보기 출력
 	@GetMapping("/recipeDetail")
-	public String getRecipe(Model model, @RequestParam("boardNo") int boardNo, HttpSession session) throws UnsupportedEncodingException {
+	public String getRecipe(Model model,@RequestParam("boardNo") int boardNo,
+			@RequestParam(value="type", defaultValue="null") String type,
+			@RequestParam(value="keyword", defaultValue="null") String keyword,
+			@RequestParam(value = "pageNum", defaultValue = "1")int pageNum	) throws UnsupportedEncodingException {
 
-		// id 세션저장 나중에 로그인 기능 나오면 삭제
-		String id = recipeService.getRecipe(boardNo).getMemberId();
-		session.setAttribute("id", id);
-		model.addAttribute("id", id);
-
-		// 평균 점수 계산
-		double averagePoint = commentService.calculateAveragePoint(boardNo);
-		// 댓글리스트
-		model.addAttribute("commentList", commentService.commentList(boardNo));
-		// 댓글리스트 카운트
-		model.addAttribute("commentCount", commentService.commentCount(boardNo));
-
-		// 평균점수
-		model.addAttribute("averagePoint", averagePoint);
-
-		// 평균점수 별점
-		StringBuilder symbols = new StringBuilder();
-
-		int i = 0;
-		int Ipoint = (int) (averagePoint * 10) / 10;
-		// 첫 번째 for 문
-		for (int j = 0; j < Ipoint; j++) {
-			symbols.append(" <i class=\"bi bi-star-fill\"></i>");
-			i++;
+		 // 평균 점수 계산
+	    double averagePoint = commentService.calculateAveragePoint(boardNo);
+		System.out.println("averagePoint 총점수 : "+ averagePoint);
+		 // 평균 점수 계산
+			
+			int commentCount = commentService.commentCount(boardNo);
+		    // 평균 점수 별점
+		    StringBuilder symbols = new StringBuilder();
+		    int i = 0;
+		    int Ipoint = (int) (averagePoint * 10) / 10;
+		    for (int j = 0; j < Ipoint; j++) {
+		        symbols.append(" <i class=\"bi bi-star-fill\"></i>");
+		        i++;
+		    }
+		    if ((averagePoint * 10) % 10 > 1) {
+		        if (i < 5) {
+		            symbols.append(" <i class=\"bi bi-star-half\"></i>");
+		            i++;
+		        }
+		    }
+		    for (int j = i; j < 5; j++) {
+		        symbols.append(" <i class=\"bi bi-star\"></i>");
+		        i++;
+		    }
+		    String stars = symbols.toString();
+		 
+		 
+		 
+		 model.addAttribute("stars",stars);
+		 
+		 
+	    // 댓글 리스트와 댓글 수
+	    List<Comment> commentList = commentService.commentList(boardNo);
+	    model.addAttribute("commentList",commentList);
+	    
+		model.addAttribute("pageNum",pageNum);
+		
+		
+		boolean searchOption = (type.equals("null")
+				|| keyword.equals("null")) ? false : true;
+		model.addAttribute("searchOption", searchOption);
+		
+		if(searchOption) {
+			model.addAttribute("type", type);
+			model.addAttribute("keyword", keyword);
 		}
-		// if 문
-		if ((averagePoint * 10) % 10 > 1) {
-			if (i < 5) {
-				symbols.append(" <i class=\"bi bi-star-half\"></i>");
-				i++;
-			}
-		}
-		// 두 번째 for 문
-		for (int j = i; j < 5; j++) {
-			symbols.append(" <i class=\"bi bi-star\"></i>");
-			i++;
-		}
-		// 평균점수의 별아이콘
-		model.addAttribute("stars", symbols.toString());
-
+		
+		
 		// 조리과정의 재료리스트
 	
-		System.out.println("recipeService.getCookList(boardNo)" + recipeService.getCookList(boardNo).get(0).getCookFile());
 		// 조리과정리스트
-		
+		RecipeBoard recipeBoard =  recipeService.getRecipe(boardNo,true);
 		// 상세보기
-		model.addAttribute("rList", recipeService.getRecipe(boardNo));
+		model.addAttribute("rList", recipeBoard);
 		// 책리스트 카운트
 		model.addAttribute("bookCount", recipeService.cookCount(boardNo));
 		// 조리과정 no의 초기값
@@ -287,24 +319,36 @@ public class RecipeController {
 		return "views/recipe/recipeDetail";
 	}
 
-	@GetMapping("/updateRecipeForm")
-	public String recipeUpdateForm(@RequestParam("boardNo") int boardNo, Model model) {
+	@PostMapping("/updateRecipeForm")
+	public String recipeUpdateForm(@RequestParam("boardNo") int boardNo, 
+			@RequestParam(value="type", defaultValue="null") String type,
+			@RequestParam(value="keyword", defaultValue="null") String keyword,
+			@RequestParam(value="pageNum", required=false, defaultValue="1")
+	int pageNum,Model model) {
 		// 조리과정의 재료리스트
 		model.addAttribute("mList",recipeService.getMaterialList(boardNo));
 		// 상세보기
-		model.addAttribute("rList", recipeService.getRecipe(boardNo));
+		model.addAttribute("rList", recipeService.getRecipe(boardNo,false));
 		// 요리리스트
 		recipeService.getCookList(boardNo);
 		model.addAttribute("cList", recipeService.getCookList(boardNo));
-		
+		model.addAttribute("pageNum",pageNum);
+		model.addAttribute("type",type);
+		model.addAttribute("keyword",keyword);
 		return "views/recipe/recipeUpdate";
 	}
 
 	@PostMapping("/deleteRecipe")
-	public String recipeDelete(@RequestParam("boardNo") int boardNo) throws IOException {
+	public String recipeDelete(@RequestParam("boardNo") int boardNo,RedirectAttributes reAttrs,
+			@RequestParam(value="type", defaultValue="null") String type,
+			@RequestParam(value="keyword", defaultValue="null") String keyword,
+			@RequestParam(value="pageNum", required=false, defaultValue="1")
+	int pageNum) throws IOException {
 		commentService.deleteCommentByNo(boardNo);
 		recipeService.deleteRecipe(boardNo);
-
+		reAttrs.addAttribute("pageNum", pageNum);
+		reAttrs.addAttribute("type", type);
+		reAttrs.addAttribute("keyword", keyword);
 		return "redirect:recipeList";
 	}
 }

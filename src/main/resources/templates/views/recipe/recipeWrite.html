@@ -21,16 +21,13 @@
     <!-- content -->
     <div layout:fragment="content" class="container">
         <form th:action="@{recipeWriteProcess}" method="post" id="recipeWriteForm" enctype="multipart/form-data">
+        <input type="hidden" id="memberId" name="memberId" th:value="${session.member.id}">
             <div class="row">
                 <div class="col text-center">
                     <h1 class="my-4">레시피 등록</h1>
                 </div>
             </div>
             <div class="row my-2">
-                <div class="col-md-4 mb-3">
-                    <label for="foodName" class="form-label">음식이름</label>
-                    <input type="text" class="form-control" id="foodName" name="foodName" th:value="${foodName}">
-                </div>
                 <div class="col-md-4 mb-3">
                     <label for="boardTitle" class="form-label">레시피 제목</label>
                     <input type="text" class="form-control" id="boardTitle" name="boardTitle">
@@ -117,6 +114,8 @@
                 </div>
             </div>
             <div class="row my-2">
+            	<input class="btn btn-primary" type="button" value="목록보기" 
+							th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}"/>
                 <div class="col text-end">
                     <button type="submit" class="btn btn-primary">등록하기</button>
                 </div>

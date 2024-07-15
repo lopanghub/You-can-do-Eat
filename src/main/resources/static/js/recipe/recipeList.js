@@ -1,16 +1,25 @@
 $(function() {
 	
+	$("#searchForm").on("submit",function(){
+		
+	})
+	
 	$("#updateDetailBtn").on("click", function() {
 		
 		$("#recipeDetailForm").attr("action", "updateRecipeForm");
-		$("#recipeDetailForm").attr("method", "get");
+		$("#recipeDetailForm").attr("method", "post");
 		$("#recipeDetailForm").submit();
 	});
 	$("#deleteDetailBtn").on("click", function() {
+		if(confirm('정말로 이 댓글을 삭제하시겠습니까?')){
+			
+		
+		
 		
 		$("#recipeDetailForm").attr("action", "deleteRecipe");
 		$("#recipeDetailForm").attr("method", "post");
 		$("#recipeDetailForm").submit();
+		}
 	});
 	
 	let cookingId = $("#cookingId").val();

@@ -1,0 +1,59 @@
+/* .login-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.login-logo {
+    width: 80px;
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+
+.input-group-text {
+    width: 100px;
+    justify-content: center;
+}
+
+.login-button {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.social-login {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.social-login-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.login-button,
+.signup-button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    color: #FF914D;
+    border: 1px solid #FF914D;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.login-button:hover,
+.signup-button:hover {
+    background-color: #FF914D;
+    color: white;
+}
+
+.signup-button {
+    margin-top: 1rem;
+} */

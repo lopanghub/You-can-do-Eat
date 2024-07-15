@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.springbootstudy.app.domain.Comment;
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
 import com.springbootstudy.app.domain.RecipeBoard;
+import com.springbootstudy.app.dto.commentDTO;
+import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 
 
@@ -25,6 +28,8 @@ import com.springbootstudy.app.service.RecipeService;
 public class RecipeAjax {
 	@Autowired
 	private RecipeService recipeService; 
+	@Autowired
+	private CommentService commentService;
 	
 	// 조리과정리스트 - 조리리스트 버튼
 	   @GetMapping("/ajax/recipeList")
@@ -47,9 +52,10 @@ public class RecipeAjax {
 	
 	// 책의 첫페이지  -조리리스트 책 버튼
 	@GetMapping("/ajax/bookDetail")
-	public RecipeBoard getBook(@RequestParam(name = "boardNo") int boardNo) {
-		 RecipeBoard recipe = recipeService.getRecipe(boardNo);
+	public RecipeBoard getBook(Model model,@RequestParam(name = "boardNo") int boardNo) {
+		 RecipeBoard recipe = recipeService.getRecipe(boardNo,false);
 		    recipe.setMaterials(recipeService.getMaterialList(boardNo));
+		    
 		    return recipe;
 	}
 	@PostMapping("/ajax/cookUpdate")

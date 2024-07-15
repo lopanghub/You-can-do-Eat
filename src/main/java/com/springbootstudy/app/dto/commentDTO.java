@@ -1,6 +1,9 @@
-package com.springbootstudy.app.domain;
+package com.springbootstudy.app.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
+
+import com.springbootstudy.app.domain.Comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,12 +16,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment {
-	int commentId;
-	int boardNo;
-	String commentContent;
-	int commentPoint;
-	Timestamp createdAt;
-	
-	String memberId;
+public class commentDTO {
+	    private Comment comment;
+	    private String stars;
 }

@@ -16,24 +16,30 @@
 
 <body>
 	<!-- content -->
-	<div layout:fragment="content" class="container">
+	<div layout:fragment="content" class="container-fluid custom-container px-4">
+	<div class="inner-content px-2">
 		<form id="recipeDetailForm">
 			<input type="hidden" id="boardNo" th:value="${rList.boardNo}"
 				name="boardNo"> <input type="hidden" id="cookingId"
 				th:value="${cookingId}" name="cookingId"> <input
 				type="hidden" id="bookCount" th:value="${bookCount}"
-				name="bookCount"> <input type="hidden" id="id"
-				th:value="${id}" name="memberId">
+				name="bookCount">
+				<input type="hidden" id="id" name="id" th:value="${rList.memberId}">
+				<th:block th:if="${session.member != null and session.member != ''}">
+			    <input type="hidden" id="loginId" name="loginId" th:value="${session.member.id}">
+			    <input type="hidden" name="pageNum" th:value="${pageNum}"/>
+			    <th:block th:if="${searchOption}">
+						<input type="hidden" name="type" th:value="${type}">
+						<input type="hidden" name="keyword" th:value="${keyword}">
+					</th:block>
+</th:block>	
+				<input type="hidden" id="commentCount" name="commentCount" th:value="${commentCount}"/>
+				<input type="hidden" id="averagePoint" name="averagePoint" th:value="${averagePoint}">
 		</form>
-		<div class="row border border-dark rounded">
+		<div class="row">
 			<div class="col">
-				<div class="row">
-					<div class="col">
-						<h1 class="text-center" th:text="${rList.foodName}"></h1>
-					</div>
-				</div>
 				<div class="row rList">
-					<div class="col-1"></div>
+				
 					<div class="col">
 						<div class="row bg-secondary rounded">
 							<div class="col-3"></div>
@@ -77,15 +83,15 @@
 										<div class="col-5">
 											<div class="row">
 												<div class="col mx-4">
-													<th:block th:if="${cList.cookFile!=''}">
-														<img th:src="@{'./uploads/cooking/'+${cList.cookFile}}"
-															alt="샘플이미지" class="img-fluid"
-															style="height: 300px; width: 300px;">
-													</th:block>
-													<th:block th:unless="${cList.cookFile}">
-														<img src="https://via.placeholder.com/300" alt="샘플이미지"
-															class="img-fluid">
-													</th:block>
+													<th:block th:if="${cList.cookFile != null and cList.cookFile != ''}">
+												    <img th:src="@{'./uploads/cooking/' + ${cList.cookFile}}"
+												         alt="샘플이미지" class="img-fluid"
+												         style="height: 300px; width: 300px;">
+												</th:block>
+												<th:block th:unless="${cList.cookFile != null and cList.cookFile != ''}">
+												    <img src="https://via.placeholder.com/300" alt="샘플이미지"
+												         class="img-fluid">
+												</th:block>
 												</div>
 											</div>
 										</div>
@@ -192,8 +198,8 @@
 											<div class="col-9">
 												<h4>평균 점수 :</h4>
 											</div>
-											<div class="col-3 border arg-star">
-												<div th:utext="${stars}"></div>
+											<div class="col-3 border arg-star" id="star-container">
+												<div th:utext="${stars}" id="stars"></div>
 											</div>
 										</div>
 									</div>
@@ -232,10 +238,10 @@
 														</div>
 													</div>
 													<div>
-														<button class="btn btn-secondary btn-sm"
-															onclick="editComment(this)">수정</button>
-														<button class="btn btn-danger btn-sm"
-															onclick="deleteComment(this)">삭제</button>
+													<th:block th:if="${session.member != null and session.member.id != null and comment.memberId != null and session.member.id == comment.memberId}">
+													    <button class="btn btn-secondary btn-sm" onclick="editComment(this)">수정</button>
+													    <button class="btn btn-danger btn-sm" onclick="deleteComment(this)">삭제</button>
+													</th:block>
 													</div>
 												</div>
 											</li>
@@ -243,7 +249,7 @@
 									</th:block>
 									<!-- 댓글이 없는 경우 -->
 									<th:block th:if="${#lists.isEmpty(commentList)}">
-										<li class="list-group-item"><span>후기가 존재하지 않습니다.</span></li>
+										<li class="list-group-item" id="falseText"><span>후기가 존재하지 않습니다.</span></li>
 									</th:block>
 									<!-- 더 많은 댓글 아이템들 -->
 								</ul>
@@ -251,7 +257,7 @@
 							<!-- 댓글폼마무리 -->
 						</div>
 					</div>
-					<div class="col-1"></div>
+					
 				</div>
 
 			</div>
@@ -273,16 +279,23 @@
 				<input class="write-button" type="button" id="listBtn"
 					value="레시피보기(리스트)">
 			</div>
-			<div class="col">
-				<input class="btn btn-primary" type="button" id="updateDetailBtn"
-					value="수정하기" />
-			</div>
-			<div class="col">
-				<input class="btn btn-danger" type="button" id="deleteDetailBtn"
-					value="삭제하기" />
-			</div>
+			<th:block th:if="${session.member != null and session.member.id == rList.memberId}">
+				<div class="col">
+					<input class="btn btn-primary" type="button" id="updateDetailBtn"
+						value="수정하기" />
+				</div>
+				<div class="col">
+					<input class="btn btn-danger" type="button" id="deleteDetailBtn"
+						value="삭제하기" />
+				</div>
+			</th:block>
+				<div class="col">
+					<input class="btn btn-primary" type="button" value="목록보기" 
+							th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}"/>
+				</div>
 		</div>
 	
+	</div>
 	</div>
 
 	<!-- Bootstrap Bundle with Popper -->

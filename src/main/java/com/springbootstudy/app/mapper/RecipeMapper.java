@@ -16,15 +16,23 @@ import com.springbootstudy.app.domain.RecipeBoard;
 public interface RecipeMapper {
 	// boardNo의 레시피 요리 순서
 	  List<Cooking> getCookList(@Param("boardNo") int boardNo);
-		
+		// 조회수 증가 
+	  int readCount(int boardNo);
+	  
+	  
 		// boardNo의 레시피 요리페이지 카운트
 		int cookCount(int boardNo);
-
+		// boardNo의 Apoint(평가점수)업데이트
+		void updateApoint(Map<String,Object> param);
 		// boardNo의 재료들
 		List<Material> getMaterialList(int boardNo);
 		
 		// BoardList
-		List<RecipeBoard> recipeBoardList();
+		List<RecipeBoard> recipeBoardList(Map<String,Object> params);
+		// BoardCount
+		int getRecipeCount(Map<String,Object> params);
+		
+		
 		// boardNo의 상세보기
 		RecipeBoard getBoard(int boardNo);
 		

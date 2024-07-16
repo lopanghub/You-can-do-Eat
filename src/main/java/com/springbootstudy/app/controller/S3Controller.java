@@ -16,11 +16,6 @@ public class S3Controller {
     @Autowired
     private S3Service s3Service;
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam String key, @RequestBody String content) {
-        s3Service.uploadFile(key, content);
-        return ResponseEntity.ok("File uploaded successfully: " + key);
-    }
 
     @GetMapping("/download")
     public ResponseEntity<String> downloadFile(@RequestParam String key) throws IOException {

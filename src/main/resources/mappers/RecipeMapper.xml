@@ -3,42 +3,49 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.springbootstudy.app.mapper.RecipeMapper">
-    <!-- boardUpdate -->
-    <update id="updateRecipe">
-        UPDATE recipe_board 
-        SET 
-            board_title = #{boardTitle},
-            board_content = #{boardContent},
-            food_genre = #{foodGenre},
-            reg_date = NOW(),
-            thumbnail = #{thumbnail},
-            food_time = #{foodTime},
-            number_eaters = #{numberEaters}
-        WHERE board_no = #{boardNo};
-    </update>
+	<!--boardUpdate  -->
+	<update id="updateRecipe">
+    UPDATE recipe_Board 
+    SET 
+        board_title = #{boardTitle},
+        board_content = #{boardContent},
+        food_genre = #{foodGenre},
+        reg_date = NOW(),
+        thumbnail = #{thumbnail},
+        food_time = #{foodTime},
+        numberEaters = #{numberEaters}
+    WHERE board_No = #{boardNo};
+</update>
+<!-- 레시피에 요리재료 업데이트하기 -->
+<update id="updateMaterial" parameterType="Material">
+    UPDATE material 
+    SET 
+        material_name = #{materialName}, 
+        mensuration = #{mensuration}, 
+        type_Material = #{typeMaterial}
+    WHERE 
+        board_no = #{boardNo}
+</update>
+<!-- 레시피에 요리과정 업데이트하기 -->
+<update id="updateCooking" parameterType="Cooking">
+    UPDATE cooking 
+    SET 
+        cook_title = #{cookTitle}, 
+        cook_method = #{cookMethod}, 
+        recommended = #{recommended}, 
+        cook_file = #{cookFile}
+    WHERE 
+        board_no = #{boardNo}
+</update>
 
-    <!-- 레시피에 요리재료 업데이트하기 -->
-    <update id="updateMaterial" parameterType="Material">
-        UPDATE material 
-        SET 
-            material_name = #{materialName}, 
-            mensuration = #{mensuration}, 
-            type_material = #{typeMaterial}
-        WHERE 
-            board_no = #{boardNo}
-    </update>
+<select id="getMaterialListByNoId" >
+	select * from Material where cooking_id= #{cookingId} and board_no=#{boardNo}
+</select>
 
-    <!-- 레시피에 요리과정 업데이트하기 -->
-    <update id="updateCooking" parameterType="Cooking">
-        UPDATE cooking 
-        SET 
-            cook_title = #{cookTitle}, 
-            cook_method = #{cookMethod}, 
-            recommended = #{recommended}, 
-            cook_file = #{cookFile}
-        WHERE 
-            board_no = #{boardNo}
-    </update>
+<update id="updateApoint">
+	UPDATE recipe_board SET Apoint = #{Apoint} WHERE board_no = #{boardNo};
+</update>
+
 
 
 <!-- 레시피 추가하기 -->
@@ -125,103 +132,39 @@ WHERE rb.board_no = #{boardNo};
          
     </select>
 
+	
+	<!--레시피 boardNo 가져오기 Detail-->
+	<select id="getBoard"  resultType="RecipeBoard">
+		select * from Recipe_Board where board_no = #{boardNo};
+	</select>
 
-    <!-- 레시피 추가하기 -->
-    <insert id="insertRecipe" parameterType="RecipeBoard" useGeneratedKeys="true" keyProperty="boardNo">
-        INSERT INTO recipe_board (board_title, board_content, food_genre, member_id, thumbnail, number_eaters, food_time)
-        VALUES (#{boardTitle}, #{boardContent}, #{foodGenre}, 'skh9301', #{thumbnail}, #{numberEaters}, #{foodTime});
-    </insert>
+  
+  <!--cookid를 가져오기위함 -->
+ 	<select id="cookidCheck" resultType="int">
+    SELECT c.cooking_id
+	FROM recipe_board rb
+	INNER JOIN cooking c ON rb.board_no = c.board_no
+	WHERE rb.board_no = #{boardNo} ;
+  </select>
+  
+  <!--bookpage 를 나타냄-->
+  <select id="cookCount" resultType="int">
+    SELECT count(*)
+	FROM recipe_board rb
+	INNER JOIN cooking c ON rb.board_no = c.board_no
+	WHERE rb.board_no = #{boardNo};
 
-    <!-- 레시피에 요리재료추가하기 -->
-    <insert id="insertMaterial" parameterType="Material">
-        INSERT INTO material (board_no, material_name, mensuration, type_material) 
-        VALUES (#{boardNo}, #{materialName}, #{mensuration}, #{typeMaterial})
-    </insert>
-
-    <!-- 레시피에 요리과정추가하기 -->
-    <insert id="insertCooking" parameterType="list">
-        INSERT INTO cooking (board_no, cook_title, cook_method, recommended, cook_file)
-        VALUES (#{boardNo}, #{cookTitle}, #{cookMethod}, #{recommended}, #{cookFile})
-    </insert>
-
-    <!-- recipeDelete -->
-    <delete id="deleteRecipe">
-        DELETE FROM recipe_board WHERE board_no = #{boardNo};
-    </delete>
-
-    <!-- materialDelete -->
-    <delete id="deleteMaterialByNo">
-        DELETE FROM material WHERE board_no = #{boardNo};
-    </delete>
-
-    <!-- cookingDelete -->
-    <delete id="deleteCookingByNo">
-        DELETE FROM cooking WHERE board_no = #{boardNo};
-    </delete>
-
-    <!-- materialDelete -->
-    <delete id="deleteMaterial">
-        DELETE FROM material WHERE material_id = #{materialId};
-    </delete>
-
-    <!-- cookingDelete -->
-    <delete id="deleteCooking">
-        DELETE FROM cooking WHERE cooking_id = #{cookingId};
-    </delete>
-
-    <!-- boardNO의 요리과정리스트 -->
-    <select id="getCookList" resultType="Cooking" parameterType="int">
-        SELECT c.*
-        FROM recipe_board rb
-        INNER JOIN cooking c ON rb.board_no = c.board_no
-        WHERE rb.board_no = #{boardNo};
-    </select>
-
-    <!-- 레시피 리스트 -->
-    <select id="recipeBoardList">
-        SELECT * FROM recipe_board ORDER BY board_no DESC LIMIT #{offset}, #{limit}
-    </select>
-
-    <select id="getRecipeCount" resultType="int">
-        SELECT count(*) FROM recipe_board
-    </select>
-
-    <!-- 레시피 boardNo 가져오기 Detail -->
-    <select id="getBoard" resultType="RecipeBoard">
-        SELECT * FROM recipe_board WHERE board_no = #{boardNo};
-    </select>
-
-    <!-- cookid를 가져오기위함 -->
-    <select id="cookidCheck" resultType="int">
-        SELECT c.cooking_id
-        FROM recipe_board rb
-        INNER JOIN cooking c ON rb.board_no = c.board_no
-        WHERE rb.board_no = #{boardNo};
-    </select>
-
-    <!-- bookpage 를 나타냄 -->
-    <select id="cookCount" resultType="int">
-        SELECT count(*)
-        FROM recipe_board rb
-        INNER JOIN cooking c ON rb.board_no = c.board_no
-        WHERE rb.board_no = #{boardNo};
-    </select>
-
-    <!-- boardNo의 재료들 출력 -->
-    <select id="getMaterialList" resultType="Material">
-        SELECT m.*
-        FROM recipe_board rb
-        INNER JOIN material m ON rb.board_no = m.board_no
-        WHERE rb.board_no = #{boardNo};
-    </select>
-
-    <!-- s3의 데이터 가지고 오는 담당자-이현학 -->
-    <insert id="insertRecipeBoard" parameterType="com.springbootstudy.app.domain.RecipeBoard">
-        INSERT INTO recipe_board (board_title, board_content, food_genre, board_view, reg_date, thumbnail, food_time, number_eaters, apoint, member_id)
-        VALUES (#{boardTitle}, #{boardContent}, #{foodGenre}, #{boardView}, #{regDate}, #{thumbnail}, #{foodTime}, #{numberEaters}, #{apoint}, #{memberId})
-    </insert>
-
-    <update id="readCount">
-        UPDATE recipe_board SET board_view = board_view + 1 WHERE board_no = #{boardNo};
-    </update>
+  </select>
+  <!--boardNo의 재료들 출력-->
+  <select id="getMaterialList" resultType="Material">
+    SELECT m.*
+	FROM recipe_board rb
+	INNER JOIN material m ON rb.board_no = m.board_no
+	WHERE rb.board_no = #{boardNo};
+  </select>
+  
+  <update id="readCount">
+	update recipe_board set board_view = board_view + 1 where board_no = #{boardNo};
+  </update>
+  
 </mapper>

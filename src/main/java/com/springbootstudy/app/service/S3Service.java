@@ -2,16 +2,21 @@ package com.springbootstudy.app.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.utils.Md5Utils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.StandardCopyOption;
+import java.io.InputStream;
+import java.util.UUID;
 
 @Service
 public class S3Service {
@@ -25,13 +30,35 @@ public class S3Service {
         this.s3Client = s3Client;
     }
 
-    public void uploadFile(String key, String content) {
-        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
-                .bucket(bucketName)
-                .key(key)
-                .build();
-        s3Client.putObject(putObjectRequest, RequestBody.fromString(content));
+
+    public String uploadImage(MultipartFile file) throws IOException {
+        File convFile = convertMultiPartToFile(file);
+        String fileName = generateFileName(file);
+        uploadFileTos3bucket(fileName, convFile);
+        return fileName;
     }
+
+    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+        File convFile = new File(file.getOriginalFilename());
+        try (FileOutputStream fos = new FileOutputStream(convFile)) {
+            fos.write(file.getBytes());
+        }
+        return convFile;
+    }
+
+    private String generateFileName(MultipartFile multiPart) {
+        return multiPart.getOriginalFilename().replace(" ", "_");
+    }
+
+    private void uploadFileTos3bucket(String fileName, File file) {
+        s3Client.putObject(PutObjectRequest.builder()
+            .bucket(bucketName)
+            .key(fileName)
+            .build(), 
+            file.toPath());
+    }
+    
+    
 
     public String downloadFile(String key) {
         GetObjectRequest getObjectRequest = GetObjectRequest.builder()

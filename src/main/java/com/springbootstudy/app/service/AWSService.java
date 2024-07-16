@@ -25,6 +25,7 @@ public class AWSService {
     private final RecipeMapper recipeMapper;
     private final ProductMapper productMapper;
 
+    //레시피 사이트에  데이터 넣는 초기화 메서
 //    @PostConstruct
 //    public void init() {
 //        String key = "recipes_updated_with_details.json";
@@ -39,7 +40,7 @@ public class AWSService {
 //            }
 //        }
 //    }
-    
+    //쇼핑몰 사이트에 데이터 넣는 초기화 메서드
     @PostConstruct
     public void init() {
         String key = "coupang_products.json";
@@ -48,7 +49,7 @@ public class AWSService {
         if (jsonContent != null) {
             List<Product> products = parseProductsFromJson(jsonContent);
             for (Product product : products) {
-                if (!productMapper.existsById(product.getProductId())) {
+                if (!productMapper.existsByName(product.getProductName())) {
                     productMapper.insertProduct(product);
                 }
             }

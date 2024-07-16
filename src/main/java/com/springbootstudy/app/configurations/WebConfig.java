@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addViewController("/noticeWriteForm").setViewName("views/noticeWriteForm");
 		registry.addViewController("/noticeWriteBoard").setViewName("views/noticeWriteForm");
 		registry.addViewController("/shopMain").setViewName("views/shop/shopMain"); 
-		registry.addViewController("/shopWirte").setViewName("views/shop/shopWrite"); 
+		registry.addViewController("/shopWrite").setViewName("views/shop/shopWrite"); 
 		registry.addViewController("/shopTest").setViewName("views/shop/shopTest"); 
 		
 
@@ -24,5 +24,9 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addResourceHandler("/resources/profiles/**")
 				.addResourceLocations("file:./src/main/resources/static/profiles/")
 				.setCachePeriod(1);
+		
+		registry.addResourceHandler("/resources/shop/**")
+		.addResourceLocations("file:./src/main/resources/static/images/shop/")
+		.setCachePeriod(1);
 	}
 }

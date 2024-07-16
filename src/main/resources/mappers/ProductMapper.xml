@@ -18,6 +18,7 @@
 		Select *, product_id From
 		product
 		Where category = #{category}
+		Order By product_id DESC;
 	</select>
 	
 	<update id="updateProduct" parameterType="Product">
@@ -32,6 +33,9 @@
     WHERE product_id = #{productId}
   </update>
 	
+	<delete id="deleteProduct" parameterType="int">
+       DELETE FROM product WHERE product_id = #{productId}
+	</delete>
 	
 	<insert id="insertCart" useGeneratedKeys="true"
 		keyProperty="cartId">
@@ -76,6 +80,18 @@
 		DELETE FROM cart WHERE product_id = #{productId}
 	</delete>
 	
+	<!-- 이미지 변경시 업데이트 -->
+    <update id="updateProductImage" parameterType="map">
+        UPDATE product
+        SET product_image = #{productImage}
+        WHERE product_id = #{productId}
+    </update>
+
+    <update id="updateDetailImage" parameterType="map">
+        UPDATE product
+        SET detail_image = #{detailImage}
+        WHERE product_id = #{productId}
+    </update>
 	
 
 

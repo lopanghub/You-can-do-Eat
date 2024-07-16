@@ -26,35 +26,30 @@ public class AWSService {
     private final ProductMapper productMapper;
 
     //레시피 사이트에  데이터 넣는 초기화 메서
-//    @PostConstruct
-//    public void init() {
-//        String key = "recipes_updated_with_details.json";
-//        String jsonContent = s3Service.downloadFile(key);
-//
-//        if (jsonContent != null) {
-//            List<RecipeBoard> recipes = parseRecipesFromJson(jsonContent);
-//            for (RecipeBoard recipe : recipes) {
-//            	if (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
-//                    recipeMapper.insertRecipeBoard(recipe);
-//                }
-//            }
-//        }
-//    }
-    //쇼핑몰 사이트에 데이터 넣는 초기화 메서드
     @PostConstruct
     public void init() {
-        String key = "coupang_products.json";
+        String key = "recipes_updated_with_details.json";
         String jsonContent = s3Service.downloadFile(key);
 
         if (jsonContent != null) {
-            List<Product> products = parseProductsFromJson(jsonContent);
-            for (Product product : products) {
-                if (!productMapper.existsByName(product.getProductName())) {
-                    productMapper.insertProduct(product);
+           List<RecipeBoard> recipes = parseRecipesFromJson(jsonContent);
+            for (RecipeBoard recipe : recipes) {
+            	if (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
+                    recipeMapper.insertRecipe(recipe);
                 }
             }
         }
-    }
+   }
+    //쇼핑몰 사이트에 데이터 넣는 초기화 메서드
+	/*
+	 * @PostConstruct public void init() { String key = "coupang_products.json";
+	 * String jsonContent = s3Service.downloadFile(key);
+	 * 
+	 * if (jsonContent != null) { List<Product> products =
+	 * parseProductsFromJson(jsonContent); for (Product product : products) { if
+	 * (!productMapper.existsByName(product.getProductName())) {
+	 * productMapper.insertProduct(product); } } } }
+	 */
 
     private List<RecipeBoard> parseRecipesFromJson(String jsonContent) {
         List<RecipeBoard> recipes = new ArrayList<>();
@@ -73,7 +68,7 @@ public class AWSService {
                     .foodTime(jsonObject.has("cookingTime") ? parseCookingTime(jsonObject.get("cookingTime").getAsString()) : 0)
                     .numberEaters(jsonObject.has("servingSize") ? parseServingSize(jsonObject.get("servingSize").getAsString()) : 0)
 //                    .apoint(jsonObject.has("ratingCount") ? jsonObject.get("ratingCount").getAsDouble() : 0) // ratingCount 설정
-                    .memberId(jsonObject.get("author_name").getAsString())
+                    //.memberId(jsonObject.get("author_name").getAsString())
                     .build();
             recipes.add(recipeBoard);
         }

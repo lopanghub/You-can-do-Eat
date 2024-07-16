@@ -5,35 +5,33 @@
 <script type="text/javascript" src="js/member.js"></script>
 
 <!-- content -->
-<div layout:fragment="content" class="row my-5" id="global-content">
+<div layout:fragment="content" class="row my-3" id="join-content">
 	<div class="col">
 		<div class="row my-3 text-center">
 			<div class="col">
 				<img src="./images/youcandoeat.png"
-					style="width: 120px; height: 150px;">
+					style="width: 80px;">
 			</div>
 		</div>
 		<div class="row my-3 text-center">
 			<div class="col">
-				<h2 class="fs-3 fw-bold">회원가입</h2>
+				<h2 class="fs-3 fw-bold">통합 회원가입</h2>
 			</div>
 		</div>
 		<hr class="border border-black border-2 opacit-50">
-		<form action="joinResult" name="joinForm" method="post" id="joinForm"
-			enctype="multipart/form-data">
-			<input type="hidden" name="isIdCheck" id="isIdCheck" value="false" />
-			<div class="row mt-5 mb-3">
-				<div class="col-2 offset-2">
-					<label for="name" class="form-label">* 이 름 : </label> <input
-						type="text" class="form-control" name="name" id="name">
-				</div>
-			</div>
-			<div class="row mt-5 mb-3">
-				<div class="col-2 offset-2">
-					<label for="name" class="form-label">* 생 일 : </label> <input
-						type="text" class="form-control" name="birthdate" id="birthdate">
-				</div>
-			</div>
+		 <form action="joinResult" name="joinForm" method="post" id="joinForm" enctype="multipart/form-data">
+            <input type="hidden" name="isIdCheck" id="isIdCheck" value="false" />
+            
+            <div class="form-row name-birth">
+                <div class="form-group name-form">
+                    <label for="name" class="form-label">* 이름 : </label>
+                    <input type="text" class="form-control name-form-input" name="name" id="name">
+                </div>
+                <div class="form-group birth-form">
+                    <label for="birthdate" class="form-label">* 생일 : </label>
+                    <input type="text" class="form-control birth-form-input" name="birthdate" id="birthdate">
+                </div>
+            </div>
 			<div class="col-4 offset-2">
 				<label for="file1" class="form-label">프로필 사진 : </label> <input
 					type="file" class="form-control" name="profileImage" id="file1">
@@ -181,13 +179,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="row mb-3 mt-5">
-				<div class="col-8 offset-5">
-					<input type="submit" value="가입하기" class="btn btn-secondary" id="memberShipwriter">
-					<input type="reset" value="다시쓰기" class="btn btn-secondary"
-						id="reset">
-				</div>
-			</div>
+		  	<div class="btn-groups">
+                <input type="submit" value="가입하기" class="btns btn-secondary" id="memberShipwriter">
+                <input type="reset" value="다시쓰기" class="btns btn-secondary" id="reset">
+            </div>
 		</form>
 	</div>
 </div>

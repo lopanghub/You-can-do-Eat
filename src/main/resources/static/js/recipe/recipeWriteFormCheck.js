@@ -3,7 +3,6 @@ $(document).ready(function() {
     $('#recipeWriteForm').submit(function(event) {
         let isValid = true;
 
-
         // 레시피 제목 검사
         if ($('#boardTitle').val().trim() === '') {
             alert('레시피 제목을 입력하세요.');
@@ -56,37 +55,41 @@ $(document).ready(function() {
             event.preventDefault(); // 폼 제출 중단
             return false;
         }
-
-        // 재료 검사 (최소 1개 이상)
-        let materialCount = $('.cookMaterialSession .row[id^="materialRow"]').length;
-        if (materialCount === 0) {
-            alert('재료를 최소 1개 이상 입력하세요.');
+         // 조리 과정 검사 (최소 1개 이상)
+        let MaterialCount = $('.cookMaterialSession .row[id^="materialRow"]').length;
+        if (MaterialCount === 0) {
+            alert('재료을 최소 1개 이상 입력하세요.');
             isValid = false;
             event.preventDefault(); // 폼 제출 중단
             return false;
         }
+        
 
-        // 각 재료 검사
-        $('.cookMaterialSession .row[id^="materialRow"]').each(function() {
-            let materialName = $(this).find('input[id^="material"].form-control').val().trim();
-            if (materialName === '') {
-                alert('재료 이름을 입력하세요.');
-                $(this).find('input[id^="material"].form-control').focus();
-                isValid = false;
-                event.preventDefault(); // 폼 제출 중단
-                return false;
-            }
+        // 재료 검사 (최소 1개 이상)
+        $('#material').find('.row[id^="materialRow"]').each(function() {
+            let id = $(this).attr('id');
+            let number = id.match(/\d+$/);
+            if (number) {
+                let materialName = $(`#material${number[0]}\\.materialName`).val().trim();
+                let mensuration = $(`#material${number[0]}\\.mensuration`).val().trim();
 
-            let mensuration = $(this).find('input[id^="material"].form-control').val().trim();
-            if (mensuration === '') {
-                alert('재료 양을 입력하세요.');
-                $(this).find('input[id^="material"].form-control').focus();
-                isValid = false;
-                event.preventDefault(); // 폼 제출 중단
-                return false;
+                if (materialName === "") {
+                    isValid = false;
+                    alert(`재료 이름을 입력해 주세요. (행: ${number[0]})`);
+                    $(`#material${number[0]}\\.materialName`).focus();
+                    return false; // 루프 중단
+                }
+
+                if (mensuration === "") {
+                    isValid = false;
+                    alert(`재료 양을 입력해 주세요. (행: ${number[0]})`);
+                    $(`#material${number[0]}\\.mensuration`).focus();
+                    return false; // 루프 중단
+                }
             }
         });
 
+        
         // 조리 과정 검사 (최소 1개 이상)
         let cookingCount = $('.cookingSection .row[id^="cooking"]').length;
         if (cookingCount === 0) {
@@ -97,33 +100,34 @@ $(document).ready(function() {
         }
 
         $('.cookingSection .row[id^="cooking"]').each(function() {
-            let cookTitle = $(this).find('input[id^="cooking"].form-control').val().trim();
+            let cookingIndex = $(this).data('cookingindex');
+            let cookTitle = $(`#cookings${cookingIndex}\\.cookTitle`).val().trim();
+            let cookMethod = $(`#cookings${cookingIndex}\\.cookMethod`).val().trim();
+            let recommended = $(`#cookings${cookingIndex}\\.recommended`).val().trim();
+            
+            if(recommended==null){
+				recommended="";
+			}
+            
+
             if (cookTitle === '') {
                 alert('요리 제목을 입력하세요.');
-                $(this).find('input[id^="cooking"].form-control').focus();
+                $(`#cookings${cookingIndex}\\.cookTitle`).focus();
                 isValid = false;
                 event.preventDefault(); // 폼 제출 중단
                 return false;
             }
 
-            let cookMethod = $(this).find('textarea[id^="cooking"].form-control').val().trim();
             if (cookMethod === '') {
-                alert('조리 과정을 입력하세요.');
-                $(this).find('textarea[id^="cooking"].form-control').focus();
+                alert('요리 설명을 입력하세요.');
+                $(`#cookings${cookingIndex}\\.cookMethod`).focus();
                 isValid = false;
                 event.preventDefault(); // 폼 제출 중단
                 return false;
             }
 
-            let recommended = $(this).find('textarea[id^="cooking"].form-control').val().trim();
-            if (recommended === '') {
-                alert('주의 사항을 입력하세요.');
-                $(this).find('textarea[id^="cooking"].form-control').focus();
-                isValid = false;
-                event.preventDefault(); // 폼 제출 중단
-                return false;
-            }
         });
+
 
         // 모든 검사를 통과했으면 true 반환
         return isValid;

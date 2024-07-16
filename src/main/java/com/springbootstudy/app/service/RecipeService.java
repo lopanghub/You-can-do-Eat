@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
@@ -163,7 +164,7 @@ public class RecipeService {
 		params.put("numberEaters", numberEaters);
 		params.put("numberEaters", numberEaters);
 		params.put("foodTime", foodTime);
-		params.put("filename", filename);
+		params.put("thumbnail", filename);
 		params.put("boardNo", boardNo);
 		recipeMapper.updateRecipe(params);
 	}

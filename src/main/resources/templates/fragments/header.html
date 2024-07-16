@@ -20,7 +20,11 @@
 			<div class="loginJoin">
 				<th:block th:if="${session.isLogin}">
 					<a class="logout" href="/logout">로그아웃&nbsp;&nbsp;</a>
+<<<<<<< HEAD
 					<a class="joinupdate" href="/memberMyPage">|&nbsp;&nbsp;마이페이지&nbsp;</a>
+=======
+					<a class="memberMyPage" href="/memberMyPage">|&nbsp;&nbsp;마이페이지&nbsp;</a>
+>>>>>>> 730080608a70f419cc977846f958369ca8906b80
 					<a class="cart" href="/cart">|&nbsp;&nbsp;<i class="bi bi-cart4"></i> (0)&nbsp;&nbsp;</a>
 				</th:block>
 				<th:block th:unless="${session.isLogin}">
@@ -47,12 +51,17 @@
     </div>
 
 		<!-- nav바 영역-->
-		<nav>
+		<nav class="header-nav">
 			<div class="dropdown">
 				<a href="/" class="dropbtn">YOU CAN DO EAT</a>
 				<div class="dropdown-content">
-					<a href="#" class="kfood" value="한식">한식</a> <a href="#">중식</a> <a href="#">일식</a> <a
-						href="#">양식</a> <a href="#">기타</a>
+					<ul style="list-style-type: none;">
+                    <li><a th:href="@{'/recipeList?type=food_Genre&keyword=한식'}">한식</a></li>
+                    <li><a th:href="@{'/recipeList?type=food_Genre&keyword=중식'}">중식</a></li>
+                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=일식'}">일식</a></li>
+                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=양식'}">양식</a></li>
+                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=기타'}">기타</a></li>
+                </ul>
 				</div>
 			</div>
 
@@ -78,6 +87,19 @@
 			</div>
 		</nav>
 	</header>
+
+<script>
+		document.getElementById('community-link').addEventListener('click', function(event) {
+			
+			var isLogin = /*[[${session.isLogin}]]*/ false; 
+
+			if (!isLogin) {
+				event.preventDefault(); // 기본 동작을 막음
+				alert('로그인 후 이용해주세요.'); // 경고 메시지 표시
+				window.location.href = '/login'; // 로그인 페이지로 리디렉션
+			}
+		});
+	</script>
 
 
 

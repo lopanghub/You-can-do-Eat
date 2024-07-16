@@ -479,4 +479,6 @@ $RECYCLE.BIN/
 .history
 .ionide
 
+# Ignore application.properties file
+application.properties
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,eclipse,java,python,node

@@ -7,37 +7,33 @@
 <!-- content -->
 <div layout:fragment="content">
     <!-- 상세 정보 페이지 -->
-    <div class="row my-3" >
+    <div class="row my-3">
         <div class="col-6">
-            <th:block th:if="${product.productImage}">
-                <img th:src="${product.productImage}" alt="Product Image">
-            </th:block>
-            <th:block th:unless="${product.productImage}">
-                <img src="http://via.placeholder.com/500x400"
-                    alt="Placeholder Image">
-            </th:block>
+<!--              <img th:src="@{${product.productImage != null ? product.productImage : '/images/shop/' + product.productImage}}" alt="Product Image" class="detail-product-image">
+ -->
+<!--  			<img th:src="@{${product.productImage}}">-->
+			<img th:src="@{'/resources/shop/' + ${product.productImage} }">
         </div>
         <div class="col-6">
             <!-- 상품 정보 -->
             <div class="row">
                 <div class="col">
-                    <h3 class=productName th:text="${product.ingredient}"></h3>
+                    <h3 class="productName" th:text="${product.productName}"></h3>
                     <h5>맛있는 고당도 사과</h5>
-                  	<p class="product-origin">원산지: <span th:text="${product.origin}"></span></p>
-					<div class="shipping-info">
-						<table>
-							<tr>
-								<th>배송정보</th>
-								<td>택배배송 <span class="delivery-info-icon">?</span>
-								</td>
-							</tr>
-							<tr>
-								<th>배송비</th>
-								<td>무료</td>
-							</tr>
-						</table>
-					</div>
-					<p id="productPrice" th:data-price="${product.price}"></p>
+                    <div class="shipping-info">
+                        <table>
+                            <tr>
+                                <th>배송정보</th>
+                                <td>택배배송 <span class="delivery-info-icon">?</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>배송비</th>
+                                <td>무료</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <p id="productPrice" th:data-price="${product.price}"></p>
                 </div>
             </div>
 
@@ -46,52 +42,217 @@
                 <div class="col"></div>
             </div>
 
+            <div class="quantity-control-box">
+                <!-- 수량 조절 버튼 -->
+                <div class="row d-flex justify-content-between">
+                    <div class="col">
+                        <div class="detail-quantity-control-wrapper">
+                            <div class="detail-quantity-input-container">
+                                <button class="detail-quantity-input-minus">-</button>
+                                <input class="detail-quantity-input" type="text" value="1" readonly />
+                                <button class="detail-quantity-input-plus">+</button>
+                            </div>
+                            <button class="detail-resetQuantity">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-
-			<div class="quantity-control-box">
-				<p class="small-ingredient" th:text="${product.ingredient}"></p>
-				
-				<!-- 수량 조절 버튼 -->
-				<div class="row d-flex justify-content-between">
-					<div class="col">
-						<div class="detail-quantity-control-wrapper">
-							<div class="detail-quantity-input-container">
-								<button class="detail-quantity-input-minus">-</button>
-								<input class="detail-quantity-input" type="text" value="1"
-									readonly />
-								<button class="detail-quantity-input-plus">+</button>
-							</div>
-							<button class="detail-resetQuantity">X</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<hr class="order-divider">
-			<div class="row">
-				<div class="col">
-					<p class="order-total-title">
-						주문금액: <span id="detail-totalPrice"></span>
-					</p>
-				</div>
-			</div>
-
-
-			<!-- 장바구니 및 결제 -->
+            <hr class="order-divider">
             <div class="row">
                 <div class="col">
-					<form id="productForm" method="post">
-						<input type="hidden" name="productId"
-							th:value="${product.productId}"> <input type="hidden"
-							name="quantity" id="cartQuantity" value="1">
-						<div class="button-container">
-							<button type="button" id="addCart">장바구니</button>
-							<button type="button" id="orderNow">바로결제</button>
-						</div>
-					</form>
-				</div>
+                    <p class="order-total-title">
+                        주문금액: <span id="detail-totalPrice"></span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 장바구니 및 결제 -->
+            <div class="row">
+                <div class="col">
+                    <form id="productForm" method="post">
+                        <input type="hidden" name="productId" th:value="${product.productId}">
+                        <input type="hidden" id="memberId" th:value="${session.member.id}">
+                        <!-- 히든 필드 추가 -->
+                        <input type="hidden" name="quantity" id="cartQuantity" value="1">
+                        <div class="button-container">
+                            <button type="button" id="addCart">장바구니</button>
+                            <button type="button" id="orderNow">바로결제</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
+
+    <th:block th:if="${session.member.id == 'admin1'}">
+        <div id="remote-control"
+             style="position: fixed; left: 50px; top: 50%; transform: translateY(-50%); border: 1px solid #ccc; padding: 10px; background-color: #f8f9fa;">
+            <form id="remote-control-form">
+                <button id="register-btn" type="button" class="btn btn-success my-1">상품 등록</button><br>
+                <button id="update-btn" type="button" class="btn btn-primary my-1">상품 수정</button><br>
+                <button id="delete-btn" type="button" class="btn btn-danger my-1">상품 삭제</button>
+                <input type="hidden" id="productId" name="productId" th:value="${product.productId}">
+            </form>
+        </div>
+    </th:block>
+
+    <!-- 상품 안내 앵커 -->
+    <div class="row">
+        <div class="col">
+            <a href="#productDetail">상품 상세</a>
+        </div>
+        <div class="col">
+            <a href="#productReviews">상품 리뷰</a>
+        </div>
+        <div class="col">
+            <a href="#recommendedProducts">추천 상품</a>
+        </div>
+        <div class="col">
+            <a href="#recipeRecommendations">레시피 추천</a>
+        </div>
+    </div>
+
+    <!-- 상세 이미지 표시 -->
+    <div class="row my-3">
+        <div class="col-12">
+            <img th:if="${product.detailImage != null and !product.detailImage.isEmpty()}" th:src="@{'/images/shop/' + ${product.detailImage}}" alt="Detail Image" >
+            <img th:if="${product.detailImage == null or product.detailImage.isEmpty()}" th:src="@{'/images/shop/default.png'}" alt="Default Detail Image" >
+        </div>
+    </div>
+    <!--상품 상세 페이지 들어갈자리 -->
+    <div class="row"></div>
+
+    <!-- 리뷰 작성 -->
+    <h4>상품 리뷰</h4>
+    <div class="row">
+        <div class="col reviewBox"></div>
+    </div>
+    <div class="row" id="reviewForm">
+        <div class="col">
+            <h4>리뷰 작성</h4>
+            <textarea id="reviewText" placeholder="리뷰를 작성하세요"></textarea>
+            <button id="submitReview">리뷰 작성</button>
+        </div>
+    </div>
+
+    <!-- 추천 상품 -->
+    <div class="row"></div>
+
+    <!--레시피 추천 -->
+    <div class="row"></div>
+
+    <script th:inline="javascript">
+        $(document).ready(function() {
+            var productId = [[${product.productId}]];
+
+            // 리뷰 로드 함수
+            function loadReviews() {
+                $.ajax({
+                    url: '/ajax/reviews/product/' + productId,
+                    method: 'GET',
+                    success: function(data) {
+                        console.log(data);
+                        var reviewBox = $(".reviewBox");
+                        reviewBox.empty();
+
+                        data.forEach(function(review) {
+                            // Format the date to 'YYYY-MM-DD'
+                            var regDate = new Date(review.regDate);
+                            var formattedDate = regDate.toISOString().split('T')[0];
+
+                            var reviewHtml = `
+                                <div class="review">
+                                    <div>${review.id}</div>
+                                    <div>평점: ${review.rating} ${formattedDate}</div>
+                                    <div> ${review.reviewComment}</div>
+                                    <button class="deleteReview" data-review-id="${review.reviewId}">삭제</button>
+                                </div>
+                                <hr>
+                            `;
+                            reviewBox.append(reviewHtml);
+                        });
+
+                        $(".deleteReview").click(function() {
+                            var reviewId = $(this).data("review-id");
+                            deleteReview(reviewId);
+                        });
+                    },
+                    error: function(error) {
+                        console.error("Error loading reviews:", error);
+                    }
+                });
+            }
+
+            // 페이지 로드 시 리뷰 로드
+            loadReviews();
+
+            // 리뷰 작성 버튼 클릭 이벤트
+            $("#submitReview").click(function() {
+                var reviewText = $("#reviewText").val();
+
+                if (!reviewText) {
+                    alert("리뷰를 작성하세요.");
+                    return;
+                }
+
+                var newReview = {
+                    id: [[${session.member.id}]],  // 실제로는 로그인한 사용자 아이디를 사용해야 함
+                    productId: [[${product.productId}]],
+                    rating: 5,  // 예시로 평점 5점으로 고정
+                    reviewComment: reviewText,
+                    regDate: new Date().toISOString()
+                };
+
+                $.ajax({
+                    url: '/ajax/reviews/add',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(newReview),
+                    success: function(data) {
+                        // 리뷰 작성 성공 시, 리뷰 리스트 갱신 및 폼 초기화
+                        loadReviews();
+                        $("#reviewText").val("");
+                    },
+                    error: function(error) {
+                        console.error("Error submitting review:", error);
+                    }
+                });
+            });
+
+            // 리뷰 삭제 ajax
+            function deleteReview(reviewId) {
+                $.ajax({
+                    url: '/ajax/reviews/delete/' + reviewId,
+                    method: 'DELETE',
+                    success: function() {
+                        console.log('Review deleted: ' + reviewId);
+                        // Reload the reviews after deletion
+                        loadReviews();
+                    },
+                    error: function() {
+                        console.log('Error deleting review: ' + reviewId);
+                    }
+                });
+            };
+
+            // 관리자 버튼 처리
+            $('#register-btn').click(function() {
+                window.location.href = '/shopWrite';
+            });
+
+            $('#update-btn').click(function() {
+                $('#remote-control-form').attr('method', 'POST').attr('action', '/updateForm').submit();
+            });
+
+            $('#delete-btn').click(function() {
+                if (confirm('정말로 이 상품을 삭제하시겠습니까?')) {
+                    $('#remote-control-form').attr('method', 'POST').attr('action', '/deleteProduct').submit();
+                }
+            });
+        });
+    </script>
 </div>
+
 </html>

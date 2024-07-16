@@ -12,15 +12,15 @@ $(function() {
 				$('#productGrid').empty().addClass('row row-cols-1 row-cols-md-2 row-cols-lg-4 gx-3 gy-3');
 
 				$.each(resData, function(i, product) {
-					let imageUrl = product.productImage ? product.productImage : 'http://via.placeholder.com/300x250';
+					let imageUrl = product.productImage ? product.productImage : '/images/shop/ ' + product.productImage;
 					let productBox = `
 					<div class="col">
 					     <div class="productBox">
 							<a href="/shopDetail?productId=${product.productId}">
-								<img src="${imageUrl}" alt="${product.ingredient}" class="img-fluid"
+								<img src="${imageUrl}" alt="${product.productName}" class="img-fluid"
 									onerror="this.src='http://via.placeholder.com/300x250';">
-								<div>${product.ingredient}</div>
-								<div>${product.seller} (${product.origin})</div>
+								<div>${product.productName}</div>
+								<div>${product.seller} (${product.rating})</div>
 								<div>${formatPrice(product.price)}원</div>
 							</a>
 						</div>

@@ -37,6 +37,27 @@ public class ProductService {
 		log.info("service : getProductByCategory(String category)");
 		return productMapper.findByCategory(category);
 	}
+	
+	public void updateProduct(Product product) {
+        productMapper.updateProduct(product);
+    }
+	
+	//업데이트 이미지 ajax시 db에 저장
+	 public void updateProductImage(int productId, String productImage) {
+	        productMapper.updateProductImage(productId, productImage);
+	    }
+
+	    public void updateDetailImage(int productId, String detailImage) {
+	        productMapper.updateDetailImage(productId, detailImage);
+	    }
+	
+	public void deleteProduct(int productId) {
+		productMapper.deleteProduct(productId);
+	}
+	
+	public void insertProduct(Product product) {
+		productMapper.insertProduct(product);
+	}
 
 	// 장바구니 추가
 	public void addCart(int productId, int quantity) {

@@ -1,29 +1,30 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.7'
-	id 'io.spring.dependency-management' version '1.1.5'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.7'
+    id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'com.springbootstudy'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
+   
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -36,13 +37,16 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-	// 페이징 처리를 위한 추가
-	implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.5'
+	
 	
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
-    implementation 'org.springframework.boot:spring-boot-starter-security' 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.json:json:20210307'
+    implementation 'software.amazon.awssdk:s3:2.20.0' // 최신 버전으로 업데이트
+    implementation 'com.google.code.gson:gson:2.8.8' // Gson 라이브러리 추가
+    
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2' //환경변수 읽어오는 라이브러리
     
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -58,5 +62,5 @@ tasks.withType(JavaCompile) {
 
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

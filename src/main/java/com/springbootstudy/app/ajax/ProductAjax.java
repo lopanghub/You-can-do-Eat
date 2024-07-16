@@ -3,7 +3,6 @@ package com.springbootstudy.app.ajax;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +31,7 @@ public class ProductAjax {
 		productBox.forEach(product -> log.info(product.toString())); // 로그에 각 상품 정보를 출력
 		return productBox;
 	}
+	
 
 	// 수량변동시 테이블 수량도 변동
 	@PostMapping("/updateCart")
@@ -46,5 +46,9 @@ public class ProductAjax {
 		productService.deleteCart(cartProductDTO.getProductId());
 		return ResponseEntity.ok().build();
 	}
+	
+	
+	
+
 
 }

@@ -88,7 +88,6 @@ public class CommentAjax {
 	    String stars = symbols.toString();
 	    
 	    // commentDTO 객체 생성 및 반환
-	    System.out.println("여기는 4번 창구");
 	    commentDTO commentDTO = new commentDTO(comment, stars);
 		
 		
@@ -123,7 +122,6 @@ public class CommentAjax {
 		    String stars = symbols.toString();
 		    
 		    // commentDTO 객체 생성 및 반환
-		    System.out.println("여기는 4번 창구");
 		    commentDTO commentDTO = new commentDTO(comment, stars);
 			
 		 

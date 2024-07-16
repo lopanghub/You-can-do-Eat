@@ -51,8 +51,13 @@
 			<div class="dropdown">
 				<a href="/" class="dropbtn">YOU CAN DO EAT</a>
 				<div class="dropdown-content">
-					<a href="#" class="kfood" value="한식">한식</a> <a href="#">중식</a> <a href="#">일식</a> <a
-						href="#">양식</a> <a href="#">기타</a>
+					<ul style="list-style-type: none;">
+                    <li><a th:href="@{'/recipeList?type=food_Genre&keyword=한식'}">한식</a></li>
+                    <li><a th:href="@{'/recipeList?type=food_Genre&keyword=중식'}">중식</a></li>
+                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=일식'}">일식</a></li>
+                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=양식'}">양식</a></li>
+                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=기타'}">기타</a></li>
+                </ul>
 				</div>
 			</div>
 

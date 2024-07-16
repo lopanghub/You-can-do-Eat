@@ -21,6 +21,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import com.springbootstudy.app.domain.MemberShip;
 import com.springbootstudy.app.domain.Message;
+import com.springbootstudy.app.handler.ChatHandler;
 import com.springbootstudy.app.mapper.UserMapper;
 import com.springbootstudy.app.service.MemberService;
 import com.springbootstudy.app.service.UserService;
@@ -37,6 +38,9 @@ public class ChatController {
 	private MemberService memberService;
 	
 	private final UserService userService;
+	
+	@Autowired
+    private ChatHandler chatHandler;
 
     @Autowired
     public ChatController(UserService userService) {

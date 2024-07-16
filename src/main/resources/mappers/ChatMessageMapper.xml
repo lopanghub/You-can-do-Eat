@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springbootstudy.app.mapper.ChatMessageMapper">
+
+    <insert id="insertChatMessage" parameterType="com.springbootstudy.app.domain.ChatMessage">
+        INSERT INTO chat_message (room_id, sender_id, content, sent_at)
+        VALUES (#{roomId}, #{senderId}, #{content}, #{sentAt})
+    </insert>
+
+</mapper>

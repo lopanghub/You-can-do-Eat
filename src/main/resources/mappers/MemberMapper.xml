@@ -30,11 +30,5 @@
 		delete from membership where id=#{id}
 	</delete>
 	
-	<!-- 이현학 -->
-	<select id="getMemberIdByAuthorName" resultType="String" parameterType="String">
-        SELECT member_id
-        FROM membership
-        WHERE author_name = #{authorName}
-    </select>
 </mapper>
 

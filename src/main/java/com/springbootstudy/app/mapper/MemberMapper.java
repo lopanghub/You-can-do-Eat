@@ -16,6 +16,4 @@ public interface MemberMapper {
 	
 	void deleteUser(String id);
 	
-	//담당자 - 이현학
-    String getMemberIdByAuthorName(String authorName);
 }

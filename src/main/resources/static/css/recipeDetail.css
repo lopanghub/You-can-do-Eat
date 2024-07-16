@@ -6,7 +6,7 @@ body {
 }
 
 .custom-container {
-     max-width: 1000px;  /* 또는 원하는 최대 너비 */
+     max-width: 1200px; /*  또는 원하는 최대 너비 */
   		margin: 0 auto;
 }
 
@@ -25,6 +25,142 @@ body {
     text-align: center;
 }
 
+/* 레시피 모아보기 디자인 */
+.recipe-collection {
+  /*   border: 1px solid #7a8577;
+    border-radius: 0.25rem; */
+    margin-top: 25px;
+    padding-bottom: 10px;
+} 
+
+.recipe-collection-title {
+    color: #333;
+}
+
+/* 요리후기 공간 */
+.cook-comments{
+	border: 1px solid silver;
+	border-radius:3px;
+	color: #333;
+	padding:10px;
+  	background-color: #f9f9f9 !important;
+  	padding: 20px !important;
+}
+
+/* 후기작성 카드 헤더 스타일 수정 */
+.review-write {
+    color: #333;
+   border-bottom: 1px solid #7a8577; 
+   
+}
+
+.commentPoint{
+	padding-left: 20px;
+	padding-top: 8px;
+}
+
+.list-group-item{
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	border: 1px solid silver !important;
+ 	padding: 10px !important;
+ 	margin-bottom: 5px !important;
+ 	border-radius: 5px !important;
+	
+}
+
+.list-group-item2{
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 20px;
+	text-align:center;
+ 	padding: 10px !important;
+ 	margin-bottom: 5px !important;
+ 	border-radius: 5px !important;
+	
+}
+
+.card-body > div {
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  margin-bottom: 15px !important;
+}
+
+.write-button-comment {
+	display: inline-block;
+	padding: 6px 14px;
+	background-color: transparent;
+	color: #7a8577;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-left:10px;
+	border: 1px solid #7a8577;
+	transition: all 0.3s ease;
+	font-size: 0.9em;
+}
+.comment-input-section {
+  margin-bottom: 60px; /* 후기 리스트와의 간격 */
+}	
+.write-button-comment:hover {
+	background-color: #7a8577;
+	color: white;
+	border-color: #7a8577;
+}
+
+.comment-title, .comment-lists{
+	margin-left:10px;
+	margin-bottom: 12px;
+	font-weight: bold;	
+}
+
+.average-score {
+  display: flex;
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: flex-end;
+  height: 100%; /* 부모 요소의 전체 높이를 사용 */
+}
+
+.average-score span {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+#star-container {
+  display: flex;
+  align-items: center;
+}
+
+.average-score .arg-star {
+  display: inline-flex;
+  align-items: center;
+}
+
+.comment-lists {
+  
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.review-write .row {
+  display: flex;
+  align-items: center;
+  min-height: 50px; /* 필요에 따라 조정 */
+}
+
+#commentContent{
+	margin-left: 20px;
+}
+.btn-custom {
+    background-color: transparent;
+    color: #7a8577;
+    border-radius: 5px;
+    border: 1px solid #7a8577;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    padding: 10px 20px;
+}
 
 .btn-custom {
     background-color: transparent;
@@ -54,7 +190,7 @@ body {
     border-color: #7a8577;
 }
 
-/* Recipe Book View Styles */
+Recipe Book View Styles
 .page {
     font-family: 'Noto Sans KR', sans-serif;
 }
@@ -162,3 +298,63 @@ h4 {
     color: #555;
 }
 
+/*  */
+.comment-edit {
+    color: #333;
+    background-color: transparent;
+    border: 1px solid #FF914D;
+    border-radius: 4px;
+    padding: 5px 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 14px; /* 글자 크기를 줄여 버튼 크기에 맞춤 */
+    line-height: 1.5; /* 줄 간격 조정 */
+}
+
+.comment-edit:hover {
+    color: #fff;
+    background-color: #FF914D;
+    border-color: #FF914D;
+}
+	
+
+
+.comment-delete{
+    color: #333;
+    background-color: transparent;
+    border: 1px solid #dc3545;
+    border-radius: 4px;
+    padding: 5px 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 14px; /* 글자 크기를 줄여 버튼 크기에 맞춤 */
+    line-height: 1.5; /* 줄 간격 조정 */
+}
+.comment-delete:hover {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+
+.comment-back{
+    color: #333;
+    background-color: transparent;
+    border: 1px solid #7a8577;
+    border-radius: 4px;
+    padding: 5px 12px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 14px; /* 글자 크기를 줄여 버튼 크기에 맞춤 */
+    line-height: 1.5; /* 줄 간격 조정 */
+}
+
+.comment-back:hover {
+    color: #fff;
+    background-color: #7a8577;
+    border-color: #7a8577;
+
+}

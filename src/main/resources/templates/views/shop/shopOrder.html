@@ -1,171 +1,236 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/shop_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/shop_layout}">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
-    <title>주문 및 결제</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://js.tosspayments.com/v1/payment-widget"></script>
+<title>주문 및 결제</title>
 </head>
 
 <body>
-    <!-- content -->
-    <div layout:fragment="content">
-        <div class="row">
-            <div class="col">
-                <h1>주문 및 결제</h1>
-            </div>
-        </div>
+	<!-- content -->
+	<div layout:fragment="content">
+		<div class="row">
+			<div class="col">
+				<h1>주문 및 결제</h1>
+			</div>
+		</div>
 
-        <!-- 구매자 정보 -->
-        <div class="row">
-            <div class="col">구매자 정보</div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <table class="table">
-                    <tr>
-                        <td>이름</td>
-                        <td th:text="${member != null ? member.name : '정보 없음'}"></td>
-                    </tr>
-                    <tr>
-                        <td>이메일</td>
-                        <td th:text="${member != null ? member.email : '정보 없음'}" id="memberEmail"></td>
-                    </tr>
-                    <tr>
-                        <td>연락처</td>
-                        <td th:text="${member != null ? member.mobile : '정보 없음'}"></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+		<!-- 구매자 정보 -->
+		<div class="row">
+			<div class="col">구매자 정보</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<table class="table">
+					<tr>
+						<td>이름</td>
+						<td th:text="${member != null ? member.name : '정보 없음'}"></td>
+					</tr>
+					<tr>
+						<td>이메일</td>
+						<td th:text="${member != null ? member.email : '정보 없음'}"
+							id="memberEmail"></td>
+					</tr>
+					<tr>
+						<td>연락처</td>
+						<td th:text="${member != null ? member.mobile : '정보 없음'}"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
 
-        <!-- 받는사람 정보 -->
-        <div class="row">
-            <div class="col">받는 사람 정보</div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <table class="table">
-                    <tr>
-                        <td>이름</td>
-                        <td th:text="${member != null ? member.name : '정보 없음'}"></td>
-                    </tr>
-                    <tr>
-                        <td>주소</td>
-                        <td th:text="${member != null ? member.address1 : '정보 없음'}"></td>
-                    </tr>
-                    <tr>
-                        <td>연락처</td>
-                        <td th:text="${member != null ? member.mobile : '정보 없음'}"></td>
-                    </tr>
-                    <tr>
-                        <td>배송 요청 사항</td>
-                        <td>*</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+		<!-- 받는사람 정보 -->
+		<div class="row">
+			<div class="col">받는 사람 정보</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<table class="table">
+					<tr>
+						<td>이름</td>
+						<td th:text="${member != null ? member.name : '정보 없음'}"></td>
+					</tr>
+					<tr>
+						<td>주소</td>
+						<td th:text="${member != null ? member.address1 : '정보 없음'}"></td>
+					</tr>
+					<tr>
+						<td>연락처</td>
+						<td th:text="${member != null ? member.mobile : '정보 없음'}"></td>
+					</tr>
+					<tr>
+						<td>배송 요청 사항</td>
+						<td>*</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 
-        <!-- 상품 정보 -->
-        <div class="row">
-            <div class="col">주문 상품 정보</div>
-        </div>
-        <div class="row">
-            <div class="col-8" id="productContainer">
-                <div th:if="${cartDetails != null}">
-                    <!-- 장바구니 품목 -->
-                    <th:block th:each="item : ${cartDetails}">
-                        <div class="row cartBox" th:data-product-id="${item.productId}">
-                            <div class="col productImage"><img th:src="@{${item.productImage} != null ? ${item.productImage} : '/resources/shop/' + ${item.productImage} }"></div>
-                            <div class="col">
-                                <p th:text="${item.productName}"></p>
-                                <p class="price" th:data-price="${item.price}" th:text="${item.price}"></p>
-                                <div class="quantity-input-container">
-                                    <div class="quantity-input-minus">-</div>
-                                    <input class="quantity-input" type="text" th:value="${item.quantity}" />
-                                    <div class="quantity-input-plus">+</div>
-                                </div>
-                                <p class="totalPrice" th:data-price="${item.quantity * item.price}" th:text="${item.quantity * item.price}"></p>
-                            </div>
-                            <div class="col deleteCart"><i class="bi bi-trash3"></i></div>
-                        </div>
-                    </th:block>
-                </div>
+		<!-- 상품 정보 -->
+		<div class="row">
+			<div class="col">주문 상품 정보</div>
+		</div>
+		<div class="row">
+			<div class="col-8" id="productContainer">
+				<div th:if="${cartDetails != null}">
+					<!-- 장바구니 품목 -->
+					<th:block th:each="item : ${cartDetails}">
+						<div class="row cartBox" th:data-product-id="${item.productId}">
+							<div class="col productImage">
+								<img
+									th:src="@{${item.productImage} != null ? ${item.productImage} : '/resources/shop/' + ${item.productImage} }">
+							</div>
+							<div class="col">
+								<p th:text="${item.productName}"></p>
+								<p class="price" th:data-price="${item.price}"
+									th:text="${item.price}"></p>
+								<div class="quantity-input-container">
+									<div class="quantity-input-minus">-</div>
+									<input class="quantity-input" type="text"
+										th:value="${item.quantity}" />
+									<div class="quantity-input-plus">+</div>
+								</div>
+								<p class="totalPrice"
+									th:data-price="${item.quantity * item.price}"
+									th:text="${item.quantity * item.price}"></p>
+							</div>
+							<div class="col deleteCart">
+								<i class="bi bi-trash3"></i>
+							</div>
+						</div>
+					</th:block>
+				</div>
 
-                <!-- 바로 구매시 -->
-                <div th:if="${cart != null}">
-                    <div class="row cartBox" th:data-product-id="${cart.productId}">
-                        <div class="col productImage"><img th:src="@{${cart.productImage} != null ? ${cart.productImage} : '/resources/shop/' + ${cart.productImage} }"></div>
-                        <div class="col">
-                            <p th:text="${cart.productName}"></p>
-                            <p class="price" th:data-price="${cart.price}" th:text="${cart.price}"></p>
-                            <div class="quantity-input-container">
-                                <div class="quantity-input-minus">-</div>
-                                <input class="quantity-input" type="text" th:value="${cart.quantity}" />
-                                <div class="quantity-input-plus">+</div>
-                            </div>
-                            <p class="totalPrice" th:data-price="${cart.quantity * cart.price}" th:text="${cart.quantity * cart.price}"></p>
-                        </div>
-                        <div class="col deleteCart"><i class="bi bi-trash3"></i></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 orderBox">
-                <div class="">
-                    <h2>주문 예상 금액</h2>
-                    <div>상품 총액: <span id="totalProductPrice" class="price" th:data-price="0"></span> </div>
-                    <div>할인 총액: <span id="totalDiscountPrice" th:data-price="0">0</span> 원</div>
-                    <div>배송 총액: <span id="totalDeliveryPrice" th:data-price="0">0</span> 원</div>
-                </div>
-                <div>합계금액: <span id="totalOrderPrice" class="price" th:data-price="0"></span> </div>
-            </div>
-        </div>
+				<!-- 바로 구매시 -->
+				<div th:if="${cart != null}">
+					<div class="row cartBox" th:data-product-id="${cart.productId}">
+						<div class="col productImage">
+							<img
+								th:src="@{${cart.productImage} != null ? ${cart.productImage} : '/resources/shop/' + ${cart.productImage} }">
+						</div>
+						<div class="col">
+							<p th:text="${cart.productName}"></p>
+							<p class="price" th:data-price="${cart.price}"
+								th:text="${cart.price}"></p>
+							<div class="quantity-input-container">
+								<div class="quantity-input-minus">-</div>
+								<input class="quantity-input" type="text"
+									th:value="${cart.quantity}" />
+								<div class="quantity-input-plus">+</div>
+							</div>
+							<p class="totalPrice"
+								th:data-price="${cart.quantity * cart.price}"
+								th:text="${cart.quantity * cart.price}"></p>
+						</div>
+						<div class="col deleteCart">
+							<i class="bi bi-trash3"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 orderBox">
+				<div class="">
+					<h2>주문 예상 금액</h2>
+					<div>
+						상품 총액: <span id="totalProductPrice" class="price"
+							th:data-price="0"></span>
+					</div>
+					<div>
+						할인 총액: <span id="totalDiscountPrice" th:data-price="0">0</span> 원
+					</div>
+					<div>
+						배송 총액: <span id="totalDeliveryPrice" th:data-price="0">0</span> 원
+					</div>
+				</div>
+				<div>
+					합계금액: <span id="totalOrderPrice" class="price" th:data-price="0" th:text="${totalAmount}"></span>
+				</div>
+			</div>
+		</div>
 
-        <!-- 결제 UI -->
+		<!-- 결제 UI -->
 		<div id="payment-method"></div>
- 	    <div id="agreement"></div>
+		<div id="agreement"></div>
 
-        <!-- 결제하기 버튼 -->
-        <button class="button" id="payment-button" style="margin-top: 30px">결제하기</button>
-        <script th:inline="javascript">
-        		const totalOrderPrice = document.getElementById("totalOrderPrice").getAttribute("data-price");
-	       	      const button = document.getElementById("payment-button");
+		<!-- 결제하기 버튼 -->
+		 <button id="payment-button">결제하기</button>
+		
+		<script th:inline="javascript">
+		document.addEventListener("DOMContentLoaded", function() {
+			console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+			 function generateRandomString(length) {
+			        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+			        let result = '';
+			        const charactersLength = characters.length;
+			        for (let i = 0; i < length; i++) {
+			            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+			        }
+			        return result;
+			    }
 
-                // ------  결제위젯 초기화 ------
-      			const widgetClientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-                const customerKey = [[${session.member.id}]];
-                const paymentWidget = PaymentWidget(widgetClientKey, customerKey);
-                
-                const paymentMethodWidget = paymentWidget.renderPaymentMethods(
-                        "#payment-method",
-                        { value: parseInt(totalOrderPrice) },
-                        { variantKey: "DEFAULT" }
-                      );
-                paymentWidget.renderAgreement(
-                        "#agreement", 
-                        { variantKey: "AGREEMENT" }
-                      );
-              
-                button.addEventListener("click", function () {
-                    const orderName = [[${cartDetails}]] != null ? cartDetails[0].productName + ' 외 ' + (cartDetails.size - 1) + '건' : [[${cart.productName}]] ;
+			    // Generate orderId and customerKey
+		    const orderId = generateRandomString(10); // Adjust length as needed
+		    const customerKey = generateRandomString(10); // Adjust length as needed
+		    
+		    // Get total order price from the data attribute
+		    const amount = parseInt(document.getElementById('totalOrderPrice').innerText, 10);
 
-                    // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요. 
-                    // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.  
-                    paymentWidget.requestPayment({
-                      orderId: "IDfnnk_01HdBNzQAqzFd0",
-                      orderName: orderName,
-                      successUrl: window.location.origin + "/success",
-                      failUrl: window.location.origin + "/fail",
-                      customerEmail: "customer123@gmail.com",
-                      customerName: "김토스",
-                      customerMobilePhone: "01012341234",
-                    });
-                  });
-            
-        </script>
-    </div>
+    		console.log("가격총량", amount);
+		    // Get the payment button element
+		    const button = document.getElementById("payment-button");
+
+		    // Initialize the payment widget with a predefined client key
+		    const widgetClientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+
+		    // Initialize the payment widget
+		    const paymentWidget = PaymentWidget(widgetClientKey, customerKey);
+
+		    // Render payment methods
+		    const paymentMethodWidget = paymentWidget.renderPaymentMethods(
+		        "#payment-method", {
+		            value: amount // Parse the total order price as an integer
+		        }, {
+		            variantKey: "DEFAULT"
+		        }
+		    );
+
+		    // Render agreement section
+		    paymentWidget.renderAgreement("#agreement", {
+		        variantKey: "AGREEMENT"
+		    });
+		    
+		    let orderName = '';
+	        const cartDetails = [[${session.cartDetails}]];
+	        const cart = [[${session.cart}]];
+
+	        if (cartDetails != null) {
+	            orderName = cartDetails[0].productName + ' 외 ' + (cartDetails.length - 1) + '건';
+	        } else if (cart) {
+	            orderName = cart.productName;
+	        }
+	        
+
+		    // Add event listener for the payment button
+		    button.addEventListener("click", function() {
+		        
+
+		        // Request payment
+		        paymentWidget.requestPayment({
+		            orderId: orderId,
+		            orderName: orderName,
+		            successUrl: window.location.origin + "/success",
+		            failUrl: window.location.origin + "/fail"
+		        });
+		    });
+		});
+
+				
+		</script>
+
+	</div>
 </body>
 </html>

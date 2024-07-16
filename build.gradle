@@ -53,6 +53,7 @@ dependencies {
     
     
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'  //토스 결제 위젯을위한 json 의존성
 }
 // 페이지 처리할때 추가됐음
 tasks.withType(JavaCompile) {

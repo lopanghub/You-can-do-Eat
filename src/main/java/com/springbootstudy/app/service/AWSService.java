@@ -7,7 +7,6 @@ import com.springbootstudy.app.domain.Product;
 import com.springbootstudy.app.domain.RecipeBoard;
 import com.springbootstudy.app.mapper.ProductMapper;
 import com.springbootstudy.app.mapper.RecipeMapper;
-import com.springbootstudy.app.service.MemberService.MembershipService;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ import java.util.List;
 public class AWSService {
 
     private final S3Service s3Service;
-    private final MembershipService membershipService;
     private final RecipeMapper recipeMapper;
     private final ProductMapper productMapper;
 
@@ -66,8 +64,7 @@ public class AWSService {
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
             String authorName = jsonObject.get("author_name").getAsString();
-            String memberId = membershipService.getMemberIdByAuthorName(authorName);
-
+            
             RecipeBoard recipeBoard = RecipeBoard.builder()
                     .boardTitle(jsonObject.get("title").getAsString())
                     .boardContent(jsonObject.has("recipeIntro") ? jsonObject.get("recipeIntro").getAsString() : null)
@@ -78,8 +75,9 @@ public class AWSService {
                     .foodTime(jsonObject.has("cookingTime") ? parseCookingTime(jsonObject.get("cookingTime").getAsString()) : 0)
                     .numberEaters(jsonObject.has("servingSize") ? parseServingSize(jsonObject.get("servingSize").getAsString()) : 0)
                     //.apoint(jsonObject.has("ratingCount") ? jsonObject.get("ratingCount").getAsDouble() : 0) // ratingCount 설정
-                    .memberId(memberId)
+                    .memberId(authorName)
                     .build();
+            
             recipes.add(recipeBoard);
         }
 

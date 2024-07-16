@@ -15,31 +15,28 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Log4j2
 public class ChatHandler2 extends TextWebSocketHandler {
 
-    private static Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
+    private static final String CHAT_TOPIC_PREFIX = "/topic/chat/";
 
-    private static final String TARGET_USER_ID = "qwerqwer";
+    // 사용자별로 WebSocketSession을 관리할 맵
+    private static Map<String, Set<WebSocketSession>> userSessions = new ConcurrentHashMap<>();
 
     @Autowired
     private ChatService chatService;
-
-    @Autowired
-    private SqlSession sqlSession;
-    
-    @Autowired
-    private ChatMessageService chatMessageService;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String userId = extractUserIdFromSession(session);
         if (userId != null) {
-            sessions.put(userId, session);
+            userSessions.computeIfAbsent(userId, k -> new HashSet<>()).add(session);
             session.sendMessage(new TextMessage("You are connected as " + userId));
         }
     }
@@ -52,27 +49,24 @@ public class ChatHandler2 extends TextWebSocketHandler {
             String destUserId = parts[0].trim();
             String content = payload.substring(destUserId.length() + 1).trim();
 
-            // 특정 사용자(TARGET_USER_ID)와만 채팅할 수 있도록 처리
-            if (destUserId.equals(TARGET_USER_ID)) {
-                // 데이터베이스에 채팅 메시지 저장
-                String senderId = extractUserIdFromSession(session);
-
-                // 사용자에게 메시지 전송
-                sendMessageToUser(destUserId, session.getId() + ": " + content);
-            } else {
-                session.sendMessage(new TextMessage("Error: You can only chat with user " + TARGET_USER_ID));
-            }
+            // 사용자에게 메시지 전송
+            sendMessageToUser(destUserId, session.getId() + ": " + content);
         } else {
             session.sendMessage(new TextMessage("Error: Invalid message format."));
         }
     }
 
-
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         String userId = extractUserIdFromSession(session);
         if (userId != null) {
-            sessions.remove(userId);
+            Set<WebSocketSession> sessions = userSessions.get(userId);
+            if (sessions != null) {
+                sessions.remove(session);
+                if (sessions.isEmpty()) {
+                    userSessions.remove(userId);
+                }
+            }
         }
     }
 
@@ -82,18 +76,17 @@ public class ChatHandler2 extends TextWebSocketHandler {
     }
 
     public void sendMessageToUser(String userId, String message) throws IOException {
-        WebSocketSession session = sessions.get(userId);
-        if (session != null && session.isOpen()) {
-            chatService.sendMessage(session, message); // ChatService를 통해 메시지 전송
+        Set<WebSocketSession> sessions = userSessions.get(userId);
+        if (sessions != null && !sessions.isEmpty()) {
+            for (WebSocketSession session : sessions) {
+                if (session.isOpen()) {
+                    session.sendMessage(new TextMessage(message));
+                } else {
+                    log.warn("Session closed for user: " + userId);
+                }
+            }
         } else {
-            log.warn("Session not found or closed for user: " + userId);
-            // Optional: Handle case where session is not found or closed
+            log.warn("No active sessions found for user: " + userId);
         }
-    }
-
-    // 예제를 위한 추가 메서드: 데이터베이스에서 유저 정보 조회
-    public MemberShip getUserById(String id) {
-        MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
-        return memberMapper.getMemberShip(id);
     }
 }

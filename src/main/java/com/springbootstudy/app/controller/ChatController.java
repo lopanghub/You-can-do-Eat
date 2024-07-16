@@ -39,8 +39,6 @@ public class ChatController {
 	
 	private final UserService userService;
 	
-	@Autowired
-    private ChatHandler chatHandler;
 
     @Autowired
     public ChatController(UserService userService) {
@@ -57,12 +55,6 @@ public class ChatController {
         return "chat"; // user-list.html로 이동
     }
 	
-	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        // WebSocket에서 메시지 수신 시 처리
-        String payload = message.getPayload();
-        // 메시지 전달 처리
-        session.sendMessage(new TextMessage("Received: " + payload));
-    }
 
 	@PostMapping("/chat/sendMessage")
     @ResponseBody

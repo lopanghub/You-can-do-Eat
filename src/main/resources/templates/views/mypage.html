@@ -26,27 +26,20 @@
  let test01 = 'hi';
 </script>
 <script th:inline="javascript">
-$("#chat").on("click", function() {
-	// 세션에서 사용자 ID 가져오기
-	let userId = [[${ session.member.id }]];
-
-	let url = "chatmessage";
-
-	let _wi = 1000;
-	let _he = 580;
-	let left = Math.ceil((window.innerWidth - _wi) / 2);
-	let top = Math.ceil((window.innerHeight - _he) / 2);
-
-	// URL에 사용자 ID 추가
-	url += "?userId=" + encodeURIComponent(userId);
-
-	// 새 창 열기
-	window.open(url, "_blank", "toolbar=no, location=no, status=no, menubar=no, width=" + _wi + ", height=" + _he + ", left=" + left + ", top=" + top);
+$(document).ready(function() {
+    // 채팅 창 열기 함수
+    $("#chat").on("click", function() {
+        // URL 설정
+        let url = "chatmessage";
+        // 새 창 열기
+        let _wi = 1000;
+        let _he = 580;
+        let left = Math.ceil((window.innerWidth - _wi) / 2);
+        let top = Math.ceil((window.innerHeight - _he) / 2);
+        window.open(url, "_blank", "toolbar=no, location=no, status=no, menubar=no, width=" + _wi + ", height=" + _he + ", left=" + left + ", top=" + top);
+    });
 });
-
-</script>	
+</script>
 </div>
 
-</html>
-	
-		
+</html>	

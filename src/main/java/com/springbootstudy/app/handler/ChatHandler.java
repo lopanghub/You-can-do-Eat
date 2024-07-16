@@ -4,6 +4,8 @@ import com.springbootstudy.app.domain.MemberShip;
 import com.springbootstudy.app.service.ChatMessageService;
 import com.springbootstudy.app.service.ChatService;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -16,7 +18,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@Log4j2
+@Slf4j
 public class ChatHandler extends TextWebSocketHandler {
 
     private static Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
@@ -29,6 +31,7 @@ public class ChatHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    	log.info("클라이언트 접속 : " + session);
         String userId = extractUserIdFromSession(session);
         if (userId != null) {
             sessions.put(userId, session);
@@ -39,6 +42,10 @@ public class ChatHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
+        log.info("payload---"+payload);
+        session.sendMessage(message);
+        
+        /*
         String[] parts = payload.split(":");
         if (parts.length >= 2) {
             String destUserId = parts[0].trim();
@@ -47,6 +54,7 @@ public class ChatHandler extends TextWebSocketHandler {
         } else {
             session.sendMessage(new TextMessage("Error: Invalid message format."));
         }
+        */
     }
 
     @Override
@@ -57,6 +65,7 @@ public class ChatHandler extends TextWebSocketHandler {
         }
     }
 
+    // 부가서비스
     private String extractUserIdFromSession(WebSocketSession session) {
         String userId = session.getUri().toString().split("/")[2];
         return userId;

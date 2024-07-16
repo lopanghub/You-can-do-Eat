@@ -20,11 +20,7 @@
 			<div class="loginJoin">
 				<th:block th:if="${session.isLogin}">
 					<a class="logout" href="/logout">로그아웃&nbsp;&nbsp;</a>
-<<<<<<< HEAD
-					<a class="joinupdate" href="/memberMyPage">|&nbsp;&nbsp;마이페이지&nbsp;</a>
-=======
 					<a class="memberMyPage" href="/memberMyPage">|&nbsp;&nbsp;마이페이지&nbsp;</a>
->>>>>>> 730080608a70f419cc977846f958369ca8906b80
 					<a class="cart" href="/cart">|&nbsp;&nbsp;<i class="bi bi-cart4"></i> (0)&nbsp;&nbsp;</a>
 				</th:block>
 				<th:block th:unless="${session.isLogin}">

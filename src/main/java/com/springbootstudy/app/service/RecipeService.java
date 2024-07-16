@@ -163,7 +163,7 @@ public class RecipeService {
 		params.put("numberEaters", numberEaters);
 		params.put("numberEaters", numberEaters);
 		params.put("foodTime", foodTime);
-		params.put("filename", filename);
+		params.put("thumbnail", filename);
 		params.put("boardNo", boardNo);
 		recipeMapper.updateRecipe(params);
 	}

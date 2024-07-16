@@ -113,6 +113,9 @@ WHERE rb.board_no = #{boardNo};
             <if test="type == 'board_content'">
                 board_content LIKE CONCAT('%', #{keyword}, '%')
             </if>
+            <if test="type == 'food_Genre'">
+                food_Genre LIKE CONCAT('%', #{keyword}, '%')
+            </if>
         </where>
 		order by board_No desc LIMIT  #{offset}, #{limit}
 	</select>
@@ -127,6 +130,9 @@ WHERE rb.board_no = #{boardNo};
             </if>
             <if test="type == 'board_content'">
                 board_content LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+              <if test="type == 'food_Genre'">
+                food_Genre LIKE CONCAT('%', #{keyword}, '%')
             </if>
         </where>
          

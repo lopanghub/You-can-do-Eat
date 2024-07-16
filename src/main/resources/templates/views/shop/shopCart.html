@@ -18,9 +18,9 @@
                 <!-- 장바구니 품목 -->
                 <th:block th:each="item : ${cartDetails}" >
                 <div class="row cartBox" th:data-product-id="${item.productId}">
-                    <div class="col productImage"><img src="http://via.placeholder.com/140x140"></div>
+                    <div class="col productImage"><img th:src="@{${item.productImage} != null ? ${item.productImage} : '/resources/shop/' + ${item.productImage} }"></div>
                     <div class="col">
-                        <p th:text="${item.ingredient}"></p>
+                        <p th:text="${item.productName}"></p>
                         <p class="price" th:data-price="${item.price}" th:text="${item.price}"></p>
                         <div class="quantity-input-container">
                             <div class="quantity-input-minus">-</div>

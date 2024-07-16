@@ -30,6 +30,9 @@
 		delete from membership where id=#{id}
 	</delete>
 	
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 5f898d4ddbcbd5fd341987012b2beffacbfc2567
 </mapper>
 

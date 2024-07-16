@@ -16,5 +16,4 @@ public interface MemberMapper {
 	
 	void deleteUser(String id);
 	
-	
 }

@@ -15,8 +15,7 @@
     </resultMap>
 
 	
-	<!-- 게시글 리스트 -->
-    <select id="communityBoardList" resultMap="CommunityResultMap">
+	<!-- 게시글 리스트 -->    <select id="communityBoardList" resultMap="CommunityResultMap">
        SELECT * FROM community ORDER BY no DESC;
     </select>
 

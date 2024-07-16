@@ -56,7 +56,8 @@ $(function(){
 				return false;	
 			}
 		if(confirm("해당 공지를 업로드하시겠습니까?"))	{
-			this.submut();
+			this.submu
+			t();
 		}			
 
 	});

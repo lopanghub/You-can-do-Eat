@@ -209,8 +209,8 @@ h4 {
     font-size: 1.5rem !important; /* bi-people-fill과 동일한 크기로 설정 */
 }
 
-.bi-star-fill , .bi-star-half, .bi-star{
-    font-size: 1.2rem !important; /* bi-people-fill과 동일한 크기로 설정 */
+.bi-star-fill, .bi-star, .bi-star-half {
+    font-size: 1.2rem !important; 
 }
 /* 특정 아이콘에 대해 추가적인 스타일 조정이 필요한 경우 */
 .recipe-info .bi {

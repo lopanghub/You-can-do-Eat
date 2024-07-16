@@ -280,7 +280,7 @@ $(function() {
 				               <div class="col recipe-page-border d-flex flex-column p-2 m-2">
 				                   <div class="row">
 				                       <div class="col">
-				                           <h1>${recipeList.cookTitle}</h1>
+				                           11<h1>${recipeList.cookTitle}</h1>
 				                       </div>
 				                   </div>
 				                   <div class="row my-2">

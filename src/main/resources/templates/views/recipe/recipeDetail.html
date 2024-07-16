@@ -290,8 +290,14 @@
 				</div>
 			</th:block>
 				<div class="col">
+				<th:block th:if="${searchOption}">
+					<input class="btn btn-primary" type="button" value="목록보기" 
+							th:onclick="@{|location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'|}"/>
+				</th:block>
+				<th:block th:unless="${searchOption}">
 					<input class="btn btn-primary" type="button" value="목록보기" 
 							th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}"/>
+				</th:block>
 				</div>
 		</div>
 	

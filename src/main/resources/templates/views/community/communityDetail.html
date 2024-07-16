@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"		
+		layout:decorate="~{layouts/community_layout}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/noticeAll.css}" />
+<script th:src="@{js/communityFormcheck.js}"></script>
+		
+<!-- content -->
+	<th:block layout:fragment="content">			
+		<div class="row my-5" id="global-content">
+			<div class="col-10 offset-1">
+				<form name="checkForm" id="checkForm">
+					<input type="hidden" name="no" id="no" th:value="${community.no}"/>
+				</form>
+				<div class="row text-center">
+					<div class="col">
+						<h2 class="fs-3 fw-bold">요리자랑</h2>
+					</div>
+				</div> 
+				<div class="row my-3">
+					<div class="col">
+						<table class="table" >
+							<tbody>					
+								<tr>
+									<th class="table-secondary">제 목</th>
+									<td colspan="3" th:text="${community.title}"></td>		
+								</tr>
+								<tr>
+									<th>작성자</th>
+									<td th:text="${community.writer}"></td>
+									<th>작성일</th>
+									<td>[[${ #dates.format(community.regDate, 'yyyy-MM-dd HH:mm') }]]</td>		
+								</tr>
+								<tr>		
+									<th>조회수</th>
+									<td th:text="${community.readCount}"></td>
+									<th>파&nbsp;&nbsp;&nbsp;&nbsp;일</th>
+									<td colspan="3">
+										<th:block th:if="${ not #strings.isEmpty(community.file1) }">
+											<a th:href="@{|fileDownload?fileName=${community.file1}|}"> [[ ${community.file1} ]] </a>
+										</th:block>
+										<th:block th:unless="${ not #strings.isEmpty(community.file1) }">
+											첨부파일 없음
+										</th:block>
+									</td>		
+								</tr>
+								 <td colspan="4">
+                                    <div style="white-space: pre-wrap;" th:text="${community.content}"></div>
+                                </td>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="row my-3">
+					<div class="col text-center">
+						<button class="write-button" type="button" id="communityDetailUpdate">수정하기</button>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<button class="write-button" type="button" id="communityDetailDelete">삭제하기</button>			
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<button class="write-button" type="button" onclick="location.href='communityList'">목록보기</button>
+					</div>
+				</div>
+			</div>	
+		</div>
+	</th:block>
+</html>					

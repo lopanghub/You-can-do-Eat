@@ -195,7 +195,7 @@ $(function() {
 							      </div>
 				            `;
 	            $(".page").append(bookContent);
-	            updatePlayPauseButton(isPlay);
+	           // updatePlayPauseButton(isPlay);
 	        },
 	        error: function(error) {
 	            console.error("Error fetching book details:", error);
@@ -237,7 +237,6 @@ $(function() {
 	/* 두번째페이지 */
     function loadCookList(currentPage, cookingId) {
         let boardNo = $("#boardNo").val();
-
         $(".page").empty();
         $.ajax({
             url: "/ajax/cookList",
@@ -280,7 +279,7 @@ $(function() {
 				               <div class="col recipe-page-border d-flex flex-column p-2 m-2">
 				                   <div class="row">
 				                       <div class="col">
-				                           11<h1>${recipeList.cookTitle}</h1>
+				                           <h1>${currentPage+1}.${recipeList.cookTitle}</h1>
 				                       </div>
 				                   </div>
 				                   <div class="row my-2">
@@ -331,7 +330,8 @@ $(function() {
 
                 $(".page").append(bookContent);
                 loadCookMList(cookingId);
-                updatePlayPauseButton(isPlay);
+               // updatePlayPauseButton(isPlay);
+                console.log("cookingIndex : " + cookingIndex)
             },
             error: function(error) {
                 console.error("Error fetching book details:", error);

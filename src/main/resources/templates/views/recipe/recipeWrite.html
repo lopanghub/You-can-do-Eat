@@ -19,87 +19,96 @@
 
 <body>
     <!-- content -->
-    <div layout:fragment="content" class="container">
+    <div layout:fragment="content" class="recipeWrite-container">
         <form th:action="@{recipeWriteProcess}" method="post" id="recipeWriteForm" enctype="multipart/form-data">
         <input type="hidden" id="memberId" name="memberId" th:value="${session.member.id}">
             <div class="row">
                 <div class="col text-center">
-                    <h1 class="my-4">레시피 등록</h1>
+                    <h1 class="my-4 recipe-title">레시피 등록</h1>
                 </div>
             </div>
-            <div class="row my-2">
-                <div class="col-md-4 mb-3">
-                    <label for="boardTitle" class="form-label">레시피 제목</label>
-                    <input type="text" class="form-control" id="boardTitle" name="boardTitle">
+         <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="boardTitle" class="form-label recipe-label">레시피 제목</label>
+                        <input type="text" class="form-control" id="boardTitle" name="boardTitle">
+                    </div>
+                    <div class="mb-3">
+                        <label for="boardContent" class="form-label recipe-label">레시피 소개</label>
+                        <textarea class="form-control" id="boardContent" name="boardContent" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="foodGenre" class="form-label recipe-label">카테고리</label>
+                        <select class="form-select recipe-select" id="foodGenre" name="foodGenre">
+                            <option th:value="한식">한식</option>
+                            <option th:value="일식">일식</option>
+                            <option th:value="중식">중식</option>
+                            <option th:value="양식">양식</option>
+                            <option th:value="기타">기타</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <label for="boardContent" class="form-label">레시피 소개</label>
-                    <textarea class="form-control" id="boardContent" name="boardContent" rows="2"></textarea>
+               <div class="col-md-6">
+                    <div class="thumbnail-container">
+                        <div class="mb-3">
+                            <label for="thumbnailname" class="form-label recipe-label">대표사진</label>
+                            <input type="file" class="form-control recipe-input" id="thumbnailname" name="thumbnailname">
+                        </div>
+                        <div class="mb-3 thumbnail-preview-container">
+                            <label class="form-label recipe-label">대표사진 미리보기</label>
+                            <img id="thumbnailPreview" src="" alt="대표사진 미리보기" style="display: none;" />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row my-2">
                 <div class="col-md-6 mb-3">
-                    <label for="foodGenre" class="form-label">카테고리</label>
-                    <select class="form-select" id="foodGenre" name="foodGenre">
-                        <option th:value="한식">한식</option>
-                        <option th:value="일식">일식</option>
-                        <option th:value="중식">중식</option>
-                        <option th:value="양식">양식</option>
-                        <option th:value="기타">기타</option>
-                    </select>
-                </div>
-                <div class="col-md-6 mb-3">
-				    <label for="thumbnailname" class="form-label">대표사진</label>
-				    <input type="file" class="form-control" id="thumbnailname" name="thumbnailname">
-				</div>
-				
-            </div>
-            <div class="row my-2">
-                <div class="col-md-6 mb-3">
-                    <label for="numberEaters" class="form-label">요리 정보</label>
+
+                    <label for="numberEaters" class="form-label recipe-label">요리 정보</label>
                     <div class="input-group">
                         <span class="input-group-text">인원</span>
-                        <input type="number" class="form-control" id="numberEaters" name="numberEaters">
+                        <input type="number" class="form-control recipe-input" id="numberEaters" name="numberEaters">
                         <span class="input-group-text">명</span>
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="foodTime" class="form-label">시간</label>
+                    <label for="foodTime" class="form-label recipe-label">시간</label>
                     <div class="input-group">
-                        <input type="number" class="form-control" id="foodTime" name="foodTime">
+                        <input type="number" class="form-control recipe-input" id="foodTime" name="foodTime">
                         <span class="input-group-text">분 이하</span>
                     </div>
                 </div>
             </div>
-            <div class="row my-2">
+                 <div class="row my-2">
                 <div class="col">
-                    <h2>재료등록</h2>
+                    <h2 class="add-materials">재료등록</h2>
                 </div>
             </div>
             <div class="row mt-2 cookMaterialSession" id="material">
-            <div class="row mt-2" id="materialRow0">
-                <div class="col">재료이름</div>
-                <div class="col">
-                    <input type="text" class="form-control" id="material0.materialName" name="materialNames">
+                <div class="row mt-2" id="materialRow0">
+                    <div class="col">
+                        <label for="material0.materialName">재료이름</label>
+                        <input type="text" class="form-control" id="material0.materialName" name="materialNames">
+                    </div>
+                    <div class="col">
+                        <label for="material0.mensuration">재료 양</label>
+                        <input type="text" class="form-control" id="material0.mensuration" name="mensurations">
+                    </div>
+                    <div class="col-3">
+                        <label for="material0.typeMaterial">구분</label>
+                        <select class="form-select" id="material0.typeMaterial" name="typeMaterials">
+                            <option value="재료">재료</option>
+                            <option value="조미료">조미료</option>
+                        </select>
+                    </div>
+                    <div class="col-auto d-flex align-items-end">
+                        <button type="button" class="deleteMaterial" data-materialindex="0">X</button>
+                    </div>
                 </div>
-                <div class="col">재료 양</div>
-                <div class="col">
-                    <input type="text" class="form-control" id="material0.mensuration" name="mensurations">
-                </div>
-                <div class="col-3">
-                    <select class="form-select" id="material0.typeMaterial" name="typeMaterials">
-                        <option value="재료">재료</option>
-                        <option value="조미료">조미료</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <input type="button" class="btn btn-danger deleteMaterial" data-materialindex="0" value="재료삭제">
-                </div>
-            </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <input type="button" class="btn btn-primary" id="addMaterial" data-materialindex="1" value="재료추가">
+                    <input type="button" class="recipe-button-add" id="addMaterial" data-materialindex="1" value="재료추가">
                 </div>
             </div>
             <div class="row my-2">
@@ -111,14 +120,14 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <input type="button" class="btn btn-primary" id="addCooking" data-cookingindex="0" value="조리과정추가">
+                    <input type="button" class="recipe-button" id="addCooking" data-cookingindex="0" value="조리과정추가">
                 </div>
             </div>
-            <div class="row my-2">
-            	<input class="btn btn-primary" type="button" value="목록보기" 
-							th:onclick="@{|location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'|}"/>
-                <div class="col text-end">
-                    <button type="submit" class="btn btn-primary">등록하기</button>
+          <div class="row my-2">
+                <div class="col text-center">
+                    <input class="recipe-button-list me-2" type="button" value="목록보기" 
+                        th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}"/>
+                    <button type="submit" class="recipe-button">등록하기</button>
                 </div>
             </div>
         </form>

@@ -55,6 +55,15 @@ $(document).ready(function() {
             event.preventDefault(); // 폼 제출 중단
             return false;
         }
+         // 조리 과정 검사 (최소 1개 이상)
+        let MaterialCount = $('.cookMaterialSession .row[id^="materialRow"]').length;
+        if (MaterialCount === 0) {
+            alert('재료을 최소 1개 이상 입력하세요.');
+            isValid = false;
+            event.preventDefault(); // 폼 제출 중단
+            return false;
+        }
+        
 
         // 재료 검사 (최소 1개 이상)
         $('#material').find('.row[id^="materialRow"]').each(function() {

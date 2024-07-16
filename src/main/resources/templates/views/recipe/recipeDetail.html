@@ -19,20 +19,20 @@
 	<div layout:fragment="content" class="container-fluid custom-container px-4">
 	<div class="inner-content px-2">
 		<form id="recipeDetailForm">
-			<input type="hidden" id="boardNo" th:value="${rList.boardNo}"
-				name="boardNo"> <input type="hidden" id="cookingId"
-				th:value="${cookingId}" name="cookingId"> <input
-				type="hidden" id="bookCount" th:value="${bookCount}"
-				name="bookCount">
-				<input type="hidden" id="id" name="id" th:value="${rList.memberId}">
-				<th:block th:if="${session.member != null and session.member != ''}">
+			<input type="hidden" id="boardNo" th:value="${rList.boardNo}"	name="boardNo">
+			<input type="hidden" id="cookingId" th:value="${cookingId}" name="cookingId"> 
+			<input	type="hidden" id="bookCount" th:value="${bookCount}"	name="bookCount">
+			<input type="hidden" id="id" name="id" th:value="${rList.memberId}">
+			<th:block th:if="${session.member != null and session.member != ''}">
 			    <input type="hidden" id="loginId" name="loginId" th:value="${session.member.id}">
+			</th:block>	
 			    <input type="hidden" name="pageNum" th:value="${pageNum}"/>
-			    <th:block th:if="${searchOption}">
+			
+			<th:block th:if="${searchOption}">
 						<input type="hidden" name="type" th:value="${type}">
 						<input type="hidden" name="keyword" th:value="${keyword}">
 					</th:block>
-</th:block>	
+
 				<input type="hidden" id="commentCount" name="commentCount" th:value="${commentCount}"/>
 				<input type="hidden" id="averagePoint" name="averagePoint" th:value="${averagePoint}">
 		</form>

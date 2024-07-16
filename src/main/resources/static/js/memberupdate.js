@@ -1,4 +1,4 @@
-$(function() {
+/*$(function() {
 
 	$("#btnjoindelete").on("click", function() {
 		if (!$("#btnPassCheck").attr("disabled")) {
@@ -133,4 +133,4 @@ $(function() {
 		}
 	}
 
-});
+});*/

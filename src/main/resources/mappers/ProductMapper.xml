@@ -55,7 +55,7 @@
 	<select id="getCartDetails"
 		resultType="com.springbootstudy.app.dto.CartProductDTO">
 		SELECT c.cart_id AS cartId, c.product_id AS productId, p.ingredient,
-		c.quantity, p.price
+		c.quantity, p.price, p.product_name, p.product_image
 		FROM cart c
 		JOIN product p ON c.product_id = p.product_id
 	</select>
@@ -63,7 +63,7 @@
 	<select id="getCartDetailsById"
 		resultType="com.springbootstudy.app.dto.CartProductDTO">
 		SELECT c.cart_id AS cartId, c.product_id AS productId, p.ingredient,
-		c.quantity, p.price
+		c.quantity, p.price, p.product_name, p.product_image
 		FROM cart c
 		JOIN product p ON c.product_id = p.product_id
 		WHERE c.product_id = #{productId}

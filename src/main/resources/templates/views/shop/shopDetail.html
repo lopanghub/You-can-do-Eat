@@ -12,7 +12,8 @@
 <!--              <img th:src="@{${product.productImage != null ? product.productImage : '/images/shop/' + product.productImage}}" alt="Product Image" class="detail-product-image">
  -->
 <!--  			<img th:src="@{${product.productImage}}">-->
-			<img th:src="@{'/resources/shop/' + ${product.productImage} }">
+			<img th:src="@{${product.productImage} != null ? ${product.productImage} : '/resources/shop/' + ${product.productImage} }" 
+			th:class="detail-product-image">
         </div>
         <div class="col-6">
             <!-- 상품 정보 -->

@@ -18,8 +18,25 @@
 		Select *, product_id From
 		product
 		Where category = #{category}
+		Order By product_id DESC;
 	</select>
-
+	
+	<update id="updateProduct" parameterType="Product">
+    UPDATE product
+    SET 
+      product_name = #{productName},
+      price = #{price},
+      category = #{category},
+      ingredient = #{ingredient},
+      product_image = #{productImage},
+      detail_image = #{detailImage}
+    WHERE product_id = #{productId}
+  </update>
+	
+	<delete id="deleteProduct" parameterType="int">
+       DELETE FROM product WHERE product_id = #{productId}
+	</delete>
+	
 	<insert id="insertCart" useGeneratedKeys="true"
 		keyProperty="cartId">
 		insert into cart (quantity, product_id)
@@ -62,20 +79,34 @@
 	<delete id="deleteCartByProductId">
 		DELETE FROM cart WHERE product_id = #{productId}
 	</delete>
+	
+	<!-- 이미지 변경시 업데이트 -->
+    <update id="updateProductImage" parameterType="map">
+        UPDATE product
+        SET product_image = #{productImage}
+        WHERE product_id = #{productId}
+    </update>
 
+    <update id="updateDetailImage" parameterType="map">
+        UPDATE product
+        SET detail_image = #{detailImage}
+        WHERE product_id = #{productId}
+    </update>
+	
 
 
 	<resultMap id="productResultMap"
 		type="com.springbootstudy.app.domain.Product">
 		<id property="productId" column="product_id" />
 		<result property="price" column="price" />
+		<result property="productName" column="product_name" />
 		<result property="productImage" column="product_image" />
-		<result property="seller" column="seller" />
-		<result property="origin" column="origin" />
 		<result property="size" column="size" />
+		<result property="rating" column="rating" />
 		<result property="category" column="category" />
 		<result property="ingredient" column="ingredient" />
 		<result property="expirationDate" column="expiration_date" />
+		<result property="detailImage" column="detailImage" />
 	</resultMap>
 
 	<resultMap id="cartResultMap"

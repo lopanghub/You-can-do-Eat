@@ -84,4 +84,16 @@ public class MemberService {
 	public MemberShip getMember(String id) {
 		return memberMapper.getMemberShip(id);
 	}
+	
+	//담당자 이현학
+	@Service
+	public class MembershipService {
+	    // 예: RestTemplate이나 WebClient를 사용하여 membership 시스템과 통신
+	    public String getMemberIdByAuthorName(String authorName) {
+	        // membership 시스템에서 authorName으로 memberId 조회하는 로직 추가
+	        // 임시 예시: 실제로는 membership 시스템에서 가져와야 함
+	        return "mockMemberId"; 
+	    }
+	}
+
 }

@@ -170,3 +170,9 @@ h3.productName {
     margin-left: 5px;
     cursor: help;
 }
+
+    .detail-product-image {
+        width: 450px;  /* 원하는 너비로 고정 */
+        height: 500px;  /* 원하는 높이로 고정 */
+        object-fit: cover;  
+    }

@@ -45,14 +45,15 @@ public class ProductController {
 	private final S3Service s3Service;
 	
 	//상품 등록
-	@PostMapping("/insertProduct")
+	 // 상품 등록
+    @PostMapping("/insertProduct")
     public String insertProduct(
             @RequestParam("productName") String productName,
             @RequestParam("price") int price,
             @RequestParam("category") String category,
             @RequestParam("ingredient") String ingredient,
             @RequestParam("productImage") MultipartFile productImage,
-            @RequestParam("detailImage") String detailImage,
+            @RequestParam("detailImage") MultipartFile detailImage,
             Model model) {
 
         Product product = new Product();
@@ -60,26 +61,33 @@ public class ProductController {
         product.setPrice(price);
         product.setCategory(category);
         product.setIngredient(ingredient);
-        product.setDetailImage(detailImage);
-
 
         try {
             if (!productImage.isEmpty()) {
                 String productImageName = saveFile(productImage);
                 product.setProductImage(productImageName);
             }
-          
         } catch (IOException e) {
             e.printStackTrace();
-            model.addAttribute("message", "File upload failed");
-           
+            model.addAttribute("message", "Product image upload failed");
+        }
+
+        try {
+            if (!detailImage.isEmpty()) {
+                String detailImageName = saveFile(detailImage);
+                product.setDetailImage(detailImageName);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("message", "Detail image upload failed");
         }
 
         productService.insertProduct(product);
 
         return "redirect:/shopMain";
     }
-	private String saveFile(MultipartFile file) throws IOException {
+
+    private String saveFile(MultipartFile file) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
         String saveDirPath = Paths.get(System.getProperty("user.dir"), DEFAULT_PATH).toString();
         File saveDir = new File(saveDirPath);

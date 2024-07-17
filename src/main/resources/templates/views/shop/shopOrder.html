@@ -81,8 +81,7 @@
 					<th:block th:each="item : ${cartDetails}">
 						<div class="row cartBox" th:data-product-id="${item.productId}">
 							<div class="col productImage">
-								<img
-									th:src="@{${item.productImage} != null ? ${item.productImage} : '/resources/shop/' + ${item.productImage} }">
+								<img th:src="${item.productImage != null and #strings.startsWith(item.productImage, 'http') ? item.productImage : '/resources/shop/' + item.productImage}" alt="Product Image">
 							</div>
 							<div class="col">
 								<p th:text="${item.productName}"></p>
@@ -109,8 +108,7 @@
 				<div th:if="${cart != null}">
 					<div class="row cartBox" th:data-product-id="${cart.productId}">
 						<div class="col productImage">
-							<img
-								th:src="@{${cart.productImage} != null ? ${cart.productImage} : '/resources/shop/' + ${cart.productImage} }">
+							<img th:src="${cart.productImage != null and #strings.startsWith(cart.productImage, 'http') ? cart.productImage : '/resources/shop/' + cart.productImage}" alt="Product Image">
 						</div>
 						<div class="col">
 							<p th:text="${cart.productName}"></p>

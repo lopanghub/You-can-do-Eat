@@ -12,7 +12,16 @@ $(function() {
 				$('#productGrid').empty().addClass('row row-cols-1 row-cols-md-2 row-cols-lg-4 gx-3 gy-3');
 
 				$.each(resData, function(i, product) {
-					let imageUrl = product.productImage ? product.productImage : '/resources/shop/ ' + product.productImage;
+					let productImage = product.productImage;
+					let imageUrl;
+
+					if (productImage && productImage.startsWith('http')) {
+					    imageUrl = productImage;
+					} else {
+					    imageUrl = '/resources/shop/' + productImage;
+					}
+
+
 					let productBox = `
 					<div class="col">
 					     <div class="productBox">

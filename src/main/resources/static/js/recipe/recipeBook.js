@@ -6,6 +6,7 @@ $(function() {
 	/*   let isPlay = false; // 플레이버튼*/
 	let id = $("#id").val();
 	/*  var intervalId;*/
+	
 
 	// 이전 페이지 버튼 클릭 시
 	$(document).on("click", "#prevPageBtn", function() {

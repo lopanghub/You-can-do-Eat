@@ -32,7 +32,7 @@
 <update id="updateCooking" parameterType="Cooking">
     UPDATE cooking 
     SET 
-        cook_title = #{cookTitle}, 
+       
         cook_method = #{cookMethod}, 
         recommended = #{recommended}, 
         cook_file = #{cookFile}
@@ -64,8 +64,8 @@
 
 <!-- 레시피에 요리과정추가하기 -->
 <insert id="insertCooking"  parameterType="list">
-        INSERT INTO cooking (board_no, cook_title, cook_method, recommended,cook_file)
-        VALUES (#{boardNo}, #{cookTitle}, #{cookMethod}, #{recommended},#{cookFile})
+        INSERT INTO cooking (board_no,  cook_method, recommended,cook_file)
+        VALUES (#{boardNo},  #{cookMethod}, #{recommended},#{cookFile})
 </insert>
 
 

@@ -34,7 +34,7 @@ CREATE TABLE material (  -- 재료 리스트 테이블
 CREATE TABLE cooking (  -- 레이피 리스트 테이블 
     cooking_id INT AUTO_INCREMENT PRIMARY KEY,
     board_No INT,
-    cook_title VARCHAR(200) NOT NULL,	-- 레시피제복
+
     cook_Method VARCHAR(2000) NOT NULL,-- 레시피내용
     recommended VARCHAR(2000),-- 주의사항
     cook_file VARCHAR(500) ,
@@ -58,32 +58,15 @@ VALUES
 
 
 
-INSERT INTO cooking (board_No, cook_title, cook_Method, recommended)
-VALUES (1, '스파게티 면 삶기', 
+INSERT INTO cooking (board_No, cook_Method, recommended)
+VALUES (1, 
         '1. 끓는 물에 소금을 넣고 스파게티 면을 넣습니다.',' 뜨거우니 조심');
-INSERT INTO cooking (board_No, cook_title, cook_Method, recommended)
-VALUES (1, '토마토 소스 만들기', 
+INSERT INTO cooking (board_No,  cook_Method, recommended)
+VALUES (1,  
         '2. 팬에 올리브 오일을 데우고 다진 마늘을 볶습니다.\n2. 다진 토마토와 토마토 페이스트를 넣고 볶습니다.','약불로');
-INSERT INTO cooking (board_No, cook_title, cook_Method, recommended)
-VALUES (1, '스파게티 조리', 
+INSERT INTO cooking (board_No,cook_Method, recommended)
+VALUES (1,  
         '3.삶은 스파게티를 체에 걸러 물기를 뺀 후, 토마토 소스에 넣고 잘 섞어 줍니다.','3분만');
-
-Insert Into cook_material values(1,1,1);
-
-SELECT m.*
-FROM cook_material cm
-INNER JOIN material m ON cm.material_id = m.material_id where cooking_id=1 and cm.board_No=1;
-
-
-SELECT m.*
-FROM recipe_board rb
-INNER JOIN material m ON rb.board_no = m.board_no
-WHERE rb.board_no = 1;
-
-SELECT count(*)
-FROM recipe_board rb
-INNER JOIN cooking c ON rb.board_no = c.board_no
-WHERE rb.board_no = 1;
 
 
 

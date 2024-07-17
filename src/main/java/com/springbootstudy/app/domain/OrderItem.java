@@ -1,8 +1,5 @@
 package com.springbootstudy.app.domain;
 
-import java.sql.Timestamp;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,14 +9,14 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Order {
+public class OrderItem {
+    private Long id;
     private String orderId;
-    private String memberId;
-    private int totalAmount;
-    private String status;
-    private List<OrderItem> orderItems;
+    private int productId;
+    private String productName;
+    private String productImage;
+    private int price;
+    private int quantity;
 
     // getters and setters
 }
-
-

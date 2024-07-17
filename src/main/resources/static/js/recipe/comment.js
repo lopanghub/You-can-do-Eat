@@ -9,7 +9,6 @@ $(function() {
 		let commentContent = $("#commentContent").val();
 		let commentPoint = $("#commentPoint").val();
 		console.log(id);
-		console.log(boardNo);
 		console.log(commentContent);
 		console.log(commentPoint);
 		if(id == null || id === ""){
@@ -77,8 +76,8 @@ $(function() {
 						</div>
 					</div>
 					<div>
-						<button class="btn btn-secondary btn-sm" onclick="editComment(this)">수정</button>
-						<button class="btn btn-danger btn-sm" onclick="deleteComment(this)">삭제</button>
+						<button class="comment-edit btn-sm" onclick="editComment(this)">수정</button>
+						<button class="comment-delete btn-sm" onclick="deleteComment(this)">삭제</button>
 					</div>
 				</div>
 			</li>`;
@@ -107,21 +106,28 @@ $(function() {
 					<div class="mb-3">
 						<div class="row my-2 d-flex justify-content-between align-items-center">
 							<div class="col-9">
-								<label for="commentContent" class="form-label fw-bold">후기 내용</label>
+								<label for="commentContent" class="form-label fw-bold">기존 작성 내용</label>
 							</div>
 							<div class="col-1 text-end">
 								<label for="commentPoint" class="form-label fw-bold">점수:</label>
 							</div>
+							
 							<div class="col-2">
-								<input type="number" class="form-control w-3" id="editCommentPoint" name="commentPoint" min="0" max="5"
-									placeholder="1~5점" required value="${commentPoint}">
-							</div>
-						</div>
+		                        <select class="form-select" id="editCommentPoint" name="commentPoint" required>
+		                            <option value="">선택</option>
+		                            <option value="1" ${commentPoint == 1 ? 'selected' : ''}>1점</option>
+		                            <option value="2" ${commentPoint == 2 ? 'selected' : ''}>2점</option>
+		                            <option value="3" ${commentPoint == 3 ? 'selected' : ''}>3점</option>
+		                            <option value="4" ${commentPoint == 4 ? 'selected' : ''}>4점</option>
+		                            <option value="5" ${commentPoint == 5 ? 'selected' : ''}>5점</option>
+		                        </select>
+		                    </div>
+		                </div>
 						<textarea class="form-control" id="editCommentContent" name="commentContent" rows="3" required>${commentContent}</textarea>
 					</div>
 					<input type="hidden" id="editCommentId" name="commentId" value="${commentId}">
-					 <button type="submit" class="btn btn-primary">댓글 수정</button>
-					<button type="button" class="btn btn-secondary" onclick="cancelEditComment()">취소</button>
+					 <button type="submit" class="comment-edit">댓글 수정</button>
+					<button type="button" class="comment-back" onclick="cancelEditComment()">취소</button>
 				</form>
 			</div>
 		`;

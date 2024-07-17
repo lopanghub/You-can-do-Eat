@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springbootstudy.app.mapper.CommunityMapper">
+    
+    <resultMap type="Community" id="CommunityResultMap">
+    	<id property='no' column="no" />
+    	<result property="title" column="title" />
+    	<result property="writer" column="writer" />
+    	<result property="content" column="content" />
+    	<result property="regDate" column="reg_date" />
+    	<result property="readCount" column="read_count" />
+    	<result property="file1" column="file1" />
+    </resultMap>
+
+	
+	<!-- 게시글 리스트 -->    <select id="communityBoardList" resultMap="CommunityResultMap">
+       SELECT * FROM community ORDER BY no DESC;
+    </select>
+
+    <select id="getCommunityBoard" resultType="Community" resultMap="CommunityResultMap">
+        SELECT * FROM Community WHERE no = #{no}
+    </select>
+
+    <insert id="addCommunityBoard" parameterType="Community">
+        INSERT INTO Community (title, writer, content, reg_date, read_count, file1)
+        VALUES (#{title}, #{writer}, #{content}, NOW(), #{readCount}, #{file1})
+    </insert>
+
+    <update id="updateCommunityBoard" parameterType="Community">
+        UPDATE Community
+        SET title = #{title}, writer = #{writer}, content = #{content},
+            <!-- reg_date = #{regDate} --> read_count = #{readCount},file1 = #{file1}
+        WHERE no = #{no}
+    </update>
+    
+    <update id="incrementReadCount">
+    	UPDATE Community
+    	SET read_count = read_count + 1
+    	WHERE no = #{no}
+    </update>
+
+    <delete id="deleteCommunityBoard" parameterType="int">
+        DELETE FROM Community WHERE no = #{no}
+    </delete>
+    
+</mapper>

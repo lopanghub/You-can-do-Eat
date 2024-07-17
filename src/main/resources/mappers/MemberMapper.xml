@@ -29,6 +29,9 @@
 	<delete id="deleteUser" parameterType="MemberShip">
 		delete from membership where id=#{id}
 	</delete>
+<<<<<<< HEAD
 	
+=======
+>>>>>>> 03e8ae9b9285aa6e91b646fb24808b9094a7927e
 </mapper>
 

@@ -4,24 +4,35 @@
 	layout:decorate="~{layouts/member_layout}">
 
 <!-- content -->
-<div layout:fragment="content" class="row my-5" id="global-content">
-	<div class="col my-0">
-		<form action="chatmessage" name="chatmessage" method="post" id="chatmessage" enctype="multipart/form-data">
-			<article>
-	            <div class="inpo">
-	                <dt>
-	                	<img th:if="${not #strings.isEmpty(session.member.profile)}" th:src="@{|/resources/profiles/${session.member.profile}|}" 
-	        				style="width: 50px; height: 50px; border-radius: 50%;">
-	    				<img th:unless="${not #strings.isEmpty(session.member.profile)}" th:src="@{images/YouCanDoEat.png}" 
-	         				style="width: 50px; height: 50px; border-radius: 50%;"></dt>
-	                <dd id="id" name="id">[[${session.member.id}]]</dd>
-	                <dd><a href="/memberUpdateForm">회원정보 수정</a></dd>
-	                <dd><a href="#">장바구니</a></dd>
-	            </div>
-		    </article>
-	    	<input type="button" class="btn btn-success" id="chat" value="chat">
-	    </form>
-	</div>
+ <div layout:fragment="content" class="row my-5" id="mypage-content">
+      <div class="col my-0">
+    <h2 class="text-center mb-4 my-title">마이페이지</h2>
+    <form action="chatmessage" name="chatmessage" method="post" id="chatmessage" enctype="multipart/form-data">
+      <article>
+        <div class="inpo">
+          <div class="profile-container">
+            <img th:if="${not #strings.isEmpty(session.member.profile)}"
+                 th:src="@{|/resources/profiles/${session.member.profile}|}"
+                 class="profile-image" alt="프로필 이미지">
+            <img th:unless="${not #strings.isEmpty(session.member.profile)}"
+                 th:src="@{/images/YouCanDoEat.png}" class="profile-image"
+                 alt="기본 프로필 이미지">
+          </div>
+          <h3 class="profile-id text-center" th:text="${session.member.id}"></h3>
+          <!-- <p id="id" name="id">[[${session.member.id}]]</p> -->
+          <div class="edit-btns text-center d-flex justify-content-center">
+            <button class="edit-button mx-2"><a class="edit-link" href="/memberUpdateForm">회원정보 수정</a></button>
+            <button class="edit-button mx-2"><a class="edit-link" href="#">장바구니</a></button>
+             <input type="button" class="edit-button mx-2" id="chat" value="1:1 문의">
+          </div>
+        </div>
+      </article>
+    </form>
+  </div>
+  </div>
+</body>
+</html>
+	
 	<script>
  let test01 = 'hi';
 </script>

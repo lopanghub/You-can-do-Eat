@@ -7,7 +7,6 @@ import com.springbootstudy.app.domain.Product;
 import com.springbootstudy.app.domain.RecipeBoard;
 import com.springbootstudy.app.mapper.ProductMapper;
 import com.springbootstudy.app.mapper.RecipeMapper;
-import com.springbootstudy.app.service.MemberService.MembershipService;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -23,40 +22,35 @@ import java.util.List;
 public class AWSService {
 
     private final S3Service s3Service;
-    private final MembershipService membershipService;
     private final RecipeMapper recipeMapper;
     private final ProductMapper productMapper;
 
     //레시피 사이트에  데이터 넣는 초기화 메서
-    @PostConstruct
+	/*
+	 * @PostConstruct public void init() { String key =
+	 * "recipes_updated_with_details.json"; String jsonContent =
+	 * s3Service.downloadFile(key);
+	 * 
+	 * if (jsonContent != null) { List<RecipeBoard> recipes =
+	 * parseRecipesFromJson(jsonContent); for (RecipeBoard recipe : recipes) { if
+	 * (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
+	 * recipeMapper.insertRecipe(recipe); } } } }
+	 */
+    //쇼핑몰 사이트에 데이터 넣는 초기화 메서드
+   @PostConstruct
     public void init() {
-        String key = "recipes_updated_with_details.json";
+        String key = "coupang_products.json";
         String jsonContent = s3Service.downloadFile(key);
 
         if (jsonContent != null) {
-            List<RecipeBoard> recipes = parseRecipesFromJson(jsonContent);
-            for (RecipeBoard recipe : recipes) {
-            	if (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
-                    recipeMapper.insertRecipe(recipe);
+            List<Product> products = parseProductsFromJson(jsonContent);
+            for (Product product : products) {
+                if (!productMapper.existsByName(product.getProductName())) {
+                    productMapper.insertProduct(product);
                 }
             }
         }
     }
-    //쇼핑몰 사이트에 데이터 넣는 초기화 메서드
-//    @PostConstruct
-//    public void init() {
-//        String key = "coupang_products.json";
-//        String jsonContent = s3Service.downloadFile(key);
-//
-//        if (jsonContent != null) {
-//            List<Product> products = parseProductsFromJson(jsonContent);
-//            for (Product product : products) {
-//                if (!productMapper.existsByName(product.getProductName())) {
-//                    productMapper.insertProduct(product);
-//                }
-//            }
-//        }
-//    }
 
     private List<RecipeBoard> parseRecipesFromJson(String jsonContent) {
         List<RecipeBoard> recipes = new ArrayList<>();
@@ -66,7 +60,11 @@ public class AWSService {
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
             String authorName = jsonObject.get("author_name").getAsString();
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> 03e8ae9b9285aa6e91b646fb24808b9094a7927e
             RecipeBoard recipeBoard = RecipeBoard.builder()
                     .boardTitle(jsonObject.get("title").getAsString())
                     .boardContent(jsonObject.has("recipeIntro") ? jsonObject.get("recipeIntro").getAsString() : null)
@@ -77,8 +75,13 @@ public class AWSService {
                     .foodTime(jsonObject.has("cookingTime") ? parseCookingTime(jsonObject.get("cookingTime").getAsString()) : 0)
                     .numberEaters(jsonObject.has("servingSize") ? parseServingSize(jsonObject.get("servingSize").getAsString()) : 0)
                     //.apoint(jsonObject.has("ratingCount") ? jsonObject.get("ratingCount").getAsDouble() : 0) // ratingCount 설정
+<<<<<<< HEAD
                     .memberId(authorName)
+=======
+                    .memberId(jsonObject.get("author_name").getAsString())
+>>>>>>> 03e8ae9b9285aa6e91b646fb24808b9094a7927e
                     .build();
+            
             recipes.add(recipeBoard);
         }
 

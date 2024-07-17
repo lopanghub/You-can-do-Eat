@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.resource.HttpResource;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+import com.springbootstudy.app.domain.Community;
 import com.springbootstudy.app.domain.NoticeBoard;
 import com.springbootstudy.app.service.NoticeBoardService;
 
@@ -39,9 +40,9 @@ public class NoticeBoardController {
 	
 	private final NoticeBoardService noticeBoardService;
 	
-	private static final String DEFAULT_PATH  = "src/main/resources/static/files/";
+	private static final String DEFAULT_PATH  = "src/main/resources/static/files/notice/";
 	
-	@GetMapping("/fileDownload")
+	@GetMapping("/noticeFileDownload")
 	public void noticeFileDownload(HttpServletRequest req,
 			HttpServletResponse resp) throws Exception {
 		

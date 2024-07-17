@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/community_layout}">
+<head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/noticeAll.css}" />
+</head>
+
+<body>
+	<th:block layout:fragment="content">
+		<div id="global-content">
+			<div class="notice-header text-center">
+				<h2>요리 자랑 공간</h2>
+			</div>
+
+			<div class="text-end">
+				<a th:href="@{addCommunityBoard}" class="write-button">커뮤니티 글쓰기</a>
+			</div>
+
+			<div class="notice-table-wrapper">
+				<table class="notice-table">
+					<thead>
+						<tr>
+							<th>번&nbsp;호</th>
+							<th class="notice-title text-center">제&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;목</th>
+							<th>작성일</th>
+							<th>조회수</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:if="${not #lists.isEmpty(commuList)}">
+						    <tr th:each="commu, status : ${commuList}">
+						        <td th:text="${commu.no}"></td>
+						        <td class="notice-title">
+						            <a th:href="@{communityDetail(no=${commu.no})}" th:text="${commu.title}"></a>
+						        </td>
+						        <td th:text="${#dates.format(commu.regDate, 'yyyy-MM-dd')}"></td>
+						        <td th:text="${commu.readCount}"></td>
+						    </tr>
+						</th:block>
+						<th:block th:unless="${not #lists.isEmpty(commuList)}">
+							<tr>
+								<td colspan="4" class="no-notices">게시글이 존재하지 않습니다😅</td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</th:block>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springbootstudy.app.mapper.CommuCommentMapper">
+	 <!--댓글리스트 불러오기  -->
+	    <select id="commuCommentList" parameterType="int" resultType="com.springbootstudy.app.domain.Comment">
+  SELECT 
+            cm.* ,
+            cu.member_id
+        FROM 
+            commuComment cm
+        JOIN 
+            community cu 
+        ON 
+            cm.no = cu.no 
+        WHERE 
+            cm.no = #{no} order by comment_id DESC
+	</select>
+	<!-- 댓글 갯수불러오기 -->
+	    <select id="commuCommentCount" parameterType="int" resultType="int">
+  SELECT 
+            count(*) 
+        FROM 
+            commuComment cm
+        JOIN 
+             community cu 
+        ON 
+            cm.no = cu.no 
+        WHERE 
+            cm.no = #{no}
+	</select>
+	<!-- 댓글추가하기 -->
+	 <insert id="insertCommuComment" parameterType="Comment" useGeneratedKeys="true"  keyProperty="commentId">
+		INSERT INTO commuComment (no, Comment_content, Comment_Point, created_at,member_Id)
+        VALUES (#{no}, #{commentContent}, #{commentPoint}, NOW(),#{memberId})
+	</insert>
+	<!-- 댓글수정하기 -->
+	<update id="updateCommuComment" parameterType="Comment" useGeneratedKeys="true">
+    UPDATE commuComment 
+    SET Comment_content = #{commentContent}, Comment_Point = #{commentPoint}, created_at = NOW()
+    WHERE comment_id = #{commentId}
+</update>
+<!-- 특정댓글불러오기 -->
+ <select id="selectCommuCommentById" parameterType="int" resultType="Comment">
+        SELECT * FROM commuComment WHERE comment_id = #{commentId}
+    </select>
+    <!-- 댓글삭제하기 -->
+    <delete id="deleteCommuComment" parameterType="int" >
+    	delete from commuComment where comment_id = ${commentId}
+    </delete>
+    <!-- 댓글삭제하기 -->
+    <delete id="deleteCommuCommentByNo" parameterType="int" >
+    	delete from commuComment where no = ${no};
+    </delete>
+</mapper>

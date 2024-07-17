@@ -60,7 +60,7 @@ public class AWSService {
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
             String authorName = jsonObject.get("author_name").getAsString();
-
+            
             RecipeBoard recipeBoard = RecipeBoard.builder()
                     .boardTitle(jsonObject.get("title").getAsString())
                     .boardContent(jsonObject.has("recipeIntro") ? jsonObject.get("recipeIntro").getAsString() : null)
@@ -73,6 +73,7 @@ public class AWSService {
                     //.apoint(jsonObject.has("ratingCount") ? jsonObject.get("ratingCount").getAsDouble() : 0) // ratingCount 설정
                     .memberId(jsonObject.get("author_name").getAsString())
                     .build();
+            
             recipes.add(recipeBoard);
         }
 

@@ -9,7 +9,6 @@ $(function() {
 		let commentContent = $("#commentContent").val();
 		let commentPoint = $("#commentPoint").val();
 		console.log(id);
-		console.log(boardNo);
 		console.log(commentContent);
 		console.log(commentPoint);
 		if(id == null || id === ""){

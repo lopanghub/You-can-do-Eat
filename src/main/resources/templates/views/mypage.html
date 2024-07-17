@@ -21,8 +21,8 @@
           <h3 class="profile-id text-center" th:text="${session.member.id}"></h3>
           <!-- <p id="id" name="id">[[${session.member.id}]]</p> -->
           <div class="edit-btns text-center d-flex justify-content-center">
-            <button class="edit-button mx-2"><a class="edit-link" href="/memberUpdateForm">회원정보 수정</a></button>
-            <button class="edit-button mx-2"><a class="edit-link" href="#">장바구니</a></button>
+            <a class="edit-link edit-button mx-2" href="/memberUpdateForm">회원정보 수정</a>
+            <a class="edit-link edit-button mx-2" href="#">장바구니</a>
              <input type="button" class="edit-button mx-2" id="chat" value="1:1 문의">
           </div>
         </div>

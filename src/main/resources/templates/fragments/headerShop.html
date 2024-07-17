@@ -36,12 +36,14 @@
 				</div>
 			</div>
 		</div>
+	
 		<div class="row">
 			<div class="col text-end user-welcome">
 				<span th:if="${session.member != null}"
 					th:text="${'안녕하세요, ' + session.member.id + ' 님'}"></span>
+				</div>
 			</div>
-		</div>
+	
 
 
 		<!-- nav바 영역-->
@@ -67,11 +69,11 @@
 				</div>
 
 				<div class="dropdown">
-					<a href="#" class="dropbtn community-btn">커뮤니티</a>
-					<div class="dropdown-content">
+					<a href="/communityList" class="dropbtn community-btn">커뮤니티</a>
+					<!-- <div class="dropdown-content">
 						<a href="#">항목 3-1</a> <a href="#">항목 3-2</a> <a href="#">항목
 							3-3</a>
-					</div>
+					</div> -->
 				</div>
 
 				<div class="nav-link">

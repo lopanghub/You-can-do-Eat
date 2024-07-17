@@ -51,13 +51,13 @@
 			<div class="dropdown">
 				<a href="/" class="dropbtn">YOU CAN DO EAT</a>
 				<div class="dropdown-content">
-					<ul style="list-style-type: none;">
-                    <li><a th:href="@{'/recipeList?type=food_Genre&keyword=한식'}">한식</a></li>
-                    <li><a th:href="@{'/recipeList?type=food_Genre&keyword=중식'}">중식</a></li>
-                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=일식'}">일식</a></li>
-                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=양식'}">양식</a></li>
-                    <li><a th:href="@{'/recipeList?&type=food_Genre&keyword=기타'}">기타</a></li>
-                </ul>
+					<div>
+                  	  <a th:href="@{'/recipeList?type=food_Genre&keyword=한식'}">한식</a>
+                      <a th:href="@{'/recipeList?type=food_Genre&keyword=중식'}">중식</a>
+                      <a th:href="@{'/recipeList?&type=food_Genre&keyword=일식'}">일식</a>
+                      <a th:href="@{'/recipeList?&type=food_Genre&keyword=양식'}">양식</a>
+                      <a th:href="@{'/recipeList?&type=food_Genre&keyword=기타'}">기타</a>
+                </div>
 				</div>
 			</div>
 
@@ -71,11 +71,7 @@
 			</div>
 
 			<div class="dropdown">
-				<a th:href="@{/communityList}" class="dropbtn community-btn" >커뮤니티</a>
-				<!-- <div class="dropdown-content">
-					<a href="#">항목 3-1</a> <a href="#">항목 3-2</a> <a href="#">항목
-						3-3</a>
-				</div> -->
+				<a href="/communityList" class="dropbtn community-btn" >커뮤니티</a>
 			</div>
 
 			<div class="nav-link">
@@ -85,7 +81,7 @@
 	</header>
 
 <script>
-		document.getElementById('community-link').addEventListener('click', function(event) {
+		document.getElementById('/communityList').addEventListener('click', function(event) {
 			
 			var isLogin = /*[[${session.isLogin}]]*/ false; 
 

@@ -17,13 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springbootstudy.app.domain.Order;
+import com.springbootstudy.app.domain.OrderItem;
 import com.springbootstudy.app.service.OrderService;
+import com.springbootstudy.app.service.ProductService;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class WidgetController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final OrderService orderService;
+    private final ProductService productService;
 
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody, Model model) throws Exception {
@@ -95,9 +99,17 @@ public class WidgetController {
             throw new RuntimeException("Order not found with orderId: " + orderId);
         }
         System.out.println("Order found: " + order);  // 로그 추가
+
+        // 주문에 포함된 모든 제품에 대해 장바구니에서 삭제
+        List<OrderItem> orderItems = orderService.findOrderItemsByOrderId(orderId);
+        for (OrderItem item : orderItems) {
+        	productService.deleteCart(item.getProductId());
+        }
+
         model.addAttribute("order", order);
         return "views/shop/success";
     }
+
 
     @RequestMapping(value = "/fail", method = RequestMethod.GET)
     public String fail() {

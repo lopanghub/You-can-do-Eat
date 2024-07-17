@@ -8,19 +8,19 @@ $(function() {
 		confirm("회원탈퇴하시겠습니까?");
 	});
 
-	document.getElementById('profile').addEventListener('change', function(event) {
-		var previewImage = document.getElementById('preview'); // 이미지 미리 보기를 위한 img 요소 선택
-		var file = event.target.files[0]; // 업로드된 파일 가져오기
-		var reader = new FileReader(); // 파일을 읽기 위한 FileReader 객체 생성
+	$('#profile').on('change', function(event) {
+    var previewImage = document.getElementById('preview'); // 이미지 미리 보기를 위한 img 요소 선택
+    var file = event.target.files[0]; // 업로드된 파일 가져오기
+    var reader = new FileReader(); // 파일을 읽기 위한 FileReader 객체 생성
 
-		reader.onload = function() {
-			previewImage.src = reader.result; // 파일을 읽어서 이미지 미리 보기 엘리먼트의 src 속성에 할당
-		};
+    reader.onload = function() {
+        previewImage.src = reader.result; // 파일을 읽어서 이미지 미리 보기 엘리먼트의 src 속성에 할당
+    };
 
-		if (file) {
-			reader.readAsDataURL(file); // 파일을 Data URL로 변환하여 읽기 시작
-		}
-	});
+    if (file) {
+        reader.readAsDataURL(file); // 파일을 Data URL로 변환하여 읽기 시작
+    }
+});
 
 	// 비밀번호 변경
 	$("#memberUpdateForm").on("click", "#oldPassUpdateBtn", function() {

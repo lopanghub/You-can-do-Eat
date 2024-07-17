@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS community(
   content VARCHAR(1000) NOT NULL,
   reg_date TIMESTAMP NOT NULL,
   read_count INTEGER(5) NOT NULL,
-  file1 VARCHAR(100)
+ Apoint double DEFAULT 0,
+  file1 VARCHAR(100),
+  member_id VARCHAR(200)
+  
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO community (title, writer, content, reg_date, read_count, file1) 

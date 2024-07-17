@@ -24,8 +24,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.resource.HttpResource;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+import com.springbootstudy.app.domain.Comment;
 import com.springbootstudy.app.domain.Community;
+import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.CommunityService;
+import com.springbootstudy.app.service.CommuCommentService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CommunityController {
 	
 	private final CommunityService communityService;
+	private final CommuCommentService commuCommentService;
 	
 	private static final String DEFAULT_PATH  = "src/main/resources/static/files/community/";
 	
@@ -90,6 +94,39 @@ public class CommunityController {
 	@GetMapping("/communityDetail")
 	public String communityBoardDetail(Model model, @RequestParam("no") int no) {
 		communityService.incrementReadCount(no);
+		
+		 // 평균 점수 계산
+	    double averagePoint = commuCommentService.calculateAveragePoint(no);
+		    // 평균 점수 별점
+		    StringBuilder symbols = new StringBuilder();
+		    int i = 0;
+		    int Ipoint = (int) (averagePoint * 10) / 10;
+		    for (int j = 0; j < Ipoint; j++) {
+		        symbols.append(" <i class=\"bi bi-star-fill\"></i>");
+		        i++;
+		    }
+		    if ((averagePoint * 10) % 10 > 1) {
+		        if (i < 5) {
+		            symbols.append(" <i class=\"bi bi-star-half\"></i>");
+		            i++;
+		        }
+		    }
+		    for (int j = i; j < 5; j++) {
+		        symbols.append(" <i class=\"bi bi-star\"></i>");
+		        i++;
+		    }
+		    String stars = symbols.toString();
+		 
+		 
+		 
+		 model.addAttribute("stars",stars);
+		 
+		 
+	    // 댓글 리스트
+	    List<Comment> commentList = commuCommentService.commuCommentList(no);
+	    model.addAttribute("commentList",commentList);
+		
+		
 		model.addAttribute("community", communityService.getCommunityBoard(no));
 		return "views/community/communityDetail";
 	}

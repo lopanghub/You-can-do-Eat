@@ -125,8 +125,7 @@ html {
 												<div class="col-5">
 													<div class="row">
 														<div class="col mx-4">
-															<th:block
-																th:if="${cList.cookFile != null and cList.cookFile != ''}">
+															<th:block th:if="${cList.cookFile != null and cList.cookFile != ''}">
 																<img
 																	th:src="@{'./uploads/cooking/' + ${cList.cookFile}}"
 																	alt="샘플이미지" class="img-fluid"
@@ -144,7 +143,7 @@ html {
 													<div class="row my-2">
 														<div class="col">
 															<h4 class="fw-bold">
-																<span th:text="${cStatus.index + 1}"></span>.[[${cList.cookTitle}]]
+																Step .<span th:text="${cStatus.index + 1}"></span>
 															</h4>
 														</div>
 													</div>

@@ -68,7 +68,6 @@ public class RecipeController {
 			@RequestParam("thumbnailname") MultipartFile thumbnailname,
 			@RequestParam("numberEaters") int numberEaters, 
 			@RequestParam("foodTime") int foodTime, 
-			@RequestParam("cookTitles") List<String> cookTitles, 
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
 			@RequestParam("cookFiles") List<MultipartFile> cookFiles,
@@ -104,11 +103,9 @@ public class RecipeController {
 		
 		Cooking cooking = new Cooking();
 
-		if (cookTitles.size() > 0) {
+		if (cookMethods.size() > 0) {
 			
-			for (int i = 0; i < cookTitles.size(); i++) {
-				String cookTitle = cookTitles.get(i);
-				cooking.setCookTitle(cookTitle);
+			for (int i = 0; i < cookMethods.size(); i++) {
 				String cookMethod = cookMethods.get(i);
 				cooking.setCookMethod(cookMethod);
 				if (recommendeds != null && !recommendeds.isEmpty()) {
@@ -157,7 +154,6 @@ public class RecipeController {
 			@RequestParam("thumbnailname") MultipartFile thumbnailname,
 			@RequestParam("numberEaters") int numberEaters, 
 			@RequestParam("foodTime") int foodTime, 
-			@RequestParam("cookTitles") List<String> cookTitles, 
 			@RequestParam("cookMethods") List<String> cookMethods,
 			@RequestParam("recommendeds") List<String> recommendeds,
 			@RequestParam("cookFiles") List<MultipartFile> cookFiles,
@@ -188,10 +184,8 @@ public class RecipeController {
 		
 		recipeService.deleteByNo(boardNo);
 		Cooking cooking = new Cooking();
-		if (cookTitles.size() > 0) {
-			for (int i = 0; i < cookTitles.size(); i++) {
-				String cookTitle = cookTitles.get(i);
-				cooking.setCookTitle(cookTitle);
+		if (cookMethods.size() > 0) {
+			for (int i = 0; i < cookMethods.size(); i++) {
 				String cookMethod = cookMethods.get(i);
 				cooking.setCookMethod(cookMethod);
 				String recommended = recommendeds.get(i);

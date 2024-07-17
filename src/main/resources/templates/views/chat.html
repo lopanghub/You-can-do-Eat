@@ -5,58 +5,80 @@
 
 <!-- content -->
 <div layout:fragment="content" class="row my-3" id="global-content">
-    <script th:src="@{js/chat.js}"></script>
-    <div class="col">
-        <div class="col-md-8 offset-md-2">
-            <h2>Manager 문의사항</h2>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="chat-container mt-4">
-                        <div class="chat-messages" id="chatMessages">
-                            <!-- Chat messages will be displayed here -->
-                            <div class="message">
-                                <strong>Manager :</strong> 안녕하세요~ 무슨 일로 찾으셨나요?
-                            </div>
-                        </div>
-                        <form id="sendMessageForm">
-                            <div class="row my-3">
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <textarea class="form-control" id="messageInput" rows="3" placeholder="Type your message..." style="resize: none;"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-md">
-                                    <button type="submit" class="btn btn-success">송신</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <h4>사용자 목록</h4>
-                    <div id="userListContainer" style="max-height: 400px; overflow-y: auto;">
-                        <ul id="userList" class="list-group">
-                            <li th:each="member : ${userList}" class="list-group-item user-item" th:attr="data-member-id=${member.id}">
-                                <span th:text="${member.id}"></span>
-                                <span th:text="${member.name}"></span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<script th:inline="javascript">
+	<script th:src="@{js/chat.js}"></script>
+	<div class="col">
+		<div class="col-md-8 offset-md-2">
+			<h2>Manager 문의사항</h2>
+			<div class="row">
+				<div class="col-md-8">
+					<div class="chat-container mt-4">
+						<div class="chat-messages" id="chatMessages">
+							<!-- Chat messages will be displayed here -->
+							<div class="message">
+								<strong>Manager :</strong> 안녕하세요~ 무슨 일로 찾으셨나요?
+							</div>
+						</div>
+						<form id="sendMessageForm">
+							<div class="row my-3">
+								<div class="col-md-10">
+									<div class="form-group">
+										<textarea class="form-control" id="messageInput" rows="3"
+											placeholder="Type your message..." style="resize: none;"></textarea>
+									</div>
+								</div>
+								<div class="col-md">
+									<button type="submit" class="btn btn-success">송신</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<h4>사용자 목록</h4>
+					<div id="userListContainer"
+						style="max-height: 400px; overflow-y: auto;">
+						<ul id="userList" class="list-group">
+							<li th:each="member : ${userList}"
+								class="list-group-item user-item"
+								th:attr="data-member-id=${member.id}"><span
+								th:text="${member.id}"></span> <span th:text="${member.name}"></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:inline="javascript">
 
 	let userId = [[${ session.member.id }]];
 	
-//--------------------------------------------------
-	$("#sendMessageForm").submit(function(event) {
-		event.preventDefault();
-		let message = $("#messageInput").val();
-		sendMessage(message);
-		$("#messageInput").val('');
-	});
+	// WebSocket 연결
+	const websocket = new WebSocket("ws://localhost:8080/ws/chat");
+	
+	// 웹 소켓이 정상적으로 연결되었을 때 처리할 이벤트 핸들러 등록
+	websocket.onopen = onOpen;
+	
+	// 웹 소켓 연결이 종료되었을 때 처리할 이벤트 핸들러 등록 
+	websocket.onclose = onClose;
+	
+	// 서버로부터 데이터를 수신하였을 때 처리할 이벤트 핸들러 등록
+	websocket.onmessage = onMessage;
+	
+	function send() { // 메시지 전송 함수
+		console.log(userId, " : ", $("#messageInput").val());
+		websocket.send(userId + ":" + $("#messageInput").val());
+		$("#messageInput").val("");
+	}
+	
+	function onOpen(e) { // 채팅 방에 들어 왔을 때
+		// 웹 소켓으로 데이터를 전송하려면 WebSocket 객체의 send() 메서드 사용
+		websocket.send(userName + ": 님이 입장했습니다.");
+	}
+	
+	function onClose(e) { // 채팅 방에서 나갔을 때
+		websocket.send(userName + ": 님이 방을 났습니다.");				
+	}
 	
 	// textarea에서 Enter 키 누를 때 폼 제출하기
 	$('#messageInput').keydown(function(e) {
@@ -66,36 +88,57 @@
 		}
 	});
 	
-	function sendMessage(message) {
-		let messageObj = {
-			sender: userId,
-			content: message
-		};
-		$.ajax({
-			type: "POST",
-			url: "/chat/sendMessage",
-			contentType: "application/json",
-			data: JSON.stringify(messageObj),
-			success: function(data) {
-				// 성공적으로 처리되었을 때
-				displayMessage(messageObj);
-			},
-			error: function(xhr, status, error) {
-				console.error("AJAX 요청 실패", status, error);
-			}
-		});
+	function onMessage(msg) {
+	    let data = msg.data;
+	    let arr = data.split(":");
+	    let sessionId = arr[0];
+	    let message = arr.slice(1).join(":"); // ':' 문자가 메시지 내용에 포함될 수 있으므로, 나머지 모든 요소를 다시 조합하여 메시지로 처리합니다.
+
+	    let curSession = userId; // 현재 사용자 세션 ID
+
+	    // 현재 세션에 로그인 한 사용자
+	    console.log("curSession : " + curSession);
+	    console.log("sessionId : " + sessionId);
+	    console.log("message : " + message);
+
+	    // 메시지 출력
+	    displayMessage(sessionId, message, curSession);
 	}
-	
-	function displayMessage(messageObj) {
-		// 메시지를 화면에 표시하는 코드
+
+	function displayMessage(sessionId, message, curSession) {
+	    let messageHtml;
+	    
+	    if (!message) {
+	        message = ''; // message가 undefined일 경우 빈 문자열로 처리
+	    }
+
+	    if (sessionId === curSession) { // 자신의 메시지인 경우
+	        messageHtml = '<div class="msg_box my-2">'
+	                    + '<div class="card bg-orange-500 text-white">'
+	                    + '<div class="card-body">'
+	                    + '<p class="card-text">' + sessionId + (message ? ' : ' + message : '') + '</p>'
+	                    + '</div>'
+	                    + '</div>'
+	                    + '</div>';
+	    } else { // 다른 사용자의 메시지인 경우
+	        messageHtml = '<div class="msg_box my-2">'
+	                    + '<div class="card bg-warning">'
+	                    + '<div class="card-body">'
+	                    + '<p class="card-text">' + sessionId + (message ? ' : ' + message : '') + '</p>'
+	                    + '</div>'
+	                    + '</div>'
+	                    + '</div>';
+	    }
+
+	    $("#chatMessages").append(messageHtml);
+	    scrollToBottom();
 	}
-	
-	function displayMessage(message) {
-		let messageHtml = '<div class="message"><strong>' + message.sender + ':</strong> ' + message.content + '</div>';
-		$("#chatMessages").append(messageHtml);
-		// Scroll to bottom of chat messages
-		$("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+
+	function scrollToBottom() {
+	    $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
 	}
-</script>	
+
+
+</script>
 </div>
 </html>

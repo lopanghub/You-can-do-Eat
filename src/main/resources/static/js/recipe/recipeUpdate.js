@@ -1,4 +1,6 @@
 $(document).ready(function() {
+		let addIndex=1;
+	
     // 전역 변수로 materialIndex를 선언하고 초기화
     var materialIndex = $('#material .row.mt-2').length;
 // 전역 변수로 cookingIndex를 선언하고 초기화
@@ -49,17 +51,17 @@ var cookingIndex = $('#cookingSections .cooking-item').length;
 		console.log("클릭완료");
         var newCookingHtml = `
             <div class="row my-2 cooking-item cookingSet" id="cooking${cookingIndex}" data-cookingindex="${cookingIndex}">
+            	<div></div>
 				<div class="col-md-9">
 				    <div class="form-group row mb-3">
-                        <label for="cookTitle" class="col-sm-3 col-form-label">요리제목</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="cookTitles" id="cookings${cookingIndex}.cookTitle">
+                            <span  class="fs-1 fw-bold">Step ${addIndex}</div>
                         </div>
                     </div>
                     <div class="form-group row mb-3">
                         <label for="cookMethod" class="col-sm-3 col-form-label">요리과정</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="cookMethods" id="cookings${cookingIndex}.cookMethod">
+                             <textarea class="form-control" name="cookMethods" id="cookings${cookingIndex}.cookMethod" rows="3"></textarea>
                         </div>
 					<div class="form-group row mb-3">
 					     <label for="cookFile" class="col-sm-3 col-form-label">조리사진</label>
@@ -91,10 +93,27 @@ var cookingIndex = $('#cookingSections .cooking-item').length;
         cookingIndex++; // cookingIndex 값을 증가시킴
     });
 
-    // 조리 과정 삭제
-    $(document).on('click', '.deleteCooking', function() {
-        var cookingIndex = $(this).data('cookingindex');
-        $('#cooking' + cookingIndex).remove();
+      // 조리 섹션 삭제
+    $(document).on("click", ".deleteCooking", function() {
+        let cookingIndexToRemove = $(this).data("cookingindex");
+        $(`#cooking${cookingIndexToRemove}`).remove(); // 요리 섹션 삭제
+
+        // 재정렬
+        $(".cooking-item").each(function(index) {
+            $(this).attr("id", `cooking${index}`);
+            $(this).attr("data-cookingindex", index);
+            $(this).find("textarea").attr("id", `cookings${index}.cookMethod`);
+            $(this).find("input[type='file']").attr("id", `cookings${index}.cookFile`);
+            $(this).find("input[name='recommendeds']").attr("id", `cookings${index}.recommended`);
+            $(this).find(".deleteCooking").attr("data-cookingindex", index);
+            $(this).find(".fs-1.fw-bold").text(`Step ${index + 1}`);
+        });
+
+        cookingIndex--; // 인덱스 감소
+          // 최소값 1 유지
+        if (addIndex > 1) {
+            addIndex--;
+        }
     });
 
     // 이미지 미리보기

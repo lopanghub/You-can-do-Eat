@@ -1,18 +1,18 @@
 $(document).ready(function() {
     let cookingIndex = 0;
     let materialIndex = 1;
-
+	let addIndex=1;
     // 요리 섹션 추가
     $("#addCooking").on("click",  function() {
 		let cookingHtml = `
 		<div class="row my-2 cooking-item cookingSet" id="cooking${cookingIndex}" data-cookingindex="${cookingIndex}">
-		                <div class="col-md-9">
 		                    <div class="form-group row mb-3">
-		                        <label for="cookTitle" class="col-sm-3 col-form-label">요리제목</label>
+		                        <div></div>
 		                        <div class="col-sm-9">
-		                            <input type="text" class="form-control" name="cookTitles" id="cookings${cookingIndex}.cookTitle">
+		                        	<span  class="fs-1 fw-bold">Step ${addIndex}</span>
 		                        </div>
 		                    </div>
+		                <div class="col-md-9">
 		                    <div class="form-group row mb-3">
 		                        <label for="cookMethod" class="col-sm-3 col-form-label">요리과정</label>
 		                        <div class="col-sm-9">
@@ -37,9 +37,9 @@ $(document).ready(function() {
 		                        </div>
 		                    </div>
 		                </div>
-		                <div class="col-md-3">
-		                    <div class="preview-container mb-3">
-		                        <img class="preview" id="preview${cookingIndex}" src="" alt="Image preview" style="max-width: 100%; height: auto; display: none;">
+		                <div class="col-md-3 p-0">
+		                    <div class="preview-container mb-3 my-0 p-0 ">
+		                        <img class="preview m-0" id="preview${cookingIndex}" src="" alt="Image preview" style="max-width: 100%; height: auto; display: none; border-radius:5px;">
 		                    </div>
 		                </div>
 		            </div>
@@ -78,10 +78,25 @@ $(document).ready(function() {
 
      // 조리 섹션 삭제
     $(document).on("click", ".deleteCooking", function() {
-            let cookingIndexToRemove = $(this).data("cookingindex");
-            $(`#cooking${cookingIndexToRemove}`).remove(); // 요리 섹션 삭제
+        let cookingIndexToRemove = $(this).data("cookingindex");
+        $(`#cooking${cookingIndexToRemove}`).remove(); // 요리 섹션 삭제
 
-            cookingIndex--; // cookingIndex 감소
+        // 재정렬
+        $(".cooking-item").each(function(index) {
+            $(this).attr("id", `cooking${index}`);
+            $(this).attr("data-cookingindex", index);
+            $(this).find("textarea").attr("id", `cookings${index}.cookMethod`);
+            $(this).find("input[type='file']").attr("id", `cookings${index}.cookFile`);
+            $(this).find("input[name='recommendeds']").attr("id", `cookings${index}.recommended`);
+            $(this).find(".deleteCooking").attr("data-cookingindex", index);
+            $(this).find(".fs-1.fw-bold").text(`Step ${index + 1}`);
+        });
+
+        cookingIndex--; // 인덱스 감소
+        if (addIndex > 1) {
+            addIndex--;
+        }
+        
     });
 
    $(document).on("click", ".deleteMaterial", function() {

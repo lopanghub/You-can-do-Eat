@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+.shopOrder-content {
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.order-title{
+	font-weight: bold;
+	padding-bottom: 20px;
+	margin: 30px 20px 30px 20px;
+ 	border-bottom: 1px solid silver;
+}
+
+/* 구매자 정보 타이틀 */
+.order-info{
+	font-size: 23px;
+	font-weight: bold;
+	margin-left: 35px;
+	padding-bottom: 20px;
+}
+
+.order-info2{
+	font-size: 23px;
+	font-weight: bold;
+	margin-left: 35px;
+	padding-bottom: 20px;
+	padding-top : 30px;
+}
+
+/* 구매자 정보 테이블 */
+.quantity-input-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 10px 0;
+}
+
+.quantity-input-container button {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    color: #495057;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.quantity-input-container button:hover {
+    background-color: #e9ecef;
+}
+
+.quantity-input-container .quantity-input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ced4da;
+    margin: 0 5px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.quantity-input-container .quantity-icon {
+    font-size: 24px;
+}
+
+p.price {
+	font-size: 18px;
+}
+
+p.totalPrice{
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.bi-trash3{
+	padding-right: 60px;
+}
+
+.order-title3{
+	font-weight: bold;
+	padding-bottom: 10px;
+	margin: 0px 10px 20px 10px;
+ 	border-bottom: 1px solid silver;	
+}
+
+/* 바로구매 주문예상금액 리스트 */
+.price-total{
+	padding-top:10px;
+	
+}
+
+/* 합계금액 */
+.totalPrice{
+	font-weight: bold;
+}
+
+
+/* 장바구니 */
+
+/* 장바구니 컨테이너 스타일 */
+#productContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px 20px 20px;
+}
+
+/* 각 장바구니 품목 스타일 */
+.cartBox {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-left: 20px;
+}
+
+/* 상품 이미지 컨테이너 스타일 */
+.productImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px; /* 이미지 컨테이너의 너비 증가 */
+    margin-right: 20px; /* 이미지와 텍스트 사이의 간격 증가 */
+}
+
+/* 상품 이미지 스타일 */
+.productImage img {
+    width: 190px; /* 이미지 너비 고정 */
+    height: 190px; /* 이미지 높이 고정 */
+    object-fit: cover; /* 이미지를 컨테이너에 맞추어 잘라냄 */
+    /* border-radius 제거 */
+}
+
+/* 상품 정보 스타일 */
+.cartBox .col {
+    flex: 1; /* 남은 공간을 차지하도록 설정 */
+}
+
+.cartBox .col p {
+    margin: 5px 0;
+}
+
+.cartBox .productName {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.cartBox .price {
+    color: #333;
+    font-weight: bold;
+}
+
+/* 수량 입력 컨테이너 스타일 */
+.quantity-input-container {
+    display: flex;
+    align-items: center;
+   /*  border: 1px solid #ddd; */
+    border-radius: 4px;
+    overflow: hidden;
+    width: fit-content;
+    margin-top: 10px;
+}
+
+.quantity-input-minus,
+.quantity-input-plus {
+    background-color: #f5f5f5;
+    padding: 0px 10px;
+    cursor: pointer;
+    user-select: none;
+    height: 36px;
+}
+
+.quantity-input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid red;
+    padding: 0px;
+}
+
+/* 총 가격 스타일 */
+.totalPrice {
+    font-weight: bold;
+    color: #333;
+    margin-top: 10px;
+}
+
+/* shopOrder 바로결제 최종 금액  */
+.total-order-price{
+	margin-top: 20px;
+	font-size: 20px;
+	text-align: right;
+	/* border: 1px solid silver; */
+	padding: 5px 10px 5px 10px;
+	border-radius: 4px;
+}
+
+/* 삭제 버튼 스타일 */
+.deleteCart {
+    cursor: pointer;
+    color: #757575;
+    transition: color 0.3s ease;
+    padding-left: 20px; /* 간격 약간 증가 */
+}
+
+.deleteCart:hover {
+    color: #333;
+}
+
+/* shopcart 구매버튼 */
+.cart-order-btn {
+	display: inline-block;
+	padding: 6px 14px;
+	background-color: transparent;
+	color: #93B665;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #93B665;
+	transition: all 0.3s ease;
+	font-size: 0.9em;
+	width: 350px;
+	height: 40px;
+	margin-top: 20px;
+}
+
+.cart-order-btn:hover {
+	background-color: #93B665;
+	color: white;
+	border-color: #93B665;
+}
+
+.shopOrder-pay-btn {
+	display: inline-block;
+	padding: 6px 14px;
+	background-color: transparent;
+	color: #93B665;
+	text-decoration: none;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	border: 1px solid #93B665;
+	transition: all 0.3s ease;
+	font-size: 1.0em;
+	width: 350px;
+	height: 50px;
+	
+	margin-bottom: 30px;
+}
+
+.shopOrder-pay-btn:hover {
+	background-color: #93B665;
+	color: white;
+	border-color: #93B665;
+}

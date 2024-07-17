@@ -14,4 +14,20 @@
 	<select id="getMemberShip" parameterType="String">
 		select * from membership where id=#{id}
 	</select>
+	
+	<select id="memberPassCheck" resultType="String">
+		select pass from membership where id=#{id}
+	</select>
+	
+	<update id="updateMember" parameterType="MemberShip">
+		update membership set
+			email=#{email}, zipcode=#{zipcode}, address1=#{address1}, pass=#{pass},
+			mobile=#{mobile}, emailGet=#{emailGet}, gerdonalGet=#{gerdonalGet}, profile=#{profile}
+		where id=#{id}
+	</update>
+	
+	<delete id="deleteUser" parameterType="MemberShip">
+		delete from membership where id=#{id}
+	</delete>
 </mapper>
+

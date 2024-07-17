@@ -21,8 +21,9 @@ public class Cooking {
     private String cookMethod;
     private String recommended;
     private String cookFile;
+    private String encodedFileName;
     
-    private List<CookMaterial> cookMaterial;
+    private List<CookMaterial> cookMaterials;
 
     // Getter, Setter, toString 등 필요한 메서드 추가
 }

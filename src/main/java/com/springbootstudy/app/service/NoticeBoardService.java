@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springbootstudy.app.domain.Community;
 import com.springbootstudy.app.domain.NoticeBoard;
 import com.springbootstudy.app.mapper.NoticeBoardMapper;
 
@@ -22,7 +23,7 @@ public class NoticeBoardService {
 		return noticeBoardMapper.noticeBoardList();
 	}
 	
-	// no에 해달하는 게시글 반환
+	// no에 해당하는 게시글 반환 (조회수 카운트 추가)
     public NoticeBoard getNoticeBoard(int no) {
     	return noticeBoardMapper.getNoticeBoard(no);
     }
@@ -41,5 +42,11 @@ public class NoticeBoardService {
     public void deleteNoticeBoard(int no) {
     	noticeBoardMapper.deleteNoticeBoard(no);
     }
+    
+    // 조회수 증가
+    public void incrementReadCount(int no) {
+    	noticeBoardMapper.incrementReadCount(no);
+    }
+    
    
 }

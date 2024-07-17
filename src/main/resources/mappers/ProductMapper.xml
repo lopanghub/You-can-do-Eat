@@ -7,14 +7,123 @@
 	<select id="findAll" resultType="Product">
 		Select * from product;
 	</select>
-	
-	<select id ="findByID" resultType="Product">
-		Select * From product
-		Where product_id = #{product_id}
+
+	<select id="findById" resultType="Product">
+		SELECT * FROM product
+		WHERE
+		product_id = #{productId}
 	</select>
-	
-	<select id ="findByCategory" resultType="Product">
-		Select * From product
+
+	<select id="findByCategory" resultType="Product">
+		Select *, product_id From
+		product
 		Where category = #{category}
+		Order By product_id DESC;
 	</select>
+	
+	<update id="updateProduct" parameterType="Product">
+    UPDATE product
+    SET 
+      product_name = #{productName},
+      price = #{price},
+      category = #{category},
+      ingredient = #{ingredient},
+      product_image = #{productImage},
+      detail_image = #{detailImage}
+    WHERE product_id = #{productId}
+  </update>
+	
+	<delete id="deleteProduct" parameterType="int">
+       DELETE FROM product WHERE product_id = #{productId}
+	</delete>
+	
+	<insert id="insertCart" useGeneratedKeys="true"
+		keyProperty="cartId">
+		insert into cart (quantity, product_id)
+		values
+		(#{quantity}, #{productId})
+	</insert>
+
+	<select id="getCartByProductId" resultType="Cart">
+		SELECT * FROM cart WHERE product_id = #{productId} LIMIT 1
+	</select>
+
+	<update id="updateCart">
+		UPDATE cart SET quantity = #{quantity} WHERE cart_id = #{cartId}
+	</update>
+
+	<select id="getCartDetails"
+		resultType="com.springbootstudy.app.dto.CartProductDTO">
+		SELECT c.cart_id AS cartId, c.product_id AS productId, p.ingredient,
+		c.quantity, p.price, p.product_name, p.product_image
+		FROM cart c
+		JOIN product p ON c.product_id = p.product_id
+	</select>
+
+	<select id="getCartDetailsById"
+		resultType="com.springbootstudy.app.dto.CartProductDTO">
+		SELECT c.cart_id AS cartId, c.product_id AS productId, p.ingredient,
+		c.quantity, p.price, p.product_name, p.product_image
+		FROM cart c
+		JOIN product p ON c.product_id = p.product_id
+		WHERE c.product_id = #{productId}
+	</select>
+
+	<insert id="insertOrder" useGeneratedKeys="true"
+		keyProperty="orderId">
+		insert into cart (payment, order_Request)
+		values
+		(#{payment}, #{;productId})
+	</insert>
+
+	<delete id="deleteCartByProductId">
+		DELETE FROM cart WHERE product_id = #{productId}
+	</delete>
+	
+	<!-- 이미지 변경시 업데이트 -->
+    <update id="updateProductImage" parameterType="map">
+        UPDATE product
+        SET product_image = #{productImage}
+        WHERE product_id = #{productId}
+    </update>
+
+    <update id="updateDetailImage" parameterType="map">
+        UPDATE product
+        SET detail_image = #{detailImage}
+        WHERE product_id = #{productId}
+    </update>
+	
+
+
+	<resultMap id="productResultMap"
+		type="com.springbootstudy.app.domain.Product">
+		<id property="productId" column="product_id" />
+		<result property="price" column="price" />
+		<result property="productName" column="product_name" />
+		<result property="productImage" column="product_image" />
+		<result property="size" column="size" />
+		<result property="rating" column="rating" />
+		<result property="category" column="category" />
+		<result property="ingredient" column="ingredient" />
+		<result property="expirationDate" column="expiration_date" />
+		<result property="detailImage" column="detailImage" />
+	</resultMap>
+
+	<resultMap id="cartResultMap"
+		type="com.springbootstudy.app.domain.Cart">
+		<id property="cartId" column="cart_id"></id>
+		<result property="quantity" column="quantity"></result>
+		<result property="productId" column="product_id"></result>
+	</resultMap>
+
+	<resultMap id="orderResultMap"
+		type="com.springbootstudy.app.domain.Order">
+		<id property="orderId" column="order_id"></id>
+		<result property="orderDate" column="order_date"></result>
+		<result property="payment" column="payment"></result>
+		<result property="orderRequest" column="order_request"></result>
+	</resultMap>
+
+
+
 </mapper>

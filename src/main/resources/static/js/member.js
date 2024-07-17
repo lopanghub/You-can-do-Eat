@@ -1,4 +1,10 @@
 $(function() {
+
+	// 회원 정보 수정 폼
+	$("#joinForm").on("submit", function() {
+		return joinFormCheck();
+	});
+
 	$("#reset").on("click", function() {
 		$("html, body").animate({ scrollTop: 0 }, "slow");
 	});
@@ -19,7 +25,7 @@ $(function() {
 			alert("한글만 입력해주세요.");
 		}
 	});
-	
+
 	// 회원가입 아이디 실시간으로 변경
 	$("#id").on("input", function() {
 		const inputValue = $(this).val().trim();
@@ -27,18 +33,26 @@ $(function() {
 		const messageDiv = $("#message"); // message div 요소
 
 		let regExp = /[^A-Za-z0-9]/gi;
+
+		// 아이디에 영문 대소문자와 숫자 이외의 문자가 입력되면 경고 메시지를 표시하고 제거
 		if (regExp.test($(this).val())) {
 			alert("아이디는 영문 대소문자와 숫자만 가능합니다.");
 			$(this).val($(this).val().replace(regExp, ""));
 		}
 
+		// 아이디 입력란이 비어있을 때 유효성 검사 결과 및 메시지 표시
 		if (inputValue === '') {
 			$(inputField).removeClass('is-valid').addClass('is-invalid');
 			messageDiv.html('<p class="text-danger">아이디를 입력해주세요.</p>');
 			return;
 		}
 
-		if (!regExp.test(inputValue)) {
+		// 아이디 길이가 5글자 이하일 때 빨간색 테두리 및 메시지 표시
+		if (inputValue.length <= 5) {
+			$(inputField).removeClass('is-valid').addClass('is-invalid');
+			messageDiv.html('<p class="text-danger">아이디는 최소 6글자 이상 입력해주세요.</p>');
+		} else if (!regExp.test(inputValue)) {
+			// 유효한 아이디 형식일 때 초록색 테두리 및 메시지 삭제
 			$(inputField).removeClass('is-invalid').addClass('is-valid');
 			messageDiv.empty(); // 기존 메시지 삭제
 		} else {
@@ -46,6 +60,7 @@ $(function() {
 			messageDiv.html('<p class="text-danger">아이디는 영문 대소문자와 숫자만 가능합니다.</p>');
 		}
 	});
+
 
 	// 이메일 도메인 셀렉트 박스가 선택하면
 	$("#selectDomain").on("change", function() {
@@ -71,21 +86,41 @@ $(function() {
 	// 우편번호 찾기 버튼이 클릭되면 - 다음 우편번호 찾기 실행
 	$("#btnZipcode").click(findZipCode);
 
-	$("#joinForm").on("submit", function() {
+	// pass 비교하는 input
+	$("#pass2").on("input", function() {
+		const pass1Value = $("#pass1").val().trim(); // Pass1의 값
+		const pass2Value = $(this).val().trim(); // Pass2의 값
 
-		let isIdCheck = $("#isIdCheck").val();
+		const inputField = $(this)[0]; // Pass2 입력란 요소
+		const feedbackDiv = $("#passwordcheck")[0]; // 비밀번호 일치 여부를 표시
 
-		/**
-		
-		if (isIdCheck == 'false') {
-			alert("아이디 중복검사가 되지 않았습니다.");
-			return false;
+		let regex = /[^A-Za-z0-9]/gi;
+
+		if (pass2Value === '') {
+			$(inputField).removeClass('is-valid').addClass('is-invalid');
+			$(feedbackDiv).show().text("비밀번호를 입력해주세요.");
+			return;
 		}
-		* 
-			 */
 
-		return joinFormCheck();
+		if (!regex.test(pass2Value)) {
+			$(inputField).removeClass('is-invalid').addClass('is-valid');
+			$(feedbackDiv).hide(); // 유효한 입력이므로 피드백 숨기기
+		} else {
+			$(inputField).removeClass('is-valid').addClass('is-invalid');
+			$(feedbackDiv).show(); // 유효하지 않은 입력이므로 피드백 보이기
+			return;
+		}
+
+		// Pass1과 Pass2가 일치하는지 확인
+		if (pass1Value === pass2Value) {
+			$(inputField).removeClass('is-invalid').addClass('is-valid');
+			$(feedbackDiv).hide(); // 일치하므로 피드백 숨기기
+		} else {
+			$(inputField).removeClass('is-valid').addClass('is-invalid');
+			$(feedbackDiv).show().text("비밀번호가 일치하지 않습니다."); // 일치하지 않으므로 피드백 보이기
+		}
 	});
+
 
 	// id 중복체크 버튼 클릭
 	$("#btnOverlapId").on("click", function() {
@@ -96,7 +131,7 @@ $(function() {
 			alert("아이디를 입력해 주세요.");
 			return;
 		}
-		if(id.length < 5){
+		if (id.length < 5) {
 			alert("아이디는 5자 이상으로 입력해주세요.")
 			return;
 		}
@@ -142,7 +177,7 @@ $(function() {
 			return false;
 		}
 		if (id.length <= 5) {
-			alert("아이디는 5자 이상입니다.");
+			alert("아이디가 입력되지 않았습니다.");
 			return false;
 		}
 		if (pass1.length == 0) {

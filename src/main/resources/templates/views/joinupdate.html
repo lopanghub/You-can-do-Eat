@@ -3,6 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/main_layout}">
 <script type="text/javascript" src="js/member.js"></script>
+<script src="js/memberupdate.js"></script>
 
 <!-- content -->
 <div layout:fragment="content" class="row my-5" id="global-content">
@@ -15,33 +16,38 @@
 		</div>
 		<div class="row my-3 text-center">
 			<div class="col">
-				<h2 class="fs-3 fw-bold">회원가입</h2>
+				<h2 class="fs-3 fw-bold">회원수정</h2>
 			</div>
 		</div>
 		<hr class="border border-black border-2 opacit-50">
-		<form action="joinResult" name="joinForm" method="post" id="joinForm"
-			enctype="multipart/form-data">
+		<form action="memberUpdateResult" name="memberUpdateForm" method="post" id="memberUpdateForm" enctype="multipart/form-data">
 			<input type="hidden" name="isIdCheck" id="isIdCheck" value="false" />
 			<div class="row mt-5 mb-3">
 				<div class="col-2 offset-2">
 					<label for="name" class="form-label">* 이 름 : </label> <input
-						type="text" class="form-control" name="name" id="name">
+						type="text" class="form-control" name="name" id="name" style="background-color:lightgray;"
+								th:value="${session.member.name}" readonly>
+				</div>
+			</div>
+			<div class="row mt-5 mb-3">
+				<div class="col-2 offset-2">
+					<label for="name" class="form-label">* 생 일 : </label> <input
+						type="text" class="form-control" name="birthdate" id="birthdate" style="background-color:lightgray;"
+						th:value="${session.member.birthdate}" readonly>
 				</div>
 			</div>
 			<div class="col-4 offset-2">
-				<label for="file1" class="form-label">프로필 사진 : </label> <input
-					type="file" class="form-control" name="profile" id="file1">
+			    <label for="profile" class="form-label">프로필 사진 : </label>
+			    <input type="file" class="form-control" name="profileImage" id="profile" th:attr="data-preview-image=#{'preview'}">
+			    <img id="preview" alt="프로필 사진 미리보기" class="img-fluid mt-2" style="max-width: 100%; max-height: 300px;">
 			</div>
 			<div class="row my-3">
 				<div class="col-5 offset-2">
 					<label for="userId" class="form-label">* 아이디 : </label>
 					<div class="row">
-						<div class="col-5">
-							<input type="text" class="form-control" name="id" id="id">
-						</div>
-						<div class="col-4">
-							<input type="button" class="btn btn-success" id="btnOverlapId"
-								value="중복확인">
+						<div class="col-5">		
+							<input type="text" class="form-control" name="id" id="id" style="background-color:lightgray;"
+								th:value="${session.member.id}" readonly>
 						</div>
 					</div>
 					<div id="message" class="mt-3"></div>
@@ -49,13 +55,38 @@
 			</div>
 			<div class="row my-3">
 				<div class="col-3 offset-2">
-					<label for="pass1" class="form-label">* 비밀번호 : </label> <input
-						type="password" class="form-control" name="pass1" id="pass1">
+					<label for="pass1" class="form-label">* 기존 비밀번호 : </label> <input
+						type="password" class="form-control" name="oldPass" id="oldPass">
 				</div>
-				<div class="col-3">
-					<label for="pass2" class="form-label">* 비밀번호 확인 : </label> <input
-						type="password" class="form-control" name="pass2" id="pass2">
+				<div class="col-4">
+					<input type="button" class="btn btn-success" id="btnPassCheck" value="비밀번호 확인" />
 				</div>
+				<div class="row">
+					<div class="col " id="oldPassComment">
+					</div>
+					<div class="col " id="someContainer">
+					</div>
+				</div>
+				<!--/* 숨긴 폼 영역 비밀번호 변경 */-->
+			<div class="rew my-3 d-none" id="passUpdateForm">
+			<div class="col">
+			<div class="row my-3">
+				<div class="col-5 offset-2">
+					<label for="pass1" class="form-label">* 새 비밀번호 : </label>
+					<input type="password" class="form-control" name="pass1" id="pass1">					
+				</div>
+			</div>
+			<div class="row my-3">
+				<div class="col-5 offset-2">
+					<label for="pass2" class="form-label">* 새 비밀번호 확인 : </label>
+					<input type="password" class="form-control" name="pass2" id="pass2">
+				</div>
+			</div>
+			</div>
+			</div>
+				
+				
+					
 			</div>
 			<div class="row my-3">
 				<div class="col-5 offset-2">
@@ -63,7 +94,7 @@
 					<div class="row">
 						<div class="col-4">
 							<input type="text" class="form-control" name="zipcode"
-								id="zipcode" maxlength="5" readonly>
+								id="zipcode" maxlength="5" th:value="${session.member.zipcode}" readonly>
 						</div>
 						<div class="col-4">
 							<input type="button" class="btn btn-success" id="btnZipcode"
@@ -76,11 +107,12 @@
 				<div class="col-3 offset-2">
 					<label for="address1" class="form-label">* 자택주소 : </label> <input
 						type="text" class="form-control" name="address1" id="address1"
-						readonly>
+						th:value="${session.member.address1}" readonly>
 				</div>
 				<div class="col-3">
 					<label for="address2" class="form-label">상세주소 : </label> <input
-						type="text" class="form-control" name="address2" id="address2">
+						type="text" class="form-control" name="address2" id="address2"
+						>
 				</div>
 			</div>
 			<div class="row my-3">
@@ -89,12 +121,12 @@
 					<div class="row">
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="emailId"
-								id="emailId">
+								id="emailId" th:value="${#strings.setSplit(session.member.email, '@')[0]}">
 						</div>
 						@
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="emailDomain"
-								id="emailDomain">
+								id="emailDomain" th:value="${#strings.setSplit(session.member.email, '@')[1]}">
 						</div>
 						<div class="col-md-3">
 							<select class="form-select" name="selectDomain" id="selectDomain">
@@ -124,12 +156,12 @@
 						-
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="mobile2"
-								id="mobile2" maxlength="4">
+								id="mobile2" maxlength="4" th:value="${#strings.setSplit(session.member.mobile, '-')[1]}">
 						</div>
 						-
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="mobile3"
-								id="mobile3" maxlength="4">
+								id="mobile3" maxlength="4" th:value="${#strings.setSplit(session.member.mobile, '-')[2]}">
 						</div>
 					</div>
 				</div>
@@ -141,7 +173,7 @@
 						<div class="col-md-3">
 							<div class="form-check">
 								<input type="radio" class="form-check-input" name="emailGet"
-									id="emailOk" value="true"> <label
+									id="emailOk" value="true" th:checked="${session.member.emailGet == 1}"> <label
 									class="form-check-label" for="emailOk">동의</label>
 							</div>
 						</div>
@@ -176,11 +208,24 @@
 			</div>
 			<div class="row mb-3 mt-5">
 				<div class="col-8 offset-5">
-					<input type="submit" value="가입하기" class="btn btn-secondary">
-					<input type="reset" value="다시쓰기" class="btn btn-secondary"
-						id="reset">
+					<input type="submit" value="수정하기" class="btn btn-secondary">
 				</div>
 			</div>
+		</form>
+		<form action="delete" name="delete" method="post" id="delete" enctype="multipart/form-data">
+		<div class="row my-3">
+			<div class="col-5 offset-2">
+				<label for="userId" class="form-label">* YouCanDoEat 회원탈퇴 하시겠습니까?</label>
+				<div class="row">
+					<div class="col-5">		
+						<input type="text" class="form-control" style="background-color:lightgray;"
+							th:value="${session.member.id}" readonly>
+						<input type="submit" value="탈퇴하기" class="btn btn-secondary offset-2" id="btnjoindelete">
+					</div>
+				</div>
+				<div id="message" class="mt-3"></div>
+			</div>
+		</div>
 		</form>
 	</div>
 </div>

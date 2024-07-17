@@ -1,0 +1,545 @@
+/* Recipe Book View Styles */
+.page {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin-top: 60px !important;
+}
+
+.page .row.border.my-2.recipe-description {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.page .row.border.my-2.recipe-description p {
+    margin-bottom: 0 !important;
+    line-height: 1.4 !important;
+}
+
+.page .row.border.my-2.recipe-description .col.text-center {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    padding: 5px !important;
+}
+
+.recipe-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
+}
+
+.recipe-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.recipe-info {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.recipe-info i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    color: #FF914D;
+}
+
+.recipe-book-background {
+    background-image: url('/images/note11.png');
+    background-size: 100% 100%; /* 이미지를 요소에 맞게 늘립니다 */
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    padding: 20px; /* 내용물과 배경 사이에 여백을 줍니다 */
+}
+
+.recipe-book-content {
+    margin-top: 80px;
+    height: calc(100% - 100px); /* 상단 여백을 고려하여 높이 조정 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
+}
+
+
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+    border: 1px solid #FF914D;
+    padding: 15px 15px; /* 상하 패딩을 15px로 증가, 좌우는 10px 유지 */
+    border-radius: 3px;
+    width: 480px; /* 또는 원하는 너비 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.author-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.author-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid silver;
+    border-radius: 50%; /* 완전한 원형으로 만들기 */
+}
+
+.author-name h3 {
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+    text-align: center;
+    width: 100%; /* 이름이 author-info의 전체 너비를 사용하도록 설정 */
+    word-break: break-word; /* 긴 이름이 여러 줄로 나뉘도록 설정 */
+}
+
+.recipe-stats {
+    margin-bottom: 1rem;
+}
+
+.recipe-stats i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    color: #FF914D;
+}
+
+.recipe-stats span {
+    font-size: 1rem;
+    color: #555;
+}
+
+h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.ingredients-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2px;
+    margin-left: -12px;  /* 왼쪽 여백을 줄임 */
+    margin-right: -12px; /* 오른쪽 여백을 줄임 */
+    width: calc(100% + 20px); /* 전체 너비를 늘려 여백 감소를 보상 */
+}
+
+.ingredient-list, .seasoning-list {
+    flex: 1;
+    max-width: calc(50% - 1px);
+    padding-left: 5px;  /* 내부 왼쪽 여백 추가 */
+    padding-right: 5px; /* 내부 오른쪽 여백 추가 */
+	padding-bottom: 10px;
+}
+
+.ingredient-list {
+    margin-right: -4px; /* 오른쪽 마진을 -4px로 설정하여 오른쪽으로 4px 이동 */
+}
+
+.seasoning-list {
+    margin-left: -4px; /* 왼쪽 마진을 -4px로 설정하여 왼쪽으로 4px 이동 */
+}
+
+.ingredients-list, .seasonings-list {
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+.ingredient-item, .seasoning-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    .ingredients-container {
+        flex-direction: column;
+        gap: 20px; /* 모바일 화면에서는 간격을 더 넓게 설정 */
+    }
+
+    .ingredient-list {
+        max-width: 100%;
+    }
+}
+
+.navigation-buttons {
+    margin-top: 1rem;
+}
+
+.navigation-buttons button {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+}
+
+#shareOptions button {
+    font-size: 1.2rem;
+    margin: 0 0.5rem;
+}
+
+.border-danger, .border-primary {
+    border-color: #FF914D !important;
+}
+
+/* 재료와 양념 리스트 스타일 */
+.row[style*="height:30px"] {
+    margin-bottom: 0.5rem;
+}
+
+.row[style*="height:30px"] span {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+
+/* 모든 Bootstrap 아이콘의 크기 증가 */
+.bi-people-fill, .bi-alarm, .bi-eye-fill, .bi-share-fill {
+    font-size: 1.5rem !important; /* bi-people-fill과 동일한 크기로 설정 */
+}
+
+.bi-star-fill, .bi-star, .bi-star-half {
+    font-size: 1.2rem !important; 
+}
+/* 특정 아이콘에 대해 추가적인 스타일 조정이 필요한 경우 */
+.recipe-info .bi {
+    margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 조정 */
+}
+
+.recipe-stats .bi {
+    margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 조정 */
+}
+
+/* 네비게이션 버튼의 아이콘 크기 조정 */
+.navigation-buttons .bi {
+    font-size: 2rem !important; /* 네비게이션 버튼의 아이콘은 더 크게 설정 */
+}
+
+#shareOptions {
+    position: relative;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+#shareOptions::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: 45px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f8f9fa;
+}
+
+#shareOptions .btn {
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+}
+
+#shareOptions .bi {
+    font-size: 1.5rem !important;
+    color: #007bff;
+}
+
+.bi-share-fill {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.bi-share-fill:hover, 
+.bi-share-fill[aria-expanded="true"] {
+    color: #007bff;
+}
+
+
+/* 다음페이지 */
+.cooking-method, .cooking-tips {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 1rem;
+}
+
+.cooking-method h4, .cooking-tips h4 {
+    color: #FF914D;
+    margin-bottom: 0.5rem;
+}
+
+.cooking-method p, .cooking-tips p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.ingredients-list {
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.recipe-page-container {
+    display: flex;
+    height: 600px; /* 전체 높이 고정 */
+    overflow: hidden;
+}
+
+.recipe-left-page, .recipe-right-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.recipe-image-container {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.recipe-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.recipe-title-container {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.recipe-ingredients {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.ingredients-list {
+    height: calc(100% - 40px); /* 제목 높이를 뺀 나머지 */
+    overflow-y: auto;
+}
+
+.cooking-method, .cooking-tips {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.cooking-method h4, .cooking-tips h4 {
+    color: #FF914D;
+    margin-bottom: 0.5rem;
+}
+
+.cooking-method p, .cooking-tips p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.navigation-buttons {
+    margin-top: 20px;
+}
+
+/* loadCookList 스타일 */
+.page > .row > .col.border.border-dark.p-2.m-2 {
+    display: flex;
+    flex-direction: column;
+    height: 600px; /* 전체 높이 고정 */
+}
+
+.page > .row > .col.border.border-dark.p-2.m-2 > .row:first-child {
+    height: 400px; /* 이미지 컨테이너 높이 */
+}
+
+.page > .row > .col.border.border-dark.p-2.m-2 > .row:first-child img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.page > .row > .col.border.border-dark.p-2.m-2 > .row:nth-child(2) {
+    height: 200px; /* 요리 재료 컨테이너 높이 */
+}
+
+.page > .row > .col.border.border-dark.p-2.m-2 h3 {
+    font-size: 1.2rem;
+    color: #FF914D;
+    margin-bottom: 0.5rem;
+}
+
+.page > .row > .col.border.border-dark.d-flex.flex-column.p-2.m-2 {
+    height: 600px; /* 전체 높이 고정 */
+}
+
+.page > .row > .col.border.border-dark.d-flex.flex-column.p-2.m-2 > .row:first-child h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.page > .row > .col.border.border-dark.d-flex.flex-column.p-2.m-2 > .row.my-2 {
+    height: 250px; /* 조리방법과 주의사항 컨테이너 높이 */
+    margin-bottom: 15px;
+}
+
+.page > .row > .col.border.border-dark.d-flex.flex-column.p-2.m-2 .row.my-2 h3 {
+    color: #FF914D;
+    margin-bottom: 0.5rem;
+}
+
+.page > .row > .col.border.border-dark.d-flex.flex-column.p-2.m-2 .row.my-2 span {
+    color: #555;
+    line-height: 1.6;
+}
+
+.cookM {
+    height: 150px; /* 요리 재료 목록 높이 */
+}
+
+.cookM .row.my-1 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.page > .row > .row.text-center button {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+}
+
+.page > .row > .row.text-center .bi {
+    font-size: 2rem !important;
+}
+
+.page > .row > .row.my-2[style*="height: 80px;"] {
+    height: 80px !important;
+    margin-top: 20px;
+}
+
+.ingredients-list, .seasonings-list {
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.cautions-list {
+    height: 100px; 
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.ingredient-item, .seasoning-item, .caution-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.col.border.border-dark.p-2.m-2 h4 {
+    margin-top: 20px; /* 이 값을 조절하여 원하는 여백 크기를 설정할 수 있습니다 */
+}
+
+.cooking-list {
+	height: 340px; 
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.recipe-page-border {
+    border: 1px solid silver;
+     border-radius: 5px;
+}
+
+.btn-recipe-nav {
+    background-color: white !important;
+    border: 2px solid #FF914D !important;
+    color: #FF914D !important;
+    transition: all 0.3s ease !important;
+    padding: 5px 10px !important; /* 패딩 줄임 */
+    margin: 3px !important; /* 마진 줄임 */
+    font-size: 0.9rem !important; /* 폰트 크기 줄임 */
+}
+
+.btn-recipe-nav:hover,
+.btn-recipe-nav:focus,
+.btn-recipe-nav:active {
+    background-color: #FF914D !important;
+    color: white !important;
+    border-color: #FF914D !important;
+}
+
+.btn-recipe-nav i {
+    font-size: 1.2rem !important; /* 아이콘 크기 줄임 */
+}
+
+.btn-recipe-nav {
+    /* ... 다른 속성들 ... */
+    padding: 3px 8px !important;
+    margin: 2px !important;
+    font-size: 0.8rem !important;
+}
+
+.btn-recipe-nav i {
+    font-size: 1rem !important;
+}
+
+.recipe-author {
+    border: 1px solid #7a8577; 
+    border-radius: 3px;
+    padding: 5px 15px;
+    background-color: white;
+}
+
+.recipe-author img {
+    border: 1px solid #7a8577; /* 헤더 배경색으로 변경 */
+}
+
+.recipe-author h5 {
+    color: #7a8577; /* 텍스트 색상도 헤더 배경색으로 변경 */
+    margin-left: 10px;
+}

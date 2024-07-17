@@ -1,72 +1,107 @@
-	footer {
-	  font-family: Arial, sans-serif;
-	  color: #F5E6D3;
-	  padding: 20px;
-	  background-color: #7a8577;
-	}
-	
-	.footer-top h3 {
-	  font-size: 18px;
-	  margin-bottom: 10px;
-	}
-	
-	.contact-buttons button {
-	  padding: 8px 16px; 
-	  margin-right: 10px;
-	  background-color: #6b7568;  
-	  border: 1px solid #5e665b;
-	  border-radius: 5px;
-	  color: #F5E6D3; 
-	}
-	
-	 .contact-buttons button i {
-	          margin-right: 5px;
-	        }
+footer {
+  font-family: Arial, sans-serif;
+  color: #FCF9F5;
+  padding: 20px;
+  background-color: #7a8577;
+  /* background-color: #4A6741; */
+}
 
-        .operation-hours {
-          margin-top: 20px;
-          font-size: 14px;
-        }
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
-        .social-icons {
-          margin-top: 20px;
-        }
+.customer-service {
+  flex: 1;
+}
 
-        .social-icons .icon {
-          display: inline-block;
-          width: 30px;
-          height: 30px;
-          margin-right: 10px;
-          background-color: #333;
-          border-radius: 50%;
-          text-align: center;  
-          line-height: 30px;  
-        }
+.customer-service h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
 
-        .social-icons .icon i {
-          color: #F5E6D3;  
-          font-size: 16px;  
-        }
+.contact-buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 15px;
+}
 
-        .footer-middle {
-          margin-top: 20px;
-          padding: 10px 0;
-          border-top: 1px solid #ddd;
-          border-bottom: 1px solid #ddd;
-        }
+.contact-buttons button {
+  padding: 8px 16px; 
+  margin-right: 10px;
+  background-color: #6b7568;  
+  border: 1px solid #5e665b;
+  border-radius: 5px;
+  color: #FCF9F5; 
+}
 
-        .footer-middle a, .footer-middle span {
-          margin-right: 15px;
-          font-size: 14px;
-          color: #F5E6D3;
-        }
+.contact-buttons button i {
+  margin-right: 5px;
+}
 
-        .footer-bottom {
-          margin-top: 20px;
-          font-size: 12px;
-          color: #F5E6D3;
-        }
+.operation-hours {
+  font-size: 14px;
+  margin-bottom: 5px; 
+}
 
-        .company-info p {
-          margin: 5px 0;
-        }
+.operation-hours p:first-child {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.operation-hours p {
+  margin-bottom: 2px;
+}
+
+.operation-hours p:last-child {
+  margin-bottom: 0; 
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+.social-icons .icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  margin-left: 12px;
+  background-color: #333;
+  border-radius: 50%;
+  text-align: center;  
+}
+
+.social-icons .icon i {
+  color: #FCF9F5;  
+  font-size: 20px;
+}
+
+.footer-middle {
+  margin-top: 15px;
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.footer-middle a, .footer-middle span {
+  margin-right: 15px;
+  font-size: 14px;
+  color: #FCF9F5;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #FCF9F5;
+}
+
+.company-info p {
+  margin: 5px 0;
+}

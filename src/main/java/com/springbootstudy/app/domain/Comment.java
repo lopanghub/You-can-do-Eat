@@ -19,5 +19,6 @@ public class Comment {
 	String commentContent;
 	int commentPoint;
 	Timestamp createdAt;
+	
 	String memberId;
 }

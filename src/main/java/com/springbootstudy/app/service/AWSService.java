@@ -60,11 +60,7 @@ public class AWSService {
         for (int i = 0; i < jsonArray.size(); i++) {
             JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
             String authorName = jsonObject.get("author_name").getAsString();
-<<<<<<< HEAD
 
-=======
-            
->>>>>>> 03e8ae9b9285aa6e91b646fb24808b9094a7927e
             RecipeBoard recipeBoard = RecipeBoard.builder()
                     .boardTitle(jsonObject.get("title").getAsString())
                     .boardContent(jsonObject.has("recipeIntro") ? jsonObject.get("recipeIntro").getAsString() : null)
@@ -75,11 +71,9 @@ public class AWSService {
                     .foodTime(jsonObject.has("cookingTime") ? parseCookingTime(jsonObject.get("cookingTime").getAsString()) : 0)
                     .numberEaters(jsonObject.has("servingSize") ? parseServingSize(jsonObject.get("servingSize").getAsString()) : 0)
                     //.apoint(jsonObject.has("ratingCount") ? jsonObject.get("ratingCount").getAsDouble() : 0) // ratingCount 설정
-<<<<<<< HEAD
-                    .memberId(authorName)
-=======
+
+        
                     .memberId(jsonObject.get("author_name").getAsString())
->>>>>>> 03e8ae9b9285aa6e91b646fb24808b9094a7927e
                     .build();
             
             recipes.add(recipeBoard);

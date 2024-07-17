@@ -12,8 +12,7 @@
 <!--              <img th:src="@{${product.productImage != null ? product.productImage : '/images/shop/' + product.productImage}}" alt="Product Image" class="detail-product-image">
  -->
 <!--  			<img th:src="@{${product.productImage}}">-->
-			<img th:src="@{${product.productImage} != null ? ${product.productImage} : '/resources/shop/' + ${product.productImage} }" 
-			th:class="detail-product-image">
+           <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" alt="Product Image">
         </div>
         <div class="col-6">
             <!-- 상품 정보 -->
@@ -118,8 +117,7 @@
     <!-- 상세 이미지 표시 -->
     <div class="row my-3">
         <div class="col-12">
-            <img th:if="${product.detailImage != null and !product.detailImage.isEmpty()}" th:src="@{'/images/shop/' + ${product.detailImage}}" alt="Detail Image" >
-            <img th:if="${product.detailImage == null or product.detailImage.isEmpty()}" th:src="@{'/images/shop/default.png'}" alt="Default Detail Image" >
+           <img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="Detail Image">
         </div>
     </div>
     <!--상품 상세 페이지 들어갈자리 -->

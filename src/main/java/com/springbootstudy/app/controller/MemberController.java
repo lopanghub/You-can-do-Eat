@@ -166,7 +166,7 @@ public class MemberController {
 
 	@GetMapping("/login")
 	public String login() throws ServletException, IOException {
-		return "views/login";
+        return "views/login";
 	}
 
 	@PostMapping("/login")
@@ -179,7 +179,7 @@ public class MemberController {
 			PrintWriter out = response.getWriter();
 			out.print("<script>");
 			out.print("alert('존재하지 않는 아이디 입니다.');");
-			out.print("history.back();");
+			out.print("location.href = 'login';");
 			out.print("</script>");
 			return null;
 		} else if (result == 0) {
@@ -199,7 +199,7 @@ public class MemberController {
 		// System.out.println("member.id : " + member.getId());
 
 		log.info("로그인 성공: 세션 ID={}, 회원 ID={}", session.getId(), member.getId());
-
+		
 		return "redirect:/";
 	}
 

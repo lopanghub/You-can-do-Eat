@@ -212,6 +212,22 @@ $(function() {
 			alert("휴대폰 번호가 입력되지 않았습니다.");
 			return false;
 		}
+
+		let emailOk = document.getElementById("emailOk");
+		let gerOk = document.getElementById("gerOk");
+		let emailNo = document.getElementById("emailNo");
+		let gerNo = document.getElementById("gerNo");
+
+		if (!emailOk.checked && !emailNo.checked) {
+			alert("이메일 수신에 체크 부탁드립니다.");
+			return false;
+		}
+		
+		if (!gerOk.checked && !gerNo.checked) {
+			alert("개인정보 수집에 체크 부탁드립니다.");
+			return false;
+		}
+
 	}
 
 });

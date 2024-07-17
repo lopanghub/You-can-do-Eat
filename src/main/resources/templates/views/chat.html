@@ -73,6 +73,8 @@
 	
 	function send() {
 	    console.log(userId, " : ", $("#messageInput").val());
+	    websocket.send(userId + ":" + $("#messageInput").val());
+		$("#messageInput").val("");
 	}
 	
 	$("#sendMessageForm").submit(function(event) {
@@ -87,15 +89,48 @@
 	        $('#sendMessageForm').submit();
 	    }
 	});
-	
-	function displayMessage(message) {
-		let arr = message.split(":");
-	    let messageHtml = '<div class="message"><strong>' + arr[0] + ':</strong> ' + arr[1] + '</div>';
+
+	function onMessage(msg) {
+	    let data = msg.data;
+	    let arr = data.split(":");
+	    let sessionId = arr[0];
+	    let message = arr.slice(1).join(":");
+
+	    let curSession = userId; // 현재 사용자 세션 ID
+
+	    // 메시지 출력
+	    displayMessage(sessionId, message, curSession);
+	}
+
+	function displayMessage(sessionId, message, curSession) {
+	    let messageHtml;
+	    
+	    if (sessionId === curSession) { // 자신의 메시지인 경우
+	        messageHtml = '<div class="msg_box my-2">'
+	                    + '<div class="card bg-orange text-white">'
+	                    + '<div class="card-body">'
+	                    + '<p class="card-text">' + sessionId + (message ? ' : ' + message : '') + '</p>'
+	                    + '</div>'
+	                    + '</div>'
+	                    + '</div>';
+	    } else { // 다른 사용자의 메시지인 경우
+	        messageHtml = '<div class="msg_box my-2">'
+	                    + '<div class="card bg-warning">'
+	                    + '<div class="card-body">'
+	                    + '<p class="card-text">' + sessionId + (message ? ' : ' + message : '') + '</p>'
+	                    + '</div>'
+	                    + '</div>'
+	                    + '</div>';
+	    }
+
 	    $("#chatMessages").append(messageHtml);
+	    scrollToBottom();
+	}
+
+	function scrollToBottom() {
 	    $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
 	}
 
 </script>
-	
 </div>
 </html>

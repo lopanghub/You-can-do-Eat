@@ -16,10 +16,9 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     thumbnail VARCHAR(200),
     food_time INT DEFAULT 0,
-    number_eaters  int DEFAULT 0,
+    numberEaters  int DEFAULT 0,
     Apoint double DEFAULT 0,
     member_id VARCHAR(200) NOT NULL,
-    FOREIGN KEY (member_id) REFERENCES membership(id)
 );
 select * from recipe_Board where food_genre like '%한식%';
 CREATE TABLE material (  -- 재료 리스트 테이블
@@ -41,7 +40,9 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );
 
-
+-- 보트리스트
+INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id)
+VALUES ( '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '한식', 'john_doe');
 
 
 

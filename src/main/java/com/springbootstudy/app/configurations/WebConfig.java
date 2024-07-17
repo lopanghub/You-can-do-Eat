@@ -21,12 +21,13 @@ public class WebConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/profiles/**")
-				.addResourceLocations("file:./src/main/resources/static/profiles/")
-				.setCachePeriod(1);
-		
-		registry.addResourceHandler("/resources/shop/**")
-		.addResourceLocations("file:./src/main/resources/static/images/shop/")
-		.setCachePeriod(1);
+	    registry.addResourceHandler("/resources/profiles/**")
+	            .addResourceLocations("file:./src/main/resources/static/profiles/")
+	            .setCachePeriod(1);
+
+	    registry.addResourceHandler("/resources/shop/**")
+	            .addResourceLocations("file:./src/main/resources/static/images/shop/")
+	            .setCachePeriod(1);
 	}
+
 }

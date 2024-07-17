@@ -64,5 +64,10 @@ public class OrderService {
         System.out.println("Order found by service: " + order);  // 로그 추가
         return order;
     }
+    
+    public List<OrderItem> findOrderItemsByOrderId(String orderId) {
+        return orderMapper.findOrderItemsByOrderId(orderId);
+    }
+
 
 }

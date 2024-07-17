@@ -16,6 +16,8 @@
         numberEaters = #{numberEaters}
     WHERE board_No = #{boardNo};
 </update>
+
+
 <!-- 레시피에 요리재료 업데이트하기 -->
 <update id="updateMaterial" parameterType="Material">
     UPDATE material 

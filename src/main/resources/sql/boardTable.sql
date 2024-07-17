@@ -4,8 +4,8 @@ use spring;
 drop table recipe_Board;
 drop table material;
 drop table cooking;
-drop table cook_material;
 drop table comments;
+
 CREATE TABLE recipe_Board (  -- 레시피 보드
     board_No INT AUTO_INCREMENT PRIMARY KEY,
     board_title VARCHAR(200) NOT NULL,
@@ -18,7 +18,12 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     food_time INT DEFAULT 0,
     numberEaters  int DEFAULT 0,
     Apoint double DEFAULT 0,
+<<<<<<< HEAD
     member_id VARCHAR(200) NOT NULL,
+=======
+    member_id VARCHAR(200) NOT NULL
+
+>>>>>>> 260cca9d1363a17d3fe03a29d5c6eba81e6f9df5
 );
 select * from recipe_Board where food_genre like '%한식%';
 CREATE TABLE material (  -- 재료 리스트 테이블
@@ -40,16 +45,23 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
 );
 
+<<<<<<< HEAD
 -- 보트리스트
 INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id)
 VALUES ( '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '한식', 'john_doe');
 
+=======
+
+-- 보트리스트
+INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id)
+VALUES ( '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '한식', 'john_doe');
+>>>>>>> 260cca9d1363a17d3fe03a29d5c6eba81e6f9df5
 
 
 
 UPDATE recipe_board SET Apoint = 4.5 WHERE board_no = 1;
 -- 재료 추가
-INSERT INTO material (cooking_id, board_No, material_name, mensuration,type_Material)
+INSERT INTO material (board_No, material_name, mensuration,type_Material)
 VALUES 
 (1, '스파게티', '200g', '면류'),
 (1, '베이컨', '100g', '육류'),

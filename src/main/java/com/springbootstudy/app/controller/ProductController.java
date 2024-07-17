@@ -44,8 +44,50 @@ public class ProductController {
 	private final ProductService productService;
 	private final S3Service s3Service;
 	
+	//상품수정
+	@PostMapping("/updateProduct")
+    public String updateProduct(
+            @RequestParam("productId") int productId,
+            @RequestParam("productName") String productName,
+            @RequestParam("price") int price,
+            @RequestParam("category") String category,
+            @RequestParam("ingredient") String ingredient,
+            @RequestParam("productImage") MultipartFile productImage,
+            @RequestParam("detailImage") MultipartFile detailImage,
+            Model model) {
+
+        Product product = productService.getProductById(productId);
+        product.setProductName(productName);
+        product.setPrice(price);
+        product.setCategory(category);
+        product.setIngredient(ingredient);
+
+        try {
+            if (!productImage.isEmpty()) {
+                String productImageName = saveFile(productImage);
+                product.setProductImage(productImageName);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("message", "Product image upload failed");
+        }
+
+        try {
+            if (!detailImage.isEmpty()) {
+                String detailImageName = saveFile(detailImage);
+                product.setDetailImage(detailImageName);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            model.addAttribute("message", "Detail image upload failed");
+        }
+
+        productService.updateProduct(product);
+
+        return "redirect:/shopDetail?productId=" + productId;
+    }
+	
 	//상품 등록
-	 // 상품 등록
     @PostMapping("/insertProduct")
     public String insertProduct(
             @RequestParam("productName") String productName,

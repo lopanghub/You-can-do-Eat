@@ -56,10 +56,10 @@ $(function() {
 		if (sessionId !== undefined && sessionId !== '') {
 			isSessionId = `
             <div class="col-2">
-                <input class="comment-edit btn-sm" type="button" id="updateDetailBtn" value="수정하기" />
+                <input class="detail-edit-button btn-sm" type="button" id="updateDetailBtn" value="수정하기" />
             </div>
             <div class="col-2">
-                <input class="comment-delete btn-sm" type="button" id="deleteDetailBtn" value="삭제하기" />
+                <input class="detail-delete-button btn-sm" type="button" id="deleteDetailBtn" value="삭제하기" />
             </div>`;
 			console.log(isSessionId);
 		} else {
@@ -77,19 +77,7 @@ $(function() {
 										<div class="col recipe-collection-title">
 											<div class="row d-flex  align-items-center">
 
-												<div class="col-2">
-													<input class="write-button" type="button" id="scrollButton"
-														value="리뷰보기">
-												</div>
-												<div class="col-2">
-													 ${searchOption ? `
-				                                            <input class="btn btn-primary" type="button" value="목록보기"
-				                                                onclick="location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'" />
-				                                        ` : `
-				                                            <input class="btn btn-primary" type="button" value="목록보기"
-				                                                onclick="location.href='recipeList?pageNum=${pageNum}'" />
-				                                        `}
-												</div>
+												<div class="col-4"></div>
 												<div class="col-4">
 													<h3 class="text-center my-3 fw-bold ">레시피 책 보기</h3>
 												</div>
@@ -98,8 +86,21 @@ $(function() {
 											</div>
 										</div>
 												<div class="row">
+												<div class="col-2 text-start">
+													<input class="detail-edit-button" type="button" id="scrollButton"
+														value="리뷰보기">
+												</div>
+												<div class="col-2">
+													 ${searchOption ? `
+				                                            <input class="detail-edit-button" type="button" value="목록보기"
+				                                                onclick="location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'" />
+				                                        ` : `
+				                                            <input class="detail-edit-button" type="button" value="목록보기"
+				                                                onclick="location.href='recipeList?pageNum=${pageNum}'" />
+				                                        `}
+												</div>
 													<div class="col text-end text-white d-flex justify-content-end align-items-center">
-														<button type="button" class="btn btn-success" id="recipeBtn">레시피열기
+														<button type="button" class="book-change-btn" id="recipeBtn">레시피열기
 														</button>
 													</div>
 												</div>

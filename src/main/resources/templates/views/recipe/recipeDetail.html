@@ -54,46 +54,53 @@ html {
 									<div class="row">
 										<div class="col recipe-collection-title">
 											<div class="row d-flex  align-items-center">
-
-												<div class="col-2">
-													<input class="write-button" type="button" id="scrollButton"
-														value="리뷰보기">
-												</div>
-												<div class="col-2">
-													<th:block th:if="${searchOption}">
-														<input class="btn btn-primary" type="button" value="목록보기"
-															th:onclick="@{|location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'|}" />
-													</th:block>
-													<th:block th:unless="${searchOption}">
-														<input class="btn btn-primary" type="button" value="목록보기"
-															th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}" />
-													</th:block>
-												</div>
+												<div class="col-4"></div>
 												<div class="col-4">
 													<h3 class="text-center my-3 fw-bold ">레시피 모아보기</h3>
 												</div>
 												<th:block
 													th:if="${session.member != null and session.member.id == rList.memberId}">
 													<div class="col-2">
-														<input class="comment-edit btn-sm" type="button"
+														<input class="detail-edit-button btn-sm" type="button"
 															id="updateDetailBtn" value="수정하기" />
 													</div>
 													<div class="col-2">
-														<input class="comment-delete btn-sm" type="button"
+														<input class="detail-delete-button btn-sm" type="button"
 															id="deleteDetailBtn" value="삭제하기" />
 													</div>
 												</th:block>
 											</div>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row d-flex justify-content-end align-items-center">
+										
+												<div class="col-2 text-end ">
+													<input class="detail-review-button" type="button" id="scrollButton"
+														value="리뷰보기">
+														</div>
+												<div class="col-2 text-start">
+													<th:block th:if="${searchOption}">
+														<input class="detail-review-button" type="button" value="목록보기"
+															th:onclick="@{|location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'|}" />
+													</th:block>
+													<th:block th:unless="${searchOption}">
+														<input class="detail-review-button" type="button" value="목록보기"
+															th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}" />
+													</th:block>
+												</div>
 										<div
 											class="col text-end text-white d-flex justify-content-end align-items-center">
-											<button type="button" class="btn btn-success" id="bookBtn">책
+											<button type="button" class="book-change-btn" id="bookBtn">책
 												열기</button>
 										</div>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col">
+										
+									</div>
+								</div>
+								
 								<div class="row my-2">
 									<div class="col">
 										<div class="row">
@@ -307,7 +314,7 @@ html {
 							</th:block>
 							<!-- 댓글이 없는 경우 -->
 							<th:block th:if="${#lists.isEmpty(commentList)}">
-								<span class="list-group-item2 my-2" id="falseText">후기가
+								<span class="list-group-item2 my-2 " id="falseText">후기가
 									존재하지 않습니다.😅</span>
 							</th:block>
 							<!-- 더 많은 댓글 아이템들 -->

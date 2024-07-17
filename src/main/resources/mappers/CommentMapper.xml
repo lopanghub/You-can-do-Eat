@@ -9,48 +9,48 @@
             cm.* ,
             rb.member_id
         FROM 
-            Comments cm
+            comments cm
         JOIN 
             recipe_Board rb 
         ON 
-            cm.board_No = rb.board_No 
+            cm.board_no = rb.board_no 
         WHERE 
-            cm.board_No = #{boardNo} order by comment_id DESC
+            cm.board_no = #{boardNo} order by comment_id DESC
 	</select>
 	<!-- 댓글 갯수불러오기 -->
 	    <select id="commentCount" parameterType="int" resultType="int">
   SELECT 
             count(*) 
         FROM 
-            Comments cm
+            comments cm
         JOIN 
             recipe_Board rb 
         ON 
-            cm.board_No = rb.board_No 
+            cm.board_no = rb.board_no 
         WHERE 
-            cm.board_No = #{boardNo}
+            cm.board_no = #{boardNo}
 	</select>
 	<!-- 댓글추가하기 -->
 	 <insert id="insertComment" parameterType="Comment" useGeneratedKeys="true"  keyProperty="commentId">
-		INSERT INTO Comments (board_No, comment_content, comment_Point, created_at,member_Id)
+		INSERT INTO comments (board_no, comment_content, comment_point, created_at,member_Id)
         VALUES (#{boardNo}, #{commentContent}, #{commentPoint}, NOW(),#{memberId})
 	</insert>
 	<!-- 댓글수정하기 -->
 	<update id="updateComment" parameterType="Comment" useGeneratedKeys="true">
-    UPDATE Comments 
-    SET Comment_content = #{commentContent}, Comment_Point = #{commentPoint}, created_at = NOW()
+    UPDATE comments 
+    SET comment_content = #{commentContent}, comment_Point = #{commentPoint}, created_at = NOW()
     WHERE comment_id = #{commentId}
 </update>
 <!-- 특정댓글불러오기 -->
  <select id="selectCommentById" parameterType="int" resultType="Comment">
-        SELECT * FROM Comments WHERE comment_id = #{commentId}
+        SELECT * FROM comments WHERE comment_id = #{commentId}
     </select>
     <!-- 댓글삭제하기 -->
     <delete id="deleteComment" parameterType="int" >
-    	delete from Comments where comment_id = ${commentId}
+    	delete from comments where comment_id = ${commentId}
     </delete>
     <!-- 댓글삭제하기 -->
     <delete id="deleteCommentByNo" parameterType="int" >
-    	delete from Comments where board_No = ${boardNo};
+    	delete from comments where board_No = ${boardNo};
     </delete>
 </mapper>

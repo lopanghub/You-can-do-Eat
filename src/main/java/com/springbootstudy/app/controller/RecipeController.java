@@ -172,6 +172,7 @@ public class RecipeController {
 				Path path = Paths.get(uploadDir + filename);
 				Files.createDirectories(path.getParent());
 				Files.write(path, thumbnailname.getBytes());
+				System.out.println("filename : "+ filename);
 			} else {
 				// 파일이 제대로 전송되지 않았을 때의 처리
 				System.out.println("파일이 전송되지 않았거나 비어 있습니다.");
@@ -184,6 +185,7 @@ public class RecipeController {
 		
 		recipeService.deleteByNo(boardNo);
 		Cooking cooking = new Cooking();
+		System.out.println("d여기는 cooking전");
 		if (cookMethods.size() > 0) {
 			for (int i = 0; i < cookMethods.size(); i++) {
 				String cookMethod = cookMethods.get(i);
@@ -206,6 +208,7 @@ public class RecipeController {
 				recipeService.addCooking(boardNo,cooking);
 			}
 		}
+		System.out.println("d여기는 material전");
 		Material material = new Material();
 		 if(materialNames.size()>0) {
 			 for(int i=0; i<materialNames.size();i++) {

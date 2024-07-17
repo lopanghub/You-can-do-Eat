@@ -67,6 +67,11 @@ public interface ProductMapper {
    @Insert("INSERT INTO product (product_id, product_name, product_image, price, rating, category, ingredient, detail_image) " +
            "VALUES (#{productId}, #{productName}, #{productImage}, #{price}, #{rating}, #{category}, #{ingredient}, #{detailImage})")
    void insertProduct(Product product);
-
    
+   //검색기능 추가
+   @Select("SELECT * FROM product WHERE product_name LIKE CONCAT('%', #{query}, '%')")
+   List<Product> searchProducts(String query);
+   
+   @Select("SELECT * FROM product WHERE category = #{category}")
+   List<Product> searchProductsByCategory(String category);
 }

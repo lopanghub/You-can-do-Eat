@@ -140,8 +140,13 @@ public class ProductController {
 			@RequestParam("quantity") int quantity, HttpSession session) {
 		productService.addCart(productId, quantity);
 		CartProductDTO cart = productService.getCartDetailsById(productId);
+		int totalAmount = 0;
+		if (cart!= null) {
+			totalAmount = cart.getQuantity() * cart.getPrice();
+		}	
 		session.setAttribute("cart", cart);
 		session.removeAttribute("cartDetails");
+		session.setAttribute("totalAmount", totalAmount);
 		return "redirect:/shopOrder";
 	}
 
@@ -157,6 +162,10 @@ public class ProductController {
 	@PostMapping("/cartToOrder")
 	public String cartToOrder(HttpSession session) {
 		List<CartProductDTO> cartDetails = productService.getCartDetails();
+		for(CartProductDTO product : cartDetails) {
+			System.out.println(product);
+		}
+		
 		session.setAttribute("cartDetails", cartDetails);
 		session.removeAttribute("cart");
 		return "redirect:/shopOrder";
@@ -166,31 +175,26 @@ public class ProductController {
 	// 구매 페이지 진입시
 	@GetMapping("/shopOrder")
 	public String showOrderPage(HttpSession session, Model model) {
+	    CartProductDTO cart = (CartProductDTO) session.getAttribute("cart");
+	    List<CartProductDTO> cartDetails = (List<CartProductDTO>) session.getAttribute("cartDetails");
+	    MemberShip member = (MemberShip) session.getAttribute("member");
+	    Integer totalAmount = (Integer) session.getAttribute("totalAmount"); // 세션에서 totalAmount 가져오기
 
-		CartProductDTO cart = (CartProductDTO) session.getAttribute("cart");
-		List<CartProductDTO> cartDetails = (List<CartProductDTO>) session.getAttribute("cartDetails");
-		MemberShip member = (MemberShip) session.getAttribute("member");
+	    if (totalAmount == null) {
+	        totalAmount = 0;
+	        if (cartDetails != null) {
+	            totalAmount = cartDetails.stream().mapToInt(item -> item.getQuantity() * item.getPrice()).sum();
+	        }
+	    }
 
-		// 결제창 총액 계산
-		int totalAmount = 0;
-		int totalDiscount = 0;
-		int totalShipping = 0;
-		if (cartDetails != null) {
-			totalAmount = cartDetails.stream().mapToInt(item -> item.getQuantity() * item.getPrice()).sum();
-//            totalDiscount = cartDetails.stream().mapToDouble(CartProductDTO::getDiscount).sum();
-//            totalShipping = cartDetails.stream().mapToDouble(CartProductDTO::getShipping).sum();
-		}
-		int finalAmount = totalAmount - totalDiscount + totalShipping;
+	    model.addAttribute("member", member);
+	    model.addAttribute("cart", cart);
+	    model.addAttribute("cartDetails", cartDetails);
+	    model.addAttribute("totalAmount", totalAmount); // 모델에 totalAmount 설정
 
-		model.addAttribute("member", member);
-		model.addAttribute("cart", cart);
-		model.addAttribute("cartDetails", cartDetails);
-		model.addAttribute("totalAmount", totalAmount);
-		model.addAttribute("totalDiscount", totalDiscount);
-		model.addAttribute("totalShipping", totalShipping);
-		model.addAttribute("finalAmount", finalAmount);
-
-		return "views/shop/shopOrder";
+	    return "views/shop/shopOrder";
 	}
+
+	
 
 }

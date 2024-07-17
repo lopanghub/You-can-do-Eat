@@ -75,7 +75,10 @@ public class ProductService {
 
 	// 장바구니 상세보기
 	public List<CartProductDTO> getCartDetails() {
-		return productMapper.getCartDetails();
+		List<CartProductDTO> cartDetails = productMapper.getCartDetails();
+        
+        return cartDetails;
+
 	}
 
 	// 바로 구매시 단일 상품 정보보기

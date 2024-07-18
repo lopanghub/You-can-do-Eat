@@ -28,8 +28,8 @@ $(function() {
 							<a href="/shopDetail?productId=${product.productId}">
 								<img src="${imageUrl}" alt="${product.productName}" class="img-fluid"
 									onerror="this.src='http://via.placeholder.com/300x250';">
-								<div>${product.productName}</div>
-								<div>${product.seller} (${product.rating})</div>
+								<div class="product-description">${product.productName}</div>
+								<div class="product-seller">YOUCANBUYIT</div>
 								<div>${formatPrice(product.price)}원</div>
 							</a>
 						</div>

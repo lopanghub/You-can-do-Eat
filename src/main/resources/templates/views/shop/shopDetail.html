@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <!--쇼핑몰 상세보기 담당자 -이현학 -->
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{layouts/shop_layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Detail</title>
+</head>
+<body>
+
+
+
 
 <!-- content -->
 <div layout:fragment="content">
     <!-- 상세 정보 페이지 -->
     <div class="row my-3">
-        <div class="col-6">
-<!--              <img th:src="@{${product.productImage != null ? product.productImage : '/images/shop/' + product.productImage}}" alt="Product Image" class="detail-product-image">
- -->
-<!--  			<img th:src="@{${product.productImage}}">-->
-           <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" alt="Product Image">
+        <div class="col-6 product-image-container">
+            <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" 
+                alt="Product Image" class="detail-product-image">
         </div>
         <div class="col-6">
             <!-- 상품 정보 -->
             <div class="row">
                 <div class="col">
                     <h3 class="productName" th:text="${product.productName}"></h3>
-                    <h5>맛있는 고당도 사과</h5>
                     <div class="shipping-info">
                         <table>
                             <tr>
@@ -84,7 +90,13 @@
             </div>
         </div>
     </div>
-
+   <!-- 상품 안내 앵커 (/* shopDetail nav바 */)-->
+<div class="pd-product-nav">
+    <button class="pd-nav-item pd-active"><a href="#productDetail">상품 상세</a></button>
+    <button class="pd-nav-item"><a href="#productReviews">상품 리뷰</a></button>
+    <button class="pd-nav-item"><a href="#recommendedProducts">추천 상품</a></button>
+    <button class="pd-nav-item"><a href="#faq">FAQ</a></button>
+</div>
 
     <th:block th:if="${session.member.id == 'admin1'}">
         <div id="remote-control"
@@ -97,33 +109,20 @@
             </form>
         </div>
     </th:block>
-
-    <!-- 상품 안내 앵커 -->
-    <div class="row">
-        <div class="col">
-            <a href="#productDetail">상품 상세</a>
-        </div>
-        <div class="col">
-            <a href="#productReviews">상품 리뷰</a>
-        </div>
-        <div class="col">
-            <a href="#recommendedProducts">추천 상품</a>
-        </div>
-        <div class="col">
-            <a href="#recipeRecommendations">레시피 추천</a>
-        </div>
-    </div>
-
+	
     <!-- 상세 이미지 표시 -->
-    <div class="row my-3">
+    <a id="productDetail"></a>
+    <div class="row my-3" id="imageWrapper">
         <div class="col-12">
-           <img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="Detail Image">
+            <img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" 
+            alt="Detail Image" id="detailImage">
         </div>
     </div>
-    <!--상품 상세 페이지 들어갈자리 -->
-    <div class="row"></div>
-
+    
+    <button id="toggleButton">상품정보 더보기 ▼</button>
+    
     <!-- 리뷰 작성 -->
+    <a id="productReviews"></a>
     <h4>상품 리뷰</h4>
     <div class="row">
         <div class="col reviewBox"></div>
@@ -135,123 +134,206 @@
             <button id="submitReview">리뷰 작성</button>
         </div>
     </div>
-
+    
     <!-- 추천 상품 -->
+    <a id="recommendedProducts"></a>
     <div class="row"></div>
+    
+    <!--faq -->
+    <a id="faq"></a>
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>배송을 얼마나 걸리나요?</span>
+                <span class="toggle-btn">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>상품을 주문하신 시각에 따라 다르면 최대 2일 소요됩니다.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleAnswer(this)">
+                <span>교환 환불 정책은 어떻게 되나요?</span>
+                <span class="toggle-btn">▼</span>
+            </div>
+            <div class="faq-answer">
+                <p>구입 후 7일 이내 무상으로 교환 환불 가능합니다.</p>
+            </div>
+        </div>
+    </div>
 
-    <!--레시피 추천 -->
-    <div class="row"></div>
 
-    <script th:inline="javascript">
-        $(document).ready(function() {
-            var productId = [[${product.productId}]];
+<script th:inline="javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    // 초기 높이 설정
+    var answers = document.querySelectorAll('.faq-answer');
+    answers.forEach(function(answer) {
+        answer.style.height = '0px';
+    });
 
-            // 리뷰 로드 함수
-            function loadReviews() {
-                $.ajax({
-                    url: '/ajax/reviews/product/' + productId,
-                    method: 'GET',
-                    success: function(data) {
-                        console.log(data);
-                        var reviewBox = $(".reviewBox");
-                        reviewBox.empty();
+    // 상품 정보 더보기 버튼
+    const imageWrapper = document.getElementById('imageWrapper');
+    const image = document.getElementById('detailImage');
+    const toggleButton = document.getElementById('toggleButton');
 
-                        data.forEach(function(review) {
-                            // Format the date to 'YYYY-MM-DD'
-                            var regDate = new Date(review.regDate);
-                            var formattedDate = regDate.toISOString().split('T')[0];
+    toggleButton.addEventListener('click', function() {
+        if (imageWrapper.style.maxHeight === '500px' || imageWrapper.style.maxHeight === '') {
+            imageWrapper.style.maxHeight = image.scrollHeight + "px";
+            toggleButton.textContent = '숨기기 ▲';
+        } else {
+            imageWrapper.style.maxHeight = '500px';
+            toggleButton.textContent = '상품정보 더보기 ▼';
+        }
+    });
 
-                            var reviewHtml = `
-                                <div class="review">
-                                    <div>${review.id}</div>
-                                    <div>평점: ${review.rating} ${formattedDate}</div>
-                                    <div> ${review.reviewComment}</div>
-                                    <button class="deleteReview" data-review-id="${review.reviewId}">삭제</button>
-                                </div>
-                                <hr>
-                            `;
-                            reviewBox.append(reviewHtml);
-                        });
+    // FAQ 토글
+    function toggleAnswer(element) {
+        var answer = element.nextElementSibling;
+        var button = element.querySelector('.toggle-btn');
+        var allAnswers = document.querySelectorAll('.faq-answer');
+        var allButtons = document.querySelectorAll('.toggle-btn');
 
-                        $(".deleteReview").click(function() {
-                            var reviewId = $(this).data("review-id");
-                            deleteReview(reviewId);
-                        });
-                    },
-                    error: function(error) {
-                        console.error("Error loading reviews:", error);
-                    }
-                });
+        // 다른 모든 답변 닫기
+        allAnswers.forEach(function(item) {
+            if (item !== answer && item.style.height !== '0px') {
+                item.style.height = '0px';
+                item.previousElementSibling.querySelector('.toggle-btn').classList.remove('open');
             }
-
-            // 페이지 로드 시 리뷰 로드
-            loadReviews();
-
-            // 리뷰 작성 버튼 클릭 이벤트
-            $("#submitReview").click(function() {
-                var reviewText = $("#reviewText").val();
-
-                if (!reviewText) {
-                    alert("리뷰를 작성하세요.");
-                    return;
-                }
-
-                var newReview = {
-                    id: [[${session.member.id}]],  // 실제로는 로그인한 사용자 아이디를 사용해야 함
-                    productId: [[${product.productId}]],
-                    rating: 5,  // 예시로 평점 5점으로 고정
-                    reviewComment: reviewText,
-                    regDate: new Date().toISOString()
-                };
-
-                $.ajax({
-                    url: '/ajax/reviews/add',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(newReview),
-                    success: function(data) {
-                        // 리뷰 작성 성공 시, 리뷰 리스트 갱신 및 폼 초기화
-                        loadReviews();
-                        $("#reviewText").val("");
-                    },
-                    error: function(error) {
-                        console.error("Error submitting review:", error);
-                    }
-                });
-            });
-
-            // 리뷰 삭제 ajax
-            function deleteReview(reviewId) {
-                $.ajax({
-                    url: '/ajax/reviews/delete/' + reviewId,
-                    method: 'DELETE',
-                    success: function() {
-                        console.log('Review deleted: ' + reviewId);
-                        // Reload the reviews after deletion
-                        loadReviews();
-                    },
-                    error: function() {
-                        console.log('Error deleting review: ' + reviewId);
-                    }
-                });
-            };
-
-            // 관리자 버튼 처리
-            $('#register-btn').click(function() {
-                window.location.href = '/shopWrite';
-            });
-
-            $('#update-btn').click(function() {
-                $('#remote-control-form').attr('method', 'POST').attr('action', '/updateForm').submit();
-            });
-
-            $('#delete-btn').click(function() {
-                if (confirm('정말로 이 상품을 삭제하시겠습니까?')) {
-                    $('#remote-control-form').attr('method', 'POST').attr('action', '/deleteProduct').submit();
-                }
-            });
         });
-    </script>
-</div>
 
+        // 클릭된 답변 토글
+        if (answer.style.height === '0px' || answer.style.height === '') {
+            answer.style.height = answer.scrollHeight + 'px';
+            button.classList.add('open');
+        } else {
+            answer.style.height = '0px';
+            button.classList.remove('open');
+        }
+    }
+
+    // Add event listeners for FAQ items
+    document.querySelectorAll('.faq-question').forEach(item => {
+        item.addEventListener('click', function() {
+            toggleAnswer(this);
+        });
+    });
+
+    var productId = [[${product.productId}]];
+
+    // 리뷰 로드 함수
+    function loadReviews() {
+        $.ajax({
+            url: '/ajax/reviews/product/' + productId,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                var reviewBox = $(".reviewBox");
+                reviewBox.empty();
+
+                data.forEach(function(review) {
+                    // Format the date to 'YYYY-MM-DD'
+                    var regDate = new Date(review.regDate);
+                    var formattedDate = regDate.toISOString().split('T')[0];
+
+                    var reviewHtml = `
+                        <div class="review">
+                            <div>${review.id}</div>
+                            <div>평점: ${review.rating} ${formattedDate}</div>
+                            <div> ${review.reviewComment}</div>
+                            <button class="deleteReview" data-review-id="${review.reviewId}">삭제</button>
+                        </div>
+                        <hr>
+                    `;
+                    reviewBox.append(reviewHtml);
+                });
+
+                $(".deleteReview").click(function() {
+                    var reviewId = $(this).data("review-id");
+                    deleteReview(reviewId);
+                });
+            },
+            error: function(error) {
+                console.error("Error loading reviews:", error);
+            }
+        });
+    }
+
+    // 페이지 로드 시 리뷰 로드
+    loadReviews();
+
+    // 리뷰 작성 버튼 클릭 이벤트
+    $("#submitReview").click(function() {
+        var reviewText = $("#reviewText").val();
+
+        if (!reviewText) {
+            alert("리뷰를 작성하세요.");
+            return;
+        }
+
+        var newReview = {
+            id: [[${session.member.id}]],  // 실제로는 로그인한 사용자 아이디를 사용해야 함
+            productId: [[${product.productId}]],
+            rating: 5,  // 예시로 평점 5점으로 고정
+            reviewComment: reviewText,
+            regDate: new Date().toISOString()
+        };
+
+        $.ajax({
+            url: '/ajax/reviews/add',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(newReview),
+            success: function(data) {
+                // 리뷰 작성 성공 시, 리뷰 리스트 갱신 및 폼 초기화
+                loadReviews();
+                $("#reviewText").val("");
+            },
+            error: function(error) {
+                console.error("Error submitting review:", error);
+            }
+        });
+    });
+
+    // 리뷰 삭제 ajax
+    function deleteReview(reviewId) {
+        $.ajax({
+            url: '/ajax/reviews/delete/' + reviewId,
+            method: 'DELETE',
+            success: function() {
+                console.log('Review deleted: ' + reviewId);
+                // Reload the reviews after deletion
+                loadReviews();
+            },
+            error: function() {
+                console.log('Error deleting review: ' + reviewId);
+            }
+        });
+    }
+
+    // 관리자 버튼 처리
+    $('#register-btn').click(function() {
+        window.location.href = '/shopWrite';
+    });
+
+    $('#update-btn').click(function() {
+        $('#remote-control-form').attr('method', 'POST').attr('action', '/updateForm').submit();
+    });
+
+    $('#delete-btn').click(function() {
+        if (confirm('정말로 이 상품을 삭제하시겠습니까?')) {
+            $('#remote-control-form').attr('method', 'POST').attr('action', '/deleteProduct').submit();
+        }
+    });
+
+    // shopDetail nav바 버튼 활성화
+    document.querySelectorAll('.pd-nav-item').forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelectorAll('.pd-nav-item').forEach(btn => btn.classList.remove('pd-active'));
+            this.classList.add('pd-active');
+        });
+    });
+});
+</script>
+</div>
+</body>
 </html>

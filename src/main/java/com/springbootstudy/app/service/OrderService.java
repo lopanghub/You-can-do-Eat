@@ -26,22 +26,24 @@ public class OrderService {
         try {
             Order order = new Order();
             order.setOrderId((String) orderData.get("orderId"));
-            order.setMemberId((String) orderData.get("memberEmail"));
+            order.setMemberId((String) orderData.get("memberId")); // 수정된 부분
             order.setTotalAmount((int) orderData.get("amount"));
             order.setStatus("COMPLETED");
 
             orderMapper.insertOrder(order);
 
             List<Map<String, Object>> items = (List<Map<String, Object>>) orderData.get("items");
-            for (Map<String, Object> itemData : items) {
-                OrderItem item = new OrderItem();
-                item.setOrderId(order.getOrderId());
-                item.setProductId((int) itemData.get("productId"));
-                item.setProductName((String) itemData.get("productName"));
-                item.setPrice((int) itemData.get("price"));
-                item.setQuantity((int) itemData.get("quantity"));
-                item.setProductImage((String) itemData.get("productImage"));
-                orderMapper.insertOrderItem(item);
+            if (items != null) {
+                for (Map<String, Object> itemData : items) {
+                    OrderItem item = new OrderItem();
+                    item.setOrderId(order.getOrderId());
+                    item.setProductId((int) itemData.get("productId"));
+                    item.setProductName((String) itemData.get("productName"));
+                    item.setPrice((int) itemData.get("price"));
+                    item.setQuantity((int) itemData.get("quantity"));
+                    item.setProductImage((String) itemData.get("productImage"));
+                    orderMapper.insertOrderItem(item);
+                }
             }
 
             return true;
@@ -68,6 +70,4 @@ public class OrderService {
     public List<OrderItem> findOrderItemsByOrderId(String orderId) {
         return orderMapper.findOrderItemsByOrderId(orderId);
     }
-
-
 }

@@ -38,22 +38,22 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
-    @RequestMapping(value = "/success", method = RequestMethod.GET)
-    public String success(@RequestParam("orderId") String orderId, Model model) {
-        System.out.println("OrderId: " + orderId);  // 로그 추가
-        Order order = orderService.findOrderByOrderId(orderId);
-        if (order == null) {
-            System.out.println("Order not found");  // 로그 추가
-            throw new RuntimeException("Order not found with orderId: " + orderId);
-        }
-        System.out.println("Order found: " + order);  // 로그 추가
-        model.addAttribute("order", order);
-        return "views/shop/success";
-    }
-
-    @RequestMapping(value = "/fail", method = RequestMethod.GET)
-    public String fail() {
-        return "views/shop/fail";
-    }
+//    @RequestMapping(value = "/success", method = RequestMethod.GET)
+//    public String success(@RequestParam("orderId") String orderId, Model model) {
+//        System.out.println("OrderId: " + orderId);  // 로그 추가
+//        Order order = orderService.findOrderByOrderId(orderId);
+//        if (order == null) {
+//            System.out.println("Order not found");  // 로그 추가
+//            throw new RuntimeException("Order not found with orderId: " + orderId);
+//        }
+//        System.out.println("Order found: " + order);  // 로그 추가
+//        model.addAttribute("order", order);
+//        return "views/shop/success";
+//    }
+//
+//    @RequestMapping(value = "/fail", method = RequestMethod.GET)
+//    public String fail() {
+//        return "views/shop/fail";
+//    }
 }
 

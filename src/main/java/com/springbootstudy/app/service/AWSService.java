@@ -1,3 +1,4 @@
+
 /*package com.springbootstudy.app.service;
 
 import com.google.gson.JsonArray;
@@ -36,6 +37,7 @@ public class AWSService {
 	  (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
 	  recipeMapper.insertRecipe(recipe); } } } }
  	 
+>>>>>>> d0a876db693c62597015febadbd489c6fa109de2
 //    //쇼핑몰 사이트에 데이터 넣는 초기화 메서드
 //   @PostConstruct
 //    public void init() {

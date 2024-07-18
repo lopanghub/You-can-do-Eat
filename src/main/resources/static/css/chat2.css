@@ -1,7 +1,7 @@
-div.headerTop {
+div.headerTop2 {
 	width: auto;
 	height: 8px;
-	background-color: #FF914D;
+	background-color: #93B665;
 	margin-bottom: 10px;
 }
 
@@ -27,7 +27,7 @@ div.headerTop {
 }
 
 #me {
-	background-color: #FF914D;
+	background-color: #93B665;
 }
 
 #you {
@@ -49,15 +49,16 @@ h2 {
 }
 
 #chatMessages {
-	width: 800px;
+	width: 1150px;
+	height: 700px
 }
 
 #btn-send {
 	width: 80px;
 	padding: 0.5rem 1rem;
 	background-color: transparent;
-	color: #FF914D;
-	border: 1px solid #FF914D;
+	color: #93B665;
+	border: 1px solid #93B665;
 	font-size: 1rem;
 	font-weight: bold;
 	text-align: center;
@@ -67,7 +68,7 @@ h2 {
 }
 
 #btn-send:hover {
-	background-color: #FF914D;
+	background-color: #93B665;
 	color: white;
 }
 

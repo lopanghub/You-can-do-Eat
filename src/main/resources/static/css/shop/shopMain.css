@@ -184,6 +184,7 @@
 }
 
 .btn.category:hover, .btn.category.active {
+
     background-color:#93B665;
     color: #fff;
 } 

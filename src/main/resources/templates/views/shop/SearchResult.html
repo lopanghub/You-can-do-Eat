@@ -14,23 +14,15 @@
 <!-- content -->
 <div layout:fragment="content">
 
-    <div class="row my-3">
-        <div class="col-12">
-            <th:block th:each="product : ${products}">
-                <div class="row" id="searchResultBox">
-                    <a th:href="'/shopDetail?productId=' + ${product.productId}">
-                        <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" alt="Product Image">
-                        <div th:text="${product.productName}"></div>
-                        <div class="price" th:text="${product.price}" th:attr="data-price=${product.price}"></div>
-                    </a>
-                </div>
-            </th:block>
-
-            <!-- 레시피 연동 -->
-            <div class="row">
-                <div class="col"></div>
+    <div class="row my-3 row-cols-1 row-cols-md-2 row-cols-lg-5 gx-3 gy-3" >
+        <div class="col" th:each="product : ${products}">
+            <div class="searchResultBox">
+                <a th:href="'/shopDetail?productId=' + ${product.productId}">
+                    <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" alt="Product Image">
+                    <div class ="product-description" th:text="${product.productName}"></div>
+                    <div class="price" th:text="${product.price}" th:attr="data-price=${product.price}"></div>
+                </a>
             </div>
-            <!--end 레시피 연동 -->
         </div>
     </div>
     <script th:inline="javascript" type="module">

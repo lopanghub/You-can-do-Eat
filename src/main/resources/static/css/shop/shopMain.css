@@ -186,6 +186,15 @@
     background-color: rgba(147, 182, 101, 0.1);
     color: #93B665;
 }
+
+.btn.category>a{
+	text-decoration:none;
+	color : #93B665;
+}
+
+.product-seller{
+	color : #93B665;
+}
 /*
 .carousel-caption{
 	position :absolute;

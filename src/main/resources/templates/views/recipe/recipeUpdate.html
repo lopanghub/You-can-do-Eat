@@ -21,8 +21,8 @@
 }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/recipe/recipeUpdate.js"></script>
 <script src="js/recipe/recipeUpdateFormCheck.js"></script>
+<script src="js/recipe/recipeUpdate.js"></script>
 </head>
 
 <body>
@@ -154,17 +154,17 @@
                       
                 <th:block th:if="${cList != null and !cList.isEmpty()}">
                     <div class="row my-2 cooking-item cookingSet" th:id="'cooking'+ ${cListStat.index}" th:each="cList, cListStat : ${cList}">
-                        <div class="col-md-9">
                             <div class="form-group row mb-3">
-                                <label for="cookTitle" class="col-sm-3 col-form-label">요리제목</label>
+                             <div></div>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="cookTitles" th:id="'cookings'+ ${cListStat.index}+'.cookTitle'" th:value="${cList.cookTitle}">
+                                	<span  class="fs-1 fw-bold">Step [[${cListStat.index}+1]]</span>
                                 </div>
                             </div>
+                        <div class="col-md-9">
                            <div class="form-group row mb-3">
                                 <label for="cookMethod" class="col-sm-3 col-form-label">요리과정</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="cookMethods" th:id="'cookings'+ ${cListStat.index}+'.cookMethod'" th:value="${cList.cookMethod}">
+		                            <textarea class="form-control" name="cookMethods" th:id="'cookings'+ ${cListStat.index}+'.cookMethod'" rows="3" >[[${cList.cookMethod}]]</textarea>
                                 </div>
                             </div> 
                             <div class="form-group row mb-3">
@@ -185,11 +185,11 @@
                             </div>
                         </div>
                       </div>  
-                        <div class="col-md-3">
-                            <div class="preview-container mb-3">
-                                <img class="preview" src="" alt="Image preview">
-                            </div>
-                        </div>
+                         <div class="col-md-3 p-0">
+		                    <div class="preview-container mb-3 my-0 p-0 ">
+		                        <img class="preview m-0" id="preview${cookingIndex}" src="" alt="Image preview" style="max-width: 100%; height: auto; display: none; border-radius:5px;">
+		                    </div>
+		                </div>
                     </div>
                 </th:block>
             </div>

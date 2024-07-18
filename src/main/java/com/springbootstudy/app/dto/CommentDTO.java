@@ -16,7 +16,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class commentDTO {
+public class CommentDTO {
 	    private Comment comment;
 	    private String stars;
 }

@@ -44,8 +44,6 @@ $(function() {
     function updateCartQuantity() {
         $('#cartQuantity').val(detailQuantity);
     }
-	
-	
 
     $('#addCart').click(function() {
         updateCartQuantity();

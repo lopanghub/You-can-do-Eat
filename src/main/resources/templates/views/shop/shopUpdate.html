@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="detailImagePreview" class="form-label">상세 이미지 미리보기</label>
-           			<img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="Detail Image">
+                    <img th:src="${#strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="현재 이미지" class="img-thumbnail" id="current-detail-thumbnail">
                     <div id="detailImagePreview" class="preview-container"></div>
                 </div>
                 <div class="col-12 text-center mt-5">

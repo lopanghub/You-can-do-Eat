@@ -9,18 +9,18 @@
 <div layout:fragment="content">
     <!-- 상세 정보 페이지 -->
     <div class="row my-3">
-        <div class="col-5">
+        <div class="col-6">
 <!--              <img th:src="@{${product.productImage != null ? product.productImage : '/images/shop/' + product.productImage}}" alt="Product Image" class="detail-product-image">
  -->
 <!--  			<img th:src="@{${product.productImage}}">-->
-           <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" 
-           alt="Product Image" >
+           <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" alt="Product Image">
         </div>
-        <div class="col-7">
+        <div class="col-6">
             <!-- 상품 정보 -->
             <div class="row">
                 <div class="col">
                     <h3 class="productName" th:text="${product.productName}"></h3>
+                    <h5>맛있는 고당도 사과</h5>
                     <div class="shipping-info">
                         <table>
                             <tr>
@@ -85,7 +85,7 @@
             </div>
         </div>
     </div>
-	
+
 
     <th:block th:if="${session.member.id == 'admin1'}">
         <div id="remote-control"
@@ -100,34 +100,31 @@
     </th:block>
 
     <!-- 상품 안내 앵커 -->
-<div class="row sticky-nav">
-    <div class="col ">
-        <a href="#productDetail">상품 상세</a>
-    </div>
-    <div class="col ">
-        <a href="#productReviews">상품 리뷰</a>
-    </div>
-    <div class="col ">
-        <a href="#recommendedProducts">추천 상품</a>
-    </div>
-    <div class="col ">
-        <a href="#faq">FAQ</a>
-    </div>
-</div>
-
-     <!-- 상세 이미지 표시 -->
-     <a id="productDetail"></a>
-    <div class="row my-3" id="imageWrapper">
-        <div class="col-12">
-            <img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" 
-            alt="Detail Image" id="detailImage">
+    <div class="row">
+        <div class="col">
+            <a href="#productDetail">상품 상세</a>
+        </div>
+        <div class="col">
+            <a href="#productReviews">상품 리뷰</a>
+        </div>
+        <div class="col">
+            <a href="#recommendedProducts">추천 상품</a>
+        </div>
+        <div class="col">
+            <a href="#recipeRecommendations">레시피 추천</a>
         </div>
     </div>
-    
-    <button id="toggleButton">상품정보 더보기 ▼</button>
-    
+
+    <!-- 상세 이미지 표시 -->
+    <div class="row my-3">
+        <div class="col-12">
+           <img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="Detail Image">
+        </div>
+    </div>
+    <!--상품 상세 페이지 들어갈자리 -->
+    <div class="row"></div>
+
     <!-- 리뷰 작성 -->
-    <a id="productReviews"></a>
     <h4>상품 리뷰</h4>
     <div class="row">
         <div class="col reviewBox"></div>
@@ -139,36 +136,12 @@
             <button id="submitReview">리뷰 작성</button>
         </div>
     </div>
-	
-	
+
     <!-- 추천 상품 -->
-    <a id="recommendedProducts"></a>
     <div class="row"></div>
-	
-	
-	
-    <!--faq -->
-    <a id="faq"></a>
-    <div class="faq-container">
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleAnswer(this)">
-                <span>배송을 얼마나 걸리나요?</span>
-                <span class="toggle-btn">▼</span>
-            </div>
-            <div class="faq-answer">
-                <p>상품을 주문하신 시각에 따라 다르면 최대 2일 소요됩니다.</p>
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleAnswer(this)">
-                <span>교환 환불 정책은 어떻게 되나요?</span>
-                <span class="toggle-btn">▼</span>
-            </div>
-            <div class="faq-answer">
-                <p>구입 후 7일 이내 무상으로 교환 환불 가능합니다.</p>
-            </div>
-        </div>
-    </div>
+
+    <!--레시피 추천 -->
+    <div class="row"></div>
 
     <script th:inline="javascript">
         $(document).ready(function() {
@@ -279,88 +252,6 @@
                 }
             });
         });
-        
-        //FAQ 토글
-        function toggleAnswer(element) {
-            var answer = element.nextElementSibling;
-            var button = element.querySelector('.toggle-btn');
-            var allAnswers = document.querySelectorAll('.faq-answer');
-            var allButtons = document.querySelectorAll('.toggle-btn');
-            
-            // 다른 모든 답변 닫기
-            allAnswers.forEach(function(item) {
-                if (item !== answer && item.style.height !== '0px') {
-                    item.style.height = '0px';
-                    item.previousElementSibling.querySelector('.toggle-btn').classList.remove('open');
-                }
-            });
-
-            // 클릭된 답변 토글
-            if (answer.style.height === '0px' || answer.style.height === '') {
-                answer.style.height = answer.scrollHeight + 'px';
-                button.classList.add('open');
-            } else {
-                answer.style.height = '0px';
-                button.classList.remove('open');
-            }
-        }
-
-        // 초기 높이 설정
-        function toggleAnswer(element) {
-            var answer = element.nextElementSibling;
-            var button = element.querySelector('.toggle-btn');
-            var allAnswers = document.querySelectorAll('.faq-answer');
-            var allButtons = document.querySelectorAll('.toggle-btn');
-            
-            // 다른 모든 답변 닫기
-            allAnswers.forEach(function(item) {
-                if (item !== answer && item.style.height !== '0px') {
-                    item.style.height = '0px';
-                    item.previousElementSibling.querySelector('.toggle-btn').classList.remove('open');
-                }
-            });
-
-            // 클릭된 답변 토글
-            if (answer.style.height === '0px' || answer.style.height === '') {
-                answer.style.height = answer.scrollHeight + 'px';
-                button.classList.add('open');
-            } else {
-                answer.style.height = '0px';
-                button.classList.remove('open');
-            }
-        }
-
-        // 초기 높이 설정
-        document.addEventListener('DOMContentLoaded', function() {
-            var answers = document.querySelectorAll('.faq-answer');
-            answers.forEach(function(answer) {
-                answer.style.height = '0px';
-            });
-        });
-       
-		//상품 정보 더보기 버튼
-    const imageWrapper = document.getElementById('imageWrapper');
-    const image = document.getElementById('detailImage');
-    const toggleButton = document.getElementById('toggleButton');
-
-    toggleButton.addEventListener('click', function() {
-        if (imageWrapper.style.maxHeight === '500px' || imageWrapper.style.maxHeight === '') {
-            imageWrapper.style.maxHeight = image.scrollHeight + "px";
-            toggleButton.textContent = '숨기기 ▲';
-        } else {
-            imageWrapper.style.maxHeight = '500px';
-            toggleButton.textContent = '상품정보 더보기 ▼';
-        }
-
-        // 버튼 위치를 이미지의 끝으로 이동
-        setTimeout(() => {
-            const imageRect = image.getBoundingClientRect();
-            const wrapperRect = imageWrapper.getBoundingClientRect();
-            toggleButton.style.top = (imageRect.height - wrapperRect.height > 0 ? wrapperRect.height : imageRect.height) - toggleButton.offsetHeight + 'px';
-        }, 500); // transition 시간과 일치시킴
-    });
-
-
     </script>
 </div>
 

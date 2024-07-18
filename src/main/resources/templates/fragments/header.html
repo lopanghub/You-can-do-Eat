@@ -21,7 +21,7 @@
 				<th:block th:if="${session.isLogin}">
 					<a class="logout" href="/logout">로그아웃&nbsp;&nbsp;</a>
 					<a class="memberMyPage" href="/memberMyPage">|&nbsp;&nbsp;마이페이지&nbsp;</a>
-					<a class="cart" href="/cart">|&nbsp;&nbsp;<i class="bi bi-cart4"></i> (0)&nbsp;&nbsp;</a>
+					<a class="cart" href="/shopCart">|&nbsp;&nbsp;<i class="bi bi-cart4"></i> (0)&nbsp;&nbsp;</a>
 				</th:block>
 				<th:block th:unless="${session.isLogin}">
 					<a class="login" href="/login">로그인&nbsp;&nbsp;</a>

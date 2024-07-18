@@ -19,7 +19,9 @@
 				<th:block th:if="${session.isLogin}">
 					<a class="logout2" href="/logout">로그아웃&nbsp;&nbsp;</a>
 					<a class="memberMyPage2" href="/memberMyPage">|&nbsp;&nbsp;마이페이지&nbsp;</a>
-					<a class="cart2" href="/shopCart">|&nbsp;&nbsp;<i class="bi bi-cart4"></i> (0)&nbsp;&nbsp;</a>
+					<a class="cart2" href="/shopCart">|&nbsp;&nbsp;<i
+						class="bi bi-cart4"></i> (0)&nbsp;&nbsp;
+					</a>
 				</th:block>
 				<th:block th:unless="${session.isLogin}">
 					<a class="login2" href="/login">로그인&nbsp;&nbsp;</a>
@@ -50,17 +52,19 @@
 				<div class="dropdown">
 					<a href="/shopMain" class="dropbtn">YOU CAN BUY EAT</a>
 					<div class="dropdown-content">
-						<a href="#">과일</a> <a href="#">야채</a> <a href="#">정육</a> <a
-							href="#">해산물</a> <a href="#">기타</a>
+						<a th:href="@{/searchProduct(category='과일')}">과일</a> <a
+							th:href="@{/searchProduct(category='채소')}">채소</a> <a
+							th:href="@{/searchProduct(category='정육')}">정육/계란</a> <a
+							th:href="@{/searchProduct(category='해산물')}">해산물</a> <a
+							th:href="@{/searchProduct(category='조미료')}">조미료</a>
 					</div>
 				</div>
 
 				<div class="dropdown">
 					<a href="/noticeList" class="dropbtn">공지 & 이벤트</a>
 					<div class="dropdown-content">
-						<a href="/noticeList">공지사항</a>
-						<a href="/eventList">이벤트</a>
-						<a href="/faq">FAQ</a>
+						<a href="/noticeList">공지사항</a> <a href="/eventList">이벤트</a> <a
+							href="/faq">FAQ</a>
 					</div>
 				</div>
 
@@ -79,9 +83,9 @@
 
 			<!-- 검색 영역 -->
 			<div class="search-form">
-				<form class="d-flex" role="search">
+				<form class="d-flex" role="search" action="/searchProduct">
 					<input class="form-control me-2" type="search" placeholder="상품 검색"
-						aria-label="Search">
+						aria-label="Search" name="query">
 					<button class="btn btn-outline-success" type="submit">Search</button>
 				</form>
 			</div>

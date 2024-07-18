@@ -99,4 +99,13 @@ public class ProductService {
 	public void deleteCart(int productId) {
 		productMapper.deleteCartByProductId(productId);
 	}
+	
+	//검색기능
+	public List<Product> searchProducts(String query) {
+        return productMapper.searchProducts(query);
+    }
+	
+	public List<Product> searchProductsByCategory(String category) {
+        return productMapper.searchProductsByCategory(category);
+    }
 }

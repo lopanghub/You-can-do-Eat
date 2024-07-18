@@ -283,7 +283,7 @@ $(function() {
 				if (!recipeList.cooking.cookFile) {
 					recipeList.cooking.cookFile = "https://via.placeholder.com/300";
 				} else {
-					recipeList.cooking.cookFile = "./uploads/cooking/" + recipeList.cookFile;
+					recipeList.cooking.cookFile = "./uploads/cooking/" + recipeList.cooking.cookFile;
 				}
 				const { materials } = recipeList;
 				const ingredients = materials.filter(material => material.typeMaterial === '재료');

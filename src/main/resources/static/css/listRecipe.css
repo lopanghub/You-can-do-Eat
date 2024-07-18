@@ -31,7 +31,7 @@ body {
     border-radius: 4px;
     transition: all 0.3s ease;
     cursor: pointer;
-    font-size: 14px; /* 글자 크기를 줄여 버튼 크기에 맞춤 */
+    font-size: 0.9em;
     line-height: 1.5; /* 줄 간격 조정 */
 }
 .detail-delete-button:hover {
@@ -67,6 +67,7 @@ body {
 	border-radius: 5px;
 	border: 1px solid #7a8577;
 	transition: all 0.3s ease;
+	font-size: 0.9em;
 }
 
 .detail-review-button:hover {

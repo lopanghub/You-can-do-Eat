@@ -55,7 +55,7 @@ $(document).on("click", "#commentBtn", function() {
 		let pageNum = $("#pageNum").val();
 		const bookContent = `
                     <div class="col">
-							<div class="recipe-collection text-center">
+							<div class="recipe-collection">
 								<div class="col-12">
 									<div class="row">
 										<div class="col recipe-collection-title">
@@ -90,19 +90,154 @@ $(document).on("click", "#commentBtn", function() {
 										</div>
 									</div>
 								</div>
-								<div class="row my-2">
-									<div class="col">
-										/*재료들어간부분*/
-									</div>
-								</div>
-								/*요리과정들어간부분*/
+								<div id="recipeListDetail"></div>
 							</div>
 						</div>
                     `;
-
+		
 		$(".rList").append(bookContent);
-
+		recipeListDetail()
 	})
+	
+// 책의 상세보기 함수
+	function recipeListDetail() {
+		let boardNo = $("#boardNo").val();
+		$(".page").empty();
+		$.ajax({
+			url: "/ajax/recipeList",
+			type: "GET",
+			data: { boardNo: boardNo,
+			cookingId:cookingId },
+			success: function(recipe) {
+				console.log("Received recipe:", recipe);
+				const { materials } = recipe;
+				const ingredients = materials.filter(material => material.typeMaterial === '재료');
+				const seasonings = materials.filter(material => material.typeMaterial === '조미료');
+				if (!recipe.recipe.thumbnail) {
+					recipe.recipe.thumbnail = "https://via.placeholder.com/300.jpg";
+				} else {
+					recipe.thumbnail = "./uploads/" + recipe.recipe.thumbnail;
+				}
+
+				 let recipeContent = `
+                <div class="recipeDetailForm border border-dark rounded my-4">
+                    <div class="row my-3 text-center">
+                        <div class="col">
+                            <h1>${recipe.recipe.boardTitle}</h1>
+                        </div>
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col d-flex justify-content-center text-center">
+                            <img src="${recipe.recipe.thumbnail}" alt="${recipe.recipe.boardTitle}" style="height: 300px; width: 300px;" class="img-fluid d-block" onerror="this.src='http://via.placeholder.com/300';">
+                        </div>
+                    </div>
+                    <div class="row my-4 mx-3 border  rounded">
+                        <div class="col  ">
+                            <h3>${recipe.recipe.boardContent}</h3>
+                        </div>
+                    </div>
+                    <div class="row my-2 recipe-info" style="font-size: 1.2rem; margin-top: 20px;">
+                        <div class="col text-center">
+                            <i class="bi bi-people-fill" style="font-size: 1.5rem;"></i>
+                            <span style="margin-left: 5px;">${recipe.recipe.numberEaters}인분</span>
+                        </div>
+                        <div class="col text-center">
+                            <i class="bi bi-alarm" style="font-size: 1.5rem;"></i>
+                            <span style="margin-left: 5px;">${recipe.recipe.foodTime}분 이내</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col">
+                        <div class="row text-center">
+                            <div class="col-6 border border-dark rounded justify-content-start">
+                                <div class="row">
+                                    <h3>재료</h3>
+                                </div>
+                                <div class="row">
+                                    ${ingredients.map(ingredient => `
+                                        <div class="row my-1">
+                                            <div class="col">${ingredient.materialName}</div>
+                                            <div class="col">${ingredient.mensuration}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="col-6 border border-dark rounded justify-content-start">
+                                <div class="row">
+                                    <h3>조미료</h3>
+                                </div>
+                                <div class="row">
+                                    ${seasonings.map(seasoning => `
+                                        <div class="row my-1">
+                                            <div class="col">${seasoning.materialName}</div>
+                                            <div class="col">${seasoning.mensuration}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ${recipe.cookings.map((cListItem, index) => `
+                    <div class="row my-2">
+                        <div class="col">
+                            <div class="row my-2 border border-dark rounded" style="height: 300px;">
+                                <div class="col-5">
+                                    <div class="row">
+                                        <div class="col mx-4 text-center">
+                                            ${cListItem.cookFile ? `
+                                                <img src="./uploads/cooking/${cListItem.cookFile}" alt="샘플이미지" class="img-fluid" style="height: 300px; width: 300px;">
+                                            ` : `
+                                                <img src="https://via.placeholder.com/300" alt="샘플이미지" class="img-fluid">
+                                            `}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mx-3">
+                                    <div class="row my-2">
+                                        <div class="col">
+                                            <h4 class="fw-bold">Step ${index + 1}</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col">
+                                            <h5>조리방법</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col my-2 mx-3">
+                                            <span>${cListItem.cookMethod}</span>
+                                        </div>
+                                    </div>
+                                    ${cListItem.recommended ? `
+                                        <div class="row my-1">
+                                            <div class="col my-2">
+                                                <h5>주의할점</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row my-1">
+                                            <div class="col my-2 mx-3">
+                                                <span>${cListItem.recommended}</span>
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+				$("#recipeListDetail").append(recipeContent);
+				// updatePlayPauseButton(isPlay);
+			},
+			error: function(error) {
+				console.error("Error fetching book details:", error);
+			}
+		});
+	}
+
 
 
 });

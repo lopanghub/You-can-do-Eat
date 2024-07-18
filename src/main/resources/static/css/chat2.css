@@ -26,7 +26,7 @@ div.headerTop2 {
 	float: right;
 }
 
-#me2 {
+#me {
 	background-color: #93B665;
 }
 
@@ -48,12 +48,12 @@ h2 {
 	text-align: center;
 }
 
-#chatMessages2 {
+#chatMessages {
 	width: 1150px;
 	height: 700px
 }
 
-#btn-send2 {
+#btn-send {
 	width: 80px;
 	padding: 0.5rem 1rem;
 	background-color: transparent;
@@ -67,7 +67,7 @@ h2 {
 	cursor: pointer;
 }
 
-#btn-send2:hover {
+#btn-send:hover {
 	background-color: #93B665;
 	color: white;
 }
@@ -80,6 +80,6 @@ h2 {
 	border-radius: 5px 0 0 5px;
 }
 
-#btn-send2 {
+#btn-send {
 	border-radius: 0 5px 5px 0;
 }

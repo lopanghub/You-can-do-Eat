@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layouts/chat_layout}">
+	layout:decorate="~{layouts/chat_layout2}">
 <!-- content -->
 <div layout:fragment="content" class="row" id="global-content">
 	<script th:src="@{/js/chat.js}"></script>
@@ -12,7 +12,7 @@
 			<div class="row justify-content-center">
 				 <div class="col-lg-11">
 					<div class="chat-container">
-						<div class="chat-messages" id="chatMessages2">
+						<div class="chat-messages" id="chatMessages">
 							<!-- Chat messages will be displayed here -->
 						</div>
 						<form id="sendMessageForm">
@@ -22,7 +22,7 @@
 										<input class="form-control" id="messageInput"
 											placeholder="메시지 입력" style="resize: none;" />
 											<div class="input-group-append">
-										<button type="submit" class="btn" id="btn-send2">보내기</button>
+										<button type="submit" class="btn" id="btn-send">보내기</button>
 										</div>
 									</div>
 								</div>
@@ -90,7 +90,7 @@
 			
 		    if (sessionId == curSession) { // 자신의 메시지인 경우
 		       str = '<div class="msg_box my-2" id="my">'
-		                    + '<div class="card" id="me2">'
+		                    + '<div class="card" id="me">'
 		                    + '<div class="card-body">'
 		                    + '<p class="card-text">' + sessionId + (message ? ' : ' + message : '') + '</p>'
 		                    + '</div>'

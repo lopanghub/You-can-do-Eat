@@ -182,66 +182,74 @@
 		
 		<script th:inline="javascript">
 		document.addEventListener("DOMContentLoaded", function() {
-		    function generateRandomString(length) {
-		        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		        let result = '';
-		        const charactersLength = characters.length;
-		        for (let i = 0; i < length; i++) {
-		            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-		        }
-		        return result;
-		    }
+			console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+			 function generateRandomString(length) {
+			        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+			        let result = '';
+			        const charactersLength = characters.length;
+			        for (let i = 0; i < length; i++) {
+			            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+			        }
+			        return result;
+			    }
 
-		    const orderId = generateRandomString(10);
-		    const customerKey = generateRandomString(10);
+			    // Generate orderId and customerKey
+		    const orderId = generateRandomString(10); // Adjust length as needed
+		    const customerKey = generateRandomString(10); // Adjust length as needed
+		    
+		    // Get total order price from the data attribute
 		    const amount = parseInt(document.getElementById('totalOrderPrice').innerText, 10);
 
+    		console.log("가격총량", amount);
+		    // Get the payment button element
 		    const button = document.getElementById("payment-button");
+
+		    // Initialize the payment widget with a predefined client key
 		    const widgetClientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+
+		    // Initialize the payment widget
 		    const paymentWidget = PaymentWidget(widgetClientKey, customerKey);
 
-		    paymentWidget.renderPaymentMethods("#payment-method", { value: amount }, { variantKey: "DEFAULT" });
-		    paymentWidget.renderAgreement("#agreement", { variantKey: "AGREEMENT" });
+		    // Render payment methods
+		    const paymentMethodWidget = paymentWidget.renderPaymentMethods(
+		        "#payment-method", {
+		            value: amount // Parse the total order price as an integer
+		        }, {
+		            variantKey: "DEFAULT"
+		        }
+		    );
 
+		    // Render agreement section
+		    paymentWidget.renderAgreement("#agreement", {
+		        variantKey: "AGREEMENT"
+		    });
+		    
 		    let orderName = '';
-		    const cartDetails = [[${session.cartDetails}]];
-		    const cart = [[${session.cart}]];
+	        const cartDetails = [[${session.cartDetails}]];
+	        const cart = [[${session.cart}]];
 
-		    if (cartDetails != null) {
-		        orderName = cartDetails[0].productName + ' 외 ' + (cartDetails.length - 1) + '건';
-		    } else if (cart) {
-		        orderName = cart.productName;
-		    }
+	        if (cartDetails != null) {
+	            orderName = cartDetails[0].productName + ' 외 ' + (cartDetails.length - 1) + '건';
+	        } else if (cart) {
+	            orderName = cart.productName;
+	        }
+	        
 
+		    // Add event listener for the payment button
 		    button.addEventListener("click", function() {
-		    	
-		        fetch('/order/create', {
-		            method: 'POST',
-		            headers: {
-		                'Content-Type': 'application/x-www-form-urlencoded',
-		            },
-		            body: new URLSearchParams({
-		                orderId: orderId,
-		                amount: amount,
-		                payment: '미결제',
-		            })
-		        }).then(response => {
-		            if (response.ok) {
-		            	
-		                paymentWidget.requestPayment({
-		                    orderId: orderId,
-		                    orderName: orderName,
-		                    successUrl: window.location.origin + '/widget/success?orderId=' + orderId,
-		                    failUrl: window.location.origin + '/widget/fail',
-		                });
-		            } else {
-		                console.error('Order creation failed');
-		            }
-		        }).catch(error => {
-		            console.error('Error:', error);
+		        
+
+		        // Request payment
+		        paymentWidget.requestPayment({
+		            orderId: orderId,
+		            orderName: orderName,
+		            successUrl: window.location.origin + "/success",
+		            failUrl: window.location.origin + "/fail"
 		        });
 		    });
 		});
+
+				
 		</script>
 
 	</div>

@@ -43,136 +43,126 @@ public class ProductController {
 
 	private final ProductService productService;
 	private final S3Service s3Service;
-	
-	//상품수정
+
+	// 상품수정
 	@PostMapping("/updateProduct")
-    public String updateProduct(
-            @RequestParam("productId") int productId,
-            @RequestParam("productName") String productName,
-            @RequestParam("price") int price,
-            @RequestParam("category") String category,
-            @RequestParam("ingredient") String ingredient,
-            @RequestParam("productImage") MultipartFile productImage,
-            @RequestParam("detailImage") MultipartFile detailImage,
-            Model model) {
+	public String updateProduct(@RequestParam("productId") int productId,
+			@RequestParam("productName") String productName, @RequestParam("price") int price,
+			@RequestParam("category") String category, @RequestParam("ingredient") String ingredient,
+			@RequestParam("productImage") MultipartFile productImage,
+			@RequestParam("detailImage") MultipartFile detailImage, Model model) {
 
-        Product product = productService.getProductById(productId);
-        product.setProductName(productName);
-        product.setPrice(price);
-        product.setCategory(category);
-        product.setIngredient(ingredient);
+		Product product = productService.getProductById(productId);
+		product.setProductName(productName);
+		product.setPrice(price);
+		product.setCategory(category);
+		product.setIngredient(ingredient);
 
-        try {
-            if (!productImage.isEmpty()) {
-                String productImageName = saveFile(productImage);
-                product.setProductImage(productImageName);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("message", "Product image upload failed");
-        }
+		try {
+			if (!productImage.isEmpty()) {
+				String productImageName = saveFile(productImage);
+				product.setProductImage(productImageName);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			model.addAttribute("message", "Product image upload failed");
+		}
 
-        try {
-            if (!detailImage.isEmpty()) {
-                String detailImageName = saveFile(detailImage);
-                product.setDetailImage(detailImageName);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("message", "Detail image upload failed");
-        }
+		try {
+			if (!detailImage.isEmpty()) {
+				String detailImageName = saveFile(detailImage);
+				product.setDetailImage(detailImageName);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			model.addAttribute("message", "Detail image upload failed");
+		}
 
-        productService.updateProduct(product);
+		productService.updateProduct(product);
 
-        return "redirect:/shopDetail?productId=" + productId;
-    }
-	
-	//상품 등록
-    @PostMapping("/insertProduct")
-    public String insertProduct(
-            @RequestParam("productName") String productName,
-            @RequestParam("price") int price,
-            @RequestParam("category") String category,
-            @RequestParam("ingredient") String ingredient,
-            @RequestParam("productImage") MultipartFile productImage,
-            @RequestParam("detailImage") MultipartFile detailImage,
-            Model model) {
+		return "redirect:/shopDetail?productId=" + productId;
+	}
 
-        Product product = new Product();
-        product.setProductName(productName);
-        product.setPrice(price);
-        product.setCategory(category);
-        product.setIngredient(ingredient);
+	// 상품 등록
+	@PostMapping("/insertProduct")
+	public String insertProduct(@RequestParam("productName") String productName, @RequestParam("price") int price,
+			@RequestParam("category") String category, @RequestParam("ingredient") String ingredient,
+			@RequestParam("productImage") MultipartFile productImage,
+			@RequestParam("detailImage") MultipartFile detailImage, Model model) {
 
-        try {
-            if (!productImage.isEmpty()) {
-                String productImageName = saveFile(productImage);
-                product.setProductImage(productImageName);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("message", "Product image upload failed");
-        }
+		Product product = new Product();
+		product.setProductName(productName);
+		product.setPrice(price);
+		product.setCategory(category);
+		product.setIngredient(ingredient);
 
-        try {
-            if (!detailImage.isEmpty()) {
-                String detailImageName = saveFile(detailImage);
-                product.setDetailImage(detailImageName);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("message", "Detail image upload failed");
-        }
+		try {
+			if (!productImage.isEmpty()) {
+				String productImageName = saveFile(productImage);
+				product.setProductImage(productImageName);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			model.addAttribute("message", "Product image upload failed");
+		}
 
-        productService.insertProduct(product);
+		try {
+			if (!detailImage.isEmpty()) {
+				String detailImageName = saveFile(detailImage);
+				product.setDetailImage(detailImageName);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			model.addAttribute("message", "Detail image upload failed");
+		}
 
-        return "redirect:/shopMain";
-    }
+		productService.insertProduct(product);
 
-    private String saveFile(MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        String saveDirPath = Paths.get(System.getProperty("user.dir"), DEFAULT_PATH).toString();
-        File saveDir = new File(saveDirPath);
+		return "redirect:/shopMain";
+	}
 
-        if (!saveDir.exists()) {
-            saveDir.mkdirs();
-        }
+	private String saveFile(MultipartFile file) throws IOException {
+		String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+		String saveDirPath = Paths.get(System.getProperty("user.dir"), DEFAULT_PATH).toString();
+		File saveDir = new File(saveDirPath);
 
-        File saveFile = new File(saveDir, fileName);
-        file.transferTo(saveFile);
-        return fileName;
-    }
+		if (!saveDir.exists()) {
+			saveDir.mkdirs();
+		}
+
+		File saveFile = new File(saveDir, fileName);
+		file.transferTo(saveFile);
+		return fileName;
+	}
+
 	// 상품 삭제 처리
 	@PostMapping("/deleteProduct")
-    public String deleteProduct(@RequestParam("productId") int productId) {
-        productService.deleteProduct(productId);
-        return "redirect:/shopMain";  // 삭제 후 상품 목록 페이지로 리디렉션
-    }
-	
+	public String deleteProduct(@RequestParam("productId") int productId) {
+		productService.deleteProduct(productId);
+		return "redirect:/shopMain"; // 삭제 후 상품 목록 페이지로 리디렉션
+	}
 
-   
+	@PostMapping("/updateForm")
+	public String productToUpdate(@RequestParam(name = "productId") int productId, Model model) {
+		Product product = productService.getProductById(productId);
+		model.addAttribute("product", product);
+		return "views/shop/shopUpdate";
+	}
 
-    @PostMapping("/updateForm")
-    public String productToUpdate(@RequestParam(name = "productId") int productId, Model model) {
-        Product product = productService.getProductById(productId);
-        model.addAttribute("product", product);
-        return "views/shop/shopUpdate";
-    }
+	@GetMapping("/shopDetail")
+	public String getProductByID(Model model, HttpSession session, @RequestParam(name = "productId") int productId,
+			RedirectAttributes redirectAttributes) {
+		MemberShip member = (MemberShip) session.getAttribute("member");
 
-    @GetMapping("/shopDetail")
-    public String getProductByID(Model model, HttpSession session, @RequestParam(name = "productId") int productId,
-                                 RedirectAttributes redirectAttributes) {
-        MemberShip member = (MemberShip) session.getAttribute("member");
+		if (member == null) {
+			redirectAttributes.addFlashAttribute("message", "로그인 후 이용해주세요.");
+			return "redirect:/login";
+		}
 
-        if (member == null) {
-            redirectAttributes.addFlashAttribute("message", "로그인 후 이용해주세요.");
-            return "redirect:/login";
-        }
-
-        Product product = productService.getProductById(productId);
-        model.addAttribute("product", product);
-        return "views/shop/shopDetail";
-    }
+		Product product = productService.getProductById(productId);
+		model.addAttribute("product", product);
+		return "views/shop/shopDetail";
+	}
 
 	// shopDetails-장바구니 추가하기 버튼 누를시
 	@PostMapping("/addCart")
@@ -191,9 +181,9 @@ public class ProductController {
 		productService.addCart(productId, quantity);
 		CartProductDTO cart = productService.getCartDetailsById(productId);
 		int totalAmount = 0;
-		if (cart!= null) {
+		if (cart != null) {
 			totalAmount = cart.getQuantity() * cart.getPrice();
-		}	
+		}
 		session.setAttribute("cart", cart);
 		session.removeAttribute("cartDetails");
 		session.setAttribute("totalAmount", totalAmount);
@@ -212,10 +202,10 @@ public class ProductController {
 	@PostMapping("/cartToOrder")
 	public String cartToOrder(HttpSession session) {
 		List<CartProductDTO> cartDetails = productService.getCartDetails();
-		for(CartProductDTO product : cartDetails) {
+		for (CartProductDTO product : cartDetails) {
 			System.out.println(product);
 		}
-		
+
 		session.setAttribute("cartDetails", cartDetails);
 		session.removeAttribute("cart");
 		return "redirect:/shopOrder";
@@ -225,26 +215,42 @@ public class ProductController {
 	// 구매 페이지 진입시
 	@GetMapping("/shopOrder")
 	public String showOrderPage(HttpSession session, Model model) {
-	    CartProductDTO cart = (CartProductDTO) session.getAttribute("cart");
-	    List<CartProductDTO> cartDetails = (List<CartProductDTO>) session.getAttribute("cartDetails");
-	    MemberShip member = (MemberShip) session.getAttribute("member");
-	    Integer totalAmount = (Integer) session.getAttribute("totalAmount"); // 세션에서 totalAmount 가져오기
+		CartProductDTO cart = (CartProductDTO) session.getAttribute("cart");
+		List<CartProductDTO> cartDetails = (List<CartProductDTO>) session.getAttribute("cartDetails");
+		MemberShip member = (MemberShip) session.getAttribute("member");
+		Integer totalAmount = (Integer) session.getAttribute("totalAmount"); // 세션에서 totalAmount 가져오기
 
-	    if (totalAmount == null) {
-	        totalAmount = 0;
-	        if (cartDetails != null) {
-	            totalAmount = cartDetails.stream().mapToInt(item -> item.getQuantity() * item.getPrice()).sum();
-	        }
-	    }
+		if (totalAmount == null) {
+			totalAmount = 0;
+			if (cartDetails != null) {
+				totalAmount = cartDetails.stream().mapToInt(item -> item.getQuantity() * item.getPrice()).sum();
+			}
+		}
 
-	    model.addAttribute("member", member);
-	    model.addAttribute("cart", cart);
-	    model.addAttribute("cartDetails", cartDetails);
-	    model.addAttribute("totalAmount", totalAmount); // 모델에 totalAmount 설정
+		model.addAttribute("member", member);
+		model.addAttribute("cart", cart);
+		model.addAttribute("cartDetails", cartDetails);
+		model.addAttribute("totalAmount", totalAmount); // 모델에 totalAmount 설정
 
-	    return "views/shop/shopOrder";
+		return "views/shop/shopOrder";
 	}
 
-	
+	// 검색기능 추가
+	@GetMapping("/searchProduct")
+	public String searchProducts(@RequestParam(name = "query", required = false) String query,
+			@RequestParam(name = "category", required = false) String category, Model model) {
+		List<Product> products;
+		if (category != null && !category.isEmpty()) {
+			products = productService.searchProductsByCategory(category);
+		} else if (query != null && !query.isEmpty()) {
+			products = productService.searchProducts(query);
+		} else {
+			products = List.of(); // 빈 리스트 반환
+		}
+		model.addAttribute("products", products);
+		model.addAttribute("query", query);
+		model.addAttribute("category", category);
+		return "views/shop/SearchResult"; // 템플릿 이름을 반환합니다
+	}
 
 }

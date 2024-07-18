@@ -31,11 +31,11 @@
 ////	  "recipes_updated_with_details.json"; String jsonContent =
 ////	  s3Service.downloadFile(key);
 ////	  
-////	  if (jsonContent != null) { List<RecipeBoard> recipes =
-////	  parseRecipesFromJson(jsonContent); for (RecipeBoard recipe : recipes) { if
-////	  (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
-////	  recipeMapper.insertRecipe(recipe); } } } }
-////	 
+//	  if (jsonContent != null) { List<RecipeBoard> recipes =
+//	  parseRecipesFromJson(jsonContent); for (RecipeBoard recipe : recipes) { if
+//	  (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
+//	  recipeMapper.insertRecipe(recipe); } } } }
+	 
 //    //쇼핑몰 사이트에 데이터 넣는 초기화 메서드
 //   @PostConstruct
 //    public void init() {

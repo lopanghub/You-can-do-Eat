@@ -181,76 +181,125 @@
 		</div>
 		
 		<script th:inline="javascript">
-		document.addEventListener("DOMContentLoaded", function() {
-			console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-			 function generateRandomString(length) {
-			        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-			        let result = '';
-			        const charactersLength = characters.length;
-			        for (let i = 0; i < length; i++) {
-			            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-			        }
-			        return result;
-			    }
+    document.addEventListener("DOMContentLoaded", function() {
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        function generateRandomString(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
 
-			    // Generate orderId and customerKey
-		    const orderId = generateRandomString(10); // Adjust length as needed
-		    const customerKey = generateRandomString(10); // Adjust length as needed
-		    
-		    // Get total order price from the data attribute
-		    const amount = parseInt(document.getElementById('totalOrderPrice').innerText, 10);
+        // Generate orderId and customerKey
+        const orderId = generateRandomString(10); // Adjust length as needed
+        const customerKey = generateRandomString(10); // Adjust length as needed
+        
+        // Get total order price from the data attribute
+        const amount = parseInt(document.getElementById('totalOrderPrice').innerText, 10);
 
-    		console.log("가격총량", amount);
-		    // Get the payment button element
-		    const button = document.getElementById("payment-button");
+        console.log("가격총량", amount);
+        // Get the payment button element
+        const button = document.getElementById("payment-button");
 
-		    // Initialize the payment widget with a predefined client key
-		    const widgetClientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+        // Get memberId from the session
+        const memberId = /*[[${session.member.id}]]*/ '[[${session.member.id}]]';
+        console.log("memberId: " + memberId);
 
-		    // Initialize the payment widget
-		    const paymentWidget = PaymentWidget(widgetClientKey, customerKey);
+        // Initialize the payment widget with a predefined client key
+        const widgetClientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
 
-		    // Render payment methods
-		    const paymentMethodWidget = paymentWidget.renderPaymentMethods(
-		        "#payment-method", {
-		            value: amount // Parse the total order price as an integer
-		        }, {
-		            variantKey: "DEFAULT"
-		        }
-		    );
+        // Initialize the payment widget
+        const paymentWidget = PaymentWidget(widgetClientKey, customerKey);
 
-		    // Render agreement section
-		    paymentWidget.renderAgreement("#agreement", {
-		        variantKey: "AGREEMENT"
-		    });
-		    
-		    let orderName = '';
-	        const cartDetails = [[${session.cartDetails}]];
-	        const cart = [[${session.cart}]];
+        // Render payment methods
+        const paymentMethodWidget = paymentWidget.renderPaymentMethods(
+            "#payment-method", {
+                value: amount // Parse the total order price as an integer
+            }, {
+                variantKey: "DEFAULT"
+            }
+        );
 
-	        if (cartDetails != null) {
-	            orderName = cartDetails[0].productName + ' 외 ' + (cartDetails.length - 1) + '건';
-	        } else if (cart) {
-	            orderName = cart.productName;
-	        }
-	        
+        // Render agreement section
+        paymentWidget.renderAgreement("#agreement", {
+            variantKey: "AGREEMENT"
+        });
+        
+        let orderName = '';
+        const cartDetails = /*[[${session.cartDetails}]]*/ [];
+        const cart = /*[[${session.cart}]]*/ null;
+        const items = [];
 
-		    // Add event listener for the payment button
-		    button.addEventListener("click", function() {
-		        
+        if (cartDetails != null && cartDetails.length > 0) {
+            orderName = cartDetails[0].productName + ' 외 ' + (cartDetails.length - 1) + '건';
+            cartDetails.forEach(item => {
+                items.push({
+                    productId: item.productId,
+                    productName: item.productName,
+                    productImage: item.productImage,
+                    price: item.price,
+                    quantity: item.quantity
+                });
+            });
+        } else if (cart) {
+            orderName = cart.productName;
+            items.push({
+                productId: cart.productId,
+                productName: cart.productName,
+                productImage: cart.productImage,
+                price: cart.price,
+                quantity: cart.quantity
+            });
+        }
 
-		        // Request payment
-		        paymentWidget.requestPayment({
-		            orderId: orderId,
-		            orderName: orderName,
-		            successUrl: window.location.origin + "/success",
-		            failUrl: window.location.origin + "/fail"
-		        });
-		    });
-		});
+        // Add event listener for the payment button
+        button.addEventListener("click", function() {
+            // Fetch to insert order information to the order table
+            fetch('/order/saveOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    orderId: orderId,
+                    memberId: memberId, // Add memberId from session
+                    customerKey: customerKey,
+                    amount: amount,
+                    orderName: orderName,
+                    items: items // Add items to the request
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Request payment after order information is successfully inserted
+                    paymentWidget.requestPayment({
+                        orderId: orderId,
+                        orderName: orderName,
+                        successUrl: window.location.origin + "/success",
+                        failUrl: window.location.origin + "/fail"
+                    });
+                } else {
+                    console.error('Order save failed:', data.message);
+                    // Handle order save failure (e.g., show an error message to the user)
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle error (show an error message to the user, etc.)
+            });
+        });
+    });
+</script>
 
-				
-		</script>
 
 	</div>
 </body>

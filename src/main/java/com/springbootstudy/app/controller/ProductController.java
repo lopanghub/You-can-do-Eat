@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -150,14 +151,11 @@ public class ProductController {
 	}
 
 	@GetMapping("/shopDetail")
-	public String getProductByID(Model model, HttpSession session, @RequestParam(name = "productId") int productId,
-			RedirectAttributes redirectAttributes) {
-		MemberShip member = (MemberShip) session.getAttribute("member");
-
-		if (member == null) {
-			redirectAttributes.addFlashAttribute("message", "로그인 후 이용해주세요.");
-			return "redirect:/login";
-		}
+	public String getProductByID(Model model, HttpSession session, 
+			@RequestParam(name = "productId") int productId,
+			//boolean isCartOk) {
+			@ModelAttribute(name="isCartOk") String isCartOk) {
+		
 
 		Product product = productService.getProductById(productId);
 		model.addAttribute("product", product);
@@ -166,12 +164,16 @@ public class ProductController {
 
 	// shopDetails-장바구니 추가하기 버튼 누를시
 	@PostMapping("/addCart")
-	public String addCart(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, Model model,
-			HttpSession session) {
+	public String addCart(@RequestParam("productId") int productId, 
+			@RequestParam("quantity") int quantity, Model model,
+			HttpSession session,
+			RedirectAttributes reAttrs) {
 
 		productService.addCart(productId, quantity);
 
-		return "redirect:/shopDetail?productId=" + productId;
+		reAttrs.addAttribute("productId", productId);
+		reAttrs.addFlashAttribute("isCartOk", true);
+		return "redirect:/shopDetail";
 	}
 
 	// shopDetails-바로구매 버튼 누를시

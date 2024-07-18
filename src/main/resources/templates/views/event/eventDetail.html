@@ -47,7 +47,7 @@
 									<th>파&nbsp;&nbsp;&nbsp;&nbsp;일</th>
 									<td colspan="3">
 										<th:block th:if="${ not #strings.isEmpty(eventBoard.file1) }">
-											<a th:href="@{|fileDownload?fileName=${eventBoard.file1}|}"> [[ ${noticeBoard.file1} ]] </a>
+											<a th:href="@{|fileDownload?fileName=${eventBoard.file1}|}"> [[ ${eventBoard.file1} ]] </a>
 										</th:block>
 										<th:block th:unless="${ not #strings.isEmpty(eventBoard.file1) }">
 											첨부파일 없음

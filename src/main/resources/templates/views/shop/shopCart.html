@@ -18,7 +18,9 @@
                 <!-- 장바구니 품목 -->
                 <th:block th:each="item : ${cartDetails}" >
                 <div class="row cartBox" th:data-product-id="${item.productId}">
-                    <div class="col productImage"><img th:src="@{${item.productImage} != null ? ${item.productImage} : '/resources/shop/' + ${item.productImage} }"></div>
+                    <div class="col productImage">
+						<img th:src="${item.productImage != null and #strings.startsWith(item.productImage, 'http') ? item.productImage : '/resources/shop/' + item.productImage}" alt="Product Image">
+                    </div>
                     <div class="col">
                         <p th:text="${item.productName}"></p>
                         <p class="price" th:data-price="${item.price}" th:text="${item.price}"></p>

@@ -34,18 +34,23 @@ public class AWSService {
 	  if (jsonContent != null) { List<RecipeBoard> recipes =
 	  parseRecipesFromJson(jsonContent); for (RecipeBoard recipe : recipes) { if
 	  (!recipeMapper.existsByTitle(recipe.getBoardTitle())) {
-	 recipeMapper.insertRecipe(recipe); } } } }
+	  recipeMapper.insertRecipe(recipe); } } } }
 	 
     //쇼핑몰 사이트에 데이터 넣는 초기화 메서드
-	/*
-	 * @PostConstruct public void init() { String key = "coupang_products.json";
-	 * String jsonContent = s3Service.downloadFile(key);
-	 * 
-	 * if (jsonContent != null) { List<Product> products =
-	 * parseProductsFromJson(jsonContent); for (Product product : products) { if
-	 * (!productMapper.existsByName(product.getProductName())) {
-	 * productMapper.insertProduct(product); } } } }
-	 */
+//   @PostConstruct
+//    public void init() {
+//        String key = "coupang_products.json";
+//        String jsonContent = s3Service.downloadFile(key);
+//
+//        if (jsonContent != null) {
+//            List<Product> products = parseProductsFromJson(jsonContent);
+//            for (Product product : products) {
+//                if (!productMapper.existsByName(product.getProductName())) {
+//                    productMapper.insertProduct(product);
+//                }
+//            }
+//        }
+//    }
 
     private List<RecipeBoard> parseRecipesFromJson(String jsonContent) {
         List<RecipeBoard> recipes = new ArrayList<>();

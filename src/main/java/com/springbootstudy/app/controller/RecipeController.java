@@ -29,7 +29,7 @@ import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
 import com.springbootstudy.app.domain.RecipeBoard;
-import com.springbootstudy.app.dto.commentDTO;
+import com.springbootstudy.app.dto.CommentDTO;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 

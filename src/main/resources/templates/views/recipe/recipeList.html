@@ -85,9 +85,9 @@
 									     
 									<!-- mx-auto 및 d-block 클래스 추가 --> <!-- Recipe title -->
 									<div th:text="${recipe.boardTitle}"></div> <!-- Recipe member ID and points -->
-									<div
-										th:text="${recipe.memberId} + ' (' + ${recipe.Apoint} + ')' "></div>
+									<div th:text="${recipe.memberId} "></div>
 									<!-- Recipe registration date -->
+									<i class="bi bi-eye-fill"></i><div  th:text="' (' + ${recipe.boardView} + ')'"></div>
 									<div th:text="${#dates.format(recipe.regDate, 'yyyy-MM-dd')}"></div>
 								</a>
 							</th:block>
@@ -102,11 +102,12 @@
 									onerror="this.src='http://via.placeholder.com/250x250';">
 									<!-- mx-auto 및 d-block 클래스 추가 --> <!-- Recipe title -->
 									<div th:text="${recipe.boardTitle}"></div> <!-- Recipe member ID and points -->
-									<div
-										th:text="${recipe.memberId} + ' (' + ${recipe.Apoint} + ')' "></div>
-									<!-- Recipe registration date -->
-									<div th:text="${#dates.format(recipe.regDate, 'yyyy-MM-dd')}"></div>
-								</a>
+									<div th:text="${recipe.memberId}"></div>
+									<div class="d-flex align-items-center" th:utext="'<i class=&quot;bi bi-eye-fill&quot;></i>&nbsp;&nbsp;&nbsp;(' + ${recipe.boardView} + 
+            ')&nbsp;&nbsp;&nbsp;<i class=&quot;bi bi-star-fill&quot;></i>&nbsp;&nbsp;&nbsp;(' + ${recipe.Apoint} + ')'"></div>
+
+
+ 								</a>
 							</th:block>
 						</div>
 					</div>

@@ -21,8 +21,8 @@
 }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/recipe/recipeUpdate.js"></script>
 <script src="js/recipe/recipeUpdateFormCheck.js"></script>
+<script src="js/recipe/recipeUpdate.js"></script>
 </head>
 
 <body>
@@ -164,7 +164,7 @@
                            <div class="form-group row mb-3">
                                 <label for="cookMethod" class="col-sm-3 col-form-label">요리과정</label>
                                 <div class="col-sm-9">
-		                            <textarea class="form-control" name="cookMethods" th:id="'cookings'+ ${cListStat.index}+'.cookMethod'" rows="3" th:value="${cList.cookMethod}"></textarea>
+		                            <textarea class="form-control" name="cookMethods" th:id="'cookings'+ ${cListStat.index}+'.cookMethod'" rows="3" >[[${cList.cookMethod}]]</textarea>
                                 </div>
                             </div> 
                             <div class="form-group row mb-3">

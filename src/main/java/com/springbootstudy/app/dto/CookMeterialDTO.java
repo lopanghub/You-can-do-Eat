@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import com.springbootstudy.app.domain.Comment;
+import com.springbootstudy.app.domain.Cooking;
+import com.springbootstudy.app.domain.Material;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +18,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class commentDTO {
-	    private Comment comment;
-	    private String stars;
+public class CookMeterialDTO {
+	 private Cooking cooking;
+	    private List<Material> materials;
 }

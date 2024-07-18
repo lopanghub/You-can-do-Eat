@@ -14,15 +14,15 @@
                 <input type="hidden" name="productId" th:value="${product.productId}">
                 <div class="col-md-6">
                     <label for="productName" class="form-label">상품명</label>
-                    <input type="text" class="form-control" name="productName" id="productName" th:value="${product.productName}">
+                    <input type="text" class="form-control" name="productName" id="productName" th:value="${product.productName}" required>
                 </div>
                 <div class="col-md-6">
                     <label for="price" class="form-label">가격</label>
-                    <input type="number" class="form-control" name="price" id="price" th:value="${product.price}">
+                    <input type="number" class="form-control" name="price" id="price" th:value="${product.price}" required>
                 </div>
                 <div class="col-md-6">
                     <label for="category" class="form-label">카테고리</label>
-                    <select class="form-select" name="category" id="category">
+                    <select class="form-select" name="category" id="category" required>
                         <option value="과일" th:selected="${product.category == '과일'}">과일</option>
                         <option value="채소" th:selected="${product.category == '채소'}">채소</option>
                         <option value="정육" th:selected="${product.category == '정육'}">정육</option>
@@ -32,71 +32,53 @@
                 </div>
                 <div class="col-md-6">
                     <label for="ingredient" class="form-label">재료분류</label>
-                    <input type="text" class="form-control" name="ingredient" id="ingredient" th:value="${product.ingredient}">
+                    <input type="text" class="form-control" name="ingredient" id="ingredient" th:value="${product.ingredient}" required>
                 </div>
                 <div class="col-md-6">
                     <label for="productImage" class="form-label">이미지 업로드</label>
-                    <input type="file" class="form-control" name="productImage" id="productImage">
+                    <input type="file" class="form-control" name="productImage" id="productImage" onchange="previewFile(event, 'imagePreview', 'current-thumbnail')">
                 </div>
                 <div class="col-md-6">
                     <label for="currentImage" class="form-label">현재 이미지</label>
-                    <div>
-                        <img th:src="@{${product.productImage}}" alt="현재 이미지" class="img-thumbnail" id="current-thumbnail">
-                    </div>
+                    <img th:src="${#strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" alt="현재 이미지" class="img-thumbnail" id="current-thumbnail">
+                    <div id="imagePreview" class="preview-container"></div>
                 </div>
                 <div class="col-md-6">
-                    <label for="detailImageUpload" class="form-label">상세 이미지 업로드</label>
-                    <input type="file" class="form-control" name="detailImageUpload" id="detailImageUpload">
+                    <label for="detailImage" class="form-label">상세 이미지 업로드</label>
+                    <input type="file" class="form-control" name="detailImage" id="detailImage" onchange="previewFile(event, 'detailImagePreview', 'current-detail-thumbnail')">
                 </div>
-                <div class="col-12">
-                    <label for="detailImage" class="form-label">상세 내용</label>
-                    <textarea class="form-control" name="detailImage" id="detailImage" rows="10" th:text="${product.detailImage}"></textarea>
+                <div class="col-md-6">
+                    <label for="detailImagePreview" class="form-label">상세 이미지 미리보기</label>
+                    <img th:src="${#strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="현재 이미지" class="img-thumbnail" id="current-detail-thumbnail">
+                    <div id="detailImagePreview" class="preview-container"></div>
                 </div>
                 <div class="col-12 text-center mt-5">
-                    <input type="submit" value="등록하기" class="btn btn-primary"/>
+                    <input type="submit" value="수정하기" class="btn btn-primary"/>
                 </div>
             </form>
         </div>
     </div>
     <script th:inline="javascript">
-    $(document).ready(function () {
-        $('#productImage').change(function () {
-            uploadImage(this.files[0], 'productImage');
-        });
+    // 이미지 미리보기
+    window.previewFile = function(event, previewId, currentImageId) {
+        const file = event.target.files[0];
+        const preview = document.getElementById(previewId);
+        const currentImage = document.getElementById(currentImageId);
+        
+        preview.innerHTML = "";  // Clear previous images
 
-        $('#detailImageUpload').change(function () {
-            uploadImage(this.files[0], 'detailImageUpload');
-        });
-
-        function uploadImage(file, type) {
-            const formData = new FormData();
-            formData.append(type, file);
-            formData.append('productId', $('input[name="productId"]').val());
-
-            $.ajax({
-                url: '/ajax/uploadImage',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                    if (response.success) {
-                        if (type === 'productImage') {
-                            $('#current-thumbnail').attr('src', response.imageUrl);
-                        } else if (type === 'detailImageUpload') {
-                            $('#current-detail-image').attr('src', response.imageUrl);
-                        }
-                    } else {
-                        alert('Failed to upload image');
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.error('Error uploading image:', textStatus, errorThrown);
-                }
-            });
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('img-fluid'); // Bootstrap class for responsive image
+                preview.appendChild(img);
+                currentImage.style.display = 'none';  // Hide current image
+            }
+            reader.readAsDataURL(file);
         }
-    });
-
+    }
     </script>
 </th:block>
 </html>

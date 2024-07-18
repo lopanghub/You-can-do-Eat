@@ -70,16 +70,16 @@ $(document).on("click", "#commentBtn", function() {
 										</div>
 									</div>
 									<div class="row">
-									<div class="col-2 text-start">
-													<input class="detail-edit-button" type="button" id="scrollButton"
+									<div class="col-2 text-end">
+													<input class="detail-review-button" type="button" id="scrollButton"
 														value="리뷰보기">
 												</div>
-												<div class="col-2">
+												<div class="col-2 text-start">
 													 ${searchOption ? `
-				                                            <input class="detail-edit-button" type="button" value="목록보기"
+				                                            <input class="detail-review-button" type="button" value="목록보기"
 				                                                onclick="location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'" />
 				                                        ` : `
-				                                            <input class="detail-edit-button" type="button" value="목록보기"
+				                                            <input class="detail-review-button" type="button" value="목록보기"
 				                                                onclick="location.href='recipeList?pageNum=${pageNum}'" />
 				                                        `}
 												</div>

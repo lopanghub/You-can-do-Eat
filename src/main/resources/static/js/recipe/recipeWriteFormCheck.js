@@ -101,22 +101,12 @@ $(document).ready(function() {
 
         $('.cookingSection .row[id^="cooking"]').each(function() {
             let cookingIndex = $(this).data('cookingindex');
-            let cookTitle = $(`#cookings${cookingIndex}\\.cookTitle`).val().trim();
             let cookMethod = $(`#cookings${cookingIndex}\\.cookMethod`).val().trim();
             let recommended = $(`#cookings${cookingIndex}\\.recommended`).val().trim();
             
             if(recommended==null){
 				recommended="";
 			}
-            
-
-            if (cookTitle === '') {
-                alert('요리 제목을 입력하세요.');
-                $(`#cookings${cookingIndex}\\.cookTitle`).focus();
-                isValid = false;
-                event.preventDefault(); // 폼 제출 중단
-                return false;
-            }
 
             if (cookMethod === '') {
                 alert('요리 설명을 입력하세요.');

@@ -24,6 +24,73 @@ body {
     padding: 8px 15px;
 }
 
+.detail-delete-button{
+    color: #333;
+    background-color: transparent;
+    border: 1px solid #dc3545;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 14px; /* 글자 크기를 줄여 버튼 크기에 맞춤 */
+    line-height: 1.5; /* 줄 간격 조정 */
+}
+.detail-delete-button:hover {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+
+/* 레시피 디테일 수정버튼  */
+.detail-edit-button {
+	display: inline-block;
+	background-color: transparent;
+	color: #7a8577;
+	text-decoration: none;
+	border-radius: 5px;
+	border: 1px solid #7a8577;
+	transition: all 0.3s ease;
+	font-size: 0.9em;
+}
+
+.detail-edit-button:hover {
+	background-color: #7a8577;
+	color: white;
+	border-color: #7a8577;
+}
+/* 레시피 디테일 수정버튼  */
+.detail-review-button {
+	display: inline-block;
+	background-color: transparent;
+	color: #7a8577;
+	text-decoration: none;
+	border-radius: 5px;
+	border: 1px solid #7a8577;
+	transition: all 0.3s ease;
+}
+
+.detail-review-button:hover {
+	background-color: #7a8577;
+	color: white;
+	border-color: #7a8577;
+}
+
+.book-change-btn {
+    color: #333;
+    background-color: transparent;
+    border: 1px solid #FF914D;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    line-height: 1.5; /* 줄 간격 조정 */
+}
+
+.book-change-btn:hover {
+    color: #fff;
+    background-color: #FF914D;
+    border-color: #FF914D;
+}
+
 .recipe-toggle-btn:hover {
     background-color: #7a8577;
     color: white;

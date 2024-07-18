@@ -18,7 +18,9 @@ import com.springbootstudy.app.domain.CookMaterial;
 import com.springbootstudy.app.domain.Cooking;
 import com.springbootstudy.app.domain.Material;
 import com.springbootstudy.app.domain.RecipeBoard;
-import com.springbootstudy.app.dto.commentDTO;
+import com.springbootstudy.app.dto.CommentDTO;
+import com.springbootstudy.app.dto.CookMeterialDTO;
+import com.springbootstudy.app.dto.recipeListDTO;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 
@@ -33,19 +35,22 @@ public class RecipeAjax {
 	
 	// 조리과정리스트 - 조리리스트 버튼
 	   @GetMapping("/ajax/recipeList")
-	   
-	    public List<Cooking> recipeList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "cookingId") int cookingId) {
-	    	 List<Cooking> recipe = recipeService.getCookList(boardNo);
-	         return recipe;
+	    public recipeListDTO recipeList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "cookingId") int cookingId) {
+	    	 List<Cooking> cList = recipeService.getCookList(boardNo);
+	    	 List<Material> materials = recipeService.getMaterialList(boardNo);
+	    	 RecipeBoard recipe =recipeService.getRecipe(boardNo, false);
+	         return new recipeListDTO(cList,materials,recipe);
 	    } 
 	   
-		// 조리과정리스트 -조리리스트 책 버튼
+
+	// 조리과정리스트 -조리리스트 책 버튼
     @GetMapping("/ajax/cookList")
 
-    public Cooking cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage,
+    public CookMeterialDTO  cookList(@RequestParam(name = "boardNo") int boardNo,@RequestParam(name = "currentPage") int currentPage,
     		@RequestParam(name = "cookingId") int cookingId) {
         Cooking getCook = recipeService.getCookList(boardNo).get(currentPage);
-         return getCook;
+        List<Material> materials = recipeService.getMaterialList(boardNo);
+         return new CookMeterialDTO(getCook, materials);
     }
     
 	

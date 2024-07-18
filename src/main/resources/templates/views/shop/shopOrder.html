@@ -7,35 +7,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+ 
 <title>주문 및 결제</title>
 </head>
 
 <body>
 	<!-- content -->
-	<div layout:fragment="content">
+	<div layout:fragment="content" class="shopOrder-content">
 		<div class="row">
 			<div class="col">
-				<h1>주문 및 결제</h1>
+				<h2 class="order-title">주문 및 결제</h2>
 			</div>
 		</div>
 
 		<!-- 구매자 정보 -->
 		<div class="row">
-			<div class="col">구매자 정보</div>
+			<div class="col order-info">구매자 정보</div>
 		</div>
 		<div class="row">
-			<div class="col">
-				<table class="table">
-					<tr>
+			<div class="col-11">
+				<table class="table order-info-buy">
+					<tr class="order-infos">
 						<td>이름</td>
 						<td th:text="${member != null ? member.name : '정보 없음'}"></td>
 					</tr>
-					<tr>
+					<tr class="order-infos">
 						<td>이메일</td>
 						<td th:text="${member != null ? member.email : '정보 없음'}"
 							id="memberEmail"></td>
 					</tr>
-					<tr>
+					<tr class="order-infos">
 						<td>연락처</td>
 						<td th:text="${member != null ? member.mobile : '정보 없음'}"></td>
 					</tr>
@@ -45,24 +46,24 @@
 
 		<!-- 받는사람 정보 -->
 		<div class="row">
-			<div class="col">받는 사람 정보</div>
+			<div class="col order-info2">받는 사람 정보</div>
 		</div>
 		<div class="row">
-			<div class="col">
-				<table class="table">
-					<tr>
+			<div class="col-11">
+				<table class="table order-info-buy">
+					<tr class="order-infos">
 						<td>이름</td>
 						<td th:text="${member != null ? member.name : '정보 없음'}"></td>
 					</tr>
-					<tr>
+					<tr class="order-infos">
 						<td>주소</td>
 						<td th:text="${member != null ? member.address1 : '정보 없음'}"></td>
 					</tr>
-					<tr>
+					<tr class="order-infos">
 						<td>연락처</td>
 						<td th:text="${member != null ? member.mobile : '정보 없음'}"></td>
 					</tr>
-					<tr>
+					<tr class="order-infos">
 						<td>배송 요청 사항</td>
 						<td>*</td>
 					</tr>
@@ -71,27 +72,35 @@
 		</div>
 
 		<!-- 상품 정보 -->
+		
 		<div class="row">
-			<div class="col">주문 상품 정보</div>
+			<div class="col order-info2">주문 상품 정보</div>
 		</div>
 		<div class="row">
-			<div class="col-8" id="productContainer">
+			<div class="col" id="productContainer">
 				<div th:if="${cartDetails != null}">
 					<!-- 장바구니 품목 -->
 					<th:block th:each="item : ${cartDetails}">
 						<div class="row cartBox" th:data-product-id="${item.productId}">
 							<div class="col productImage">
-								<img th:src="${item.productImage != null and #strings.startsWith(item.productImage, 'http') ? item.productImage : '/resources/shop/' + item.productImage}" alt="Product Image">
+
+								<img
+									th:src="@{${item.productImage} != null ? ${item.productImage} : '/resources/shop/' + ${item.productImage} }">
 							</div>
 							<div class="col">
 								<p th:text="${item.productName}"></p>
 								<p class="price" th:data-price="${item.price}"
 									th:text="${item.price}"></p>
+
 								<div class="quantity-input-container">
-									<div class="quantity-input-minus">-</div>
+									<div class="quantity-input-minus">
+										<i class="bi bi-dash quantity-icon"></i>
+									</div>
 									<input class="quantity-input" type="text"
 										th:value="${item.quantity}" />
-									<div class="quantity-input-plus">+</div>
+									<div class="quantity-input-plus">
+										<i class="bi bi-plus quantity-icon"></i>
+									</div>
 								</div>
 								<p class="totalPrice"
 									th:data-price="${item.quantity * item.price}"
@@ -107,55 +116,69 @@
 				<!-- 바로 구매시 -->
 				<div th:if="${cart != null}">
 					<div class="row cartBox" th:data-product-id="${cart.productId}">
-						<div class="col productImage">
-							<img th:src="${cart.productImage != null and #strings.startsWith(cart.productImage, 'http') ? cart.productImage : '/resources/shop/' + cart.productImage}" alt="Product Image">
+						<div class="col-4 productImage">
+							<img
+								th:src="@{${cart.productImage} != null ? ${cart.productImage} : '/resources/shop/' + ${cart.productImage} }">
 						</div>
-						<div class="col">
-							<p th:text="${cart.productName}"></p>
+						<div class="col-6">
+							<p th:utext="${cart.productName}"></p>
+							<div class="">
 							<p class="price" th:data-price="${cart.price}"
-								th:text="${cart.price}"></p>
+								th:utext="${cart.price}"></p>
+							</div>	
+							
 							<div class="quantity-input-container">
-								<div class="quantity-input-minus">-</div>
+								<div class="quantity-input-minus">
+									<i class="bi bi-dash quantity-icon"></i>
+								</div>
 								<input class="quantity-input" type="text"
 									th:value="${cart.quantity}" />
-								<div class="quantity-input-plus">+</div>
-							</div>
+								<div class="quantity-input-plus">
+									<i class="bi bi-plus quantity-icon"></i>
+								</div>
+								</div>
+							
 							<p class="totalPrice"
 								th:data-price="${cart.quantity * cart.price}"
-								th:text="${cart.quantity * cart.price}"></p>
+								th:utext="${cart.quantity * cart.price}"></p>
 						</div>
-						<div class="col deleteCart">
+						<div class="col-1 deleteCart">
 							<i class="bi bi-trash3"></i>
 						</div>
 					</div>
 				</div>
 			</div>
+
 			<div class="col-4 orderBox">
-				<div class="">
-					<h2>주문 예상 금액</h2>
-					<div>
-						상품 총액: <span id="totalProductPrice" class="price"
+				<div>
+					<h2 class="order-title3 text-center">주문 예상 금액</h2>
+					<div class="price-total">
+						상품 총액 : <span id="totalProductPrice" class="price"
 							th:data-price="0"></span>
 					</div>
-					<div>
-						할인 총액: <span id="totalDiscountPrice" th:data-price="0">0</span> 원
+					<div class="price-total">
+						할인 총액 : <span id="totalDiscountPrice" th:data-price="0">0</span> 원
 					</div>
-					<div>
-						배송 총액: <span id="totalDeliveryPrice" th:data-price="0">0</span> 원
+					<div class="price-total">
+						배송 총액 : <span id="totalDeliveryPrice" th:data-price="0">0</span> 원
 					</div>
 				</div>
-				<div>
-					합계금액: <span id="totalOrderPrice" class="price" th:data-price="0" th:text="${totalAmount}"></span>
+				<div class="total-order-price"><b>
+					합계금액: <span id="totalOrderPrice" class="price" th:data-price="0"
+						th:text="${totalAmount}"></span></b>
+				</div>
 				</div>
 			</div>
-		</div>
+
 
 		<!-- 결제 UI -->
 		<div id="payment-method"></div>
 		<div id="agreement"></div>
 
 		<!-- 결제하기 버튼 -->
-		 <button id="payment-button">결제하기</button>
+		<div class="text-center">
+		 <button id="payment-button" class="shopOrder-pay-btn">결제하기</button>
+		</div>
 		
 		<script th:inline="javascript">
 		document.addEventListener("DOMContentLoaded", function() {

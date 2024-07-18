@@ -1,12 +1,12 @@
 $(document).ready(function() {
     let cookingIndex = 0;
     let materialIndex = 1;
-	let addIndex=1;
+	let addIndex = 1;
     // 요리 섹션 추가
     $("#addCooking").on("click",  function() {
 		let cookingHtml = `
 		<div class="row my-2 cooking-item cookingSet" id="cooking${cookingIndex}" data-cookingindex="${cookingIndex}">
-		                    <div class="form-group row mb-3">
+		               		<div class="form-group row mb-3">
 		                        <div></div>
 		                        <div class="col-sm-9">
 		                        	<span  class="fs-1 fw-bold">Step ${addIndex}</span>
@@ -46,6 +46,7 @@ $(document).ready(function() {
 		       `;
         $("#cookingSection").append(cookingHtml); // 요리 섹션을 마지막으로 추가
         cookingIndex++; // cookingIndex 증가
+        addIndex++;
     });
 
     // 재료 추가
@@ -74,6 +75,7 @@ $(document).ready(function() {
         `;
         $("#material").append(materialHtml); // 해당 요리 섹션에 재료 추가
         materialIndex++; 
+        
     });
 
      // 조리 섹션 삭제

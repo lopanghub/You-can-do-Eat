@@ -26,20 +26,25 @@ html {
 		class="container-fluid custom-container px-4">
 		<div class="inner-content px-2">
 			<form id="recipeDetailForm">
-				<input type="hidden" id="boardNo" th:value="${rList.boardNo}"name="boardNo"> 
-				<input type="hidden" id="cookingId"	th:value="${cookingId}" name="cookingId"> 
-				<input	type="hidden" id="bookCount" th:value="${bookCount}"	name="bookCount"> 
-				<input type="hidden" id="id" name="id"		th:value="${rList.memberId}">
-				<input type="hidden" id="searchOption" th:value="${searchOption}"/>
+				<input type="hidden" id="boardNo" th:value="${rList.boardNo}"
+					name="boardNo"> <input type="hidden" id="cookingId"
+					th:value="${cookingId}" name="cookingId"> <input
+					type="hidden" id="bookCount" th:value="${bookCount}"
+					name="bookCount"> <input type="hidden" id="id" name="id"
+					th:value="${rList.memberId}"> <input type="hidden"
+					id="searchOption" th:value="${searchOption}" />
 				<th:block th:if="${session.member != null and session.member != ''}">
-					<input type="hidden" id="loginId" name="loginId"th:value="${session.member.id}">
+					<input type="hidden" id="loginId" name="loginId"
+						th:value="${session.member.id}">
 				</th:block>
-					<input type="hidden" name="pageNum"id="pageNum" th:value="${pageNum}" />
+				<input type="hidden" name="pageNum" id="pageNum"
+					th:value="${pageNum}" />
 				<th:block th:if="${searchOption}">
-						<input type="hidden" id="type" name="type" th:value="${type}">
-						<input type="hidden" id="keyword" name="keyword" th:value="${keyword}">
+					<input type="hidden" id="type" name="type" th:value="${type}">
+					<input type="hidden" id="keyword" name="keyword"
+						th:value="${keyword}">
 				</th:block>
-				
+
 				<input type="hidden" id="commentCount" name="commentCount"
 					th:value="${commentCount}" /> <input type="hidden"
 					id="averagePoint" name="averagePoint" th:value="${averagePoint}">
@@ -47,7 +52,7 @@ html {
 			<div class="row">
 				<div class="col">
 					<div class="row rList">
-						
+
 						<div class="col">
 							<div class="recipe-collection ">
 								<div class="col-12">
@@ -73,21 +78,23 @@ html {
 										</div>
 									</div>
 									<div class="row d-flex justify-content-end align-items-center">
-										
-												<div class="col-2 text-end ">
-													<input class="detail-review-button" type="button" id="scrollButton"
-														value="리뷰보기">
-														</div>
-												<div class="col-2 text-start">
-													<th:block th:if="${searchOption}">
-														<input class="detail-review-button" type="button" value="목록보기"
-															th:onclick="@{|location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'|}" />
-													</th:block>
-													<th:block th:unless="${searchOption}">
-														<input class="detail-review-button" type="button" value="목록보기"
-															th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}" />
-													</th:block>
-												</div>
+
+										<div class="col-2 text-end ">
+											<input class="detail-review-button" type="button"
+												id="scrollButton" value="리뷰보기">
+										</div>
+										<div class="col-2 text-start">
+											<th:block th:if="${searchOption}">
+												<input class="detail-review-button" type="button"
+													value="목록보기"
+													th:onclick="@{|location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'|}" />
+											</th:block>
+											<th:block th:unless="${searchOption}">
+												<input class="detail-review-button" type="button"
+													value="목록보기"
+													th:onclick="@{|location.href='recipeList?pageNum=${pageNum}'|}" />
+											</th:block>
+										</div>
 										<div
 											class="col text-end text-white d-flex justify-content-end align-items-center">
 											<button type="button" class="book-change-btn" id="bookBtn">책
@@ -96,67 +103,103 @@ html {
 									</div>
 								</div>
 								<!-- 레시피 디테일 -->
-								<div class="row my-3 text-center">
-									<div class="col">
-										<h1>[[${rList.boardTitle}]]</h1>
-									</div>
-								</div>
-								
-								<div class="row my-2">
-									<div class="col d-flex justify-content-center text-center">
-										<img
-									th:src="${rList.thumbnail != null and #strings.startsWith(rList.thumbnail, 'http') ? rList.thumbnail : './uploads/' + rList.thumbnail}"
-									th:alt="${rList.boardTitle}"
-									style="height: 300px; width: 300px;"
-									class="img-fluid  d-block"
-									onerror="this.src='http://via.placeholder.com/300';">
-										
-									</div>
-								</div>
-								<div class="row my-4 text-center">
-									<div class="col">
-										<h3>[[${rList.boardContent}]]</h3>
-									</div>
-								</div>
-								 <div class="row my-2 recipe-info" style="font-size: 1.2rem; margin-top: 20px;"> <!-- 폰트 크기 증가 및 상단 여백 추가 -->
-								                  <div class="col text-center">
-								                      <i class="bi bi-people-fill" style="font-size: 1.5rem;"></i> <!-- 아이콘 크기 증가 -->
-								                      <span style="margin-left: 5px;">[[${rList.numberEaters}]]인분</span> <!-- 텍스트와 아이콘 사이 간격 추가 -->
-								                  </div>
-								                  <div class="col text-center">
-								                      <i class="bi bi-alarm" style="font-size: 1.5rem;"></i> <!-- 아이콘 크기 증가 -->
-								                      <span style="margin-left: 5px;">[[${rList.foodTime}]]분 이내</span> <!-- 텍스트와 아이콘 사이 간격 추가 -->
-								                  </div>
-								              </div>
-								          </div>
-								<div class="row my-2">
-									<div class="col">
-										<div class="row">
-											<div class="col">
-												<h3 class="text-center my-3 fw-bold">요리 재료</h3>
-											</div>
+								<div class="recipeDetailForm border border-dark rounded my-4 ">
+									<div class="row my-3 text-center">
+										<div class="col">
+											<h1>[[${rList.boardTitle}]]</h1>
 										</div>
-										<div class="row border justify-content-start">
-											<th:block th:each="mList, cStatus : ${mList}">
-												<div class="col-6">
+									</div>
+
+									<div class="row my-2">
+										<div class="col d-flex justify-content-center text-center">
+											<img
+												th:src="${rList.thumbnail != null and #strings.startsWith(rList.thumbnail, 'http') ? rList.thumbnail : './uploads/' + rList.thumbnail}"
+												th:alt="${rList.boardTitle}"
+												style="height: 300px; width: 300px;"
+												class="img-fluid  d-block"
+												onerror="this.src='http://via.placeholder.com/300';">
+
+										</div>
+									</div>
+									<div class="row my-4 text-center">
+										<div class="col">
+											<h3>[[${rList.boardContent}]]</h3>
+										</div>
+									</div>
+									<div class="row my-2 recipe-info"
+										style="font-size: 1.2rem; margin-top: 20px;">
+										<!-- 폰트 크기 증가 및 상단 여백 추가 -->
+										<div class="col text-center">
+											<i class="bi bi-people-fill" style="font-size: 1.5rem;"></i>
+											<!-- 아이콘 크기 증가 -->
+											<span style="margin-left: 5px;">[[${rList.numberEaters}]]인분</span>
+											<!-- 텍스트와 아이콘 사이 간격 추가 -->
+										</div>
+										<div class="col text-center">
+											<i class="bi bi-alarm" style="font-size: 1.5rem;"></i>
+											<!-- 아이콘 크기 증가 -->
+											<span style="margin-left: 5px;">[[${rList.foodTime}]]분
+												이내</span>
+											<!-- 텍스트와 아이콘 사이 간격 추가 -->
+										</div>
+									</div>
+								</div>
+								<div class="row my-2  ">
+									<div class="col">
+										<div class="row  text-center ">
+											<div
+												class="col-6  border border-dark rounded justify-content-start p-0 m-0">
+												<div class="row">
+													<div class="col">
+													<h3>재료</h3>
+													</div>
+												</div>
+												<div class="row p-0">
+													<div class="col">
+													<th:block th:each="mList, cStatus : ${mList}">
+														<th:block th:if="${mList.typeMaterial == '재료'}">
 															<div class="row my-1">
 																<div class="col">[[${mList.materialName}]]</div>
 																<div class="col">[[${mList.mensuration}]]</div>
 															</div>
+														</th:block>
+													</th:block>
+													</div>
 												</div>
-											</th:block>
+											</div>
+											<div
+												class="col-6 border border-dark rounded justify-content-start p-0">
+												<div class="row ">
+													<div class="col p-0 m-0">
+													<h3>조미료</h3>
+													</div>
+												</div>
+												<div class="row p-0 m-0">
+													<th:block th:each="mList, cStatus : ${mList}">
+														<th:block th:if="${mList.typeMaterial == '조미료'}">
+															<div class="row my-1 p-0 m-0">
+																<div class="col">[[${mList.materialName}]]</div>
+																<div class="col">[[${mList.mensuration}]]</div>
+															</div>
+														</th:block>
+													</th:block>
+												</div>
+											</div>
+
 										</div>
+
 									</div>
 								</div>
 								<th:block th:each="cList, cStatus : ${cList}">
-									<div class="row border border-danger my-2">
+									<div class="row  my-2">
 										<div class="col">
 											<div class="row my-2 border border-dark rounded"
 												style="height: 300px;">
 												<div class="col-5">
 													<div class="row">
-														<div class="col mx-4">
-															<th:block th:if="${cList.cookFile != null and cList.cookFile != ''}">
+														<div class="col mx-4 text-center">
+															<th:block
+																th:if="${cList.cookFile != null and cList.cookFile != ''}">
 																<img
 																	th:src="@{'./uploads/cooking/' + ${cList.cookFile}}"
 																	alt="샘플이미지" class="img-fluid"
@@ -170,7 +213,7 @@ html {
 														</div>
 													</div>
 												</div>
-												<div class="col">
+												<div class="col mx-3">
 													<div class="row my-2">
 														<div class="col">
 															<h4 class="fw-bold">
@@ -180,11 +223,11 @@ html {
 													</div>
 													<div class="row my-1">
 														<div class="col">
-															<h4>조리방법</h4>
+															<h5>조리방법</h5>
 														</div>
 													</div>
 													<div class="row my-1">
-														<div class="col my-2">
+														<div class="col my-2 mx-3">
 															<span>[[${cList.cookMethod}]]</span>
 														</div>
 													</div>
@@ -192,11 +235,11 @@ html {
 														th:if="${not #strings.isEmpty(cList.recommended)}">
 														<div class="row my-1">
 															<div class="col my-2">
-																<h4>주의할점</h4>
+																<h5>주의할점</h5>
 															</div>
 														</div>
 														<div class="row my-1">
-															<div class="col my-2">
+															<div class="col my-2 mx-3	">
 																<span th:text="${cList.recommended}"></span>
 															</div>
 														</div>
@@ -209,148 +252,150 @@ html {
 								</th:block>
 							</div>
 						</div>
+					</div>
 
+				</div>
+				<!-- 댓글폼 -->
+				<!-- 댓글 작성 폼 -->
+				<div class="row my-4 cook-comments" id="sectionComment">
+					<div class="col-3"></div>
+					<div class="col-6">
+						<h3 class="text-center fw-bold">요리 후기</h3>
 					</div>
-					<!-- 댓글폼 -->
-					<!-- 댓글 작성 폼 -->
-					<div class="row my-4 cook-comments" id="sectionComment">
-						<div class="col-3"></div>
-						<div class="col-6">
-							<h3 class="text-center fw-bold">요리 후기</h3>
-						</div>
-						<div
-							class="col-3 text-end text-white d-flex justify-content-end align-items-center">
-							<button type="button" class="detail-review-button" id="commentBtn">맨 위로</button>
-						</div>
+					<div
+						class="col-3 text-end text-white d-flex justify-content-end align-items-center">
+						<button type="button" class="detail-review-button" id="commentBtn">맨
+							위로</button>
 					</div>
-					<div id="reviewSection">
-						<div class="mb-4">
-							<div class="review-write">
-								<div class="row">
-									<div class="col">
-										<h5 class="comment-title">후기 작성</h5>
-									</div>
+				</div>
+				<div id="reviewSection">
+					<div class="mb-4">
+						<div class="review-write">
+							<div class="row">
+								<div class="col">
+									<h5 class="comment-title">후기 작성</h5>
 								</div>
 							</div>
-							<div class="comment-body">
-								<form id="commentForm" method="post">
-									<div class="mb-3"></div>
-									<div class="row my-2 d-flex align-items-center">
-										<div class="col-1">
-											<label for="commentPoint"
-												class="form-label commentPoint fw-bold">평&nbsp;&nbsp;점&nbsp;&nbsp;:&nbsp;
-											</label>
+						</div>
+						<div class="comment-body">
+							<form id="commentForm" method="post">
+								<div class="mb-3"></div>
+								<div class="row my-2 d-flex align-items-center">
+									<div class="col-1">
+										<label for="commentPoint"
+											class="form-label commentPoint fw-bold">평&nbsp;&nbsp;점&nbsp;&nbsp;:&nbsp;
+										</label>
 
-										</div>
-										<div class="col-2">
-											<select class="form-select" id="commentPoint"
-												name="commentPoint" required>
-												<option value="">선택하세요</option>
-												<option value="1">1점</option>
-												<option value="2">2점</option>
-												<option value="3">3점</option>
-												<option value="4">4점</option>
-												<option value="5">5점</option>
-											</select>
-											<!-- <input type="number" class="form-control w-3"
+									</div>
+									<div class="col-2">
+										<select class="form-select" id="commentPoint"
+											name="commentPoint" required>
+											<option value="">선택하세요</option>
+											<option value="1">1점</option>
+											<option value="2">2점</option>
+											<option value="3">3점</option>
+											<option value="4">4점</option>
+											<option value="5">5점</option>
+										</select>
+										<!-- <input type="number" class="form-control w-3"
 													id="commentPoint" name="commentPoint" min="0" max="5"
 													placeholder="1~5점" required> -->
-										</div>
 									</div>
+								</div>
 
-									<div class="comment-input-section">
-										<div
-											class="row d-flex justify-content-between align-items-center my-2">
-											<div class="col-10">
-												<textarea class="form-control" id="commentContent"
-													name="commentContent" rows="2" required></textarea>
-											</div>
-											<div class="col-2">
-												<button type="submit" class="write-button-comment"
-													style="height: 60px;">후기 작성하기</button>
-											</div>
+								<div class="comment-input-section">
+									<div
+										class="row d-flex justify-content-between align-items-center my-2">
+										<div class="col-10">
+											<textarea class="form-control" id="commentContent"
+												name="commentContent" rows="2" required></textarea>
+										</div>
+										<div class="col-2">
+											<button type="submit" class="write-button-comment"
+												style="height: 60px;">후기 작성하기</button>
 										</div>
 									</div>
-								</form>
-							</div>
+								</div>
+							</form>
 						</div>
 					</div>
-					<!-- 댓글 리스트 -->
-					<div class="review-write">
-						<div class="row">
-							<div class="col-6">
-								<h5 class="comment-lists">후기 리스트</h5>
-							</div>
-							<div class="col-6 text-end">
-								<div class="average-score">
-									<span>평균 점수 :</span>
-									<div id="star-container" class="arg-star">
-										<span id="stars" th:utext="${stars}"></span>
-									</div>
+				</div>
+				<!-- 댓글 리스트 -->
+				<div class="review-write">
+					<div class="row">
+						<div class="col-6">
+							<h5 class="comment-lists">후기 리스트</h5>
+						</div>
+						<div class="col-6 text-end">
+							<div class="average-score">
+								<span>평균 점수 :</span>
+								<div id="star-container" class="arg-star">
+									<span id="stars" th:utext="${stars}"></span>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div class="card-body">
-						<ul class="list-group" id="commentList">
-							<!-- 댓글 아이템 -->
-							<th:block th:if="${not #lists.isEmpty(commentList)}">
-								<th:block th:each="comment : ${commentList}">
-									<li class="list-group-item my-2"
-										th:data-comment-id="${comment.commentId}">
-										<div class="d-flex justify-content-between">
-											<div>
-												<p class="mb-1">
-													<strong>[[${comment.memberId}]]</strong>
-												</p>
-												<p class="mb-1 comment-content">[[${comment.commentContent}]]</p>
-												<span class="text-muted" name="createdAt"
-													th:text="${#dates.format(comment.createdAt,
+				<div class="card-body">
+					<ul class="list-group" id="commentList">
+						<!-- 댓글 아이템 -->
+						<th:block th:if="${not #lists.isEmpty(commentList)}">
+							<th:block th:each="comment : ${commentList}">
+								<li class="list-group-item my-2"
+									th:data-comment-id="${comment.commentId}">
+									<div class="d-flex justify-content-between">
+										<div>
+											<p class="mb-1">
+												<strong>[[${comment.memberId}]]</strong>
+											</p>
+											<p class="mb-1 comment-content">[[${comment.commentContent}]]</p>
+											<span class="text-muted" name="createdAt"
+												th:text="${#dates.format(comment.createdAt,
 															'yyyy-MM-dd')}"></span>
-												<div class="star-icons">
-													<th:block th:if="${comment.commentPoint > 0}">
-														<th:block
-															th:each="star : ${#numbers.sequence(1, comment.commentPoint)}">
-															<i class="bi bi-star-fill"></i>
-														</th:block>
+											<div class="star-icons">
+												<th:block th:if="${comment.commentPoint > 0}">
+													<th:block
+														th:each="star : ${#numbers.sequence(1, comment.commentPoint)}">
+														<i class="bi bi-star-fill"></i>
 													</th:block>
-													<th:block th:if="${comment.commentPoint < 5}">
-														<th:block
-															th:each="star : ${#numbers.sequence(comment.commentPoint + 1, 5)}">
-															<i class="bi bi-star"></i>
-														</th:block>
+												</th:block>
+												<th:block th:if="${comment.commentPoint < 5}">
+													<th:block
+														th:each="star : ${#numbers.sequence(comment.commentPoint + 1, 5)}">
+														<i class="bi bi-star"></i>
 													</th:block>
-												</div>
-											</div>
-											<div>
-												<th:block
-													th:if="${session.member != null and session.member.id != null and comment.memberId != null and session.member.id == comment.memberId}">
-													<button class="comment-edit btn-sm"
-														onclick="editComment(this)">수정</button>
-													<button class="comment-delete btn-sm"
-														onclick="deleteComment(this)">삭제</button>
 												</th:block>
 											</div>
 										</div>
-									</li>
-								</th:block>
+										<div>
+											<th:block
+												th:if="${session.member != null and session.member.id != null and comment.memberId != null and session.member.id == comment.memberId}">
+												<button class="comment-edit btn-sm"
+													onclick="editComment(this)">수정</button>
+												<button class="comment-delete btn-sm"
+													onclick="deleteComment(this)">삭제</button>
+											</th:block>
+										</div>
+									</div>
+								</li>
 							</th:block>
-							<!-- 댓글이 없는 경우 -->
-							<th:block th:if="${#lists.isEmpty(commentList)}">
-								<span class="list-group-item2 my-2 " id="falseText">후기가
-									존재하지 않습니다.😅</span>
-							</th:block>
-							<!-- 더 많은 댓글 아이템들 -->
-						</ul>
-					</div>
-					<!-- 댓글폼마무리 -->
-
-
+						</th:block>
+						<!-- 댓글이 없는 경우 -->
+						<th:block th:if="${#lists.isEmpty(commentList)}">
+							<span class="list-group-item2 my-2 " id="falseText">후기가
+								존재하지 않습니다.😅</span>
+						</th:block>
+						<!-- 더 많은 댓글 아이템들 -->
+					</ul>
 				</div>
+				<!-- 댓글폼마무리 -->
+
 
 			</div>
-			<!-- <div class="row text-center my-5">
+
+		</div>
+		<!-- <div class="row text-center my-5">
 
 				<div class="col">
 					<input class="write-button" type="button" id="bookBtn"
@@ -362,7 +407,7 @@ html {
 				</div>
 
 			</div> -->
-		</div>
+	</div>
 
 	</div>
 	<!-- Bootstrap Bundle with Popper -->

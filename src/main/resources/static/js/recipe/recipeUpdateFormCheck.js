@@ -112,6 +112,7 @@ function validateCooking() {
         return false;
     }
 
+
     $('.cookingSection .row[id^="cooking"]').each(function() {
         let cookingIndex = $(this).data('cookingindex');
         let cookMethod = $(`#cookings${cookingIndex}\\.cookMethod`).val().trim();
@@ -121,10 +122,9 @@ function validateCooking() {
         if (recommended == null) {
             recommended = "";
         }
-        if( cookMethod === '' || cookMethod === undefined){
-			cookMethod='';
-		}
-        
+         if (cookMethod === "") {
+                    textarea.value = null;
+                }
 
         // cookMethod가 빈 문자열인지 확인
         if (cookMethod === '' || cookMethod === undefined) {
@@ -135,8 +135,9 @@ function validateCooking() {
             event.preventDefault(); // 폼 제출 중단
         }
     });
-
+    
     return isValid;
 }
 
 });
+

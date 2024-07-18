@@ -49,7 +49,7 @@ VALUES ( '스파게티 카르보나라', '스파게티 카르보나라 레시피
 
 UPDATE recipe_board SET Apoint = 4.5 WHERE board_no = 1;
 -- 재료 추가
-INSERT INTO material (board_No, material_name, mensuration,type_Material)
+INSERT INTO material (board_No, material_name, mensuration,type_material)
 VALUES 
 (1, '스파게티', '200g', '면류'),
 (1, '베이컨', '100g', '육류'),

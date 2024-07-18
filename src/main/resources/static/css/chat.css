@@ -15,3 +15,23 @@
 .message {
 	margin-bottom: 10px;
 }
+#my{
+	float: right;
+}
+#me{
+	background-color: orange;
+}
+
+#you{
+	float: left;
+}
+
+#your{
+	background-color: gray;
+}
+
+.msg_box {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 10px;
+}

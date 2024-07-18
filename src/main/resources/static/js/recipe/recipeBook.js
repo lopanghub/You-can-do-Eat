@@ -56,10 +56,10 @@ $(function() {
 		if (sessionId !== undefined && sessionId !== '') {
 			isSessionId = `
             <div class="col-2">
-                <input class="comment-edit btn-sm" type="button" id="updateDetailBtn" value="수정하기" />
+                <input class="detail-edit-button btn-sm" type="button" id="updateDetailBtn" value="수정하기" />
             </div>
             <div class="col-2">
-                <input class="comment-delete btn-sm" type="button" id="deleteDetailBtn" value="삭제하기" />
+                <input class="detail-delete-button btn-sm" type="button" id="deleteDetailBtn" value="삭제하기" />
             </div>`;
 			console.log(isSessionId);
 		} else {
@@ -71,25 +71,13 @@ $(function() {
 
 			const htmlContent = `
 			<div class="col">
-							<div class="recipe-collection text-center">
+							<div class="recipe-collection ">
 								<div class="col-12">
 									<div class="row">
 										<div class="col recipe-collection-title">
 											<div class="row d-flex  align-items-center">
 
-												<div class="col-2">
-													<input class="write-button" type="button" id="scrollButton"
-														value="리뷰보기">
-												</div>
-												<div class="col-2">
-													 ${searchOption ? `
-				                                            <input class="btn btn-primary" type="button" value="목록보기"
-				                                                onclick="location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'" />
-				                                        ` : `
-				                                            <input class="btn btn-primary" type="button" value="목록보기"
-				                                                onclick="location.href='recipeList?pageNum=${pageNum}'" />
-				                                        `}
-												</div>
+												<div class="col-4"></div>
 												<div class="col-4">
 													<h3 class="text-center my-3 fw-bold ">레시피 책 보기</h3>
 												</div>
@@ -98,8 +86,21 @@ $(function() {
 											</div>
 										</div>
 												<div class="row">
+												<div class="col-2 text-end">
+													<input class="detail-review-button" type="button" id="scrollButton"
+														value="리뷰보기">
+												</div>
+												<div class="col-2 text-start">
+													 ${searchOption ? `
+				                                            <input class="detail-review-button" type="button" value="목록보기"
+				                                                onclick="location.href='recipeList?pageNum=${pageNum}&type=${type}&keyword=${keyword}'" />
+				                                        ` : `
+				                                            <input class="detail-review-button" type="button" value="목록보기"
+				                                                onclick="location.href='recipeList?pageNum=${pageNum}'" />
+				                                        `}
+												</div>
 													<div class="col text-end text-white d-flex justify-content-end align-items-center">
-														<button type="button" class="btn btn-success" id="recipeBtn">레시피열기
+														<button type="button" class="book-change-btn" id="recipeBtn">레시피열기
 														</button>
 													</div>
 												</div>
@@ -213,13 +214,13 @@ $(function() {
 				               </div>
 							   <!-- 네비게이션 버튼 -->
 							       <div class="row text-center navigation-buttons mt-3">
-							           <div class="col">
+							           <div class="col-3">
 							               <button id="prevPageBtn" class="btn btn-recipe-nav">
 							                   <i class="bi bi-caret-left-fill"></i>
 							               </button>
 							           </div>
-							           <div class="col play"></div>
-							           <div class="col">
+							           <div class="col-6 play"></div>
+							           <div class="col-3">
 							               <button id="nextPageBtn" class="btn btn-recipe-nav">
 							                   <i class="bi bi-caret-right-fill"></i>
 							               </button>
@@ -261,34 +262,6 @@ $(function() {
 	}
 
 
-	function loadCookMList(cookingId) {
-		let boardNo = $("#boardNo").val();
-
-		$(".cookM").empty();
-		$.ajax({
-			url: "/ajax/cookMList",
-			type: "GET",
-			dataType: 'json',
-			data: { boardNo: boardNo, cookingId: cookingId },
-			success: function(recipe) {
-				console.log("recipe : \n", recipe);
-				const bookContent = recipe.map(material => `
-                    <div class="row my-1" style="width:550px; height:30px; font-size:20px; margin-left: 25px;">
-                        <div class="col text-start">
-                            <span>${material.materialName}</span>
-                        </div>
-                        <div class="col text-end">
-                            <span>${material.mensuration}</span>
-                        </div>
-                    </div>
-                `).join('');
-				$(".cookM").append(bookContent);
-			},
-			error: function(error) {
-				console.error("Error fetching book details:", error);
-			}
-		});
-	}
 
 
 	/* 두번째페이지 */
@@ -307,17 +280,20 @@ $(function() {
 			success: function(recipeList) {
 				console.log("Received recipe list:", recipeList);
 				cook = recipeList;
-				if (!recipeList.cookFile) {
-					recipeList.cookFile = "https://via.placeholder.com/300";
+				if (!recipeList.cooking.cookFile) {
+					recipeList.cooking.cookFile = "https://via.placeholder.com/300";
 				} else {
-					recipeList.cookFile = "./uploads/cooking/" + recipeList.cookFile;
+					recipeList.cooking.cookFile = "./uploads/cooking/" + recipeList.cookFile;
 				}
+				const { materials } = recipeList;
+				const ingredients = materials.filter(material => material.typeMaterial === '재료');
+				const seasonings = materials.filter(material => material.typeMaterial === '조미료');
 				const bookContent = `
 				<!-- 왼쪽 페이지 -->
 				               <div class="col recipe-page-border p-2 m-2">
 				                   <div class="row">
 				                       <div class="col d-flex justify-content-center">
-				                           <img src="${recipeList.cookFile}" alt="샘플이미지" style="height:300px; width:300px">
+				                           <img src="${recipeList.cooking.cookFile}" alt="샘플이미지" style="height:300px; width:300px">
 				                       </div>
 				                   </div>
 				                   <div class="row my-2">
@@ -325,7 +301,7 @@ $(function() {
 				                           <h4>주의할 점</h4>
 				                           <div class="cautions-list">
 				                               <div class="caution-item">
-				                                   <span>${recipeList.recommended}</span>
+				                                   <span>${recipeList.cooking.recommended}</span>
 				                               </div>
 				                           </div>
 				                       </div>
@@ -336,7 +312,7 @@ $(function() {
 				               <div class="col recipe-page-border d-flex flex-column p-2 m-2">
 				                   <div class="row">
 				                       <div class="col">
-				                           <h1>${currentPage + 1}.${recipeList.cookTitle}</h1>
+				                           <h1>Step ${currentPage + 1}</h1>
 				                       </div>
 				                   </div>
 				                   <div class="row my-2">
@@ -344,7 +320,7 @@ $(function() {
 				                           <h4>조리방법</h4>
 				                           <div class="cooking-list">
 				                               <div class="cooking-item">
-				                                   <span>${recipeList.cookMethod}</span>
+				                                   <span>${recipeList.cooking.cookMethod}</span>
 				                               </div>
 				                           </div>
 				                       </div>
@@ -371,18 +347,31 @@ $(function() {
 							                  </div>
 							              </div>
 
-							              <!-- SNS 아이콘 -->
-							              <div class="row mt-2">
-							                  <div class="col text-center">
-							                      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-							                          <div class="accordion-body">
-							                              <i class="bi bi-instagram mx-2" style="font-size:24px"></i>
-							                              <i class="bi bi-facebook mx-2" style="font-size:24px"></i>
-							                              <i class="bi bi-twitter mx-2" style="font-size:24px"></i>
-							                          </div>
+							               <!-- 재료 및 양념 -->
+							   <div class="row mt-3 mx-0 ingredients-container px-0">
+							          <div class="ingredient-list">
+							              <h4>요리재료</h4>
+							              <div class="ingredients-list">
+							                  ${ingredients.map(material => `
+							                      <div class="ingredient-item">
+							                          <span>${material.materialName}</span>
+							                          <span>${material.mensuration}</span>
 							                      </div>
-							                  </div>
+							                  `).join('')}
 							              </div>
+							          </div>
+							          <div class="seasoning-list">
+							              <h4>양념재료</h4>
+							              <div class="seasonings-list">
+							                  ${seasonings.map(material => `
+							                      <div class="seasoning-item">
+							                          <span>${material.materialName}</span>
+							                          <span>${material.mensuration}</span>
+							                      </div>
+							                  `).join('')}
+							              </div>
+							          </div>
+							      </div>
                 `;
 
 				$(".page").append(bookContent);

@@ -7,8 +7,8 @@ Create Table If Not Exists shop_review (
     review_comment TEXT,
     rating double,
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id) REFERENCES Membership(id),
-    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+    FOREIGN KEY (id) REFERENCES membership(id),
+    FOREIGN KEY (product_id) REFERENCES product(product_id)
 );
 
 

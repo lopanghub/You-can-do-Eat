@@ -132,8 +132,8 @@ $(document).on("click", "#commentBtn", function() {
                             <img src="${recipe.recipe.thumbnail}" alt="${recipe.recipe.boardTitle}" style="height: 300px; width: 300px;" class="img-fluid d-block" onerror="this.src='http://via.placeholder.com/300';">
                         </div>
                     </div>
-                    <div class="row my-4 text-center">
-                        <div class="col">
+                    <div class="row my-4 mx-3 border  rounded">
+                        <div class="col  ">
                             <h3>${recipe.recipe.boardContent}</h3>
                         </div>
                     </div>

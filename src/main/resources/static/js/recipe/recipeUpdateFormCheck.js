@@ -119,12 +119,6 @@ function validateCooking() {
         let recommended = $(`#cookings${cookingIndex}\\.recommended`).val().trim();
 		console.log("cooking 값" + cookMethod);
         // recommended 값이 null인 경우 빈 문자열로 설정
-        if (recommended == null) {
-            recommended = "";
-        }
-         if (cookMethod === "") {
-                    textarea.value = null;
-                }
 
         // cookMethod가 빈 문자열인지 확인
         if (cookMethod === '' || cookMethod === undefined) {

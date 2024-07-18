@@ -133,12 +133,12 @@
 					<div class="row">
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="emailId"
-								id="emailId" th:value="${#strings.setSplit(session.member.email, '@')[0]}">
+								id="emailId" th:value="${#strings.listSplit(session.member.email, '@')[0]}">
 						</div>
 						@
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="emailDomain"
-								id="emailDomain" th:value="${#strings.setSplit(session.member.email, '@')[1]}">
+								id="emailDomain" th:value="${#strings.listSplit(session.member.email, '@')[1]}">
 						</div>
 						<div class="col-md-3">
 							<select class="form-select" name="selectDomain" id="selectDomain">
@@ -168,12 +168,13 @@
 						-
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="mobile2"
-								id="mobile2" maxlength="4" th:value="${#strings.setSplit(session.member.mobile, '-')[1]}">
+								id="mobile2" maxlength="4" th:value="${#strings.listSplit(session.member.mobile, '-')[1]}">								
 						</div>
 						-
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="mobile3"
-								id="mobile3" maxlength="4" th:value="${#strings.setSplit(session.member.mobile, '-')[2]}">
+								id="mobile3" maxlength="4" th:value="${#strings.listSplit(session.member.mobile, '-')[2]}">
+								
 						</div>
 					</div>
 				</div>
@@ -186,14 +187,14 @@
 							<div class="form-check">
 								<input type="radio" class="form-check-input" name="emailGet"
 									id="emailOk" value="true" th:checked="${session.member.emailGet == 1}"> <label
-									class="form-check-label" for="emailOk">동의</label>
+									class="form-check-label" for="emailGet">동의</label>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-check">
 								<input type="radio" class="form-check-input" name="emailGet"
 									id="emailNo" value="false"> <label
-									class="form-check-label" for="emailNo">동의안함</label>
+									class="form-check-label" for="emailGet">동의안함</label>
 							</div>
 						</div>
 					</div>
@@ -204,15 +205,15 @@
 						<div class="col-md-3">
 							<div class="form-check">
 								<input type="radio" class="form-check-input" name="gerdonalGet"
-									id="emailOk" value="true"> <label
-									class="form-check-label" for="emailOk">동의</label>
+									id="personalOk" value="true"> <label
+									class="form-check-label" for="gerdonalGet">동의</label>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-check">
 								<input type="radio" class="form-check-input" name="gerdonalGet"
-									id="emailNo" value="false"> <label
-									class="form-check-label" for="emailNo">동의안함</label>
+									id="personalNo" value="false"> <label
+									class="form-check-label" for="gerdonalGet">동의안함</label>
 							</div>
 						</div>
 					</div>

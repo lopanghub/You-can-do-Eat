@@ -19,7 +19,6 @@ public class Community {
 	private String content;
 	private Timestamp regDate;
 	private int readCount;
-	private String pass;
 	private String file1;
 	
 

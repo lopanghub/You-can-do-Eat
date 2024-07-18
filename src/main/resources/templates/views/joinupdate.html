@@ -41,7 +41,6 @@
 				</div>
 			</div>
 			
-			
 			<div class="row my-3">
 				<div class="col-md-4 offset-md-2">
 					<label for="userId" class="form-label">* 아이디 : </label>
@@ -168,12 +167,12 @@
 						-
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="mobile2"
-								id="mobile2" maxlength="4" th:value="${#strings.setSplit(session.member.mobile, '-')[1]}">
+								id="mobile2" maxlength="4" th:value="${#strings.listSplit(session.member.mobile, '-')[1]}">
 						</div>
 						-
 						<div class="col-md-4">
 							<input type="text" class="form-control" name="mobile3"
-								id="mobile3" maxlength="4" th:value="${#strings.setSplit(session.member.mobile, '-')[2]}">
+								id="mobile3" maxlength="4" th:value="${#strings.listSplit(session.member.mobile, '-')[2]}">
 						</div>
 					</div>
 				</div>

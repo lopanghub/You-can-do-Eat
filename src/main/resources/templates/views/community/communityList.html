@@ -13,7 +13,8 @@
 				<h2>커뮤니티</h2>
 			</div>
 
-			<div class="text-end">
+			<div class="d-flex justify-content-between">
+				<input type="button" class="write-button" value="커뮤니티 채팅방" id="chat2">
 				<a th:href="@{addCommunityBoard}" class="write-button">커뮤니티 글쓰기</a>
 			</div>
 
@@ -51,3 +52,23 @@
 	</th:block>
 </body>
 </html>
+<script th:inline="javascript">
+$("#chat2").on("click", function() {
+	// 세션에서 사용자 ID 가져오기
+	let userId = [[${ session.member.id }]];
+
+	let url = "chatmessage2";
+
+	let _wi = 1500;
+	let _he = 900;
+	let left = Math.ceil((window.innerWidth - _wi) / 2);
+	let top = Math.ceil((window.innerHeight - _he) / 2);
+
+	// URL에 사용자 ID 추가
+	url += "?userId=" + encodeURIComponent(userId);
+
+	// 새 창 열기
+	window.open(url, "_blank", "toolbar=no, location=no, status=no, menubar=no, width=" + _wi + ", height=" + _he + ", left=" + left + ", top=" + top);
+});
+
+</script>

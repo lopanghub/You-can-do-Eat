@@ -78,4 +78,12 @@ public class ChatController {
 		model.addAttribute("userList", userList);
 		return "views/chat";
 	}
+	@GetMapping("/chatmessage2")
+	public String chatIdmessage2(Model model, HttpSession session, @RequestParam(value = "id", required = false) String id) {
+		List<MemberShip> userList = userService.getAllUsers();
+		session.setAttribute("id", id);
+		model.addAttribute("id", id);
+		model.addAttribute("userList", userList);
+		return "views/chat2";
+	}
 }

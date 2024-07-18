@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootstudy.app.domain.Comment;
-import com.springbootstudy.app.dto.commentDTO;
+import com.springbootstudy.app.dto.CommentDTO;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.CommuCommentService;
 import com.springbootstudy.app.service.RecipeService;
@@ -23,7 +23,7 @@ public class CommuCommentAjax {
 	private RecipeService recipeService;
 	
 	@PostMapping("/ajax/addCommuComment")
-	public commentDTO addCommuComment(@RequestParam(name="no")int no,@RequestParam(name="commentContent")String commentContent,
+	public CommentDTO addCommuComment(@RequestParam(name="no")int no,@RequestParam(name="commentContent")String commentContent,
 			@RequestParam(name="commentPoint")int commentPoint,@RequestParam(name="memberId")String memberId) {
 		Comment comment = commuCommentService.addCommuComment(no, commentContent, commentPoint,memberId);
 		 // 평균 점수 계산
@@ -52,13 +52,13 @@ public class CommuCommentAjax {
 	    String stars = symbols.toString();
 	    
 	    // commentDTO 객체 생성 및 반환
-	    commentDTO commentDTO = new commentDTO(comment, stars);
+	    CommentDTO commentDTO = new CommentDTO(comment, stars);
 	    return commentDTO;
 	}
 	
 	
 	@PostMapping("/ajax/updateCommuComment")
-    public commentDTO updateCommuComment(@RequestParam(name="no")int no,
+    public CommentDTO updateCommuComment(@RequestParam(name="no")int no,
     								@RequestParam(name="commentId") int commentId, 
                                  @RequestParam(name="commentContent") String commentContent,
                                  @RequestParam(name="commentPoint") int commentPoint) {
@@ -89,7 +89,7 @@ public class CommuCommentAjax {
 	    String stars = symbols.toString();
 	    
 	    // commentDTO 객체 생성 및 반환
-	    commentDTO commentDTO = new commentDTO(comment, stars);
+	    CommentDTO commentDTO = new CommentDTO(comment, stars);
 		
 		
         return commentDTO;
@@ -97,7 +97,7 @@ public class CommuCommentAjax {
 	
 	
 	@PostMapping("/ajax/deleteCommuComment")
-	public commentDTO deleteCommuComment(@RequestParam(name="commentId") int commentId,@RequestParam(name="no")int no) {
+	public CommentDTO deleteCommuComment(@RequestParam(name="commentId") int commentId,@RequestParam(name="no")int no) {
 		Comment comment =commuCommentService.deleteCommuComment(commentId);
 		 // 평균 점수 계산
 	    double averagePoint = commuCommentService.calculateAveragePoint(no);
@@ -123,7 +123,7 @@ public class CommuCommentAjax {
 		    String stars = symbols.toString();
 		    
 		    // commentDTO 객체 생성 및 반환
-		    commentDTO commentDTO = new commentDTO(comment, stars);
+		    CommentDTO commentDTO = new CommentDTO(comment, stars);
 			
 		 
 		return commentDTO;

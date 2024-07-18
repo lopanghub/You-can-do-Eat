@@ -16,29 +16,28 @@ CREATE TABLE recipe_Board (  -- 레시피 보드
     reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     thumbnail VARCHAR(200),
     food_time INT DEFAULT 0,
-    numberEaters  int DEFAULT 0,
+    number_eaters  int DEFAULT 0,
     Apoint double DEFAULT 0,
     member_id VARCHAR(200) NOT NULL
 
 );
-select * from recipe_Board where food_genre like '%한식%';
+
 CREATE TABLE material (  -- 재료 리스트 테이블
     material_id INT AUTO_INCREMENT PRIMARY KEY,
-    board_No INT,
+    board_no INT,
     material_name VARCHAR(200) NOT NULL,-- 재료이름
     mensuration VARCHAR(200) NOT NULL,-- 재료량
-   type_Material VARCHAR(200) DEFAULT '소스',-- 요리재료의　종류
-    FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
+   type_material VARCHAR(200) DEFAULT '소스',-- 요리재료의　종류
+    FOREIGN KEY (board_No) REFERENCES recipe_Board(board_no)
 );
 
 CREATE TABLE cooking (  -- 레이피 리스트 테이블 
     cooking_id INT AUTO_INCREMENT PRIMARY KEY,
-    board_No INT,
-
-    cook_Method VARCHAR(2000) NOT NULL,-- 레시피내용
+    board_no INT,
+    cook_method VARCHAR(2000) NOT NULL,-- 레시피내용
     recommended VARCHAR(2000),-- 주의사항
     cook_file VARCHAR(500) ,
-    FOREIGN KEY (board_No) REFERENCES recipe_Board(board_No)
+    FOREIGN KEY (board_no) REFERENCES recipe_Board(board_no)
 );
 
 

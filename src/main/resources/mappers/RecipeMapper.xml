@@ -13,7 +13,7 @@
         reg_date = NOW(),
         thumbnail = #{thumbnail},
         food_time = #{foodTime},
-        numberEaters = #{numberEaters}
+        number_eaters = #{numberEaters}
     WHERE board_No = #{boardNo};
 </update>
 
@@ -24,7 +24,7 @@
     SET 
         material_name = #{materialName}, 
         mensuration = #{mensuration}, 
-        type_Material = #{typeMaterial}
+        type_material = #{typeMaterial}
     WHERE 
         board_no = #{boardNo}
 </update>
@@ -32,7 +32,6 @@
 <update id="updateCooking" parameterType="Cooking">
     UPDATE cooking 
     SET 
-       
         cook_method = #{cookMethod}, 
         recommended = #{recommended}, 
         cook_file = #{cookFile}
@@ -41,23 +40,23 @@
 </update>
 
 <select id="getMaterialListByNoId" >
-	select * from Material where cooking_id= #{cookingId} and board_no=#{boardNo}
+	select * from material where cooking_id= #{cookingId} and board_no=#{boardNo}
 </select>
 
 <update id="updateApoint">
-	UPDATE recipe_board SET Apoint = #{Apoint} WHERE board_no = #{boardNo};
+	UPDATE recipe_Board SET Apoint = #{Apoint} WHERE board_no = #{boardNo};
 </update>
 
 
 
 <!-- 레시피 추가하기 -->
 <insert id="insertRecipe" parameterType="RecipeBoard" useGeneratedKeys="true" keyProperty="boardNo">
-    INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id,thumbnail,numberEaters,food_time)
+    INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id,thumbnail,number_eaters,food_time)
     VALUES (#{boardTitle}, #{boardContent}, #{foodGenre}, #{memberId}, #{thumbnail},#{numberEaters},#{foodTime});
 </insert>
 <!-- 레시피에 요리재료추가하기 -->
 <insert id="insertMaterial"  parameterType="Material">
-        INSERT INTO material (board_no, material_name, mensuration, type_Material) VALUES
+        INSERT INTO material (board_no, material_name, mensuration, type_material) VALUES
        (#{boardNo}, #{materialName}, #{mensuration}, #{typeMaterial})
 </insert>
 <!-- 레시피 재료리스트로 바로 불러오기 -->
@@ -72,15 +71,15 @@
 	
 	<!--recipeDelete  -->
 	<delete id="deleteRecipe">
-		DELETE FROM recipe_Board WHERE board_No = #{boardNo};
+		DELETE FROM recipe_Board WHERE board_no = #{boardNo};
 	</delete>
 	<!--materialDelete  -->
 	<delete id="deleteMaterialByNo">
-	DELETE FROM material WHERE  board_No = #{boardNo};
+	DELETE FROM material WHERE  board_no = #{boardNo};
 	</delete>
 	<!--cookingDelete  -->
 	<delete id="deleteCookingByNo">
-	DELETE FROM cooking WHERE  board_No = #{boardNo};
+	DELETE FROM cooking WHERE  board_no = #{boardNo};
 	</delete>
 	
 	<!--materialDelete  -->
@@ -96,7 +95,7 @@
   <!-- boardNO의 요리과정리스트 -->
 <select id="getCookList" resultType="Cooking"  parameterType="int">
 SELECT c.*
-FROM recipe_board rb
+FROM recipe_Board rb
 INNER JOIN cooking c ON rb.board_no = c.board_no
 WHERE rb.board_no = #{boardNo};
 </select>
@@ -104,7 +103,7 @@ WHERE rb.board_no = #{boardNo};
 
 	<!--레시피 리스트-->
 	<select id="recipeBoardList">
-		select * from Recipe_Board 
+		select * from recipe_Board 
 		 <where>
             <if test="type == 'board_title'">
                 board_title LIKE CONCAT('%', #{keyword}, '%')
@@ -116,13 +115,13 @@ WHERE rb.board_no = #{boardNo};
                 board_content LIKE CONCAT('%', #{keyword}, '%')
             </if>
             <if test="type == 'food_Genre'">
-                food_Genre LIKE CONCAT('%', #{keyword}, '%')
+                food_genre LIKE CONCAT('%', #{keyword}, '%')
             </if>
         </where>
-		order by board_No desc LIMIT  #{offset}, #{limit}
+		order by board_no desc LIMIT  #{offset}, #{limit}
 	</select>
 	<select id="getRecipeCount" resultType="int">
-         SELECT count(*) FROM recipe_board
+         SELECT count(*) FROM recipe_Board
           <where>
             <if test="type == 'board_title'">
                 board_title LIKE CONCAT('%', #{keyword}, '%')
@@ -134,7 +133,7 @@ WHERE rb.board_no = #{boardNo};
                 board_content LIKE CONCAT('%', #{keyword}, '%')
             </if>
               <if test="type == 'food_Genre'">
-                food_Genre LIKE CONCAT('%', #{keyword}, '%')
+                food_genre LIKE CONCAT('%', #{keyword}, '%')
             </if>
         </where>
          
@@ -143,14 +142,14 @@ WHERE rb.board_no = #{boardNo};
 	
 	<!--레시피 boardNo 가져오기 Detail-->
 	<select id="getBoard"  resultType="RecipeBoard">
-		select * from Recipe_Board where board_no = #{boardNo};
+		select * from recipe_Board where board_no = #{boardNo};
 	</select>
 
   
   <!--cookid를 가져오기위함 -->
  	<select id="cookidCheck" resultType="int">
     SELECT c.cooking_id
-	FROM recipe_board rb
+	FROM recipe_Board rb
 	INNER JOIN cooking c ON rb.board_no = c.board_no
 	WHERE rb.board_no = #{boardNo} ;
   </select>
@@ -158,7 +157,7 @@ WHERE rb.board_no = #{boardNo};
   <!--bookpage 를 나타냄-->
   <select id="cookCount" resultType="int">
     SELECT count(*)
-	FROM recipe_board rb
+	FROM recipe_Board rb
 	INNER JOIN cooking c ON rb.board_no = c.board_no
 	WHERE rb.board_no = #{boardNo};
 
@@ -166,13 +165,13 @@ WHERE rb.board_no = #{boardNo};
   <!--boardNo의 재료들 출력-->
   <select id="getMaterialList" resultType="Material">
     SELECT m.*
-	FROM recipe_board rb
+	FROM recipe_Board rb
 	INNER JOIN material m ON rb.board_no = m.board_no
 	WHERE rb.board_no = #{boardNo};
   </select>
   
   <update id="readCount">
-	update recipe_board set board_view = board_view + 1 where board_no = #{boardNo};
+	update recipe_Board set board_view = board_view + 1 where board_no = #{boardNo};
   </update>
   
 </mapper>

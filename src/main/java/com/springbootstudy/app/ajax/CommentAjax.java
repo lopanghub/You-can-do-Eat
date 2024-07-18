@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springbootstudy.app.domain.Comment;
-import com.springbootstudy.app.dto.commentDTO;
+import com.springbootstudy.app.dto.CommentDTO;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.RecipeService;
 
@@ -22,7 +22,7 @@ public class CommentAjax {
 	private RecipeService recipeService;
 	
 	@PostMapping("/ajax/addComment")
-	public commentDTO addComment(@RequestParam(name="boardNo")int boardNo,@RequestParam(name="commentContent")String commentContent,
+	public CommentDTO addComment(@RequestParam(name="boardNo")int boardNo,@RequestParam(name="commentContent")String commentContent,
 			@RequestParam(name="commentPoint")int commentPoint,@RequestParam(name="memberId")String memberId) {
 		Comment comment = commentService.addComment(boardNo, commentContent, commentPoint,memberId);
 		 // 평균 점수 계산
@@ -51,13 +51,13 @@ public class CommentAjax {
 	    String stars = symbols.toString();
 	    
 	    // commentDTO 객체 생성 및 반환
-	    commentDTO commentDTO = new commentDTO(comment, stars);
+	    CommentDTO commentDTO = new CommentDTO(comment, stars);
 	    return commentDTO;
 	}
 	
 	
 	@PostMapping("/ajax/updateComment")
-    public commentDTO updateComment(@RequestParam(name="boardNo")int boardNo,
+    public CommentDTO updateComment(@RequestParam(name="boardNo")int boardNo,
     								@RequestParam(name="commentId") int commentId, 
                                  @RequestParam(name="commentContent") String commentContent,
                                  @RequestParam(name="commentPoint") int commentPoint) {
@@ -88,7 +88,7 @@ public class CommentAjax {
 	    String stars = symbols.toString();
 	    
 	    // commentDTO 객체 생성 및 반환
-	    commentDTO commentDTO = new commentDTO(comment, stars);
+	    CommentDTO commentDTO = new CommentDTO(comment, stars);
 		
 		
         return commentDTO;
@@ -96,7 +96,7 @@ public class CommentAjax {
 	
 	
 	@PostMapping("/ajax/deleteComment")
-	public commentDTO deleteComment(@RequestParam(name="commentId") int commentId,@RequestParam(name="boardNo")int boardNo) {
+	public CommentDTO deleteComment(@RequestParam(name="commentId") int commentId,@RequestParam(name="boardNo")int boardNo) {
 		Comment comment =commentService.deleteComment(commentId);
 		 // 평균 점수 계산
 	    double averagePoint = commentService.calculateAveragePoint(boardNo);
@@ -122,7 +122,7 @@ public class CommentAjax {
 		    String stars = symbols.toString();
 		    
 		    // commentDTO 객체 생성 및 반환
-		    commentDTO commentDTO = new commentDTO(comment, stars);
+		    CommentDTO commentDTO = new CommentDTO(comment, stars);
 			
 		 
 		return commentDTO;

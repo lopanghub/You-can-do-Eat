@@ -17,7 +17,6 @@ public class Cooking {
 
     private int cookingId;
     private int boardNo; // ManyToOne 관계가 있던 RecipeBoard 대신 boardNo 필드를 사용합니다.
-    private String cookTitle;
     private String cookMethod;
     private String recommended;
     private String cookFile;

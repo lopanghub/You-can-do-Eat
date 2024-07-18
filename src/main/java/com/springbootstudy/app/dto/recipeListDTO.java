@@ -19,7 +19,8 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CookMeterialDTO {
-	 private Cooking cooking;
+public class recipeListDTO {
+	 private List<Cooking> cookings;
 	    private List<Material> materials;
+	    private RecipeBoard recipe;
 }

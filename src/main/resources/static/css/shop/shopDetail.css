@@ -171,7 +171,63 @@ h3.productName {
     cursor: help;
 }
 
-    .detail-product-image {
-     
-        object-fit: cover;  
-    }
+/* 부모 컨테이너 스타일 */
+.product-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;  /* 컨테이너의 높이를 설정. 필요에 따라 조정 가능 */
+}
+
+/* 이미지 스타일 */
+.detail-product-image {
+    width: 350px;
+    height: 350px;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+    
+/* shopDetail nav바 */
+     .pd-product-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 55px;
+            border-bottom: 1px solid #ddd;
+        }
+        .pd-nav-item {
+            flex: 1;
+            padding: 10px 0;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 16px;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+        .pd-nav-item:hover {
+            background-color: #f0f0f0;
+        }
+        .pd-nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #93B665;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        .pd-nav-item:hover::after,
+        .pd-nav-item.pd-active::after {
+            transform: scaleX(1);
+        }
+        .pd-nav-item.pd-active {
+            font-weight: bold;
+        }

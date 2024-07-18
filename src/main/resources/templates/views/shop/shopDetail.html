@@ -8,11 +8,12 @@
 <div layout:fragment="content">
     <!-- 상세 정보 페이지 -->
     <div class="row my-3">
-        <div class="col-6">
+        <div class="col-6 product-image-container">
 <!--              <img th:src="@{${product.productImage != null ? product.productImage : '/images/shop/' + product.productImage}}" alt="Product Image" class="detail-product-image">
  -->
 <!--  			<img th:src="@{${product.productImage}}">-->
-           <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" alt="Product Image">
+           <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" 
+           		alt="Product Image" class="detail-product-image">
         </div>
         <div class="col-6">
             <!-- 상품 정보 -->
@@ -98,22 +99,13 @@
         </div>
     </th:block>
 
-    <!-- 상품 안내 앵커 -->
-    <div class="row">
-        <div class="col">
-            <a href="#productDetail">상품 상세</a>
-        </div>
-        <div class="col">
-            <a href="#productReviews">상품 리뷰</a>
-        </div>
-        <div class="col">
-            <a href="#recommendedProducts">추천 상품</a>
-        </div>
-        <div class="col">
-            <a href="#recipeRecommendations">레시피 추천</a>
-        </div>
+    <!-- 상품 안내 앵커 (/* shopDetail nav바 */)-->
+	 <div class="pd-product-nav">
+        <button class="pd-nav-item pd-active">상품 상세</button>
+        <button class="pd-nav-item">상품 리뷰</button>
+        <button class="pd-nav-item">추천 상품</button>
+        <button class="pd-nav-item">레시피 추천</button>
     </div>
-
     <!-- 상세 이미지 표시 -->
     <div class="row my-3">
         <div class="col-12">
@@ -251,6 +243,17 @@
                 }
             });
         });
+        
+        
+        /* shopDetail nav바 버튼 활성화 */
+        document.querySelectorAll('.pd-nav-item').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.pd-nav-item').forEach(btn => btn.classList.remove('pd-active'));
+                this.classList.add('pd-active');
+            });
+        });        
+        
+        
     </script>
 </div>
 

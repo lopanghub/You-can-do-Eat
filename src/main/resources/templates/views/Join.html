@@ -77,9 +77,10 @@
 			</div>
 
 
-			<div class="col-4 offset-2 mt-3">
-				<label for="file1" class="form-label">프로필 사진 : </label> <input
-					type="file" class="form-control" name="profileImage" id="file1">
+			<div class="col-4 offset-2">
+			    <label for="profile" class="form-label">프로필 사진 : </label>
+			    <input type="file" class="form-control" name="profileImage" id="profile" th:attr="data-preview-image=#{'preview'}">
+			    <img id="preview" alt="프로필 사진 미리보기" class="img-fluid mt-2" style="max-width: 100%; max-height: 300px;">
 			</div>
 
 			<div class="row my-3">

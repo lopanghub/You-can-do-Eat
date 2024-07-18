@@ -112,19 +112,13 @@ function validateCooking() {
         return false;
     }
 
+
     $('.cookingSection .row[id^="cooking"]').each(function() {
         let cookingIndex = $(this).data('cookingindex');
         let cookMethod = $(`#cookings${cookingIndex}\\.cookMethod`).val().trim();
         let recommended = $(`#cookings${cookingIndex}\\.recommended`).val().trim();
 		console.log("cooking 값" + cookMethod);
         // recommended 값이 null인 경우 빈 문자열로 설정
-        if (recommended == null) {
-            recommended = "";
-        }
-        if( cookMethod === '' || cookMethod === undefined){
-			cookMethod='';
-		}
-        
 
         // cookMethod가 빈 문자열인지 확인
         if (cookMethod === '' || cookMethod === undefined) {
@@ -135,8 +129,9 @@ function validateCooking() {
             event.preventDefault(); // 폼 제출 중단
         }
     });
-
+    
     return isValid;
 }
 
 });
+

@@ -133,7 +133,7 @@
 							</select>
 						</div>
 						<div class="col-auto d-flex align-items-end">
-                        <button type="button" class="deleteMaterial" data-materialindex="0">X</button>
+                        <button type="button" class="deleteMaterial" th:attr="data-materialindex=${mListStat.index}">X</button>
                    	 </div>
 					</div>
 				</th:block>
@@ -153,7 +153,7 @@
 			 <div class="row my-2 cooking-items cookingSection" id="cookingSections">
                       
                 <th:block th:if="${cList != null and !cList.isEmpty()}">
-                    <div class="row my-2 cooking-item cookingSet" th:id="'cooking'+ ${cListStat.index}" th:each="cList, cListStat : ${cList}">
+                    <div class="row my-2 cooking-item cookingSet" th:id="'cooking'+ ${cListStat.index}" th:attr="data-cookingindex=${cListStat.index}" th:each="cList, cListStat : ${cList}">
                             <div class="form-group row mb-3">
                              <div></div>
                                 <div class="col-sm-9">

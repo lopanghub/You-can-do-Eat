@@ -2,7 +2,7 @@ $(function() {
     let id = $("#loginId").val();
     
     // 댓글 추가
-    $("#commentForm").on("submit", function(event) {
+    $("#commuCommentForm").on("submit", function(event) {
         event.preventDefault(); // 폼 제출 방지
 
         let no = $("#no").val();
@@ -28,11 +28,7 @@ $(function() {
                 console.log(comment.stars);
                 appendCommentToList(comment.comment);
                 $("#falseText").empty();
-                $("#stars").html("");
-                const ApontHtml = `<div>${comment.stars}</div>`;
-                $("#stars").html(ApontHtml);
                 $("#commentContent").val("");
-                $("#commentPoint").val("");
                 $("#commentAt").val("");
             },
             error: function(error) {

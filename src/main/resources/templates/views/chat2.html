@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/chat_layout2}">
+<!-- content -->
+<div layout:fragment="content" class="row" id="global-content">
+	<script th:src="@{/js/chat.js}"></script>
+	<div class="col">
+		<div class="headerTop2"></div>
+		<div class="col">
+			<h2>커뮤니티 채팅방</h2>
+			<div class="row justify-content-center">
+				 <div class="col-lg-11">
+					<div class="chat-container">
+						<div class="chat-messages" id="chatMessages">
+							<!-- Chat messages will be displayed here -->
+						</div>
+						<form id="sendMessageForm">
+							<div class="row my-3" id="senduser">
+								<div class="col-md-10">
+									<div class="input-group" id="send-form">
+										<input class="form-control" id="messageInput"
+											placeholder="메시지 입력" style="resize: none;" />
+											<div class="input-group-append">
+										<button type="submit" class="btn" id="btn-send">보내기</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:inline="javascript">
+	$(function(){
+
+		let userId = [[${ session.member.id }]];
+		const websocket = new WebSocket("ws://" + window.location.host + "/ws/chat");
+		
+		websocket.onopen = function(event) {
+		    console.log("WebSocket 연결 성공");
+		    websocket.send(userId + " : 님이 입장했습니다.");
+		};
+		
+		websocket.onmessage = onMessage;
+		
+		websocket.onclose = function(event) {
+		    console.log("WebSocket 연결 종료");
+		    websocket.send(userId + ": 님이 방을 나갔습니다.");
+		};
+		
+		$("#sendMessageForm").submit(function(event) {
+		    event.preventDefault();
+		    websocket.send(userId + ":" + $("#messageInput").val());
+		    $("#messageInput").val("");
+		});
+		
+		$('#messageInput').keydown(function(e) {
+		    if (e.keyCode == 13 && !e.shiftKey) {
+		        e.preventDefault();
+		        $('#sendMessageForm').submit();
+		    }
+		});
+	
+		function onMessage(msg) {
+			let data = msg.data;
+			
+			let arr = data.split(":");
+			let sessionId = arr[0];
+			let message = arr[1];
+			
+			for(let i = 0; i < arr.length; i++) {
+				console.log('arr[' + i + '] : ' + arr[i]);
+			}
+			
+		    let curSession = userId; // 현재 사용자 세션 ID
+	
+		    // 메시지 출력
+		    displayMessage(sessionId, message, curSession);
+		}
+	
+		function displayMessage(sessionId, message, curSession) {
+			
+			console.log("sessionId : " + sessionId);
+			console.log("curSession : " + curSession);
+			
+			let str = "";
+			
+		    if (sessionId == curSession) { // 자신의 메시지인 경우
+		       str = '<div class="msg_box my-2" id="my">'
+		                    + '<div class="card" id="me">'
+		                    + '<div class="card-body">'
+		                    + '<p class="card-text">' + sessionId + (message ? ' : ' + message : '') + '</p>'
+		                    + '</div>'
+		                    + '</div>'
+		                    + '</div>';
+		    } else { // 다른 사용자의 메시지인 경우
+		    	str = '<div class="msg_box my-2" id="you">'
+		                    + '<div class="card text-white" id="your">'
+		                    + '<div class="card-body">'
+		                    + '<p class="card-text">' + sessionId + (message ? ' : ' + message : '') + '</p>'
+		                    + '</div>'
+		                    + '</div>'
+		                    + '</div>';
+		    }
+		   	$("#chatMessages").append(str);
+		   	$("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+		}
+		function disconnect() {
+			// 웹 소켓 종료
+			websocket.close(1000, 'Chatting closed');
+		}
+	});
+</script>
+</div>
+</html>

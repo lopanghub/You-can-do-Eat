@@ -1,6 +1,12 @@
+div.headerTop {
+	width: auto;
+	height: 8px;
+	background-color: #FF914D;
+	margin-bottom: 10px;
+}
+
 .chat-container {
 	max-width: 600px;
-	margin: 0 auto;
 	padding: 20px;
 }
 
@@ -15,23 +21,64 @@
 .message {
 	margin-bottom: 10px;
 }
-#my{
+
+#my {
 	float: right;
 }
-#me{
-	background-color: orange;
+
+#me {
+	background-color: #FF914D;
 }
 
-#you{
+#you {
 	float: left;
 }
 
-#your{
+#your {
 	background-color: gray;
 }
 
 .msg_box {
-    clear: both;
-    overflow: hidden;
-    margin-bottom: 10px;
+	clear: both;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+h2 {
+	text-align: center;
+}
+
+#chatMessages {
+	width: 800px;
+}
+
+#btn-send {
+	width: 80px;
+	padding: 0.5rem 1rem;
+	background-color: transparent;
+	color: #FF914D;
+	border: 1px solid #FF914D;
+	font-size: 1rem;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+#btn-send:hover {
+	background-color: #FF914D;
+	color: white;
+}
+
+#send-form {
+	margin-bottom: 0;
+}
+
+#messageInput {
+	border-radius: 5px 0 0 5px;
+}
+
+#btn-send {
+	border-radius: 0 5px 5px 0;
 }

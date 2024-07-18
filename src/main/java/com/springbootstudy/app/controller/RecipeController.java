@@ -184,12 +184,17 @@ public class RecipeController {
 		recipeService.updateRecipe(boardTitle,boardContent,foodGenre,numberEaters,foodTime,filename, boardNo);
 		
 		recipeService.deleteByNo(boardNo);
+		
 		Cooking cooking = new Cooking();
-		System.out.println("d여기는 cooking전");
+		
 		if (cookMethods.size() > 0) {
 			for (int i = 0; i < cookMethods.size(); i++) {
 				String cookMethod = cookMethods.get(i);
 				cooking.setCookMethod(cookMethod);
+				System.out.println("CookMethod : "+ cooking.getCookMethod());
+				if(cooking.getCookMethod()==null||cooking.getCookMethod().equals("")) {
+					cooking.setCookMethod(" ");
+				}
 				String recommended = recommendeds.get(i);
 				cooking.setRecommended(recommended);
 				MultipartFile cookMultiFile = cookFiles.get(i);
@@ -208,7 +213,6 @@ public class RecipeController {
 				recipeService.addCooking(boardNo,cooking);
 			}
 		}
-		System.out.println("d여기는 material전");
 		Material material = new Material();
 		 if(materialNames.size()>0) {
 			 for(int i=0; i<materialNames.size();i++) {

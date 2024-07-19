@@ -41,7 +41,7 @@ public class RecipeService {
 	
 	private static final int PAGE_SIZE = 10;
 
-	private static final int PAGE_GROUP=10;
+	private static final int PAGE_GROUP=12;
 
 	// 레시피 리스트
 	public Map<String, Object>  RecipeBoardList(int pageNum, String type, String keyword) {

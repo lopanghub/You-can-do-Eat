@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YOU CAN DO EAT</title>
 <link rel="icon" href="images/bowl-food-solid.png">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
 </style>
 <link
@@ -21,7 +23,7 @@
 				<th:block th:if="${session.isLogin}">
 					<a class="logout" href="/logout">로그아웃&nbsp;&nbsp;</a>
 					<a class="memberMyPage" href="/memberMyPage">|&nbsp;&nbsp;마이페이지&nbsp;</a>
-					<a class="cart" href="/shopCart">|&nbsp;&nbsp;<i class="bi bi-cart4"></i> (0)&nbsp;&nbsp;</a>
+					<!-- <a class="cart" href="/shopCart">|&nbsp;&nbsp;<i class="bi bi-cart4"></i> &nbsp;&nbsp;</a> -->
 				</th:block>
 				<th:block th:unless="${session.isLogin}">
 					<a class="login" href="/login">로그인&nbsp;&nbsp;</a>
@@ -71,27 +73,20 @@
 			</div>
 
 			<div class="dropdown">
-				<a href="/communityList" class="dropbtn community-btn" >커뮤니티</a>
-			</div>
-
+					<a href="/communityList" class="dropbtn community-btn">커뮤니티</a>
+					<!-- <div class="dropdown-content">
+						<a href="#">항목 3-1</a> <a href="#">항목 3-2</a> <a href="#">항목
+							3-3</a>
+					</div> -->
+				</div>
+				
 			<div class="nav-link">
 				<a href="/shopMain">YOU CAN BUY EAT</a>
 			</div>
 		</nav>
 	</header>
 
-<script>
-		document.getElementById('/communityList').addEventListener('click', function(event) {
-			
-			var isLogin = /*[[${session.isLogin}]]*/ false; 
 
-			if (!isLogin) {
-				event.preventDefault(); // 기본 동작을 막음
-				alert('로그인 후 이용해주세요.'); // 경고 메시지 표시
-				window.location.href = '/login'; // 로그인 페이지로 리디렉션
-			}
-		});
-</script>
-	
+
 </body>
 </html>

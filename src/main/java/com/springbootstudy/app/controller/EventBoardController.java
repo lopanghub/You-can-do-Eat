@@ -104,8 +104,9 @@ public class EventBoardController {
 			HttpServletRequest req,
 			@RequestParam(value="addFile", required=false) MultipartFile multipartFile) throws IOException{
 		// 관리자 아이디만 등록 가능
-		/* eventBoard.setWriter("admin");
-		 * eventBoard.setPass("admin"); */
+		/*
+		 * eventBoard.setWriter("admin1"); eventBoard.setPass("admin1");
+		 */
 		System.out.println("originName : " + multipartFile.getOriginalFilename());
 		System.out.println("name : " + multipartFile.getName());
 		

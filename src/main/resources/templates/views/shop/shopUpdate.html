@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/main_layout}">
+      layout:decorate="~{layouts/shop_layout}">
 <th:block layout:fragment="content">
     <div class="row my-5" id="global-content">
         <div class="col-10 offset-1">
             <div class="row text-center">
                 <div class="col">
                     <h2 class="fs-3 fw-bold">상품 수정하기</h2>
+                    <hr>
                 </div>
             </div>
             <form name="updateForm" id="updateForm" class="row g-3 border-primary p-4" method="post" enctype="multipart/form-data" th:action="@{/updateProduct}">
@@ -35,52 +36,67 @@
                     <input type="text" class="form-control" name="ingredient" id="ingredient" th:value="${product.ingredient}" required>
                 </div>
                 <div class="col-md-6">
-                    <label for="productImage" class="form-label">이미지 업로드</label>
+                    <label for="productImage" class="form-label">메인 이미지 업로드</label>
                     <input type="file" class="form-control" name="productImage" id="productImage" onchange="previewFile(event, 'imagePreview', 'current-thumbnail')">
                 </div>
                 <div class="col-md-6">
-                    <label for="currentImage" class="form-label">현재 이미지</label>
-                    <img th:src="${#strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" alt="현재 이미지" class="img-thumbnail" id="current-thumbnail">
-                    <div id="imagePreview" class="preview-container"></div>
-                </div>
-                <div class="col-md-6">
-                    <label for="detailImage" class="form-label">상세 이미지 업로드</label>
+                    <label for="detailImage" class="form-label">상세 페이지 업로드</label>
                     <input type="file" class="form-control" name="detailImage" id="detailImage" onchange="previewFile(event, 'detailImagePreview', 'current-detail-thumbnail')">
                 </div>
-                <div class="col-md-6">
-                    <label for="currentDetailImage" class="form-label">현재 상세 이미지</label>
-                    <img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="상세 이미지" class="img-thumbnail" id="current-detail-thumbnail">
-                    <div id="detailImagePreview" class="preview-container"></div>
-                </div>
-                <div class="col-12 text-center mt-5">
-                    <input type="submit" value="수정하기" class="btn btn-primary"/>
+
+				<div class="col-md-6">
+					<label for="currentImage" class="form-label">메인 이미지</label>
+					<div class="custom-image-container">
+						<div class="custom-preview-container">
+							<img
+								th:src="${#strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}"
+								alt="현재 이미지" class="custom-img-preview" id="current-thumbnail">
+						</div>
+						<div id="imagePreview" class="custom-preview-container"></div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<label for="detailImagePreview" class="form-label">상세 페이지
+						미리보기</label>
+					<div class="custom-image-container">
+						<img
+							th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}"
+							alt="Detail Image" class="custom-img-preview"
+							id="current-detail-thumbnail">
+						<div id="detailImagePreview" class="custom-preview-container"></div>
+					</div>
+				</div>
+
+				<div class="col-12 text-center mt-5">
+                    <input type="submit" value="수정하기" class="shop-reg-btn"/>
+                    <button type="button" class="shop-reg-btn" onclick="history.back()">돌아가기</button>
                 </div>
             </form>
         </div>
     </div>
     <script th:inline="javascript">
     // 이미지 미리보기
-    window.previewFile = function(event, previewId, currentImageId) {
-        const file = event.target.files[0];
-        const preview = document.getElementById(previewId);
-        const currentImage = document.getElementById(currentImageId);
-        
-        preview.innerHTML = "";  // Clear previous images
-
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.classList.add('img-fluid'); // Bootstrap class for responsive image
-                preview.appendChild(img);
-                if (currentImage) {
-                    currentImage.style.display = 'none';  // Hide current image if it exists
-                }
-            }
-            reader.readAsDataURL(file);
+ window.previewFile = function(event, previewId, currentImageId) {
+    const file = event.target.files[0];
+    const preview = document.getElementById(previewId);
+    const currentImage = document.getElementById(currentImageId);
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add('custom-img-preview');  // 변경된 부분
+            preview.innerHTML = '';
+            preview.appendChild(img);
+            currentImage.style.display = 'none';  // Hide current image
         }
+        reader.readAsDataURL(file);
+    } else {
+        preview.innerHTML = '';
+        currentImage.style.display = 'block';  // Show current image if no file selected
     }
+}
     </script>
 </th:block>
 </html>

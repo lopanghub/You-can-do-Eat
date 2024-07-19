@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.boot.model.source.spi.CascadeStyleSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -40,7 +41,7 @@ public class NoticeBoardController {
 	
 	private final NoticeBoardService noticeBoardService;
 	
-	private static final String DEFAULT_PATH  = "src/main/resources/static/files/notice/";
+	private static final String DEFAULT_PATH  = "bin/main/static/uploads/notice/";
 	
 	@GetMapping("/noticeFileDownload")
 	public void noticeFileDownload(HttpServletRequest req,
@@ -51,7 +52,7 @@ public class NoticeBoardController {
 		
 		File noticeFile = new File(DEFAULT_PATH);
 		File file = new File(noticeFile.getAbsolutePath(), fileName);
-		log.info("file.getNamee() : " + file.getName());
+		log.info("file.getName() : " + file.getName());
 		
 		// 파일 타입 설정
 		resp.setContentType("application/download; charset=UTF-8");
@@ -96,17 +97,22 @@ public class NoticeBoardController {
 	}
 	
 	@GetMapping("/addNoticeBoard")
+	/* @PreAuthorize("authentication.name == 'admin1'") */
 	public String addNoticeBoard() {
 		return "views/notice/noticeWriteForm";
 	}
 	
 	@PostMapping("/addNoticeBoard")
+	
 	public String addNoticeBoard(NoticeBoard noticeBoard,
 			HttpServletRequest req,
 			@RequestParam(value="addFile", required=false) MultipartFile multipartFile) throws IOException{
-		// 관리자 아이디만 등록 가능
-		/* noticeBoard.setWriter("admin");
-		 * noticeBoard.setPass("admin"); */
+			
+		/*
+		 * noticeBoard.setWriter("admin1"); noticeBoard.setPass("admin1");
+		 */
+		
+		
 		System.out.println("originName : " + multipartFile.getOriginalFilename());
 		System.out.println("name : " + multipartFile.getName());
 		
@@ -138,6 +144,11 @@ public class NoticeBoardController {
 		noticeBoardService.addNoticeBoard(noticeBoard);
 		return "redirect:/noticeList";
 	}
+	
+	
+	
+	
+	
 	
 	@PostMapping("/noticeUpdateForm")
 	public String updateNoticeBoard(Model model, HttpServletResponse resp, PrintWriter out,

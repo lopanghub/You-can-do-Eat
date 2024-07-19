@@ -1,9 +1,9 @@
-body, html {
+/* body, html {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
-}
+} */
 
 #imageWrapper {
     max-height: 500px; /* 초기 화면에 보이는 이미지 높이 설정 */
@@ -352,3 +352,4 @@ h2.faq-header {
 .faq-answer > p {
     padding: 15px;
 }
+

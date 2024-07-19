@@ -4,14 +4,30 @@
 	layout:decorate="~{layouts/main_layout}">
 <script type="text/javascript" src="js/member.js"></script>
 <script src="js/memberupdate.js"></script>
+<head>
+    <style>
+     .password-change-container {
+            margin-bottom: 15px;
+        }
+        .password-input-row {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Adds space between the input and button */
+            margin-top: 5px; /* Adds space between the label and input row */
+        }
+        .password-input {
+            flex-grow: 1;
+        }
+    </style>
+</head>
 
 <!-- content -->
-<div layout:fragment="content" class="row my-5" id="global-content">
+<div layout:fragment="content" class="row my-3" id="join-content">
 	<div class="col">
 		<div class="row my-3 text-center">
-		<!-- 	<div class="col">
+			<!-- <div class="col">
 				<img src="./images/youcandoeat.png"
-					style="width: 100px;">
+					style="width: 60px;">
 			</div> -->
 		</div>
 		<div class="row my-3 text-center">
@@ -55,27 +71,38 @@
 			</div>
 			
 			
-			<div class="col-4 offset-2">
-			    <label for="profile" class="form-label">프로필 사진 : </label>
-			    <input type="file" class="form-control" name="profileImage" id="profile" th:attr="data-preview-image=#{'preview'}">
-			    <img id="preview" alt="프로필 사진 미리보기" class="img-fluid mt-2" style="max-width: 100%; max-height: 300px;">
-			</div>
-			
-			
-			
-			
 			<div class="row my-3">
-				<div class="col-3 offset-2">
-					<label for="pass1" class="form-label">* 기존 비밀번호 : </label> <input
-						type="password" class="form-control" name="oldPass" id="oldPass">
+				<div class="col-md-4 offset-md-2">
+					<label for="profile" class="form-label">프로필 사진 : </label>
+					<input type="file" class="form-control" name="profileImage" id="profile" th:attr="data-preview-image=#{'preview'}">
 				</div>
-				<div class="col-4">
-					<input type="button" class="btn btn-success" id="btnPassCheck" value="비밀번호 변경" />
-				</div>
-				<div class="row">
-					<div class="col " id="oldPassComment">
+				<div class="col-md-4">
+					<label class="form-label">미리보기 : </label>
+					<div class="preview-container d-flex justify-content-center align-items-center">
+						<div class="circular-preview">
+							<img id="preview" alt="프로필 사진 미리보기" class="img-fluid">
+						</div>
 					</div>
-					<div class="col " id="someContainer">
+				</div>
+			</div>
+
+			<div class="row my-3">
+				<div class="col-4 offset-2">
+					<div class="password-change-container">
+						<label for="oldPass" class="form-label">* 기존 비밀번호 : </label>
+						<div class="password-input-row">
+							<input type="password" class="form-control password-input"
+								name="oldPass" id="oldPass"> <input type="button"
+								class="btn btn-success" id="btnPassCheck" value="비밀번호 확인" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+					<div class="col-5" id="oldPassComment" style="padding-left:200px;">
+					</div>
+					<div class="col-5" id="someContainer">
 					</div>
 				</div>
 				<!--/* 숨긴 폼 영역 비밀번호 변경 */-->
@@ -150,8 +177,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="row my-3">
-				<div class="col-4 offset-2">
+				<div class="row my-3">
+				<div class="col-6 offset-2">
 					<label for="mobile2" class="form-label">* 휴 대 폰 : </label>
 					<div class="row">
 						<div class="col-md-3">
@@ -165,78 +192,82 @@
 							</select>
 						</div>
 						-
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<input type="text" class="form-control" name="mobile2"
-			
-								id="mobile2" maxlength="4" th:value="${#strings.listSplit(session.member.mobile, '-')[1]}">
-
-            </div>
+								id="mobile2" maxlength="4">
+						</div>
 						-
-						<div class="col-md-4">
+						<div class="col-md-3">
 							<input type="text" class="form-control" name="mobile3"
-								id="mobile3" maxlength="4" th:value="${#strings.listSplit(session.member.mobile, '-')[2]}">
-
-              
+								id="mobile3" maxlength="4">
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row my-3">
-				<div class="col-8 offset-2">
+				<div class="col-8 offset-2 agree-mail">
 					<label class="form-label">메일 수신여부 : </label>
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-check">
-								<input type="radio" class="form-check-input" name="emailGet"
-									id="emailOk" value="true" th:checked="${session.member.emailGet == 1}"> <label
-									class="form-check-label" for="emailGet">동의</label>
+								<input type="radio" class="form-check-input" name="emailGet1"
+									id="emailOk" value="true"> <label
+									class="form-check-label" for="emailOk">동의함</label>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-check">
-								<input type="radio" class="form-check-input" name="emailGet"
+								<input type="radio" class="form-check-input" name="emailGet2"
 									id="emailNo" value="false"> <label
-									class="form-check-label" for="emailGet">동의안함</label>
+									class="form-check-label" for="emailNo">동의하지 않음</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-8 offset-2">
-					<label class="form-label">개인정보 수정 : </label>
+				<div class="col-8 offset-2 agree-inform">
+					<label class="form-label ">개인정보 수집 및 이용 동의 : </label>
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-check">
-								<input type="radio" class="form-check-input" name="gerdonalGet"
-									id="personalOk" value="true"> <label
-									class="form-check-label" for="gerdonalGet">동의</label>
+								<input type="radio" class="form-check-input" name="gerdonalGet1"
+									id="emailOk" value="true"> <label
+									class="form-check-label" for="emailOk">동의함</label>
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-check">
-								<input type="radio" class="form-check-input" name="gerdonalGet"
-									id="personalNo" value="false"> <label
-									class="form-check-label" for="gerdonalGet">동의안함</label>
+								<input type="radio" class="form-check-input" name="gerdonalGet2"
+									id="emailNo" value="false"> <label
+									class="form-check-label" for="emailNo">동의하지 않음</label>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row mb-3 mt-5">
-				<div class="col-8 offset-5">
-					<input type="submit" value="수정하기" class="btn btn-secondary">
-				</div>
+			<div class="btn-groups text-center" style="margin-bottom:20px; margin-top:20px;">
+    			<input type="submit" value="수정하기" class="join-submit-button" id="memberShipwriter">
+    			<button type="button" class="join-form-button" onclick="history.back()">돌아가기</button>
 			</div>
+		
 		</form>
+		<hr>
+		<h5 style="padding-left:200px; margin-top:10px;">회원 탈퇴하기</h5>
 		<form action="delete" name="delete" method="post" id="delete" enctype="multipart/form-data">
 		<div class="row my-3">
 			<div class="col-5 offset-2">
-				<label for="userId" class="form-label">* YouCanDoEat 회원탈퇴 하시겠습니까?</label>
+				<label for="userId" class="form-label">* YOU CAN DO EAT 회원을 탈퇴 하시겠습니까?</label>
 				<div class="row">
-					<div class="col-5">		
-						<input type="text" class="form-control" style="background-color:lightgray;"
-							th:value="${session.member.id}" readonly>
-						<input type="submit" value="탈퇴하기" class="btn btn-secondary offset-2" id="btnjoindelete">
+					<div class="col-8">
+						<div class="d-flex align-items-center mb-2">
+							<span class="me-2 nowrap" style="white-space: nowrap;">현재
+								계정 :</span> <input type="text" class="form-control"
+								style="background-color: lightgray;"
+								th:value="${session.member.id}" readonly>
+						</div>
+						<input type="submit" value="탈퇴하기" class="btn btn-outline-danger w-100"
+							id="btnjoindelete">
 					</div>
+
 				</div>
 				<div id="message" class="mt-3"></div>
 			</div>

@@ -13,9 +13,13 @@
 				<h2>공지사항</h2>
 			</div>
 
-			<div class="text-end">
-				<a th:href="@{addNoticeBoard}" class="write-button">공지 글쓰기</a>
-			</div>
+			<th:block
+				th:if="${session.member != null and session.member.id == 'admin1'}">
+				<div class="text-end">
+					<a th:href="@{addNoticeBoard}" class="write-button">공지 글쓰기</a>
+				</div>
+			</th:block>
+
 
 			<div class="notice-table-wrapper">
 				<table class="notice-table">

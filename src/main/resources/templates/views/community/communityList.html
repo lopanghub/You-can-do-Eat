@@ -55,6 +55,7 @@
 <script th:inline="javascript">
 $("#chat2").on("click", function() {
 	// 세션에서 사용자 ID 가져오기
+	
 	let userId = [[${ session.member.id }]];
 
 	let url = "chatmessage2";

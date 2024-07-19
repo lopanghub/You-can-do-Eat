@@ -25,6 +25,7 @@ import org.springframework.web.servlet.resource.HttpResource;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.springbootstudy.app.domain.Comment;
+import com.springbootstudy.app.domain.CommuComment;
 import com.springbootstudy.app.domain.Community;
 import com.springbootstudy.app.service.CommentService;
 import com.springbootstudy.app.service.CommunityService;
@@ -94,36 +95,8 @@ public class CommunityController {
 	@GetMapping("/communityDetail")
 	public String communityBoardDetail(Model model, @RequestParam("no") int no) {
 		communityService.incrementReadCount(no);
-		
-		 // 평균 점수 계산
-	    double averagePoint = commuCommentService.calculateAveragePoint(no);
-		    // 평균 점수 별점
-		    StringBuilder symbols = new StringBuilder();
-		    int i = 0;
-		    int Ipoint = (int) (averagePoint * 10) / 10;
-		    for (int j = 0; j < Ipoint; j++) {
-		        symbols.append(" <i class=\"bi bi-star-fill\"></i>");
-		        i++;
-		    }
-		    if ((averagePoint * 10) % 10 > 1) {
-		        if (i < 5) {
-		            symbols.append(" <i class=\"bi bi-star-half\"></i>");
-		            i++;
-		        }
-		    }
-		    for (int j = i; j < 5; j++) {
-		        symbols.append(" <i class=\"bi bi-star\"></i>");
-		        i++;
-		    }
-		    String stars = symbols.toString();
-		 
-		 
-		 
-		 model.addAttribute("stars",stars);
-		 
-		 
 	    // 댓글 리스트
-	    List<Comment> commentList = commuCommentService.commuCommentList(no);
+	    List<CommuComment> commentList = commuCommentService.commuCommentList(no);
 	    model.addAttribute("commentList",commentList);
 		
 		

@@ -9,7 +9,7 @@ $(function() {
 			method: 'GET',
 			success: function(resData) {
 				console.log(resData);
-				$('#productGrid').empty().addClass('row row-cols-1 row-cols-md-2 row-cols-lg-5 gx-3 gy-3');
+				$('#productGrid').empty().addClass('row row-cols-1 row-cols-md-2 row-cols-lg-4 gx-3 gy-3');
 
 				$.each(resData, function(i, product) {
 					let productImage = product.productImage;

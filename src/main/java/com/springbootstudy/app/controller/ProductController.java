@@ -151,16 +151,18 @@ public class ProductController {
 	}
 
 	@GetMapping("/shopDetail")
-	public String getProductByID(Model model, HttpSession session, 
-			@RequestParam(name = "productId") int productId,
-			//boolean isCartOk) {
-			@ModelAttribute(name="isCartOk") String isCartOk) {
-		
+    public String getProductById(Model model, HttpSession session, 
+                                 @RequestParam(name = "productId") int productId,
+                                 @ModelAttribute(name="isCartOk") String isCartOk) {
+        // 로그인 여부 확인
+        if (session.getAttribute("member") == null) {
+            return "redirect:/login"; // 로그인 페이지로 리다이렉트
+        }
 
-		Product product = productService.getProductById(productId);
-		model.addAttribute("product", product);
-		return "views/shop/shopDetail";
-	}
+        Product product = productService.getProductById(productId);
+        model.addAttribute("product", product);
+        return "views/shop/shopDetail";
+    }
 
 	// shopDetails-장바구니 추가하기 버튼 누를시
 	@PostMapping("/addCart")

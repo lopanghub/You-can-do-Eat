@@ -2,6 +2,9 @@ package com.springbootstudy.app.ajax;
 
 import com.springbootstudy.app.domain.ShopReview;
 import com.springbootstudy.app.service.ShopReviewService;
+
+import groovy.util.logging.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ajax/reviews")
+@Slf4j
 public class ShopReviewController {
 
     @Autowired
@@ -23,6 +27,7 @@ public class ShopReviewController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addReview(@RequestBody ShopReview review) {
+		System.out.println("review : memberId : " + review.getId());
         shopReviewService.addReview(review);
         return new ResponseEntity<>("Review added successfully", HttpStatus.CREATED);
     }
@@ -34,3 +39,4 @@ public class ShopReviewController {
         return ResponseEntity.ok().build();
     }
 }
+

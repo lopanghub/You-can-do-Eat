@@ -116,9 +116,9 @@
         <div id="remote-control"
              style="position: fixed; left: 50px; top: 50%; transform: translateY(-50%); border: 1px solid #ccc; padding: 10px; background-color: #f8f9fa;">
             <form id="remote-control-form">
-                <button id="register-btn" type="button" class="btn btn-success my-1">상품 등록</button><br>
-                <button id="update-btn" type="button" class="btn btn-primary my-1">상품 수정</button><br>
-                <button id="delete-btn" type="button" class="btn btn-danger my-1">상품 삭제</button>
+                <button id="register-btn" type="button" class="btn btn-outline-success my-1">상품 등록</button><br>
+                <button id="update-btn" type="button" class="btn btn-outline-primary my-1">상품 수정</button><br>
+                <button id="delete-btn" type="button" class="btn btn-outline-danger my-1">상품 삭제</button>
                 <input type="hidden" id="productId" name="productId" th:value="${product.productId}">
             </form>
         </div>
@@ -252,7 +252,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     var reviewHtml = `
                         <div class="review">
                             <div>${review.id}</div>
-                            <div>평점: ${review.rating} ${formattedDate}</div>
+                            
+                            <div>${formattedDate}</div>
                             <div> ${review.reviewComment}</div>
                             <button class="deleteReview" data-review-id="${review.reviewId}">삭제</button>
                         </div>
@@ -274,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 페이지 로드 시 리뷰 로드
     loadReviews();
-
+    console.log([[${session.member.id}]]);
     // 리뷰 작성 버튼 클릭 이벤트
     $("#submitReview").click(function() {
         var reviewText = $("#reviewText").val();
@@ -283,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("리뷰를 작성하세요.");
             return;
         }
-
+		
         var newReview = {
             id: [[${session.member.id}]],  // 실제로는 로그인한 사용자 아이디를 사용해야 함
             productId: [[${product.productId}]],

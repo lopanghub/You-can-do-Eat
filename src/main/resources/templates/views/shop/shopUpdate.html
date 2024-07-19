@@ -48,8 +48,8 @@
                     <input type="file" class="form-control" name="detailImage" id="detailImage" onchange="previewFile(event, 'detailImagePreview', 'current-detail-thumbnail')">
                 </div>
                 <div class="col-md-6">
-                    <label for="detailImagePreview" class="form-label">상세 이미지 미리보기</label>
-           			<img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="Detail Image">
+                    <label for="currentDetailImage" class="form-label">현재 상세 이미지</label>
+                    <img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" alt="상세 이미지" class="img-thumbnail" id="current-detail-thumbnail">
                     <div id="detailImagePreview" class="preview-container"></div>
                 </div>
                 <div class="col-12 text-center mt-5">
@@ -74,7 +74,9 @@
                 img.src = e.target.result;
                 img.classList.add('img-fluid'); // Bootstrap class for responsive image
                 preview.appendChild(img);
-                currentImage.style.display = 'none';  // Hide current image
+                if (currentImage) {
+                    currentImage.style.display = 'none';  // Hide current image if it exists
+                }
             }
             reader.readAsDataURL(file);
         }

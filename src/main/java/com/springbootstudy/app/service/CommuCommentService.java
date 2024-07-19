@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springbootstudy.app.domain.Comment;
+import com.springbootstudy.app.domain.CommuComment;
 import com.springbootstudy.app.mapper.CommentMapper;
 import com.springbootstudy.app.mapper.CommuCommentMapper;
 
@@ -20,7 +21,7 @@ public class CommuCommentService {
 	private CommuCommentMapper commuCommentmapper;
 	
 	//댓글 리스트
-	public List<Comment>  commuCommentList(int no){
+	public List<CommuComment>  commuCommentList(int no){
 		return  commuCommentmapper.commuCommentList(no);
 	}
 	
@@ -28,39 +29,27 @@ public class CommuCommentService {
 	public int commuCommentCount(int no) {
 		return commuCommentmapper.commuCommentCount(no);
 	}
-	//댓글 평균 내주는 매서드
-	  public double calculateAveragePoint(int no) {
-	        List<Comment> comments = commuCommentmapper.commuCommentList(no);
-	        if (comments.isEmpty()) {
-	            return 0.0;
-	        }
-	        double sum = comments.stream().mapToDouble(Comment::getCommentPoint).sum();
-	        double average = sum / comments.size();
-	        BigDecimal bd = new BigDecimal(average).setScale(1, RoundingMode.HALF_UP);
-	        return bd.doubleValue();
-	    }
 	  // 댓글추가
-	  public Comment addCommuComment(int no, String commentContent, int commentPoint,String memberId) {
-	        Comment comment = new Comment();
-	        comment.setBoardNo(no);
-	        comment.setCommentContent(commentContent);
-	        comment.setCommentPoint(commentPoint);
-	        comment.setMemberId(memberId);
-	        commuCommentmapper.insertCommuComment(comment);
-	        return commuCommentmapper.selectCommuCommentById(comment.getCommentId());
+	  public CommuComment addCommuComment(int no, String commuCommentContent,String memberId) {
+		  CommuComment commuComment = new CommuComment();
+		  commuComment.setNo(no);
+		  commuComment.setCommuCommentContent(commuCommentContent);
+		  commuComment.setMemberId(memberId);
+		  System.out.println("commuComment:" + commuComment.getCommuCommentContent());
+	        commuCommentmapper.insertCommuComment(commuComment);
+	        return commuCommentmapper.selectCommuCommentById(commuComment.getCommuCommentId());
 	    }
 	  // 댓글 업데이트
-	  public Comment updatecCommuComment(int commentId, String commentContent, int commentPoint) {
-	        Comment comment = new Comment();
-	        comment.setCommentId(commentId);
-	        comment.setCommentContent(commentContent);
-	        comment.setCommentPoint(commentPoint);
+	  public CommuComment updatecCommuComment(int commuCommentId, String commuCommentContent) {
+		  CommuComment comment = new CommuComment();
+	        comment.setCommuCommentId(commuCommentId);
+	        comment.setCommuCommentContent(commuCommentContent);
 	        commuCommentmapper.updateCommuComment(comment);
-	        return commuCommentmapper.selectCommuCommentById(commentId);
+	        return commuCommentmapper.selectCommuCommentById(commuCommentId);
 	    }
 	  
 	  //댓글삭제
-	  public Comment deleteCommuComment( int  commentId) {
+	  public CommuComment deleteCommuComment( int  commentId) {
 		  commuCommentmapper.deleteCommuComment(commentId);
 		  return commuCommentmapper.selectCommuCommentById(commentId);
 	  }

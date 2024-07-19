@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YOU CAN DO EAT</title>
 <link rel="icon" href="images/bowl-food-solid.png">
+<script th:src="@{js/communityFormcheck.js}"></script>
 <style>
 </style>
 <link
@@ -14,7 +15,13 @@
 </head>
 <body>
 	<header>
-
+		<form>
+			<th:block th:if="${session.member != null and session.member != ''}">
+					<input type="hidden" id="loginId" name="loginId"
+						th:value="${session.member.id}">
+				</th:block>
+			
+		</form>
 		<div class="headerTop"></div>
 		<div class="header-content">
 			<div class="loginJoin">

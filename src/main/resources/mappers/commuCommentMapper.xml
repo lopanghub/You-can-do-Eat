@@ -4,7 +4,7 @@
 
 <mapper namespace="com.springbootstudy.app.mapper.CommuCommentMapper">
 	 <!--댓글리스트 불러오기  -->
-	    <select id="commuCommentList" parameterType="int" resultType="com.springbootstudy.app.domain.Comment">
+	    <select id="commuCommentList" parameterType="int" resultType="commuComment">
   SELECT 
             cm.* ,
             cu.member_id
@@ -15,7 +15,7 @@
         ON 
             cm.no = cu.no 
         WHERE 
-            cm.no = #{no} order by comment_id DESC
+            cm.no = #{no} order by commuComment_id DESC
 	</select>
 	<!-- 댓글 갯수불러오기 -->
 	    <select id="commuCommentCount" parameterType="int" resultType="int">
@@ -31,23 +31,23 @@
             cm.no = #{no}
 	</select>
 	<!-- 댓글추가하기 -->
-	 <insert id="insertCommuComment" parameterType="Comment" useGeneratedKeys="true"  keyProperty="commentId">
-		INSERT INTO commuComment (no, Comment_content, Comment_Point, created_at,member_Id)
-        VALUES (#{no}, #{commentContent}, #{commentPoint}, NOW(),#{memberId})
+	 <insert id="insertCommuComment" parameterType="CommuComment" useGeneratedKeys="true"  keyProperty="commuCommentId">
+		INSERT INTO commuComment (no, commuComment_content, created_at,member_Id)
+        VALUES (#{no}, #{commuCommentContent}, NOW(),#{memberId})
 	</insert>
 	<!-- 댓글수정하기 -->
-	<update id="updateCommuComment" parameterType="Comment" useGeneratedKeys="true">
+	<update id="updateCommuComment" parameterType="CommuComment" useGeneratedKeys="true">
     UPDATE commuComment 
-    SET Comment_content = #{commentContent}, Comment_Point = #{commentPoint}, created_at = NOW()
-    WHERE comment_id = #{commentId}
+    SET commuComment_content = #{commuCommentContent},  created_at = NOW()
+    WHERE commuComment_id = #{commuCommentId}
 </update>
 <!-- 특정댓글불러오기 -->
- <select id="selectCommuCommentById" parameterType="int" resultType="Comment">
-        SELECT * FROM commuComment WHERE comment_id = #{commentId}
+ <select id="selectCommuCommentById" parameterType="int" >
+        SELECT * FROM commuComment WHERE commuComment_id = #{commuCommentId}
     </select>
     <!-- 댓글삭제하기 -->
     <delete id="deleteCommuComment" parameterType="int" >
-    	delete from commuComment where comment_id = ${commentId}
+    	delete from commuComment where commuComment_id = ${commuCommentId}
     </delete>
     <!-- 댓글삭제하기 -->
     <delete id="deleteCommuCommentByNo" parameterType="int" >

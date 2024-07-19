@@ -252,6 +252,7 @@ public class ProductController {
 		model.addAttribute("products", products);
 		model.addAttribute("query", query);
 		model.addAttribute("category", category);
+		model.addAttribute("currentPage", "views/shop/SearchResult");
 		return "views/shop/SearchResult"; // 템플릿 이름을 반환합니다
 	}
 

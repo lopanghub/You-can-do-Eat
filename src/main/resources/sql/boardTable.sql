@@ -40,7 +40,7 @@ CREATE TABLE cooking (  -- 레이피 리스트 테이블
     FOREIGN KEY (board_no) REFERENCES recipe_Board(board_no)
 );
 
-select * from recipe_board;
+select * from recipe_Board;
 -- 보트리스트
 INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id)
 VALUES ( '스파게티 카르보나라', '스파게티 카르보나라 레시피 내용이 여기 있습니다.', '한식', 'john_doe');

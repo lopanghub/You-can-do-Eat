@@ -11,7 +11,7 @@
         FROM 
             comments cm
         JOIN 
-            recipe_Board rb 
+            recipe_board rb 
         ON 
             cm.board_no = rb.board_no 
         WHERE 
@@ -24,7 +24,7 @@
         FROM 
             comments cm
         JOIN 
-            recipe_Board rb 
+            recipe_board rb 
         ON 
             cm.board_no = rb.board_no 
         WHERE 

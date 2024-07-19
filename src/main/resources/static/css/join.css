@@ -81,3 +81,29 @@
 	border-radius: 3px; */
 	margin-bottom: 15px;
 }
+
+
+/* 회원가입 프로필이미지사이즈 */	
+.preview-container {
+		height: 200px;
+		background-color: #f8f9fa;
+		border-radius: 4px;
+		overflow: hidden;
+	}
+	.circular-preview {
+		width: 200px;
+		height: 200px;
+		border-radius: 50%;
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #e9ecef;
+		border: 2px solid #ced4da;
+	}
+	#preview {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: all 0.3s ease;
+	}

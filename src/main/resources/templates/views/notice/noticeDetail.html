@@ -57,7 +57,7 @@
 								 <td colspan="4">
                                     <div style="white-space: pre-wrap;" th:text="${noticeBoard.content}"></div>
                                     <th:block th:if="${not #strings.isEmpty(noticeBoard.file1)}">
-                                        <img th:src="@{|/fileDownload?fileName=${noticeBoard.file1}|}" 
+                                        <img th:src="@{'./uploads/notice/' + ${noticeBoard.file1}}" 
                                              th:alt="${noticeBoard.file1}" 
                                              style="max-width: 100%; height: auto; margin-top: 10px;">
                                     </th:block>

@@ -77,12 +77,20 @@
 			</div>
 
 
-			<div class="col-4 offset-2">
-			    <label for="profile" class="form-label">프로필 사진 : </label>
-			    <input type="file" class="form-control" name="profileImage" id="profile" th:attr="data-preview-image=#{'preview'}">
-			    <img id="preview" alt="프로필 사진 미리보기" class="img-fluid mt-2" style="max-width: 100%; max-height: 300px;">
+			<div class="row my-3">
+				<div class="col-md-4 offset-md-2">
+					<label for="profile" class="form-label">프로필 사진 : </label>
+					<input type="file" class="form-control" name="profileImage" id="profile" th:attr="data-preview-image=#{'preview'}">
+				</div>
+				<div class="col-md-4">
+					<label class="form-label">미리보기 : </label>
+					<div class="preview-container d-flex justify-content-center align-items-center">
+						<div class="circular-preview">
+							<img id="preview" alt="프로필 사진 미리보기" class="img-fluid">
+						</div>
+					</div>
+				</div>
 			</div>
-
 			<div class="row my-3">
 				<div class="col-8 offset-2">
 					<label for="zipcode" class="form-label">* 우편번호 : </label>

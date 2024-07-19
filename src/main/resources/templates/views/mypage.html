@@ -4,9 +4,10 @@
 	layout:decorate="~{layouts/member_layout}">
 
 <!-- content -->
- <div layout:fragment="content" class="row my-5" id="mypage-content">
+ <div layout:fragment="content" class="row my-4" id="mypage-content">
       <div class="col my-0">
     <h2 class="text-center mb-4 my-title">마이페이지</h2>
+    <hr>
     <form action="chatmessage" name="chatmessage" method="post" id="chatmessage" enctype="multipart/form-data">
       <article>
         <div class="inpo">
@@ -23,7 +24,7 @@
           <div class="edit-btns text-center d-flex justify-content-center">
             <a class="edit-link edit-button mx-2" href="/memberUpdateForm">회원정보 수정</a>
             <a class="edit-link edit-button mx-2" href="#">장바구니</a>
-             <input type="button" class="edit-button mx-2" id="chat" value="1:1 문의">
+             <input type="button" class="edit-button mx-2" id="chat" value="1:1 문의하기">
           </div>
         </div>
       </article>

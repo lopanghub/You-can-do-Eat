@@ -11,18 +11,14 @@
 			<div class="notice-header text-center">
 				<h2 class="fs-3 fw-bold">공지사항</h2>
 			</div>
+			
 			<form name="noticeWriteForm" action="addNoticeBoard"
 				id="noticeWriteForm" class="row g-3 border-primary" method="post"
 				enctype="multipart/form-data">
-			 	 <div class="col-4 offset-md-2">
-							<label for="writer" class="form-label">작성자</label>
-							<input type="text" class="form-control" name="writer" id="writer" 
-								placeholder="작성자를 입력해 주세요">
-						</div> 
-						<div class="col-4 ">
-							<label for="pass" class="form-label">비밀번호</label>
-							<input type="password" class="form-control" name="pass" id="pass" >
-						</div> 
+			 	  <!-- 숨겨진 작성자 필드 -->
+                <input type="hidden" name="writer" id="writer" value="admin1" />
+                <!-- 숨겨진 비밀번호 필드 -->
+                <input type="hidden" name="pass" id="pass" value="1234" />
 				<div class="col-8 offset-md-2 noticeWrite">
 					<label for="title" class="form-label noticeWrite">제&nbsp;&nbsp;&nbsp;&nbsp; 목</label> <input
 						type="text" class="form-control form-input" name="title"

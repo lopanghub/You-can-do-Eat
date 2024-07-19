@@ -41,7 +41,7 @@ public class NoticeBoardController {
 	
 	private final NoticeBoardService noticeBoardService;
 	
-	private static final String DEFAULT_PATH  = "src/main/resources/static/files/notice/";
+	private static final String DEFAULT_PATH  = "bin/main/static/uploads/notice/";
 	
 	@GetMapping("/noticeFileDownload")
 	public void noticeFileDownload(HttpServletRequest req,
@@ -103,11 +103,11 @@ public class NoticeBoardController {
 	}
 	
 	@PostMapping("/addNoticeBoard")
-	/* @PreAuthorize("authentication.name == 'admin1'") */
+	
 	public String addNoticeBoard(NoticeBoard noticeBoard,
 			HttpServletRequest req,
 			@RequestParam(value="addFile", required=false) MultipartFile multipartFile) throws IOException{
-		
+			
 		/*
 		 * noticeBoard.setWriter("admin1"); noticeBoard.setPass("admin1");
 		 */

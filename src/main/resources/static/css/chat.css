@@ -22,12 +22,16 @@ div.headerTop {
 	margin-bottom: 10px;
 }
 
+.card-text{
+	color:#333;
+}
 #my {
 	float: right;
 }
 
 #me {
-	background-color: #FF914D;
+	/* background-color: #FF914D; */
+	border:2px solid #FF914D;
 }
 
 #you {
@@ -35,7 +39,10 @@ div.headerTop {
 }
 
 #your {
-	background-color: gray;
+	/* background-color: gray; */
+	border:2px solid gray;
+	color: black;
+	
 }
 
 .msg_box {
@@ -53,7 +60,7 @@ h2 {
 }
 
 #btn-send {
-	width: 80px;
+	width: 100px;
 	padding: 0.5rem 1rem;
 	background-color: transparent;
 	color: #FF914D;

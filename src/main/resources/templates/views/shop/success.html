@@ -9,26 +9,27 @@
     <div layout:fragment="content">
         <div class="row">
             <div class="col">
-                <h1>결제 성공</h1>
+                <h2 class="order-title">결제 성공</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                <h2>주문 정보</h2>
-                <table class="table">
-                    <tr>
+            <div class="col order-info">주문 정보</div>
+            <div class="row">
+				<div class="col-11">
+                <table class="table order-info-buy">
+                    <tr class="order-infos">
                         <td>주문 번호</td>
                         <td th:text="${order.orderId}"></td>
                     </tr>
-                    <tr>
+                    <tr class="order-infos">
                         <td>회원 이메일</td>
                         <td th:text="${order.memberId}"></td>
                     </tr>
-                    <tr>
+                    <tr class="order-infos">
                         <td>총 금액</td>
                         <td th:text="${order.totalAmount}"></td>
                     </tr>
-                    <tr>
+                    <tr class="order-infos">
                         <td>상태</td>
                         <td th:text="${order.status}"></td>
                     </tr>
@@ -37,7 +38,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <h2>주문 항목</h2>
+                <h2 class="order-title">주문 항목</h2>
                 <table class="table">
                     <thead>
                         <tr>
@@ -61,5 +62,11 @@
             </div>
         </div>
     </div>
+    
+    	<div class="text-center">
+		 <button class="shopOrder-pay-btn"><a href="/shopMain" style="text-decoration:none; color:#333;">돌아가기</a></button>
+		</div>
+    
+    
 </body>
 </html>

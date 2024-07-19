@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <!--쇼핑몰 상세보기 담당자 -이현학 -->
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/shop_layout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/shop_layout}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Detail</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Detail</title>
 </head>
 <body>
 
 
 
 
-<!-- content -->
-<div layout:fragment="content">
+	<!-- content -->
+	<div layout:fragment="content">
 
-	<script th:inline="javascript">
+		<script th:inline="javascript">
 		let isCartOk = [[${isCartOk}]];
 		let productName = [[${product.productName}]];
 		
@@ -29,155 +29,171 @@
 		
 	</script>
 
-    <!-- 상세 정보 페이지 -->
-    <div class="row my-3">
-        <div class="col-6 product-image-container">
-            <img th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}" 
-                alt="Product Image" class="detail-product-image">
-        </div>
-        <div class="col-6">
-            <!-- 상품 정보 -->
-            <div class="row">
-                <div class="col">
-                    <h3 class="productName" th:text="${product.productName}"></h3>
-                    <div class="shipping-info">
-                        <table>
-                            <tr>
-                                <th>배송정보</th>
-                                <td>택배배송 <span class="delivery-info-icon">?</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>배송비</th>
-                                <td>무료</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <p id="productPrice" th:data-price="${product.price}"></p>
-                </div>
-            </div>
+		<!-- 상세 정보 페이지 -->
+		<div class="row my-3">
+			<div class="col-6 product-image-container">
+				<img
+					th:src="${product.productImage != null and #strings.startsWith(product.productImage, 'http') ? product.productImage : '/resources/shop/' + product.productImage}"
+					alt="Product Image" class="detail-product-image">
+			</div>
+			<div class="col-6">
+				<!-- 상품 정보 -->
+				<div class="row">
+					<div class="col">
+						<h3 class="productName" th:text="${product.productName}"></h3>
+						<div class="shipping-info">
+							<table>
+								<tr>
+									<th>배송정보</th>
+									<td>택배배송 <span class="delivery-info-icon">?</span>
+									</td>
+								</tr>
+								<tr>
+									<th>배송비</th>
+									<td>무료</td>
+								</tr>
+							</table>
+						</div>
+						<p id="productPrice" th:data-price="${product.price}"></p>
+					</div>
+				</div>
 
-            <!-- 사이즈 선택 -->
-            <div class="row">
-                <div class="col"></div>
-            </div>
+				<!-- 사이즈 선택 -->
+				<div class="row">
+					<div class="col"></div>
+				</div>
 
-            <div class="quantity-control-box">
-                <!-- 수량 조절 버튼 -->
-                <div class="row d-flex justify-content-between">
-                    <div class="col">
-                        <div class="detail-quantity-control-wrapper">
-                            <div class="detail-quantity-input-container">
-                                <button class="detail-quantity-input-minus">-</button>
-                                <input class="detail-quantity-input" type="text" value="1" readonly />
-                                <button class="detail-quantity-input-plus">+</button>
-                            </div>
-                            <button class="detail-resetQuantity">X</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+				<div class="quantity-control-box">
+					<!-- 수량 조절 버튼 -->
+					<div class="row d-flex justify-content-between">
+						<div class="col">
+							<div class="detail-quantity-control-wrapper">
+								<div class="detail-quantity-input-container">
+									<button class="detail-quantity-input-minus">-</button>
+									<input class="detail-quantity-input" type="text" value="1"
+										readonly />
+									<button class="detail-quantity-input-plus">+</button>
+								</div>
+								<button class="detail-resetQuantity">X</button>
+							</div>
+						</div>
+					</div>
+				</div>
 
-            <hr class="order-divider">
-            <div class="row">
-                <div class="col">
-                    <p class="order-total-title">
-                        주문금액: <span id="detail-totalPrice"></span>
-                    </p>
-                </div>
-            </div>
+				<hr class="order-divider">
+				<div class="row">
+					<div class="col">
+						<p class="order-total-title">
+							주문금액: <span id="detail-totalPrice"></span>
+						</p>
+					</div>
+				</div>
 
-            <!-- 장바구니 및 결제 -->
-            <div class="row">
-                <div class="col">
-                    <form id="productForm" method="post">
-                        <input type="hidden" name="productId" th:value="${product.productId}">
-                        <input type="hidden" id="memberId" th:value="${session.member.id}">
-                        <!-- 히든 필드 추가 -->
-                        <input type="hidden" name="quantity" id="cartQuantity" value="1">
-                        <div class="button-container">
-                            <button type="button" id="addCart">장바구니</button>
-                            <button type="button" id="orderNow">바로결제</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-   <!-- 상품 안내 앵커 (/* shopDetail nav바 */)-->
-<div class="pd-product-nav">
-    <button class="pd-nav-item pd-active"><a href="#productDetail">상품 상세</a></button>
-    <button class="pd-nav-item"><a href="#productReviews">상품 리뷰</a></button>
-    <button class="pd-nav-item"><a href="#recommendedProducts">추천 상품</a></button>
-    <button class="pd-nav-item"><a href="#faq">FAQ</a></button>
-</div>
+				<!-- 장바구니 및 결제 -->
+				<div class="row">
+					<div class="col">
+						<form id="productForm" method="post">
+							<input type="hidden" name="productId"
+								th:value="${product.productId}"> <input type="hidden"
+								id="memberId" th:value="${session.member.id}">
+							<!-- 히든 필드 추가 -->
+							<input type="hidden" name="quantity" id="cartQuantity" value="1">
+							<div class="button-container">
+								<button type="button" id="addCart">장바구니</button>
+								<button type="button" id="orderNow">바로결제</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 상품 안내 앵커 (/* shopDetail nav바 */)-->
+		<div class="pd-product-nav">
+			<button class="pd-nav-item pd-active">
+				<a href="#productDetail">상품 상세</a>
+			</button>
+			<button class="pd-nav-item">
+				<a href="#productReviews">상품 리뷰</a>
+			</button>
+			<button class="pd-nav-item">
+				<a href="#recommendedProducts">추천 상품</a>
+			</button>
+			<button class="pd-nav-item">
+				<a href="#faq">FAQ</a>
+			</button>
+		</div>
 
-    <th:block th:if="${session.member.id == 'admin1'}">
-        <div id="remote-control"
-             style="position: fixed; left: 50px; top: 50%; transform: translateY(-50%); border: 1px solid #ccc; padding: 10px; background-color: #f8f9fa;">
-            <form id="remote-control-form">
-                <button id="register-btn" type="button" class="btn btn-outline-success my-1">상품 등록</button><br>
-                <button id="update-btn" type="button" class="btn btn-outline-primary my-1">상품 수정</button><br>
-                <button id="delete-btn" type="button" class="btn btn-outline-danger my-1">상품 삭제</button>
-                <input type="hidden" id="productId" name="productId" th:value="${product.productId}">
-            </form>
-        </div>
-    </th:block>
-	
-    <!-- 상세 이미지 표시 -->
-    <a id="productDetail"></a>
-    <div class="row my-3" id="imageWrapper">
-        <div class="col-12">
-            <img th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}" 
-            alt="Detail Image" id="detailImage">
-        </div>
-    </div>
-    
-    <button id="toggleButton">상품정보 더보기 ▼</button>
-    
-    <!-- 리뷰 작성 -->
-    <a id="productReviews"></a>
-    <h4>상품 리뷰</h4>
-    <div class="row">
-        <div class="col reviewBox"></div>
-    </div>
-    <div class="row" id="reviewForm">
-        <div class="col">
-            <h4>리뷰 작성</h4>
-            <textarea id="reviewText" placeholder="리뷰를 작성하세요"></textarea>
-            <button id="submitReview">리뷰 작성</button>
-        </div>
-    </div>
-    
-    <!-- 추천 상품 -->
-    <a id="recommendedProducts"></a>
-    <div class="row"></div>
-    
-    <!--faq -->
-    <a id="faq"></a>
-    <div class="faq-container">
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleAnswer(this)">
-                <span>배송을 얼마나 걸리나요?</span>
-                <span class="toggle-btn">▼</span>
-            </div>
-            <div class="faq-answer">
-                <p>상품을 주문하신 시각에 따라 다르면 최대 2일 소요됩니다.</p>
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleAnswer(this)">
-                <span>교환 환불 정책은 어떻게 되나요?</span>
-                <span class="toggle-btn">▼</span>
-            </div>
-            <div class="faq-answer">
-                <p>구입 후 7일 이내 무상으로 교환 환불 가능합니다.</p>
-            </div>
-        </div>
-    </div>
+		<th:block th:if="${session.member.id == 'admin1'}">
+			<div id="remote-control"
+				style="position: fixed; left: 50px; top: 50%; transform: translateY(-50%); border: 1px solid #ccc; padding: 10px; background-color: #f8f9fa;">
+				<form id="remote-control-form">
+					<button id="register-btn" type="button"
+						class="btn btn-outline-success my-1">상품 등록</button>
+					<br>
+					<button id="update-btn" type="button"
+						class="btn btn-outline-primary my-1">상품 수정</button>
+					<br>
+					<button id="delete-btn" type="button"
+						class="btn btn-outline-danger my-1">상품 삭제</button>
+					<input type="hidden" id="productId" name="productId"
+						th:value="${product.productId}">
+				</form>
+			</div>
+		</th:block>
+
+		<!-- 상세 이미지 표시 -->
+		<a id="productDetail"></a>
+		<div class="row my-3" id="imageWrapper">
+			<div class="col-12">
+				<img
+					th:src="${product.detailImage != null and #strings.startsWith(product.detailImage, 'http') ? product.detailImage : '/resources/shop/' + product.detailImage}"
+					alt="Detail Image" id="detailImage">
+			</div>
+		</div>
+
+		<button id="toggleButton">상품정보 더보기 ▼</button>
+
+		<!-- 리뷰 작성 -->
+		<a id="productReviews"></a>
+		<h4>상품 리뷰</h4>
+		<div class="row">
+			<div class="col reviewBox"></div>
+		</div>
+		<div class="row" id="reviewForm">
+			<div class="col">
+				<h4>리뷰 작성</h4>
+				<textarea id="reviewText" placeholder="리뷰를 작성하세요"></textarea>
+				<button id="submitReview">리뷰 작성</button>
+			</div>
+		</div>
+
+		<!-- 추천 상품 -->
+		<a id="recommendedProducts"></a>
+		<div class="row"></div>
+
+		<!--faq -->
+		<a id="faq"></a>
+		<div class="faq-container">
+			<div class="faq-item">
+				<div class="faq-question" onclick="toggleAnswer(this)">
+					<span>배송을 얼마나 걸리나요?</span> <span class="toggle-btn">▼</span>
+				</div>
+				<div class="faq-answer">
+					<p>상품을 주문하신 시각에 따라 다르면 최대 2일 소요됩니다.</p>
+				</div>
+			</div>
+			<div class="faq-item">
+				<div class="faq-question" onclick="toggleAnswer(this)">
+					<span>교환 환불 정책은 어떻게 되나요?</span> <span class="toggle-btn">▼</span>
+				</div>
+				<div class="faq-answer">
+					<p>구입 후 7일 이내 무상으로 교환 환불 가능합니다.</p>
+				</div>
+			</div>
+		</div>
 
 
-<script th:inline="javascript">
+		<script th:inline="javascript">
 document.addEventListener('DOMContentLoaded', function() {
     // 초기 높이 설정
     var answers = document.querySelectorAll('.faq-answer');
@@ -251,11 +267,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     var reviewHtml = `
                         <div class="review">
-                            <div>${review.id}</div>
-                            
-                            <div>${formattedDate}</div>
-                            <div> ${review.reviewComment}</div>
-                            <button class="deleteReview" data-review-id="${review.reviewId}">삭제</button>
+                    	<div class="review-header">
+                    		
+                        	<span class="review-id">${review.id}&nbsp&nbsp<span class="review-date">${formattedDate}</span></span>
+                        	
+                        	
+                        	<button class="deleteReview" data-review-id="${review.reviewId}">삭제</button>
+                    	</div>
+                    		<div class="review-comment">${review.reviewComment}</div>
                         </div>
                         <hr>
                     `;
@@ -349,6 +368,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-</div>
+	</div>
 </body>
 </html>

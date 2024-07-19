@@ -151,7 +151,7 @@ $(function() {
 				                   </div>
 				                   <div class="row my-2">
 				                       <div class="col text-center">
-				                           <h2 class="recipe-title">${recipe.boardTitle}</h2>
+				                           <h3 class="recipe-title">${recipe.boardTitle}</h3>
 				                       </div>
 				                   </div>
 				                   <div class="row border my-2 recipe-description">

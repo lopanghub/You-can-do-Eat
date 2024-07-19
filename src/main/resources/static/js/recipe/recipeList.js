@@ -123,7 +123,7 @@ $(document).on("click", "#commentBtn", function() {
                 <div class="recipeDetailForm border border-dark rounded my-4">
                     <div class="row my-3 text-center">
                         <div class="col">
-                            <h1>${recipe.recipe.boardTitle}</h1>
+                            <h2>${recipe.recipe.boardTitle}</h2>
                         </div>
                     </div>
 
@@ -134,7 +134,7 @@ $(document).on("click", "#commentBtn", function() {
                     </div>
                     <div class="row my-4 mx-3 border  rounded">
                         <div class="col  ">
-                            <h3>${recipe.recipe.boardContent}</h3>
+                            <h5>${recipe.recipe.boardContent}</h5>
                         </div>
                     </div>
                     <div class="row my-2 recipe-info" style="font-size: 1.2rem; margin-top: 20px;">

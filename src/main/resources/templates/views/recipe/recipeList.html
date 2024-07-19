@@ -87,8 +87,8 @@
 									<div th:text="${recipe.boardTitle}"></div> <!-- Recipe member ID and points -->
 									<div th:text="${recipe.memberId} "></div>
 									<!-- Recipe registration date -->
-									<i class="bi bi-eye-fill"></i><div  th:text="' (' + ${recipe.boardView} + ')'"></div>
-									<div th:text="${#dates.format(recipe.regDate, 'yyyy-MM-dd')}"></div>
+									<div class="d-flex align-items-center" th:utext="'<i class=&quot;bi bi-eye-fill&quot;></i>&nbsp;&nbsp;&nbsp;(' + ${recipe.boardView} + 
+            ')&nbsp;&nbsp;&nbsp;<i class=&quot;bi bi-star-fill&quot;></i>&nbsp;&nbsp;&nbsp;(' + ${recipe.Apoint} + ')'"></div>
 								</a>
 							</th:block>
 							<th:block th:unless="${searchOption}">

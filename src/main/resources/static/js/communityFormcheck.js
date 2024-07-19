@@ -1,11 +1,12 @@
 $(function(){
 	$('.community-btn').on("click", function(event) {
-    let member = $('#loginId').val(); 
-    if (member === undefined || member === "" || member === null) {
-        event.preventDefault(); // 기본 동작을 막음
-        alert('로그인 후 이용해주세요.'); // 경고 메시지 표시
-        window.location.href = '/login'; // 로그인 페이지로 리디렉션
-    }
+	    let member = $('#loginId').val(); 
+	    console.log(member);
+	    if (member === undefined || member === "" || member === null) {
+	        event.preventDefault(); // 기본 동작을 막음
+	        alert('로그인 후 이용해주세요.'); // 경고 메시지 표시
+	        window.location.href = '/login'; // 로그인 페이지로 리디렉션
+	    }
 });
 	
 	

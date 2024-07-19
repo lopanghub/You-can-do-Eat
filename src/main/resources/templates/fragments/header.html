@@ -30,7 +30,13 @@
 					<a class="join" href="/membership">|&nbsp;&nbsp;회원가입&nbsp;&nbsp;&nbsp;</a>
 				</th:block>
 			</div>
-
+			<form>
+			 <th:block
+            th:if="${session.member != null and session.member.id == 'admin1'}">
+            
+            	<input type="hidden" id="loginId" th:value="${member}">
+            	</th:block>
+            </form>
 			<div class="mainLogo">
 				<div class="imgo">
 					<a href="/"><img src="images/YouCanDoEat.png" alt="logo"

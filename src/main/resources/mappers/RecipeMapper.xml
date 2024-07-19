@@ -5,7 +5,7 @@
 <mapper namespace="com.springbootstudy.app.mapper.RecipeMapper">
 	<!--boardUpdate  -->
 	<update id="updateRecipe">
-    UPDATE recipe_Board 
+    UPDATE recipe_board 
     SET 
         board_title = #{boardTitle},
         board_content = #{boardContent},
@@ -14,7 +14,7 @@
         thumbnail = #{thumbnail},
         food_time = #{foodTime},
         number_eaters = #{numberEaters}
-    WHERE board_No = #{boardNo};
+    WHERE board_no = #{boardNo};
 </update>
 
 
@@ -44,14 +44,14 @@
 </select>
 
 <update id="updateApoint">
-	UPDATE recipe_Board SET Apoint = #{Apoint} WHERE board_no = #{boardNo};
+	UPDATE recipe_board SET apoint = #{Apoint} WHERE board_no = #{boardNo};
 </update>
 
 
 
 <!-- 레시피 추가하기 -->
 <insert id="insertRecipe" parameterType="RecipeBoard" useGeneratedKeys="true" keyProperty="boardNo">
-    INSERT INTO recipe_Board ( board_title, board_content, food_genre, member_id,thumbnail,number_eaters,food_time)
+    INSERT INTO recipe_board ( board_title, board_content, food_genre, member_id,thumbnail,number_eaters,food_time)
     VALUES (#{boardTitle}, #{boardContent}, #{foodGenre}, #{memberId}, #{thumbnail},#{numberEaters},#{foodTime});
 </insert>
 <!-- 레시피에 요리재료추가하기 -->
@@ -71,7 +71,7 @@
 	
 	<!--recipeDelete  -->
 	<delete id="deleteRecipe">
-		DELETE FROM recipe_Board WHERE board_no = #{boardNo};
+		DELETE FROM recipe_board WHERE board_no = #{boardNo};
 	</delete>
 	<!--materialDelete  -->
 	<delete id="deleteMaterialByNo">
@@ -95,7 +95,7 @@
   <!-- boardNO의 요리과정리스트 -->
 <select id="getCookList" resultType="Cooking"  parameterType="int">
 SELECT c.*
-FROM recipe_Board rb
+FROM recipe_board rb
 INNER JOIN cooking c ON rb.board_no = c.board_no
 WHERE rb.board_no = #{boardNo};
 </select>
@@ -103,7 +103,7 @@ WHERE rb.board_no = #{boardNo};
 
 	<!--레시피 리스트-->
 	<select id="recipeBoardList">
-		select * from recipe_Board 
+		select * from recipe_board 
 		 <where>
             <if test="type == 'board_title'">
                 board_title LIKE CONCAT('%', #{keyword}, '%')
@@ -121,7 +121,7 @@ WHERE rb.board_no = #{boardNo};
 		order by board_no desc LIMIT  #{offset}, #{limit}
 	</select>
 	<select id="getRecipeCount" resultType="int">
-         SELECT count(*) FROM recipe_Board
+         SELECT count(*) FROM recipe_board
           <where>
             <if test="type == 'board_title'">
                 board_title LIKE CONCAT('%', #{keyword}, '%')
@@ -142,14 +142,14 @@ WHERE rb.board_no = #{boardNo};
 	
 	<!--레시피 boardNo 가져오기 Detail-->
 	<select id="getBoard"  resultType="RecipeBoard">
-		select * from recipe_Board where board_no = #{boardNo};
+		select * from recipe_board where board_no = #{boardNo};
 	</select>
 
   
   <!--cookid를 가져오기위함 -->
  	<select id="cookidCheck" resultType="int">
     SELECT c.cooking_id
-	FROM recipe_Board rb
+	FROM recipe_board rb
 	INNER JOIN cooking c ON rb.board_no = c.board_no
 	WHERE rb.board_no = #{boardNo} ;
   </select>
@@ -157,7 +157,7 @@ WHERE rb.board_no = #{boardNo};
   <!--bookpage 를 나타냄-->
   <select id="cookCount" resultType="int">
     SELECT count(*)
-	FROM recipe_Board rb
+	FROM recipe_board rb
 	INNER JOIN cooking c ON rb.board_no = c.board_no
 	WHERE rb.board_no = #{boardNo};
 
@@ -165,13 +165,13 @@ WHERE rb.board_no = #{boardNo};
   <!--boardNo의 재료들 출력-->
   <select id="getMaterialList" resultType="Material">
     SELECT m.*
-	FROM recipe_Board rb
+	FROM recipe_board rb
 	INNER JOIN material m ON rb.board_no = m.board_no
 	WHERE rb.board_no = #{boardNo};
   </select>
   
   <update id="readCount">
-	update recipe_Board set board_view = board_view + 1 where board_no = #{boardNo};
+	update recipe_board set board_view = board_view + 1 where board_no = #{boardNo};
   </update>
   
 </mapper>

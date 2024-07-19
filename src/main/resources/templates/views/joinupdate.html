@@ -194,12 +194,13 @@
 						-
 						<div class="col-md-3">
 							<input type="text" class="form-control" name="mobile2"
-								id="mobile2" maxlength="4">
-						</div>
+								id="mobile2" maxlength="4" th:value="${#strings.listSplit(session.member.mobile, '-')[1]}">
+
+            </div>
 						-
 						<div class="col-md-3">
 							<input type="text" class="form-control" name="mobile3"
-								id="mobile3" maxlength="4">
+								id="mobile3" maxlength="4" th:value="${#strings.listSplit(session.member.mobile, '-')[2]}">
 						</div>
 					</div>
 				</div>

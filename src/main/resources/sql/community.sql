@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS community(
   content VARCHAR(1000) NOT NULL,
   reg_date TIMESTAMP NOT NULL,
   read_count INTEGER(5) NOT NULL,
- Apoint double DEFAULT 0,
   file1 VARCHAR(100),
   member_id VARCHAR(200)
   
@@ -25,3 +24,4 @@ VALUES
 
 SELECT * FROM community ORDER BY no DESC;
 
+drop table community;

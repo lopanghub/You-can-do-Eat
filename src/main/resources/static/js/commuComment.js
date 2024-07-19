@@ -1,5 +1,5 @@
 $(function() {
-    let id = $("#loginId").val();
+    let id = $("#id").val();
     
     // 댓글 추가
    $("#commuCommentForm").on("submit", function(event) {
@@ -7,18 +7,14 @@ $(function() {
 		
         let no = $("#no").val();
         let commuCommentContent = $("#commuCommentContent").val();
-        if (id == null || id === "") {
-            alert("로그인후 이용해주세요");
-            return false;
-        }
-        console.log(commuCommentContent);
+        console.log(id);
         $.ajax({
             url: "/ajax/addCommuComment",
             type: "POST",
             data: {
                 no: no,
                 commuCommentContent: commuCommentContent,
-                memberId: id
+               	memberId:id
             },
             success: function(comment) {
 				console.log("comment",comment);

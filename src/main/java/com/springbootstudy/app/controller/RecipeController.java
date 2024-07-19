@@ -186,7 +186,7 @@ public class RecipeController {
 		recipeService.deleteByNo(boardNo);
 		
 		Cooking cooking = new Cooking();
-		
+		System.out.println("cookMethods : "+ cookMethods.get(0));
 		if (cookMethods.size() > 0) {
 			for (int i = 0; i < cookMethods.size(); i++) {
 				String cookMethod = cookMethods.get(i);
@@ -195,8 +195,12 @@ public class RecipeController {
 				if(cooking.getCookMethod()==null||cooking.getCookMethod().equals("")) {
 					cooking.setCookMethod(" ");
 				}
-				String recommended = recommendeds.get(i);
-				cooking.setRecommended(recommended);
+				if (recommendeds != null && !recommendeds.isEmpty()) {
+					String recommended=recommendeds.get(i);
+					cooking.setRecommended(recommended);
+				}else {
+					cooking.setRecommended("");
+				}
 				MultipartFile cookMultiFile = cookFiles.get(i);
 				
 				if (cookMultiFile != null && !cookMultiFile.isEmpty()) {

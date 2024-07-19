@@ -3,9 +3,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/community_layout}">
+
 <link rel="stylesheet" type="text/css" th:href="@{/css/noticeAll.css}" />
-<script th:src="@{js/recipe/commuComment.js}"></script>
 <script th:src="@{js/communityFormcheck.js}"></script>
+
 <!-- content -->
 <th:block layout:fragment="content">
 	<div class="row my-5" id="global-content">
@@ -15,7 +16,7 @@
 			</form>
 			<div class="row text-center">
 				<div class="col">
-					<h2 class="fs-3 fw-bold">요리자랑</h2>
+					<h2 class="fs-3 fw-bold">커뮤니티</h2>
 				</div>
 			</div>
 			<div class="row my-3">
@@ -46,10 +47,12 @@
 											첨부파일 없음
 										</th:block></td>
 							</tr>
-							<td colspan="4">
-								<div style="white-space: pre-wrap;"
-									th:text="${community.content}"></div>
-							</td>
+							<tr>
+								<td colspan="4">
+									<div style="white-space: pre-wrap;"
+										th:text="${community.content}"></div>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -67,107 +70,80 @@
 				</div>
 			</div>
 			<!-- 댓글폼 -->
-			<div class="row my-4 cook-comments" id="sectionComment">
-				<div class="col-3"></div>
-				<div class="col-6">
-					<h3 class="text-center fw-bold">댓글 리스트</h3>
-				</div>
-				<div
-					class="col-3 text-end text-white d-flex justify-content-end align-items-center">
-					<button type="button" class="btn btn-success" id="commentBtn">맨
-						위로</button>
-				</div>
-			</div>
 			<div id="reviewSection">
 				<div class="mb-4">
 					<div class="review-write">
 						<div class="row">
 							<div class="col">
-								<h5 class="comment-title">후기 작성</h5>
+								<h5 class="comment-title">댓글 작성</h5>
 							</div>
 						</div>
 					</div>
 					<div class="comment-body">
 						<form id="commuCommentForm" method="post">
-							</div>
 							<div class="comment-input-section">
 								<div
 									class="row d-flex justify-content-between align-items-center my-2">
 									<div class="col-10">
-										<textarea class="form-control" id="commentContent"
-											name="commentContent" rows="2" required></textarea>
+										<textarea class="form-control" id="commuCommentContent"
+											name="commuCommentContent" rows="2" required></textarea>
 									</div>
 									<div class="col-2">
 										<button type="submit" class="write-button-comment"
-											style="height: 60px;">후기 작성하기</button>
+											style="height: 60px;">댓글 작성하기</button>
 									</div>
 								</div>
 							</div>
 						</form>
 					</div>
-			
-			<!-- 댓글 리스트 -->
-			<div class="review-write">
-				<div class="row">
-					<div class="col-6">
-						<h5 class="comment-lists">후기 리스트</h5>
+
+					<!-- 댓글 리스트 -->
+					<div class="review-write">
+						<div class="row">
+							<div class="col-6">
+								<h5 class="commuComment-lists">댓글 리스트</h5>
+							</div>
+							<div class="col-6 text-end"></div>
+						</div>
 					</div>
-					<div class="col-6 text-end">
-					</div>
-				</div>
-			</div>
-			<div class="card-body">
-				<ul class="list-group" id="commentList">
-					<!-- 댓글 아이템 -->
-					<th:block th:if="${not #lists.isEmpty(commentList)}">
-						<th:block th:each="comment : ${commentList}">
-							<li class="list-group-item my-2"
-								th:data-comment-id="${comment.commentId}">
-								<div class="d-flex justify-content-between">
-									<div>
-										<p class="mb-1">
-											<strong>[[${comment.memberId}]]</strong>
-										</p>
-										<p class="mb-1 comment-content">[[${comment.commentContent}]]</p>
-										<span class="text-muted" name="createdAt"
-											th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd')}"></span>
-										<div class="star-icons">
-											<th:block th:if="${comment.commentPoint > 0}">
-												<th:block
-													th:each="star : ${#numbers.sequence(1, comment.commentPoint)}">
-													<i class="bi bi-star-fill"></i>
-												</th:block>
-											</th:block>
-											<th:block th:if="${comment.commentPoint < 5}">
-												<th:block
-													th:each="star : ${#numbers.sequence(comment.commentPoint + 1, 5)}">
-													<i class="bi bi-star"></i>
-												</th:block>
-											</th:block>
+					<div class="card-body">
+						<ul class="list-group" id="commuCommentList">
+							<!-- 댓글 리스트 -->
+							<th:block th:each="commuComment : ${commentList}">
+								<li class="list-group-item my-2"
+									th:data-commuComment-id="${commuComment.getCommuCommentId()}">
+
+									<div class="d-flex justify-content-between">
+										<div>
+											<p class="mb-1">
+												<strong th:text="${commuComment.getMemberId()}"></strong>
+											</p>
+											<p class="mb-1 comment-content"
+												th:text="${commuComment.getCommuCommentContent()}"></p>
+											<span class="text-muted"
+												th:text="${#dates.format(commuComment.getCreatedAt(), 'yyyy-MM-dd')}"></span>
+										</div>
+										<!-- 수정 및 삭제 버튼 -->
+										<div
+											th:if="${session.member != null and session.member.id != null and commuComment.getMemberId() != null and session.member.id == commuComment.getMemberId()}">
+											<button class="comment-edit btn-sm"
+												onclick="editCommuComment(this)">수정</button>
+											<button class="comment-delete btn-sm"
+												onclick="deleteCommuComment(this)">삭제</button>
 										</div>
 									</div>
-									<div>
-										<th:block
-											th:if="${session.member != null and session.member.id != null and comment.memberId != null and session.member.id == comment.memberId}">
-											<button class="comment-edit btn-sm"
-												onclick="editComment(this)">수정</button>
-											<button class="comment-delete btn-sm"
-												onclick="deleteComment(this)">삭제</button>
-										</th:block>
-									</div>
-								</div>
-							</li>
-						</th:block>
-					</th:block>
-					<!-- 댓글이 없는 경우 -->
-					<th:block th:if="${#lists.isEmpty(commentList)}">
-						<span class="list-group-item2 my-2" id="falseText">후기가 존재하지
-							않습니다.😅</span>
-					</th:block>
-					<!-- 더 많은 댓글 아이템들 -->
-				</ul>
-			</div>
-			<!-- 댓글폼마무리 -->
+								</li>
+							</th:block>
+							<!-- 댓글이 없는 경우 -->
+							<li th:if="${#lists.isEmpty(commentList)}"
+								class="list-group-item my-2"><span id="falseText">댓글이
+									존재하지 않습니다. 😅</span></li>
+
+							<!-- 더 많은 댓글 아이템들을 여기에 추가할 수 있습니다. -->
+						</ul>
+					</div>
+
+					<!-- 댓글폼마무리 -->
 				</div>
 			</div>
 		</div>

@@ -52,7 +52,7 @@ public class NoticeBoardController {
 		
 		File noticeFile = new File(DEFAULT_PATH);
 		File file = new File(noticeFile.getAbsolutePath(), fileName);
-		log.info("file.getNamee() : " + file.getName());
+		log.info("file.getName() : " + file.getName());
 		
 		// 파일 타입 설정
 		resp.setContentType("application/download; charset=UTF-8");

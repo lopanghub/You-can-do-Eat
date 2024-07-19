@@ -86,6 +86,7 @@ $(document).ready(function() {
                     $(`#material${number[0]}\\.mensuration`).focus();
                     return false; // 루프 중단
                 }
+                
             }
         });
 
@@ -103,8 +104,8 @@ $(document).ready(function() {
             let cookingIndex = $(this).data('cookingindex');
             let cookMethod = $(`#cookings${cookingIndex}\\.cookMethod`).val().trim();
             let recommended = $(`#cookings${cookingIndex}\\.recommended`).val().trim();
-            
-            if(recommended==null){
+            console.log(recommended);
+            if(recommended==null||recommended==''){
 				recommended="";
 			}
 

@@ -117,7 +117,6 @@ function validateCooking() {
         let cookingIndex = $(this).data('cookingindex');
         let cookMethod = $(`#cookings${cookingIndex}\\.cookMethod`).val().trim();
         let recommended = $(`#cookings${cookingIndex}\\.recommended`).val().trim();
-		console.log("cooking 값" + cookMethod);
         // recommended 값이 null인 경우 빈 문자열로 설정
 
         // cookMethod가 빈 문자열인지 확인
